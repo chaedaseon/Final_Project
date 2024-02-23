@@ -1,0 +1,44 @@
+@charset "UTF-8";
+
+.input-form 
+{
+     max-width: 500px;
+
+     margin-top: 80px;
+     padding: 32px;
+
+     background: #fff;
+     border-radius: 10px;
+     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+}
+
+.input-form-cafe
+{
+     max-width: 650px;
+
+     margin-top: 80px;
+     padding: 32px;
+
+     background: #fff;
+     border-radius: 10px;
+     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+}
+
+.btn-block 
+{
+    display: block;
+    width: 100%;
+}
+    
+.custom-select 
+{
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.span-limit
+{
+	margin-left: calc(100% - 60px);
+}  
