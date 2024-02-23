@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+@font-face 
+{
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*
+{
+	font-family: 'NanumSquareNeo-Variable' !important;
+}
+
+header
+{
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+#content
+{
+	width: 1400px;
+	margin: 0 auto;
+	display: flex;
+}
+
+.rightContent_div         /* 로그인 후 마이메뉴에서 사이드바 제외한 영역 */
+{
+	margin-left: 260px;
+	margin-top: 60px;
+	width: calc(1400px - 260px);
+	/* border: 1px solid gray; */
+	height: 800px;
+}
+
+.content_div      /* 마이메뉴 없을 때 */
+{
+	width: 100%;
+}
+
+
+html,
+body 
+{
+	height: 100%;
+}
+
+body 
+{
+	display: flex;
+	flex-direction: column;
+}
+
+section 
+{
+	flex: 1;
+}

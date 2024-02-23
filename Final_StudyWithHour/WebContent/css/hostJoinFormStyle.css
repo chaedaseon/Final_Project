@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+body, html 
+{
+    height: 100%;
+}
+
+section 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+}
+
+
+.join_div
+{
+    width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.join_description
+{
+	margin-right: 120px;
+	margin-bottom: 30px;
+}
+
+.join_description > span
+{
+	font-size: 28px;
+}
+
+td
+{
+	padding-bottom: 5px;
+}
+
+td > span
+{
+	color: #5b5b5b;
+	/* padding-right: 20px; */
+}
+
+.join_text:focus
+{
+	outline-color: #94bc32;
+}
+
+.join_text
+{
+	width: 200px;
+	border-radius: 5px;
+	border: 1px solid #5b5b5b;
+	height: 28px;
+}
+
+td > button
+{
+	border-radius: 5px;
+	border: 1px solid #94bc32;
+	color: #94bc32;
+    background: #eff7dd;
+    font-size: 14px;
+    text-align: center;
+    height: 28px;
+    width: 71px;
+}
+
+td > button:active, button:hover
+{
+	background: #94bc32;
+	border: 1px solid #94bc32;
+	color: #ffffff;
+}
+
+td > button[type="submit"]
+{
+    margin-top: 20px;
+    width: 392px;
+    height: 38px;
+    font-size: 20px;
+    font-weight: bold;
+}
+

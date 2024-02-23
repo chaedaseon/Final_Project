@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.page-link
+{
+	color: #5b5b5b;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #94bc32;
+	background: none;
+}

@@ -1,0 +1,40 @@
+@charset "UTF-8";
+
+nav.top-area
+{
+	height: 80px; 
+	display: flex; 
+	align-items: center; 
+	background-color: #ffffff !important;
+}
+
+.top-area > .top-menu
+{
+	width: 1400px;
+	margin: 0 auto;
+}
+
+.fs-4     /* STUDY WITH HOUR css */
+{
+	color: #93be2c;
+	font-weight: bold;
+	min-width: 265px;
+}
+
+.nav-menu
+{
+	display: flex;
+	width: calc(100% - 295px); 
+	justify-content: space-between; 
+	margin-left: 20px;
+}
+
+.menu-area, .login-area
+{
+	flex-shrink: 0;
+}
+
+.nav-link
+{
+	color: #212529 !important;
+}
