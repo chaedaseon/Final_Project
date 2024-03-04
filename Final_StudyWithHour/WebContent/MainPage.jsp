@@ -3,11 +3,14 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- <title>StudyWithHour :: 우리 함께 공부해요</title> -->
 <title>MainPage.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
@@ -19,12 +22,11 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
 </head>
 <body>
 
 	<header>
-		<jsp:include page="/Menu.jsp" />
+		<c:import url="Menu.jsp"></c:import>
 	</header>
 	
 	<section>
@@ -32,7 +34,7 @@
 			<div class="content_div">
 			
 				<!-- 배너 영역 start -->
-				<div id="carouselExampleIndicators" class="carousel slide">
+				<div id="carouselExampleIndicators" class="carousel slide" style="border-radius: 5px;">
 					<div class="carousel-indicators">
 					    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
 					    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -59,6 +61,7 @@
 					    <span class="visually-hidden">Next</span>
 					</button>
 				</div><!-- 배너 영역 end -->
+				
 				
 				<!-- 그룹 모집글 영역 start -->
 				<div class="col-12" style="padding: 40px;">
@@ -155,7 +158,7 @@
 													<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
 														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
 													  	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-													</svg> 9
+													</svg> 
 												</span>
 											</div>
 										</div>
@@ -393,7 +396,7 @@
 					
 					<!-- 공지사항 영역 start -->
 					<div class="col-4" style="padding: 40px;">
-					<div class="subject-title">📢 공지사항<a href="#" style="font-size: 16px;">더보기</a></div>
+					<div class="subject-title">📢 공지사항<a href="PersonalPenaltyList.jsp" style="font-size: 16px;">더보기</a></div>
 						<!-- <div class="subject-title"><a href="#">📢 공지사항</a></div> -->
 						<div class="">
 							<ul class="list-item" style="border-top: 1px solid #e1e1e1;">
@@ -516,26 +519,6 @@
 							</div>
 						
 						</div>
-						
-						
-						
-						
-						
-						<!-- <div class="" style="width: 100%; border-radius: 15px; box-shadow: 5px 5px 5px #d3d3d3; height: 330px;">
-							<div class="row g-0">
-						    	<div class="col-md-4">
-						      		<img src="images/studycafe.jpg" class="img-fluid rounded-start" alt="...">
-						    	</div>
-						    	<div class="col-md-8">
-						      		<div class="card-body">
-						        		<h5 class="card-title">Card title</h5>
-						        		<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-						        		<p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-						      		</div>
-						    	</div>
-						  	</div>
-						</div> -->
-						
 					</div><!-- 새로 등록된 스터디카페 end-->
 					
 				</div>

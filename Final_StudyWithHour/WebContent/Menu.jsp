@@ -3,14 +3,18 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	String adCode = (String)session.getAttribute("adCode");
+	String guCode = (String)session.getAttribute("guCode");
+	String hoCode = (String)session.getAttribute("hoCode");
 %>
 
 <!-- 상단 메뉴바 start -->
-<nav class="py-2 bg-body-tertiary border-bottom top-area">
+<nav class="py-2 bg-body-tertiary border-bottom top-area" style="box-shadow: 0px 1px 0px 0px #e1e1e1;">
 	<div class="d-flex flex-wrap top-menu">
 	    <div>
 			<a href="MainPage.jsp" class="align-items-center link-body-emphasis text-decoration-none">
-		       	<span class="fs-4">STUDY WITH <span style="color: #5b5b5b;">H</span>OUR</span>
+		       	<span class="fs-4 logo_text">STUDY WITH <span style="color: #5b5b5b;">H</span>OUR</span>
 		   	</a>
 	   	</div>
 	   	
@@ -47,34 +51,35 @@
 		         		<ul class="dropdown-menu">
 		           			<li><a class="dropdown-item" href="#">공지사항</a></li>
 		           			<li><a class="dropdown-item" href="#">커뮤니티</a></li>
+		           			<li><a class="dropdown-item" href="#">중고책방</a></li>
 			            </ul>
 		      		</li>
 		     	</ul>
 	     	</div><!-- 메뉴 end-->
 	     	
-	     	<!-- 프로필 카드 (로그인 했을 때) -->
-			<!-- 
-	     	<div class="dropdown text-end login-area">
-	          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-	            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
-	          </a>
-	          <ul class="dropdown-menu text-small">
-	            <li><a class="dropdown-item" href="#">마이 메뉴</a></li>
-	            <li><hr class="dropdown-divider"></li>
-	            <li><a class="dropdown-item" href="#">로그아웃</a></li>
-	          </ul>
-	        </div>
- -->
-	     	
-	     	<!-- 로그인 메뉴 (비회원일때) -->
-	     
-	     	<div class="login-area">
-		     	<ul class="nav">
-			        <li class="nav-item"><a href="#" class="nav-link link-body-emphasis px-2">Login</a></li>
-			        <li class="nav-item"><a href="JoinForm.jsp" class="nav-link link-body-emphasis px-2">Sign up</a></li>
-			    </ul>
-		    </div>
-		    
+	     	<!--  저장된 세션이 있을 경우 (→ 회원) -->
+	     	<% if (adCode != null || guCode != null || hoCode!= null) 	
+	     	{%>
+	     		<div class="dropdown text-end login-area">
+		          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+		            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
+		          </a>
+		          <ul class="dropdown-menu text-small">
+		            <li><a class="dropdown-item" href="#">마이메뉴</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="logout.do">Logout</a></li>
+		          </ul>
+		        </div>
+	     	<%}
+	     	else	
+	     	{ %>					
+		        <div class="login-area">
+			     	<ul class="nav">
+				        <li class="nav-item"><a href="loginform.do" class="nav-link link-body-emphasis px-2">Login</a></li>
+				        <li class="nav-item"><a href="jointype.do" class="nav-link link-body-emphasis px-2">Sign up</a></li>
+				    </ul>
+		    	</div>
+		    <%} %>
 	    </div>
 	</div>
 </nav>

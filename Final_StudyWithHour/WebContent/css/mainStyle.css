@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* 전체 레이아웃 css */
 @font-face 
 {
     font-family: 'NanumSquareNeo-Variable';
@@ -32,7 +33,6 @@ header
 	margin-left: 260px;
 	margin-top: 60px;
 	width: calc(1400px - 260px);
-	/* border: 1px solid gray; */
 	height: 800px;
 }
 
@@ -41,7 +41,10 @@ header
 	width: 100%;
 }
 
+/* end 전체 레이아웃 css */
 
+
+/* footer 고정을 위함 */
 html,
 body 
 {
@@ -57,4 +60,9 @@ body
 section 
 {
 	flex: 1;
+}
+
+footer
+{
+	margin-top: 100px;
 }
