@@ -9,6 +9,7 @@
 	// 호스트 세션 받아오기
 	String hoCode = (String)session.getAttribute("hoCode");
 	HostDAO hostDao = new HostDAO();
+	hostDao.connection();
 	HostDTO host = hostDao.sessionHost(hoCode);	
 %>
 

@@ -96,7 +96,7 @@ public class CafeInsertController implements Controller
 			dao.add(cafe);
 			
 			//mav.setViewName("/WEB-INF/view/StudyCafeList.jsp");
-			mav.setViewName("redirect:cafelist.do");
+			mav.setViewName("redirect:cafelist.do?hoCode="+ hoCode);
 			
 			dao.close();
 			

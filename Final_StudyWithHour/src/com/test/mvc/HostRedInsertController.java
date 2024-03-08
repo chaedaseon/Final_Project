@@ -46,10 +46,10 @@ public class HostRedInsertController implements Controller
 			
 			if (result < 1)
 			{
-				mav.setViewName("redirect:cafereservelist.do?code=" + hoCode);
+				mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			}
 			
-			mav.setViewName("redirect:hostredlist.do?code=" + hoCode);
+			mav.setViewName("redirect:hostredlist.do?hoCode=" + hoCode);
 			
 			dao.close();
 		}

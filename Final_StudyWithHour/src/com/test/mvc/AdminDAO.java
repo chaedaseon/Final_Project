@@ -29,7 +29,6 @@ public class AdminDAO
 	// 관리자 로그인
 	public String login(String adCode, String adPw) throws SQLException, ClassNotFoundException
 	{
-		connection();
 		
 		String result = "";
 		
@@ -46,7 +45,6 @@ public class AdminDAO
 		}
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return result;
 	}
@@ -55,8 +53,6 @@ public class AdminDAO
 	public AdminDTO sessionAdmin(String adCode) throws ClassNotFoundException, SQLException
 	{
 		AdminDTO admin = new AdminDTO();
-		
-		connection();
 		
 		String sql = "SELECT AD_CODE, AD_PW, AD_NICK, AD_DATE FROM ADMIN WHERE AD_CODE = ?";
 				
@@ -73,10 +69,7 @@ public class AdminDAO
 		}
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return admin;
 	}
-	
-	
 }

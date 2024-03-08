@@ -15,6 +15,10 @@
 	<!--    - 『class= ""』 속성은 --> 
 	<!--      Controller 객체의 패키지 경로가 포함된 클래스 이름을 등록한다. -->
 	
+	<!-- ① 기존 코드 -->
+	<!-- ※ Annotation 표기법으로 Controller 객체를 등록할 수 있도록 한다. -->
+	<context:component-scan base-package="com.test.mybatis" />
+	
 	
 	<!-- 회원가입 관련 ─────────────────────────────────────── -->
 	
@@ -24,9 +28,11 @@
 	<!-- 회원가입 폼 연결 -->
 	<bean name="/join.do" class="com.test.mvc.JoinFormController"></bean>
 	
-	
 	<!-- 게스트 / 호스트 회원가입 -->
 	<bean name="/memberinsert.do" class="com.test.mvc.MemberInsertController"></bean>
+	
+	<!-- 게스트 아이디 중복 검사 -->
+	<bean name="/checkid.do" class="com.test.mvc.JoinCheckController"></bean>
 	
 	<!-- ──────────────────────────────────────────────  -->
 	
@@ -44,6 +50,7 @@
 	
 	<!-- 아이디 찾기 페이지로 연결 -->
 	<bean name="/searchidform.do" class="com.test.mvc.SearchAccountFormController"></bean>
+	
 	<!-- 비밀번호 찾기 페이지로 연결 -->
 	<bean name="/searchpwform.do" class="com.test.mvc.SearchAccountFormController"></bean>
 	
@@ -52,11 +59,144 @@
 	
 	<!-- 비밀번호 찾기 수행 -->
 	<bean name="/searchpw.do" class="com.test.mvc.SearchAccountController"></bean>
+	<!-- ──────────────────────────────────────────────  -->
+
+
+	<!-- 마이페이지 관련 ─────────────────────────────────────── -->
+	
+	<!-- 마이페이지 정보수정 페이지 (마이페이지 홈)로 연결 -->
+	<bean name="/guestmypage.do" class="com.test.mvc.GuestUpdateFormController"></bean>
+	
+	<!-- 마이페이지 정보수정 수행 -->
+	<bean name="/guestmodify.do" class="com.test.mvc.GuestUpdateController"></bean>
+
+	<!-- 회원 탈퇴 -->
+	<bean name="/guestunreg.do" class="com.test.mvc.GuestDeleteController"></bean>
+	
+	<!-- ──────────────────────────────────────────────  -->
+	
+	
+	<!-- 사이드메뉴 관련 ─────────────────────────────────────── -->
+	<!-- 이웃관리 메뉴 연결 -->
+	<bean name="/friendlist.do" class="com.test.mvc.GuestFriendListController"></bean>
+	
+	<!-- 이웃 삭제 수행 -->
+	<bean name="/frienddelete.do" class="com.test.mvc.GuestFriendDeleteController"></bean>
+	
+	<!-- 마이캘린더 메뉴 연결 -->
+	<!-- <bean name="/guestcalendar.do" class="com.test.mvc.GuestCalendarListController"></bean> -->
 	
 	
 	<!-- ──────────────────────────────────────────────  -->
-
-	<!-- 마이페이지 정보수정 페이지로 연결 -->
-	<bean name="/guestmodifyform.do" class="com.test.mvc.GuestUpdateFromController"></bean>
+	
+	
+	<!--──────────────────── [호스트]스터디카페 ────────────────────-->
+   <!-- 카페 정보 관련 Controller -->
+   <bean name="/cafelist.do" class="com.test.mvc.CafeListController"></bean>
+   <bean name="/cafedetail.do" class="com.test.mvc.CafeDetailController"></bean>
+   
+   <!-- 카페 등록 관련 Controller -->
+   <bean name="/cafeinsertform.do" class="com.test.mvc.CafeInsertFormController"></bean>
+   <bean name="/cafeinsert.do" class="com.test.mvc.CafeInsertController"></bean>
+   
+   <!-- 카페 수정 관련 Controller -->
+   <bean name="/cafeupdateform.do" class="com.test.mvc.CafeUpdateFormController"></bean>
+   <bean name="/cafeupdate.do" class="com.test.mvc.CafeUpdateController"></bean>
+   
+   <!-- 카페 삭제 관련 Controller -->
+   <bean name="/cafedelete.do" class="com.test.mvc.CafeDeleteController"></bean>
+   
+   <!-- 카페 리뷰내역 관련 Controller -->
+   <bean name="/cafereviewlist.do" class="com.test.mvc.CafeReviewListController"></bean>
+   
+   <!-- 카페 예약내역 관련 Controller -->
+   <bean name="/cafereservelist.do" class="com.test.mvc.CafeReserveListController"></bean>
+   <bean name="/cafereservedetail.do" class="com.test.mvc.CafeReserveDetailController"></bean>
+   
+   <!-- 스터디룸 등록 관련 Controller -->
+   <bean name="/caferoominsert.do" class="com.test.mvc.CafeRoomInsertController"></bean>
+   
+   <!-- 스터디룸 수정 관련 Controller -->
+   <bean name="/caferoomupdate.do" class="com.test.mvc.CafeRoomUpdateController"></bean>
+   
+   <!-- 호스트 피드백입력 관련 Controller -->
+   <bean name="/hostfeedbackinsert.do" class="com.test.mvc.HostFeedbackInsertController"></bean>
+   
+   <!-- 호스트 신고내역 관련 Controller -->
+   <bean name="/hostredlist.do" class="com.test.mvc.HostRedListController"></bean>
+   
+   <!-- 호스트 신고요청 관련 Controller -->
+   <bean name="/hostredinsert.do" class="com.test.mvc.HostRedInsertController"></bean>
+   <bean name="/hostredinsertform.do" class="com.test.mvc.HostRedInsertFormController"></bean>
+   
+   <!-- 호스트 통계내역 관련 Controller -->
+   <bean name="/hoststatuslist.do" class="com.test.mvc.HostStatusListController"></bean>
+   
+   
+   
+   <!--──────────────────── [게스트]스터디그룹  ────────────────────-->
+   <!-- 스터디그룹 예약내역 관련 Controller -->
+   <bean name="/groupreservelist.do" class="com.test.mvc.GroupReserveListController"></bean>
+   
+   <!-- 스터디그룹 패널티내역 관련 Controller -->
+   <bean name="/grouppenaltylist.do" class="com.test.mvc.GroupPenaltyListController"></bean>
+   
+   <!-- 스터디그룹 모임내역 관련 Controller -->
+   <bean name="/groupmeetlist.do" class="com.test.mvc.GroupMeetListController"></bean>
+   
+   <!-- 스터디그룹 리뷰 관련 Controller -->
+   <bean name="/groupreviewinsert.do" class="com.test.mvc.GroupReviewInsertController"></bean>
+   
+   <!-- 스터디그룹 예약취소 관련 Controller -->
+   <bean name="/groupreservedelete.do" class="com.test.mvc.GroupReserveDeleteController"></bean>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- ③ mybatis 등록 과정에서 생겨나는 추가 코드 『2』 -->
+	<!-- ※ mybatis 를 사용하기 위한 환경 설정 추가하는 과정에서 -->
+	<!--    필요한 dataSource 를 사용하기 위한 환경 설정 추가 -->
+	<bean id="localDataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@211.238.142.173:1521:xe"></property>
+		<property name="username" value="scott"></property>
+		<property name="password" value="tiger"></property>
+	</bean>
+	
+	<!-- ② mybatis 등록 과정에서 생겨나는 추가 코드 『1』 -->
+	<!-- ※ mybatis 를 사용하기 위한 환경 설정 추가 -->
+	<!--    → SqlSessionFactoryBean 등록 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		
+		<!-- ④ dataSource 를 등록하고 와서 다시 추가 -->
+		<property name="dataSource" ref="localDataSource"></property>
+		<!-- dataSource의 setter가 구성되어 있다는 말이다. 거기에 뭔가를 레퍼런스(ref)해서 넣겠다. -->
+		
+		<!-- ⑤ 매퍼 파일을 작성하고 와서 다시 추가 -->
+		<!-- value 구성 과정 check~!!! -->
+		<property name="mapperLocations" value="classpath:com/test/mybatis/mapper/*.xml"></property>
+		<!-- 인터페이스에 객체화 시켜서 돌아가게하겠다~ 라는 의미의 코드 -->
+	
+	</bean>
+	
+	<!-- ⑥ mybatis 등록 과정에서 생겨나는 추가 코드 『3』 -->
+	<!-- ※ SqlSession 을 사용하기 위한 환경 설정 추가 -->
+	<!--    → SqlSessionTemplate 등록 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+		<!-- 생성자의 인자값을 넘기면서 bean 구성을 하겠다.라는 의미 index=0은 첫번째 매개변수를 넘기겠다라는 의미.-->
+	</bean>
+	
 	
 </beans>

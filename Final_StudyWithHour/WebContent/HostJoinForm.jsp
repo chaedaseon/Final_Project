@@ -1,0 +1,96 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+	String cp = request.getContextPath();
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HostJoinForm.jsp</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" type="text/css" href="css/mainStyle.css">
+<link rel="stylesheet" type="text/css" href="css/menuStyle.css">
+<link rel="stylesheet" type="text/css" href="css/joinPageStyle.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+
+	<header>
+		<c:import url="Menu.jsp"></c:import>
+	</header>
+	
+	<section>
+		<div id="content">
+			<div class="content_div">
+				<div class="join_div">
+					<div class="join_description">
+						<span style="color: #94bc32; font-weight: bold; font-size: 38px;">호스트</span><span style="color: #212529; font-size: 20px;"> 회원가입을 위해 정보를 입력해주세요</span>
+					</div>	
+					
+					<div class="underline"></div>
+					
+					<div class="join_form">
+						<form action="memberinsert.do?type=${type }" method="post" id="joinForm">
+						<table class="join_table">
+							<tr>
+								<td class="join_title"><span>아이디</span></td>
+								<td class="join_input"><input type="text" name="hoId" id="hoId" class="join_text" required="required"></td>
+								<td><button type="button" class="double_check">중복 확인</button></td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>비밀번호</span></td>
+								<td class="join_input"><input type="password" name="hoPw" id="hoPw" class="join_text" required="required"></td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>비밀번호 확인</span></td>
+								<td class="join_input"><input type="password" name="hoPwCheck" id="hoPwCheck" class="join_text" required="required"></td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>이름</span></td>
+								<td class="join_input"><input type="text" name="hoName" id="hoName" class="join_text" required="required"></td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>주민등록번호</span></td>
+								<td class="join_input">
+									<input type="text" name="hoSsn1" id="hoSsn1" class="join_text" style="width: 114px;" required="required">
+								 	- <input type="password" class="join_text" id="hoSsn2" name="hoSsn2" style="width: 120px;" required="required">
+								 </td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>전화번호</span></td>
+								<td class="join_input">
+									<input type="tel" class="join_text" style="width: 68px; required="required"">
+								 	- <input type="tel" class="join_text" style="width: 75px; required="required"">
+								 	 - <input type="tel" class="join_text" style="width: 75px; required="required"">
+								 </td>
+							</tr>
+							<tr>
+								<td class="join_title"><span>이메일</span></td>
+								<td class="join_input"><input type="text" class="join_text" required="required"></td>
+							</tr>
+						</table>
+						<div class="underline"></div>
+						
+						<button type="submit" class="signUp" id="joinBtn">회 원 가 입</button>
+						
+						</form>
+						
+					</div>
+				
+						
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<footer>
+		<jsp:include page="/Footer.jsp" />
+	</footer>
+
+</body>
+</html>

@@ -52,7 +52,7 @@ public class CafeListController implements Controller
 				currentPage = Integer.parseInt(pageNum);
 			
 			int dataCount = dao.cafeCount(hoCode);
-			int numPerPage = 10;										//-- 한 페이지에 표시할 데이터 갯수
+			int numPerPage = 4;										//-- 한 페이지에 표시할 데이터 갯수
 			int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 			
 			if (currentPage > totalPage)
@@ -69,11 +69,12 @@ public class CafeListController implements Controller
 			
 			String articleUrl = "cafedetail.do";
 			
+			/*
 			if (pageNum != null)
 			{
 				articleUrl = articleUrl + "?pageNum=" + currentPage;
 			}
-			
+			*/
 			cafeList = dao.lists(hoCode, start, end);
 			
 			mav.addObject("cafeList", cafeList);

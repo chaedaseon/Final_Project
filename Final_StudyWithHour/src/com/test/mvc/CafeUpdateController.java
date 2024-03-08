@@ -46,7 +46,7 @@ public class CafeUpdateController implements Controller
 		String[] ConvenientList = request.getParameterValues("checkCon");
 		String[] SurroundList = request.getParameterValues("checkSur");
 		String scFile = request.getParameter("file");
-		String scCode = request.getParameter("code");
+		String scCode = request.getParameter("scCode");
 		
 		String scTel = tel1 + tel2 + tel3;
 		
@@ -88,10 +88,9 @@ public class CafeUpdateController implements Controller
 			
 			if (result <= 0)
 			{
-				mav.setViewName("redirect:cafeupdateform.do");
+				mav.setViewName("redirect:cafeupdateform.do?scCode=" +scCode);
 			}
-			//mav.setViewName("/WEB-INF/view/StudyCafeList.jsp");
-			mav.setViewName("redirect:cafelist.do");
+			mav.setViewName("redirect:cafedetail.do?scCode="+ scCode);
 			
 			dao.close();
 		}

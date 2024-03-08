@@ -40,6 +40,7 @@ public class HostFeedbackInsertController implements Controller
 		try
 		{
 			String scCode = request.getParameter("scCode");
+			String hoCode = request.getParameter("hoCode");
 			String reCode = request.getParameter("reCode");
 			String feed = request.getParameter("feed");
 			
@@ -48,10 +49,10 @@ public class HostFeedbackInsertController implements Controller
 			
 			if (result < 1)
 			{
-				mav.setViewName("redirect:cafereservelist.do?code=" + scCode);
+				mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			}
 			
-			mav.setViewName("redirect:cafereservelist.do?code=" + scCode);
+			mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			
 			dao.close();
 		}

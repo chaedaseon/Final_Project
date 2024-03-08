@@ -57,21 +57,47 @@
 		     	</ul>
 	     	</div><!-- 메뉴 end-->
 	     	
-	     	<!--  저장된 세션이 있을 경우 (→ 회원) -->
-	     	<% if (adCode != null || guCode != null || hoCode!= null) 	
+	     	<!--  저장된 세션이 있을 경우 (→ 게스트 회원) -->
+	     	<% if (guCode != null && adCode == null && hoCode == null) 	
 	     	{%>
 	     		<div class="dropdown text-end login-area">
 		          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 		            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
 		          </a>
 		          <ul class="dropdown-menu text-small">
-		            <li><a class="dropdown-item" href="#">마이메뉴</a></li>
+		            <li><a class="dropdown-item" href="guestmypage.do">마이메뉴</a></li>
 		            <li><hr class="dropdown-divider"></li>
 		            <li><a class="dropdown-item" href="logout.do">Logout</a></li>
 		          </ul>
 		        </div>
 	     	<%}
-	     	else	
+	     	if (hoCode != null && guCode == null && adCode == null)
+	     	{%>
+	     		<div class="dropdown text-end login-area">
+		          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+		            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
+		          </a>
+		          <ul class="dropdown-menu text-small">
+		            <li><a class="dropdown-item" href="cafelist.do">마이메뉴</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="logout.do">Logout</a></li>
+		          </ul>
+		        </div>
+	     	<%}
+	     	if (adCode != null && guCode == null && hoCode == null)
+	     	{%>
+	     		<div class="dropdown text-end login-area">
+		          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+		            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
+		          </a>
+		          <ul class="dropdown-menu text-small">
+		            <li><a class="dropdown-item" href="hostmypage.do">관리자메뉴</a></li>
+		            <li><hr class="dropdown-divider"></li>
+		            <li><a class="dropdown-item" href="logout.do">Logout</a></li>
+		          </ul>
+		        </div>
+		    <%}
+	     	if(hoCode == null && guCode == null && adCode == null)	
 	     	{ %>					
 		        <div class="login-area">
 			     	<ul class="nav">
@@ -79,7 +105,7 @@
 				        <li class="nav-item"><a href="jointype.do" class="nav-link link-body-emphasis px-2">Sign up</a></li>
 				    </ul>
 		    	</div>
-		    <%} %>
+		    <%}%>
 	    </div>
 	</div>
 </nav>

@@ -22,7 +22,6 @@
 
 <script type="text/javascript">
 
-
 	// 로그인 실패 시, 실패 안내 출력
 	$(document).ready(function()
 	{

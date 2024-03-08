@@ -15,6 +15,7 @@
 	// 호스트 세션 받아오기
 	String hoCode = (String)session.getAttribute("hoCode");
 	HostDAO hostDao = new HostDAO();
+	hostDao.connection();
 	HostDTO host = hostDao.sessionHost(hoCode);
 %>
 <!DOCTYPE html>
@@ -33,11 +34,10 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 
-	function redInsert()
+	function redInsert(form)
 	{
 		//alert("확인");
-		var redForm = document.redForm;
-		redForm.submit();
+		form.submit();
 	}
 	
 	function sendIt()
@@ -243,9 +243,9 @@
             <h1 class="modal-title fs-5" id="redStaticLabel">신고</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="hostredinsert.do?code=${reserve.scCode }" method="post" id="redForm">
+          <form action="hostredinsert.do?scCode=${reserve.scCode }" method="post" id="redForm">
           <div class="modal-body" style="text-align: center; line-height: normal;">
-          	<input type="hidden" id="fbCode" value="${reserve.fbCode }">
+          	<input type="hidden" name="fbCode" value="${reserve.fbCode }">
             <span>신고사유 : </span>
             <select id="reason" name="reason">
             <c:forEach var="reason" items="${reason }">
@@ -256,7 +256,7 @@
             <input type="file" name="file" id="file" style="margin-left: 110px;"> 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="redInsert()">제출</button>
+            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="redInsert(this.form)">제출</button>
             <button type="button" class="btn btn-feedback" aria-label="Close" data-bs-dismiss="modal" style="background-color: #94be2c; color: #ffffff;">취소</button>
           </div>
           </form>

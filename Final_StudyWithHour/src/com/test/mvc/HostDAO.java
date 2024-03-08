@@ -29,8 +29,7 @@ public class HostDAO
 	// 멤버 데이터 입력
 	public int add(HostDTO hostDTO) throws SQLException, ClassNotFoundException
 	{
-		connection();
-		
+
 		int result = 0;
 		
 		String sql = "{call PRC_HOST_INSERT(?, ?, ?, ?, ?, ?)}";
@@ -54,7 +53,6 @@ public class HostDAO
 	// 아이디 중복 확인 쿼리문
 	public int idCheck(String hoId) throws ClassNotFoundException, SQLException
 	{
-		connection();
 		
 		int result = 0;
 		
@@ -70,7 +68,6 @@ public class HostDAO
 		}
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return result;
 	
@@ -79,7 +76,6 @@ public class HostDAO
 	// 로그인 쿼리문
 	public String login(String hoId, String hoPw) throws ClassNotFoundException, SQLException
 	{
-		connection();
 		
 		String result = "";
 		
@@ -96,7 +92,6 @@ public class HostDAO
 		}
 		rs.close();
 		psmt.close();
-		close();
 		
 		return result;
 		
@@ -106,8 +101,6 @@ public class HostDAO
 	public HostDTO sessionHost(String hoCode) throws ClassNotFoundException, SQLException
 	{
 		HostDTO host = new HostDTO();
-		
-		connection();
 		
 		String sql = "SELECT H.HO_CODE AS HO_CODE, H.HO_ID AS HO_ID, H.HO_PW AS HO_PW, H.HO_DATE AS HO_DATE"
 				   + ", HI.HO_NAME AS HO_NAME, HI.HO_TEL AS HO_TEL, HI.HO_SSN AS HO_SSN, HI.HO_EMAIL AS HO_EMAIL FROM HOST H"
@@ -132,7 +125,6 @@ public class HostDAO
 		
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return host;
 	}
