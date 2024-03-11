@@ -11,26 +11,17 @@
 	String cp = request.getContextPath();
 	
 	// 관리자 세션 받아오기
+	AdminDTO admin = (AdminDTO) session.getAttribute("admin");
 	String adCode = (String)session.getAttribute("adCode");
-	AdminDAO adminDao = new AdminDAO();
-	AdminDTO admin = adminDao.sessionAdmin(adCode);
-	
+	 
 	// 게스트 세션 받아오기
+	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 	String guCode = (String)session.getAttribute("guCode");
-	GuestDAO guestDao = new GuestDAO();
-	GuestDTO guest = guestDao.sessionGuest(guCode);
-	
+
 	// 호스트 세션 받아오기
+	HostDTO host = (HostDTO) session.getAttribute("host");
 	String hoCode = (String)session.getAttribute("hoCode");
-	HostDAO hostDao = new HostDAO();
-	HostDTO host = hostDao.sessionHost(hoCode);
-	
 %>
-<script>
-
-
-
-</script>
 
 <div class="sideMenu-area">
 	<div class ="sideMenu-content">
@@ -52,31 +43,19 @@
 		
     	<ul class="list-unstyled ps-0">
       		<li class="mb-1">
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#myPage-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='guestmypage.do'">
           			<span class="menu_item">마이페이지</span>
         		</button>
-        		<div class="collapse" id="myPage-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="guestmodifyform.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item" id="guest_update">정보수정</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">회원탈퇴</span></a></li>
-          			</ul>
-        		</div>
       		</li> 
       		<li class="mb-1">
-       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu">
+       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='guestcalendarlist.do?gu_code=<%=guCode%>'">
          				<span class="menu_item">마이캘린더</span>
        			</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#friend-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='friendlist.do?guCode=<%=guCode%>'">
           			<span class="menu_item">이웃관리</span>
         		</button>
-        		<div class="collapse" id="friend-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">찜 계정</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">차단 계정</span></a></li>
-          			</ul>
-        		</div>
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#group-collapse" aria-expanded="false">
@@ -95,33 +74,23 @@
         		</button>
         		<div class="collapse" id="board-collapse">
           			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">작성 글</span></a></li>
+            			<li><a href="guestboardlist.do?type=board&guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">작성 글</span></a>
+          				</li>
             			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">작성 댓글</span></a></li>
             			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">스크랩</span></a></li>
           			</ul>
         		</div>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#redCard-collapse" aria-expanded="false">
-          			<span class="menu_item">신고 관리</span>
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='guestredlist.do?type=board&guCode=<%=guCode %>'">
+          			<span class="menu_item">신고 내역 관리</span>
         		</button>
-        		<div class="collapse" id="redCard-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">신고 접수 내역</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">신고 당한 내역</span></a></li>
-          			</ul>
-        		</div>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#panelty-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" >
           			<span class="menu_item">패널티 관리</span>
         		</button>
-        		<div class="collapse" id="panelty-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">개인 패널티</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">그룹 패널티</span></a></li>
-          			</ul>
-        		</div>
       		</li>
       	</ul>
       	
@@ -144,42 +113,35 @@
      	
     	<ul class="list-unstyled ps-0">
       		<li class="mb-1">
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#myPage-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='hostmypage.do'">
           			<span class="menu_item">마이페이지</span>
         		</button>
-        		<div class="collapse" id="myPage-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">정보수정</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">회원탈퇴</span></a></li>
-          			</ul>
-        		</div>
       		</li> 
       		<li class="mb-1">
        			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
-         				<span class="menu_item">스터디카페 관리</span>
+         				<span class="menu_item" onclick="location.href='cafelist.do?hoCode=<%=host.getHoCode()%>'">스터디카페 관리</span>
        			</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#friend-collapse" aria-expanded="false">
-          			<span class="menu_item">예약 관리</span>
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
+          			<span class="menu_item" onclick="location.href='cafereservelist.do?hoCode=<%=host.getHoCode()%>'">예약 관리</span>
         		</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#group-collapse" aria-expanded="false">
-          			<span class="menu_item">리뷰 확인</span>
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
+          			<span class="menu_item" onclick="location.href='cafereviewlist.do?hoCode=<%=host.getHoCode()%>'">리뷰 확인</span>
         		</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#redCard-collapse" aria-expanded="false">
-          			<span class="menu_item">신고 관리</span>
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
+          			<span class="menu_item" onclick="location.href='hostredlist.do?hoCode=<%=host.getHoCode()%>'">신고 관리</span>
         		</button>
-        		<div class="collapse" id="redCard-collapse">
-          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">신고 접수 내역</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">신고 당한 내역</span></a></li>
-          			</ul>
-        		</div>
       		</li>
+      		<li class="mb-1">   
+              <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
+                   <span class="menu_item" onclick="location.href='hoststatuslist.do?hoCode=<%=host.getHoCode()%>'">통계 관리</span>
+              </button>
+            </li>
       	</ul>
       	<%}
 		
