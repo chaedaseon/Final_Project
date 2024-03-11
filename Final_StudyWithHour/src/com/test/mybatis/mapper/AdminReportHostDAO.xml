@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mybatis.IAdminReportHostDAO">
+
+
+	<!-- 페이징 검색 게시글 수 -->
+    
+    <select id="boardTotalCnt" parameterType="com.test.mybatis.PaginationDTO" resultType="int">
+    	SELECT COUNT(*) AS COUNT
+		FROM 
+		(
+            select * 
+            FROM  VIEW_REPORT_HOST
+		)
+    	where 1=1
+        <choose>
+            <when test="searchType=='rpUser'">
+              AND RPUSER  LIKE '%' || #{keyword} || '%'
+           </when>
+            <when test="searchType=='grName'">
+           AND GRNAME  LIKE '%' || #{keyword} || '%'
+           </when>
+        </choose>
+    </select>
+ 
+ 
+   
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.test.mybatis.PaginationDTO" resultType="com.test.mybatis.ReportBBSDTO">
+  	select RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
+				FROM
+				(
+                    SELECT  RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
+					FROM
+					(
+					SELECT  RTYPE, CODE, GRNAME, RPUSER, REDCODE, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE
+					FROM VIEW_REPORT_HOST
+					ORDER BY RDATE DESC
+					)
+		        )
+		        where 1=1
+                <choose>
+                    <when test="searchType=='rpUser'">
+                    AND RPUSER  LIKE '%' || #{keyword} || '%'
+                   </when>
+                    <when test="searchType=='grName'">
+                   	AND GRNAME  LIKE '%' || #{keyword} || '%'
+                   </when>
+                </choose>
+
+			    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+
+	
+	<!-- 호스트 신고 리스트 조회 (리뷰&이용내역)-->
+	<!-- 뷰 생성 선행 -->
+	<select id="reportHostlist" resultType="com.test.mybatis.ReportBBSDTO">
+	SELECT NUM, RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
+	FROM
+	(
+	SELECT ROW_NUMBER() OVER(ORDER BY RDATE DESC ) AS NUM, RTYPE, CODE, GRNAME, RPUSER, REDCODE, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE
+	FROM VIEW_REPORT_HOST
+	ORDER BY RDATE DESC
+	)
+	WHERE NUM BETWEEN 1+((#{vNum}-1)*10) AND (#{vNum}*10)
+	</select>
+	
+	
+	<!-- 신고 내용 상세 조회(예약내역) -->
+	<select id="reportContentReview" resultType="com.test.mybatis.ReportBBSDTO" >
+
+	SELECT HO.HO_CODE AS RPUSER, RE.RE_CODE AS RPCODE , GJ.GJ_CODE AS REPORTED, TO_CHAR(HR.HR_DATE ,'YYYY-MM-DD') AS RPDATE, HR.REASON_CODE AS RPREASON, TO_CHAR(HRD.HRD_DATE,'YYYY-MM-DD') AS RDDATE , HRD.RED_CODE AS REDCODE
+	FROM HOST_RED HR JOIN FEEDBACK FB 
+	  ON HR.FB_CODE = FB.FB_CODE
+	  LEFT JOIN HOST_REDDONE HRD 
+	  ON HR.HR_CODE = HRD.HR_CODE
+	  JOIN FEEDBACK FB 
+	  ON HR.FB_CODE = FB.FB_CODE
+	  JOIN RESERVATION RE
+	  ON FB.RE_CODE = RE.RE_CODE
+	  JOIN GROUP_JOIN GJ
+	  ON RE.GJ_CODE = GJ.GJ_CODE
+	  JOIN GROUP_REGISTRATION GR
+	  ON GJ.GR_CODE = GR.GR_CODE
+	  JOIN STUDYROOM SR
+	  ON RE.SR_CODE = SR.SR_CODE
+	  JOIN STUDYCAFE SC
+	  ON SR.SC_CODE = SC.SC_CODE
+	  JOIN HOST HO
+	  ON SC.HO_CODE = HO.HO_CODE
+	WHERE HR.HR_CODE = #{CODE}
+	
+	</select>
+	
+	<!-- 신고 내용 상세 조회(이용내역) -->
+	<select id="reportContentUse" resultType="com.test.mybatis.ReportBBSDTO" >
+		SELECT HO.HO_CODE AS RPUSER, RE.RE_CODE AS RPCODE, GR.GR_CODE AS REPORTED, TO_CHAR(HR.HR_DATE,'YYYY-MM-DD') AS RPDATE, HR.REASON_CODE AS RPREASON, TO_CHAR(HRD.HRD_DATE,'YYYY-MM-DD') AS RDDATE , HRD.RED_CODE AS REDCODE
+	FROM HOST_RED HR JOIN FEEDBACK FB 
+	  ON HR.FB_CODE = FB.FB_CODE
+	  LEFT JOIN HOST_REDDONE HRD 
+	  ON HR.HR_CODE = HRD.HR_CODE
+	  JOIN FEEDBACK FB 
+	  ON HR.FB_CODE = FB.FB_CODE
+	  JOIN RESERVATION RE
+	  ON FB.RE_CODE = RE.RE_CODE
+	  JOIN GROUP_JOIN GJ
+	  ON RE.GJ_CODE = GJ.GJ_CODE
+	  JOIN GROUP_REGISTRATION GR
+	  ON GJ.GR_CODE = GR.GR_CODE
+	  JOIN STUDYROOM SR
+	  ON RE.SR_CODE = SR.SR_CODE
+	  JOIN STUDYCAFE SC
+	  ON SR.SC_CODE = SC.SC_CODE
+	  JOIN HOST HO
+	  ON SC.HO_CODE = HO.HO_CODE
+	WHERE HR.HR_CODE = #{CODE}
+	
+	</select>
+	
+	<!-- 예약코드로 스터디카페 코드 출력 -->
+	<select id="getScCode" resultType="java.lang.String">
+	SELECT SC_CODE
+	FROM STUDYROOM
+	WHERE SR_CODE= (SELECT SR_CODE 
+		FROM RESERVATION
+		WHERE RE_CODE = ${recode})
+	</select>
+	
+	
+	<!-- 스터디카페 코드로 스터디카페 이름 출력 -->
+	<select id="getScName" resultType="java.lang.String">
+	SELECT SC_NAME
+	FROM STUDYCAFE
+	WHERE SC_CODE = #{SCCODE}
+	</select>
+	
+	
+	
+	
+	<!-- 회원코드로 아이디 출력 -->
+	<select id="userId" resultType="java.lang.String">
+	SELECT GU_ID AS ID
+	FROM GUEST 
+	WHERE GU_CODE = #{GUCODE}
+	</select>
+	
+	<!-- 호스트코드로 아이디 출력 -->
+	<select id="hostId" resultType="java.lang.String">
+	SELECT HO_ID 
+	FROM HOST
+	WHERE HO_CODE = #{HOCODE}
+	</select>
+	
+	
+	<!-- 그룹 코드로 그룹 이름 출력 -->
+	<select id="groupName" resultType="java.lang.String">
+	SELECT GR_NAME
+	FROM GROUP_REGISTRATION
+	WHERE GR_CODE = #{GRCODE}
+	</select>
+	
+	<!-- 신고 코드로 리뷰 내용 가져오기 -->
+	<select id="reviewContent" resultType="java.lang.String">
+	SELECT RV_CONTENT 
+	FROM REVIEW 
+	WHERE FB_CODE = (SELECT FB_CODE
+	FROM HOST_RED 
+	WHERE HR_CODE = #{CODE})
+	</select>
+
+	<!-- 파일 링크? 위치? 가져오기 -->
+	<select id="getFile" resultType="java.lang.String">
+	SELECT HR_FILE
+	FROM HOST_RED
+	WHERE HR_CODE = #{CODE}
+	</select>
+	
+	<!-- 신고내역 처리하기 -->
+	<select id="reportHostProcess">
+	INSERT INTO HOST_REDDONE(HRD_CODE, HRD_DATE, HR_CODE, RED_CODE)
+	VALUES(TO_CHAR(HOST_REDDONE_SEQ.NEXTVAL), SYSDATE, #{hrCode}, #{redCode})
+	</select>
+	
+	<!-- 신고 코드로 그룹 코드 가져오기 -->
+	<select id="getGrCode" resultType="String">
+	SELECT GJ.GR_CODE
+	FROM HOST_RED HR JOIN FEEDBACK FB
+	  ON HR.FB_CODE = FB.FB_CODE
+	  JOIN RESERVATION RE
+	  ON FB.RE_CODE = RE.RE_CODE
+	  JOIN GROUP_JOIN GJ
+	  ON RE.GJ_CODE = GJ.GJ_CODE
+	WHERE HR_CODE = #{hrCode}
+	</select>
+	
+	<!-- 그룹 코드로 패널티 갯수 가져오기 -->
+	<select id="penaltyCount" resultType="int">
+	SELECT COUNT(*) 
+	FROM VIEW_GROUP_PENALTY
+    WHERE PDATE+90 > SYSDATE
+      AND GR_CODE = #{grCode}
+	</select>
+	
+	<!-- 그룹코드로 그룹개설요청처리결과 코드 가져오기 -->
+	<select id="getGcCode" resultType="String">
+	SELECT GC_CODE
+    FROM GROUP_CONFIRM
+    WHERE GR_CODE = #{grCode}
+	</select>	
+	
+	<!-- 패널티가 3개일 경우 -->
+	<insert id="groupBreak">
+	INSERT INTO BREAK(BR_CODE, BR_DATE, REASON_CODE, GC_CODE)
+    VALUES(TO_CHAR(BREAK_SEQ.NEXTVAL), SYSDATE, '502', #{gcCode})
+	</insert>
+	
+	<!-- BREAK 되는 그룹의 구성원들 조회-->
+	<select id="breakMemberList" resultType="String"> 
+	SELECT GJ_CODE
+	FROM GROUP_JOIN
+	WHERE GR_CODE = #{grCode}
+	  AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	
+	</select>
+	
+	<!-- BREAK 되는 그룹의 구성원들 탈퇴 처리, 패널티 부여-->
+	<insert id="breakMemberUnreg">
+	INSERT INTO GROUP_UNREG(GUN_CODE, GUN_DATE, REASON_CODE, GJ_CODE)
+    VALUES(TO_CHAR(GROUP_UNREG_SEQ.NEXTVAL), SYSDATE, '404', #{GJCODE})
+	</insert>
+	
+	<!-- 그룹개설요청처리결과코드로 그룹해체코드 얻기 -->
+	<select id="getBrCode" resultType="String">
+	SELECT BR_CODE 
+	FROM BREAK
+	WHERE GC_CODE = #{gcCode}
+	</select>
+	
+	<!-- 그룹해체시 해당 그룹원에게 그룹해체패널티 부여하기 -->
+	<insert id="breakPenaltyMember" parameterType="HashMap">
+	INSERT INTO PENALTY_BREAK(PB_CODE, BR_CODE, GJ_CODE)
+    VALUES(TO_CHAR(PENALTY_BREAK_SEQ.NEXTVAL), #{brCode}, #{gjCode})
+	</insert>
+	
+	
+	<!-- gjcode 로 gucode 가져오기 -->
+	<select id="getGucode" resultType="String">
+	SELECT GU_CODE 
+	FROM GROUP_JOIN
+	WHERE GJ_CODE = #{gjCode}
+	</select>
+
+	
+	<!-- 특정 회원의 유효한 패널티 갯수 조회 -->
+	<select id="penaltyCountGuest" resultType="java.lang.Integer">
+	SELECT COUNT(*) AS COUNT
+	FROM VIEW_ALL_PN
+	WHERE PDATE+90>SYSDATE
+	AND GUCODE = #{GUCODE}
+	</select>
+	
+	
+	
+	
+	<!-- 특정 회원이 가입한 스터디그룹 갯수 확인 -->
+	<select id="joinGroupCount" resultType="int">
+	SELECT COUNT(*)
+	FROM GROUP_JOIN
+	WHERE GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	 AND GU_CODE = #{guCode}
+	</select>
+	
+	<!-- 특정 회원이 가입한 스터디그룹의 그룹가입요청코드 확인 -->
+	<select id="joinGroupList" resultType="String">
+	SELECT GJ_CODE
+	FROM GROUP_JOIN
+	WHERE GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	 AND GU_CODE = #{guCode}
+	</select>
+	
+	<!-- 가입요청코드로 해당 그룹의 그룹장 가입요청코드 출력 -->
+	<select id="searchLeaderCode" resultType="String">
+	SELECT GJ_CODE
+		FROM 
+		(
+		SELECT  GR.GR_CODE, GJ.GJ_CODE, LC.LC_DATE
+		FROM LEADER_CHANGE LC JOIN GROUP_JOIN GJ
+		 ON LC.GJ_CODE = GJ.GJ_CODE
+		 JOIN GROUP_REGISTRATION GR 
+		 ON GJ.GR_CODE = GR.GR_CODE
+		WHERE GR.GR_CODE = (SELECT GR_CODE
+		       FROM GROUP_JOIN
+		        WHERE GJ_CODE = #{gjCode})
+		ORDER BY LC_DATE DESC
+		)
+	WHERE ROWNUM = 1
+	</select>
+	
+	
+	<!-- 해당 회원을 제외한 그룹회원 중 가장 먼저 가입한 사람의 그룹가입요청코드 출력 -->
+	<select id="searchJoinDate" resultType="String">
+	SELECT GJ_CODE 
+		FROM 
+		(
+		SELECT * 
+		FROM GROUP_JOIN
+		WHERE GR_CODE = (SELECT GR_CODE
+		       FROM GROUP_JOIN
+		        WHERE GJ_CODE = #{gjCode})
+		  AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+		  AND GJ_CODE != #{gjCode}
+		ORDER BY GJ_DATE
+		)
+	WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 그룹장 변경 -->
+	<insert id="changeLeader">
+	INSERT INTO LEADER_CHANGE(LC_CODE, LC_DATE, GJ_CODE)
+	VALUES(TO_CHAR(LEADER_CHANGE_SEQ.NEXTVAL), SYSDATE, #{updateLeaderCode})
+	</insert>
+	
+	<!-- 특정 회원이 예약한(차단 시점 이후 이용 예정인) 예약 내역 유무여부 조회 -->
+	<select id="reservationCk" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVATION
+		WHERE GJ_CODE = #{gjCode}
+		 AND RE_STARTDATE > SYSDATE
+	</select>
+	
+	<!-- 특정 회원이 예약한(차단 시점 이후 이용 예정인) 예약 내역 조회 -->
+	<select id="reservationList" resultType="String">
+		SELECT RE_CODE
+		FROM RESERVATION
+		WHERE GJ_CODE = #{gjCode}
+		AND RE_STARTDATE > SYSDATE
+	</select>
+
+	<!-- 차단 회원 대신 그룹장으로 예약 내역 변경  -->
+	<update id="updateReservation" parameterType="HashMap" >
+	UPDATE RESERVATION
+	SET GJ_CODE = #{leaderCode}
+	WHERE RE_CODE = #{reCode}
+	</update>
+	
+	<!-- 해당 그룹가입요청코드 탈퇴 처리  -->
+	<insert id="unregMember">
+	INSERT INTO GROUP_UNREG(GUN_CODE, GUN_DATE, REASON_CODE, GJ_CODE)
+	VALUES(TO_CHAR(GROUP_UNREG_SEQ.NEXTVAL), SYSDATE, '404', #{GJCODE})
+	</insert>
+	
+	
+	<!-- 해당 회원 비활성화 처리  -->
+	<insert id="unregGuest">
+	INSERT INTO GUEST_UNREG(GU_UNCODE, GU_CODE, REASON_CODE) 
+	VALUES(GUEST_UNREG_SEQ.NEXTVAL, #{guCode}, '106')
+	</insert>	
+	
+	
+</mapper>
