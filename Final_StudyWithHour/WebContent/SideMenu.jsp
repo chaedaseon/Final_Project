@@ -161,27 +161,37 @@
      	
     	<ul class="list-unstyled ps-0">
       		<li class="mb-1">
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" data-bs-target="#myPage-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" data-bs-toggle="collapse" 
+        		data-bs-target="#myPage-collapse" aria-expanded="false" onclick="location.href='adminadminlist.do'">
           			<span class="menu_item">관리자 계정 관리</span>
         		</button>
       		</li> 
       		<li class="mb-1">
-       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed">
+       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#member-collapse" aria-expanded="false">
          				<span class="menu_item">회원 리스트</span>
        			</button>
+        		<div class="collapse" id="member-collapse">
+          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            			<li><a href="adminguestlist.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">게스트 회원</span></a></li>
+            			<li><a href="adminhostlist.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">호스트 회원</span></a></li>
+          			</ul>
+        		</div>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#friend-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"
+        		 data-bs-target="#friend-collapse" aria-expanded="false" onclick="location.href='adminstudycafelist.do'">
           			<span class="menu_item">스터디카페 관리</span>
         		</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#group-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" 
+        		data-bs-target="#group-collapse" aria-expanded="false" onclick="location.href='adminstudygrouplist.do'">
           			<span class="menu_item">스터디그룹 확인</span>
         		</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#notice-collapse" aria-expanded="false">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse"
+        		 data-bs-target="#notice-collapse" aria-expanded="false" onclick="location.href='adminnoticelist.do'">
           			<span class="menu_item">공지사항 관리</span>
         		</button>
       		</li>
@@ -189,6 +199,13 @@
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#redCard-collapse" aria-expanded="false">
           			<span class="menu_item">신고 관리</span>
         		</button>
+        		<div class="collapse" id="redCard-collapse">
+          			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            			<li><a href="adminreporthostlist.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">호스트 신고</span></a></li>
+            			<li><a href="adminreportallbbslist.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">커뮤니티 신고</span></a></li>
+            			<li><a href="adminreportgroupbbslist.do" class="link-body-emphasis d-inline-flex text-decoration-none rounded sub_menu"><span class="subMenu_item">그룹 게시물 신고</span></a></li>
+          			</ul>
+        		</div>
       		</li>
       	</ul>
       	<% }%>

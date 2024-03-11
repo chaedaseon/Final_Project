@@ -362,7 +362,7 @@ public class NoticeBoardController
 		//-- 공지사항 상세페이지 내용 리스트 전달
 		model.addAttribute("list", noticeViewlist);
 		
-		return "/NoticeView.jsp";
+		return "/NoticeBoardView.jsp";
 		//return "/WEB-INF/view/NoticeView.jsp";	// 공지사항 게시판 호출
 	}
 	

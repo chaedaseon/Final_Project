@@ -37,7 +37,7 @@
 		          			스터디그룹
 		        		</a>
 		       			<ul class="dropdown-menu">
-		           			<li><a class="dropdown-item" href="#">스터디그룹 모집</a></li>
+		           			<li><a class="dropdown-item" href="boardgrouplist.do">스터디그룹 모집</a></li>
 				            <li><a class="dropdown-item" href="#">명예의 전당</a></li>
 			            </ul>
 		     		</li>
@@ -55,9 +55,9 @@
 		          			커뮤니티
 		        		</a>
 		         		<ul class="dropdown-menu">
-		           			<li><a class="dropdown-item" href="#">공지사항</a></li>
-		           			<li><a class="dropdown-item" href="#">커뮤니티</a></li>
-		           			<li><a class="dropdown-item" href="#">중고책방</a></li>
+		           			<li><a class="dropdown-item" href="boardnoticelist.do">공지사항</a></li>
+		           			<li><a class="dropdown-item" href="boardcommunitylist.do">커뮤니티</a></li>
+		           			<li><a class="dropdown-item" href="boardusedbooklist.do">중고책방</a></li>
 			            </ul>
 		      		</li>
 		     	</ul>
@@ -99,7 +99,7 @@
 		            <img src="images/woman.png" alt="mdo" width="32" height="32" class="rounded-circle">
 		          </a>
 		          <ul class="dropdown-menu text-small">
-		            <li><a class="dropdown-item" href="hostmypage.do">관리자메뉴</a></li>
+		            <li><a class="dropdown-item" href="adminadminlist.do">관리자메뉴</a></li>
 		            <li><hr class="dropdown-divider"></li>
 		            <li><a class="dropdown-item" href="logout.do">Logout</a></li>
 		          </ul>

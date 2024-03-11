@@ -32,11 +32,12 @@ public class AdminDAO
 		
 		String result = "";
 		
-		String sql = "SELECT AD_CODE FROM ADMIN  WHERE AD_CODE = ? AND AD_PW = ?";
+		String sql = "SELECT AD_CODE FROM ADMIN  WHERE AD_CODE = ? AND ? = CRYPTPACK.DECRYPT(AD_PW, ?)";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, adCode);
 		pstmt.setString(2, adPw); 
+		pstmt.setString(3, adPw); 
 		ResultSet rs = pstmt.executeQuery();
 		
 		if(rs.next())

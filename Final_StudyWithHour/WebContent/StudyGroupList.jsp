@@ -75,7 +75,6 @@
 	</header>
 <input type="hidden" id="ssessionGuCode" value="<%=guCode%>"/>
 	<section>
-		<c:import url="/SideMenu.jsp"></c:import>
 		<div id="content">
 			<div class="category_bar">
 				<c:import url="/imageSlide.jsp"></c:import>

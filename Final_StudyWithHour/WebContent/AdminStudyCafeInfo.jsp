@@ -1,20 +1,8 @@
-<%@page import="com.test.mvc.AdminDAO"%>
-<%@page import="com.test.mvc.AdminDTO"%>
-<%@page import="com.test.mvc.HostDTO"%>
-<%@page import="com.test.mvc.HostDAO"%>
-<%@page import="com.test.mvc.GuestDAO"%>
-<%@page import="com.test.mvc.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	
-	// 관리자 세션 받아오기
-	String adCode = (String)session.getAttribute("adCode");
-	AdminDAO adminDao = new AdminDAO();
-	AdminDTO admin = adminDao.sessionAdmin(adCode);
-
 	
 %>
 <!DOCTYPE html>
