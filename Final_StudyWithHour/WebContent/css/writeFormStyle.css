@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+input
+{
+	spellcheck: false;
+}
+
+#content
+{
+	justify-content: center;
+	margin: auto;
+	display: block;
+}
+
+option
+{
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.content_div
+{
+	width: 1400px;
+}
+
+.content_box
+{
+	padding: 50px;
+	width: 900px;
+	justify-content: center;
+}
+
+
+.sub_title_div
+{
+	width: 900px;
+	border-top: 2px solid #94bc32;
+	border-bottom: 2px solid #94bc32;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#select_box
+{
+	display: flex;
+}
+
+.category
+{
+	margin-left: 10px;
+	padding: 5px;
+	text-align: center;
+}
+
+
+#community_box,#usedBook_box
+{
+	padding-left: 10px;
+}
+
+#form_title
+{
+	font-size: 32pt;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 15px;
+}
+
+.button_box
+{
+	text-align: right;
+	margin-top: 32px;
+}
+
+#backBtn, #submitBtn
+{
+	background: #fff;
+	border: 1px solid #dee2e6;
+}
+
+#backBtn:hover
+{
+	background: #fff !important;
+	border-color: red !important;
+}
+
+#submitBtn:hover
+{
+	background: #fff !important;
+	border-color: green !important;
+}
+
+.form-control:not(textarea)
+{
+	height: 40px;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+textarea
+{
+	width: 800px !important;
+	height: 250px;
+	resize: none;
+}
+
+#text_count
+{
+	display: flex;
+	width: 800px;
+}
+
+#text_count > span
+{
+	margin-left: auto;
+}
+
+.mb-3
+{
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+}

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.test.mybatis.INoticeBoardDAO">
+
+	<select id="list" resultType="com.test.mybatis.NoticeBoardDTO">
+		SELECT X.NO,X.NTCODE,X.NTTITLE,X.NTCONTENT,X.NTDATE,X.NTVIEW,X.NTWRITER
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.NTCODE,T.NTTITLE,T.NTCONTENT,T.NTDATE,T.NTVIEW,T.NTWRITER
+		    FROM
+		    (
+		        SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW
+		        , (SELECT AD_NICK
+		           FROM ADMIN
+		           WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		        FROM NOTICE N
+		        ORDER BY TO_NUMBER(NTCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * #{vNum})+10 FROM NOTICE) >= ROWNUM 
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * #{vNum} - 1) FROM NOTICE)
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM NOTICE
+	</select>
+
+    <select id="searchTitleList" resultType="com.test.mybatis.NoticeBoardDTO">
+		SELECT X.NO,X.NTCODE,X.NTTITLE,X.NTCONTENT,X.NTDATE,X.NTVIEW,X.NTWRITER
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.NTCODE,T.NTTITLE,T.NTCONTENT,T.NTDATE,T.NTVIEW,T.NTWRITER
+		    FROM
+		    (
+		        SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW
+		        , (SELECT AD_NICK
+		           FROM ADMIN
+		           WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		        FROM NOTICE N
+		        ORDER BY TO_NUMBER(NTCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * ${param2})+10 FROM NOTICE
+		           WHERE NT_TITLE like '%${param1}%') >= ROWNUM
+		    and NTTITLE like '%${param1}%'
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * ${param2} - 1) FROM NOTICE
+		               WHERE NT_TITLE like '%${param1}%')
+    </select>
+
+	<select id="searchNum" resultType="com.test.mybatis.NoticeBoardDTO">
+        SELECT NO,NTTITLE,NTCONTENT,NTDATE,NTVIEW,NTWRITER
+		FROM NOTICE_VIEW
+		WHERE NO = ${searchNum}
+    </select>
+
+	<select id="searchNickList" resultType="com.test.mybatis.NoticeBoardDTO">
+		SELECT X.NO,X.NTCODE,X.NTTITLE,X.NTCONTENT,X.NTDATE,X.NTVIEW,X.NTWRITER
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.NTCODE,T.NTTITLE,T.NTCONTENT,T.NTDATE,T.NTVIEW,T.NTWRITER
+		    FROM
+		    (
+		        SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW
+		        , (SELECT AD_NICK
+		           FROM ADMIN
+		           WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		        FROM NOTICE N
+		        ORDER BY TO_NUMBER(NTCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * ${param2})+10 FROM 
+		          (SELECT (SELECT AD_NICK
+		                  FROM ADMIN
+		                  WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		           FROM NOTICE N)       
+		           WHERE NTWRITER like '%${param1}%') >= ROWNUM
+		    and NTWRITER like '%${param1}%'
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * ${param2} - 1) FROM
+		              (SELECT (SELECT AD_NICK
+		                       FROM ADMIN
+		                       WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		               FROM NOTICE N)       
+		               WHERE NTWRITER like '%${param1}%')
+	</select>
+
+	<select id="scTitleCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM NOTICE_VIEW
+		WHERE NTTITLE like '%${param1}%'
+	</select>
+
+	<select id="scNickCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM NOTICE_VIEW
+		WHERE NTWRITER like '%${param1}%'
+	</select>
+	
+	<select id="noticeViewlist" resultType="com.test.mybatis.NoticeBoardDTO">
+		SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW
+     , (SELECT AD_NICK
+        FROM ADMIN
+        WHERE AD_CODE = N.AD_CODE) AS NTWRITER
+		FROM NOTICE N
+		WHERE NT_CODE = ${NTCODE}
+	</select>
+	
+	<update id="increaseNoticeView"> 
+		UPDATE NOTICE
+		SET NT_VIEW = NT_VIEW + 1
+		WHERE NT_CODE = ${param1}
+	</update>
+	
+</mapper>
