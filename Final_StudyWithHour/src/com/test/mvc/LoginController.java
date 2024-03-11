@@ -33,26 +33,39 @@ public class LoginController implements Controller
 			String adPw = request.getParameter("userPw");
 			
 			AdminDAO dao = new AdminDAO();
-			String adCode = dao.login(adId, adPw);
-			AdminDTO admin = dao.sessionAdmin(adCode);
-			
-			// 해당하는 회원 정보가 DB에 있을 경우
-			if(adCode != null && adCode != "")
+			try
 			{
-				HttpSession session = request.getSession();
+				dao.connection();
 				
-				session.setAttribute("adCode", adCode);			// 관리자 코드 세션에 담기
-				session.setAttribute("admin", admin);			// 관리자 정보 세션에 담기
+				String adCode = dao.login(adId, adPw);
+				AdminDTO admin = dao.sessionAdmin(adCode);
 				
-				// 로그인 성공 시, 메인페이지로 전환
-				mav.setViewName("MainPage.jsp");
+				// 해당하는 회원 정보가 DB에 있을 경우
+				if(adCode != null && adCode != "")
+				{
+					HttpSession session = request.getSession();
+					
+					session.setAttribute("adCode", adCode);			// 관리자 코드 세션에 담기
+					session.setAttribute("admin", admin);			// 관리자 정보 세션에 담기
+					
+					// 로그인 성공 시, 메인페이지로 전환
+					mav.setViewName("MainPage.jsp");
+				}
+				else
+				{
+					// 로그인 실패 시, 로그인 폼으로 전환
+					mav.addObject("message", "error");
+					mav.setViewName("redirect:loginform.do");
+				}		
+				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
 			}
-			else
+			finally
 			{
-				// 로그인 실패 시, 로그인 폼으로 전환
-				mav.addObject("message", "error");
-				mav.setViewName("redirect:loginform.do");
-			}		
+				dao.close();
+			}
 			
 		}
 		// 넘어온 로그인 타입이 게스트일 경우
@@ -62,22 +75,37 @@ public class LoginController implements Controller
 			String guPw = request.getParameter("userPw");
 			
 			GuestDAO dao = new GuestDAO();
-			String guCode = dao.login(guId, guPw);
-			GuestDTO guest = dao.sessionGuest(guCode);
 			
-			// 해당하는 회원 정보가 DB에 있을 경우
-			if (guCode != null && guCode != "")
+			try
 			{
-				HttpSession session = request.getSession();
-				session.setAttribute("guCode", guCode);			// 게스트 코드 세션에 담기
-				session.setAttribute("guest", guest);			// 게스트 개인/회원 정보 세션에 담기
-				mav.setViewName("MainPage.jsp");
+				dao.connection();
+				
+				String guCode = dao.login(guId, guPw);
+				GuestDTO guest = dao.sessionGuest(guCode);
+				
+				// 해당하는 회원 정보가 DB에 있을 경우
+				if (guCode != null && guCode != "")
+				{
+					HttpSession session = request.getSession();
+					session.setAttribute("guCode", guCode);			// 게스트 코드 세션에 담기
+					session.setAttribute("guest", guest);			// 게스트 개인/회원 정보 세션에 담기
+					mav.setViewName("MainPage.jsp");
+				}
+				else
+				{
+					mav.addObject("message", "error");
+					mav.setViewName("redirect:loginform.do");
+				}	
+				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
 			}
-			else
+			finally
 			{
-				mav.addObject("message", "error");
-				mav.setViewName("redirect:loginform.do");
-			}				
+				dao.close();
+			}
+			
 		}
 		// 넘어온 로그인 타입이 호스트일 경우
 		else if (userType.equals("host"))
@@ -86,28 +114,40 @@ public class LoginController implements Controller
 			String hoPw = request.getParameter("userPw");
 			
 			HostDAO dao = new HostDAO();
-			String hoCode = dao.login(hoId, hoPw);
-			HostDTO host = dao.sessionHost(hoCode);
 			
-			// 해당하는 회원 정보가 DB에 있을 경우
-			if (hoCode != null && hoCode != "")
+			try
 			{
-				HttpSession session = request.getSession();
-				session.setAttribute("hoCode", hoCode);		// 호스트 코드 세션에 담기
-				session.setAttribute("host", host);			// 호스트 개인/회원 정보 세션에 담기
+				dao.connection();
 				
-				mav.setViewName("MainPage.jsp");
-			}
-			else
-			{
-				mav.addObject("message", "error");
-				mav.setViewName("redirect:loginform.do");
-			}
+				String hoCode = dao.login(hoId, hoPw);
+				HostDTO host = dao.sessionHost(hoCode);
+				
+				// 해당하는 회원 정보가 DB에 있을 경우
+				if (hoCode != null && hoCode != "")
+				{
+					HttpSession session = request.getSession();
+					session.setAttribute("hoCode", hoCode);		// 호스트 코드 세션에 담기
+					session.setAttribute("host", host);			// 호스트 개인/회원 정보 세션에 담기
 					
+					mav.setViewName("MainPage.jsp");
+				}
+				else
+				{
+					mav.addObject("message", "error");
+					mav.setViewName("redirect:loginform.do");
+				}
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			finally
+			{
+				dao.close();
+			}
+			
 		}
 		
 		return mav;
-		
 	}
 	
 }

@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
+import sun.security.mscapi.CKeyPairGenerator.RSA;
 
 public class GuestDAO
 {
@@ -24,10 +27,10 @@ public class GuestDAO
 		DBConn.close();
 	}
 	
-	// 멤버 데이터 입력
+	
+	// 게스트 회원 가입 (멤버 입력)
 	public int add(GuestDTO guestDTO) throws SQLException, ClassNotFoundException
 	{
-		connection();
 		
 		int result = 0;
 		
@@ -47,7 +50,6 @@ public class GuestDAO
 		result = cstmt.executeUpdate();
 		
 		cstmt.close();
-		close();
 		
 		return result;
 	}
@@ -55,11 +57,10 @@ public class GuestDAO
 	// 아이디 중복 확인 쿼리문
 	public int idCheck(String guId) throws ClassNotFoundException, SQLException
 	{
-		connection();
 		
 		int result = 0;
 		
-		String sql = "SELECT COUNT(*) AS COUNT FROM HOST WHERE GU_ID = ? ";
+		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST WHERE GU_ID = ? ";
 	
 		PreparedStatement pstmt = conn.prepareStatement(sql);	
 		pstmt.setString(1, guId);
@@ -71,33 +72,109 @@ public class GuestDAO
 		}
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return result;
 	
 	}
 	
-	// 로그인 쿼리문
-	public String login(String guId, String guPw) throws ClassNotFoundException, SQLException
+	// 닉네임 중복 확인 쿼리문
+	public int nickCheck(String guNick) throws ClassNotFoundException, SQLException
 	{
-		connection();
+		int result = 0;
 		
-		String result = "";
-		
-		String sql = "SELECT GU_CODE AS COUNT FROM GUEST WHERE GU_ID = ? AND GU_PW = ?";
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, guId);
-		pstmt.setString(2, guPw);
+		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST WHERE GU_NICK = ? ";
+	
+		PreparedStatement pstmt = conn.prepareStatement(sql);	
+		pstmt.setString(1, guNick);
 		ResultSet rs = pstmt.executeQuery();
 		
 		if(rs.next())
 		{
-			result = rs.getString("COUNT");
+			result = rs.getInt("COUNT");
 		}
 		rs.close();
 		pstmt.close();
-		close();
+		
+		return result;
+	
+	}
+	
+	// 개인정보 중복 확인 쿼리문
+	public int infoCheck(String guName, String guSsn, String guTel) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST_INFO WHERE GU_NAME=? AND GU_TEL=? AND GU_SSN=?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guName);
+		pstmt.setString(2, guTel);
+		pstmt.setString(3, guSsn);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+			
+		rs.close();
+		pstmt.close();
+		
+		return result;
+		
+	}
+	
+	// 비밀번호 일치 여부 확인 쿼리문
+	public int pwCheck(String guCode, String guPwCheck) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT"
+				   + " FROM GUEST WHERE GU_CODE = ?"
+				   + " AND ? = (SELECT CRYPTPACK.ENCRYPT(GU_PW, ?)"
+				   + " FROM GUEST WHERE GU_CODE=?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		pstmt.setString(2, guPwCheck);
+		pstmt.setString(3, guPwCheck);
+		pstmt.setString(4, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	
+	// 로그인 쿼리문
+	public String login(String guId, String guPw) throws ClassNotFoundException, SQLException
+	{
+		
+		String result = "";
+		
+		String sql = "SELECT GU_CODE FROM GUEST WHERE GU_ID = ?"
+				   + " AND ? = (SELECT CRYPTPACK.DECRYPT(GU_PW, ?) FROM GUEST WHERE GU_ID=?)"
+				   + " AND GU_CODE NOT IN (SELECT GU_CODE FROM GUEST_UNREG)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guId);
+		pstmt.setString(2, guPw);
+		pstmt.setString(3, guPw);
+		pstmt.setString(4, guId);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next())
+		{
+			result = rs.getString("GU_CODE");
+		}
+		rs.close();
+		pstmt.close();
 		
 		return result;
 		
@@ -106,7 +183,6 @@ public class GuestDAO
 	// 아이디 찾기 쿼리문
 	public String searchId(String userName, String userTel) throws ClassNotFoundException, SQLException
 	{
-		connection();
 		
 		String guId = "";
 		
@@ -124,7 +200,6 @@ public class GuestDAO
 		
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return guId;
 	}
@@ -133,7 +208,6 @@ public class GuestDAO
 	// 비밀번호 찾기 쿼리문 (아이디, 이름, 전화번호 일치 여부 확인 후 비밀번호 재설정 페이지로 연결)
 	public int searchPw(String userId, String userName, String userTel) throws ClassNotFoundException, SQLException
 	{
-		connection();
 		
 		int result = 0;
 		
@@ -154,8 +228,6 @@ public class GuestDAO
 		rs.close();
 		pstmt.close();
 		
-		close();			
-		
 		return result;
 	}
 	
@@ -165,12 +237,9 @@ public class GuestDAO
 	{
 		GuestDTO guest = new GuestDTO();
 
-		connection();
-		
-		String sql = "SELECT G.GU_CODE AS GU_CODE, G.GU_ID AS GU_ID, G.GU_PW AS GU_PW, G.GU_NICK AS GU_NICK"
-				   + ", G.GU_DATE AS GU_DATE, G.CATEGORY_CODE AS CATEGORY_CODE, GI.GU_NAME AS GU_NAME, GI.GU_TEL AS GU_TEL"
-				   + ", GI.GU_SSN AS GU_SSN, GI.GU_EMAIL AS GU_EMAIL FROM GUEST G, GUEST_INFO GI"
-				   + " WHERE G.GU_CODE = GI.GU_CODE AND G.GU_CODE = ?";
+		String sql = "SELECT G.GU_CODE AS GU_CODE, G.GU_ID AS GU_ID, G.GU_NICK AS GU_NICK, G.GU_DATE AS GU_DATE"
+				   + ", G.CATEGORY_CODE AS CATEGORY_CODE, GI.GU_NAME AS GU_NAME, GI.GU_TEL AS GU_TEL, GI.GU_SSN AS GU_SSN"
+				   + ", GI.GU_EMAIL AS GU_EMAIL FROM GUEST G, GUEST_INFO GI WHERE G.GU_CODE = GI.GU_CODE AND G.GU_CODE = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -181,7 +250,6 @@ public class GuestDAO
 		{
 			guest.setGuCode(rs.getString("GU_CODE"));
 			guest.setGuId(rs.getString("GU_ID"));
-			guest.setGuPw(rs.getString("GU_PW"));
 			guest.setGuNick(rs.getString("GU_NICK"));
 			guest.setGuDate(rs.getString("GU_DATE"));
 			guest.setGuCategoryCode(rs.getString("CATEGORY_CODE"));
@@ -193,26 +261,122 @@ public class GuestDAO
 		
 		rs.close();
 		pstmt.close();
-		close();
 		
 		return guest;
 	}
 	
 	
-	
-	// 로그인한 계정의 비밀번호와 일치하는지 확인하는 쿼리문
-	public int checkPw(String guCode, String userPw) throws SQLException
+	// 마이페이지 정보 수정
+	public int modify(GuestDTO guestDTO) throws ClassNotFoundException, SQLException
 	{
+
 		int result = 0;
 		
-		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST WHERE GU_CODE = ? AND GU_PW = ?";
+		String sql = "{call PRC_MYPAGE_UPDATE(?, ?, ?, ?)}";
+		
+		CallableStatement cstmt = conn.prepareCall(sql);
+		
+		cstmt.setString(1, guestDTO.getGuTel());
+		cstmt.setString(2, guestDTO.getGuEmail());
+		cstmt.setString(3, guestDTO.getGuNick());
+		cstmt.setString(4, guestDTO.getGuCode());
+		
+		result = cstmt.executeUpdate();
+		
+		cstmt.close();
+		
+		return result;
+	}
+	
+	// 마이페이지 비밀번호 변경
+	public int modifyPw(String guPw, String guCode) throws ClassNotFoundException, SQLException
+	{
+		
+		int result = 0;
+		
+		String sql = "UPDATE GUEST SET GU_PW = ? WHERE GU_CODE= ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, guCode);
-		pstmt.setString(2, userPw);
+		pstmt.setString(1, guPw);
+		pstmt.setString(2, guCode);
+		
+		result = pstmt.executeUpdate();
 		
 		pstmt.close();
 		
 		return result;
 	}
+	
+	// 마이페이지 회원 탈퇴 (개인정보 삭제, 회원탈퇴 테이블 삽입)
+	public int remove(String guCode, String reasonCode) throws ClassNotFoundException, SQLException
+	{
+		
+		int result = 0;
+		
+		String sql = "{call PRC_GUEST_UNREG(?, ?)}";
+		
+		CallableStatement cstmt = conn.prepareCall(sql);
+		cstmt.setString(1, guCode);
+		cstmt.setString(2, reasonCode);
+		
+		result = cstmt.executeUpdate();
+		
+		cstmt.close();
+		
+		return result;
+	}
+	
+	// 사이드메뉴 이웃관리 (리스트 조회)
+	public ArrayList<GuestDTO> frinedList(String guCode) throws SQLException
+	{
+		ArrayList<GuestDTO> result = new ArrayList<GuestDTO>();
+		
+		String sql = "SELECT VR.FM_CODE AS FM_CODE, VR.FM_DATE AS FM_DATE, VR.GU_CODE AS GU_CODE, G.GU_NICK AS GU_FMNICK"
+				 + ", VR.FT_CODE AS FT_CODE FROM (SELECT F.FM_CODE AS FM_CODE, F.FM_DATE AS FM_DATE, G.GU_CODE AS GU_CODE"
+				 + ", F.GU_FMCODE AS GU_FMCODE, F.FT_CODE AS FT_CODE FROM FRIEND_MANAGE F, GUEST G"
+				 + " WHERE F.GU_CODE = G.GU_CODE AND G.GU_CODE = ? ) VR, GUEST G"
+				 + " WHERE VR.GU_FMCODE = G.GU_CODE";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GuestDTO dto = new GuestDTO();
+			
+			dto.setFmCode(rs.getString("FM_CODE"));
+			dto.setFmDate(rs.getString("FM_DATE"));
+			dto.setGuCode(rs.getString("GU_CODE"));
+			dto.setGuFmNick(rs.getString("GU_FMNICK"));
+			dto.setFtCode(rs.getString("FT_CODE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+				
+		return result;
+	}
+	
+	// 이웃 관리 삭제 수행
+	public int friendRemove(String guCode, String fmCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "DELETE FROM FRIEND_MANAGE WHERE FM_CODE = ? AND GU_CODE = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, fmCode);
+		pstmt.setString(2, guCode);
+		
+		result = pstmt.executeUpdate();
+		
+		pstmt.close();
+		
+		return result; 
+	}
+	
 }
