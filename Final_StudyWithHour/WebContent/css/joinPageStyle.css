@@ -19,12 +19,13 @@ section
     flex-direction: column;
 }
 
+/*
 .mini-banner
 {
 	width: 1400px;
 	height: 150px;
 }
-
+*/
 .content_div
 {
 	display: flex; 
@@ -102,7 +103,7 @@ tr
 
 .join_title
 {
-	width: 200px;
+	width: 130px;
 }
 
 .join_input
@@ -110,6 +111,10 @@ tr
 	width: 260px;
 }
 
+tr.checkMsg
+{
+	height: 20px;
+}
 
 .join_text:focus
 {
@@ -131,7 +136,7 @@ input::placeholder
 	color: #bfbfbf;
 }
 
-td > button
+td > input[type="button"]
 {
 	border-radius: 5px;
 	border: none;
@@ -143,14 +148,14 @@ td > button
     width: 80px;
 }
 
-td > button:hover
+td > input[type="button"]:hover
 {
 	background: #93bc32;
 	border: none;
 	color: #ffffff;
 }
 
-td > button[type="submit"]
+td > input[type="button"]
 {
     margin-top: 20px;
     width: 392px;
@@ -159,7 +164,7 @@ td > button[type="submit"]
     font-weight: bold;
 }
 
-button.signUp
+#signUpBtn, #loginBtn
 {
 	border-radius: 5px;
 	margin-top: 20px;
@@ -172,7 +177,14 @@ button.signUp
     border: 3px solid #93bc32;
 }
 
-button.signUp:active, .signUp:hover 
+input#signUpBtn:active, #signUpBtn:hover 
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
+
+#loginBtn:active, #loginBtn:hover
 {
 	background: #93bc32;
 	border: 2px solid #93bc32;
@@ -221,14 +233,6 @@ button.signUp:active, .signUp:hover
 	color: #5b5b5b;
 }
 
-
-/* 
-.login_status
-{
-	display: flex;
-    justify-content: center;
-}
- */
 .radio_status
 {
 	border: 2px solid #e1e1e1;
@@ -296,6 +300,33 @@ button.signUp:active, .signUp:hover
 }
 
 
+#searchIdBtn, #loginBtn, .signUp
+{
+	border-radius: 5px;
+	margin-top: 20px;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #93bc32;
+    background: #ffffff;
+    border: 3px solid #93bc32;
+}
+
+#searchIdBtn:active, #searchIdBtn:hover , #searchPwBtn:active, #searchPwBtn:hover
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
+
+
+#loginBtn:active, #loginBtn:hover, .signUp:active, .signUp:hover
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
 
 
 

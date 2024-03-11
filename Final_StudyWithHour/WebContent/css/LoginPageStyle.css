@@ -1,0 +1,140 @@
+@charset "UTF-8";
+
+/* 공통 적용 css */
+section
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    flex-direction: column;
+}
+
+/*
+.mini-banner
+{
+	width: 1400px;
+	height: 150px;
+}
+*/
+.content_div
+{
+	display: flex; 
+	flex-direction: column; 
+	justify-content: center
+}
+
+/* 로그인 페이지 */
+
+.login_description
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.login_text
+{
+	border: none;
+	border-bottom: 2px solid #dfdfdf;
+	width: 300px;
+	height: 40px;
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
+.login_text:focus
+{
+ 	outline: none; 
+}
+
+
+.login_menu
+{
+	font-size: 14px;
+	color: #5b5b5b;
+	display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.login_menu > a
+{
+	text-decoration: none;
+	color: #5b5b5b;
+}
+
+
+/* 
+.login_status
+{
+	display: flex;
+    justify-content: center;
+}
+ */
+.radio_status
+{
+	border: 2px solid #e1e1e1;
+    border-radius: 6px;
+    font-size: 20px;
+}
+
+.userType input[type="radio"]	
+{
+	display: none;
+}
+	
+.userType input[type="radio"] + span
+{
+	display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    color: #5b5b5b;
+    width: 140px;
+}
+
+.userType input[type="radio"]:checked + span 
+{
+    color: #94bc32;
+}
+
+.errMsg
+{
+	text-align: center; 
+}
+
+.errMsg > span 
+{
+	color: #ff4a4a; 
+	/* font-weight: bold; */
+}
+
+
+/* 아이디, 비밀번호 찾기 페이지 (searchIdForm, searchPwForm) */
+
+.search_account > table
+{
+	margin: 30px 0;
+}
+
+.search_result
+{
+	display: none;
+	margin: 30px;
+	height: 80px;
+}
+
+.search_result > span
+{
+	display: flex; 
+	justify-content: center; 
+	color: #94be2c; 
+	margin-top: 20px;
+}
+	
+.search_result_btn
+{
+	display: none;
+	margin-bottom: 10px;
+}

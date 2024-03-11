@@ -30,7 +30,8 @@ header
 
 .rightContent_div         /* 로그인 후 마이메뉴에서 사이드바 제외한 영역 */
 {
-	margin-left: 260px;
+	/* margin-left: 260px; */
+	margin-left: 80px;
 	margin-top: 60px;
 	width: calc(1400px - 260px);
 	height: 800px;
