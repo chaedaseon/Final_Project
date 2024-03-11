@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.test.mybatis.IGuestCalendarDAO">
+
+	<!-- 일정 조회 쿼리문 -->
+	<select id="scheduleList" resultType="com.test.mybatis.GuestCalendarDTO">
+		SELECT SCH_DATE, SCH_NAME, SCH_CONTENT, SCH_REGDATE
+		FROM SCHEDULE
+		WHERE GU_CODE = #{gu_code}
+	</select>
+
+	<!-- 일정 입력 액션 수행 쿼리문 -->
+	<insert id="calendarAdd">
+		INSERT INTO SCHEDULE(SCH_CODE, SCH_DATE, SCH_NAME, SCH_CONTENT, GU_CODE)
+		VALUES (SCHEDULE_SEQ.NEXTVAL, SYSDATE, #{sch_name}, #{sch_content}, #{gu_code})
+	</insert> 
+	
+</mapper>

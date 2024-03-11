@@ -5,4 +5,4 @@
 	String cp = request.getContextPath();
 
 %>
-<%= request.getAttribute("nick")%>
+<%= request.getAttribute("nickCount")%>

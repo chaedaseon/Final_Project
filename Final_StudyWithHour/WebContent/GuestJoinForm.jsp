@@ -26,12 +26,11 @@
 		// 정규식
 		var regId = /^[a-z0-9]{5,10}$/;
 		var regPw = /^[a-zA-Z0-9\!@#$%^&*]{8,16}$/;
-		var regName =  /^[가-힣]{2,5}$/;
+		var regName = /^[가-힣]{2,5}$/;
 		var regSsn = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))[1-8][0-9]{6}$/;
 		var regTel = /^(010|011|016|017|018|019)[0-9]{3,4}[0-9]{4}$/;
-
-		//var reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-		var reNick = /^[a-z0-9가-힣]{3,8}$/;
+		var regEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		var regNick = /^[a-z0-9가-힣]{3,8}$/;
 		
 		
 		//------ 정규식 및 중복 검사 수행 (키보드 이벤트가 발생함에 따라)
@@ -49,14 +48,13 @@
 				$(".idOkMsg").css("display", "none");
 				$(".idNullMsg").css("display", "flex");
 				
-				return false;
 			}
 			else		// 아이디 중복 확인 위한 Ajax 처리
 			{
 				$.ajax(
 				{
 					type:"POST"
-					, url:"checkid.do?check=id"
+					, url:"checkid.do?userType=guest&check=id"
 					, data : {guId:guId}
 					, success:function(args)
 					{
@@ -69,7 +67,6 @@
 							$(".idUsingMsg").css("display", "none");
 							$(".idOkMsg").css("display", "none");
 							$(".idNullMsg").css("display", "none");
-							return false;
 						}
 						else if	(idCount == 0)			// 중복되는 아이디가 없을 경우 (사용 가능)
 						{
@@ -77,7 +74,6 @@
 							$(".idUsingMsg").css("display", "none");
 							$(".idOkMsg").css("display", "flex");
 							$(".idNullMsg").css("display", "none");
-							return true;
 						}
 						else		// 중복되는 아이디가 존재하는 경우
 						{
@@ -85,7 +81,6 @@
 							$(".idUsingMsg").css("display", "flex");
 							$(".idOkMsg").css("display", "none");
 							$(".idNullMsg").css("display", "none");
-							return false;
 						}
 					}
 				});
@@ -144,15 +139,24 @@
 		{
 			var guName = $("#guName").val();
 			
+			// 입력한 값이 없을 경우
+			if(guName == null || guName == "")
+			{
+				$(".nameErrMsg").css("display", "none");
+				$(".nameOkMsg").css("display", "none");
+				$(".nameNullMsg").css("display", "flex");
+			}
 			if(!regName.test(guName))
 			{
 				$(".nameErrMsg").css("display", "flex");	
 				$(".nameOkMsg").css("display", "none");	
+				$(".nameNullMsg").css("display", "none");
 			}
 			else
 			{
 				$(".nameErrMsg").css("display", "none");	
 				$(".nameOkMsg").css("display", "flex");	
+				$(".nameNullMsg").css("display", "none");
 			}
 			
 		});
@@ -165,15 +169,24 @@
 			
 			var guSsn = guSsn1 + guSsn2;
 			
+			// 입력한 값이 없을 경우
+			if((guSsn1 == null || guSsn1 == "") && (guSsn1 == null || guSsn2==""))
+			{
+				$(".ssnErrMsg").css("display", "none");
+				$(".ssnOkMsg").css("display", "none");
+				$(".ssnNullMsg").css("display", "flex");
+			}
 			if(!regSsn.test(guSsn))
 			{
 				$(".ssnErrMsg").css("display", "flex");	
-				$(".ssnOkMsg").css("display", "none");	
+				$(".ssnOkMsg").css("display", "none");
+				$(".ssnNullMsg").css("display", "none");
 			}
 			else
 			{
 				$(".ssnErrMsg").css("display", "none");	
 				$(".ssnOkMsg").css("display", "flex");	
+				$(".ssnNullMsg").css("display", "none");
 			}
 		});
 		
@@ -186,24 +199,130 @@
 			
 			var guTel = guTel1 + guTel2 + guTel3;
 			
+			// 입력한 값이 없을 경우
+			if((guTel1 == null || guTel1 == "") && (guTel2 == null || guTel2=="") && (guTel3 == null || guTel3==""))
+			{
+				$(".telErrMsg").css("display", "none");
+				$(".telOkMsg").css("display", "none");
+				$(".telNullMsg").css("display", "flex");
+			}
 			if(!regTel.test(guTel))
 			{
 				$(".telErrMsg").css("display", "flex");	
 				$(".telOkMsg").css("display", "none");	
+				$(".telNullMsg").css("display", "none");
 			}
 			else
 			{
 				$(".telErrMsg").css("display", "none");	
-				$(".telOkMsg").css("display", "flex");	
+				$(".telOkMsg").css("display", "flex");
+				$(".telNullMsg").css("display", "none");
 			}
 		});
+		
+		// 7. 이메일 정규식 확인
+		$("#guEmail").keyup(function()
+		{
+			var guEmail = $("#guEmail").val();
+			
+			if(guEmail == null || guEmail == "")
+			{
+				$(".emailErrMsg").css("display", "none");
+				$(".emailOkMsg").css("display", "none");
+				$(".emailNullMsg").css("display", "flex");
+			}
+			if(!regEmail.test(guEmail))
+			{
+				$(".eamilErrMsg").css("display", "flex");	
+				$(".emailOkMsg").css("display", "none");	
+				$(".emailNullMsg").css("display", "none");
+			}
+			else
+			{
+				$(".eamilErrMsg").css("display", "none");	
+				$(".emailOkMsg").css("display", "flex");	
+				$(".emailNullMsg").css("display", "none");
+			}
+		});
+		
+		// 8. 닉네임 정규식 & 중복 확인
+		$("#guNick").keyup(function()
+		{
+			var guNick = $("#guNick").val();
+			
+			// 입력한 값이 없을 경우
+			if(guNick == null || guNick == "")
+			{
+				$(".nickErrMsg").css("display", "none");
+				$(".nickUsingMsg").css("display", "none");
+				$(".nickOkMsg").css("display", "none");
+				$(".nickNullMsg").css("display", "flex");
+				
+			}
+			else		// 닉네임 중복 확인 위한 Ajax 처리
+			{
+				$.ajax(
+				{
+					type:"POST"
+					, url:"checknick.do?userType=guest&check=nick"
+					, data : {guNick:guNick}
+					, success:function(args)
+					{
+						var nickCount = args;
+						
+						// 정규식을 만족하지 못할 경우
+						if(!regNick.test(guNick))	
+						{
+							$(".nickErrMsg").css("display", "flex");
+							$(".nickUsingMsg").css("display", "none");
+							$(".nickOkMsg").css("display", "none");
+							$(".nickNullMsg").css("display", "none");
+						}
+						else if	(nickCount == 0)			// 중복되는 닉네임이 없을 경우 (사용 가능)
+						{
+							$(".nickErrMsg").css("display", "none");
+							$(".nickUsingMsg").css("display", "none");
+							$(".nickOkMsg").css("display", "flex");
+							$(".nickNullMsg").css("display", "none");
+						}
+						else		// 중복되는 닉네임이 존재하는 경우
+						{
+							$(".nickErrMsg").css("display", "none");
+							$(".nickUsingMsg").css("display", "flex");
+							$(".nickOkMsg").css("display", "none");
+							$(".nickNullMsg").css("display", "none");
+						}
+					}
+				});
+			}
+		});	// 아이디 정규식 & 중복 확인 end
+		
+		// 9. 체크박스 선택값 확인 (0이면 회원 가입 수행 X)
+		$("#guCategoryCode").change(function()
+		{
+			var guCategoryCode = $("#guCategoryCode").val();
+			
+			if(guCategoryCode == 0)
+			{
+				$(".categoryOkMsg").css("display", "none");
+				$(".categoryNullMsg").css("display", "flex");
+			}
+			else
+			{
+				$(".categoryOkMsg").css("display", "flex");
+				$(".categoryNullMsg").css("display", "none");
+			}
+		});
+		
 	});
 	
+	
 	// 회원가입 작업 수행!!!!
-	/*
 	function sginUp()
 	{
 		var result = true;
+		var foundError = false;
+		var check = true;
 		
 		$(".errMsg span").each(function()
 		{
@@ -218,42 +337,63 @@
 				
 				if(splitspan != "OkMsg")
 				{
-					$(this).closest('tr').addClass('error-row');
-	                foundClass = true;
+					$(this).closest('tr').addClass('error');
+					foundError = true;
+	                result = false;
 					return false;
 				}
-				else
-					$("#joinForm").submit();
 			}
-			if(!result)
-				return;
 		});
-		if(!result)
-			return;
 		
-		if (foundClass) 
+		if (foundError) 
 		{
-	        var abcElement = $(".error-row").find(".join_text");
-	        abcElement.focus();
+	        var errorElement = $(".error").find(".join_text");
+	        errorElement.focus();
 	    }
 		
-	} 
-	*/
-	
-	function sginUp()
-	{
-		
-		if ($(".errMsg span").css("display", "flex") != "idOkMsg")
+		if(result)
 		{
-			alert("에러발생!");
-			return false;
+			// 개인정보 중복 여부 확인 (이름, 전화번호, 주민등록번호)
+			if(check)
+			{
+				var guSsn1 = $("#guSsn1").val();
+				var guSsn2 = $("#guSsn2").val();
+				var guTel1 = $("#guTel1").val();
+				var guTel2 = $("#guTel2").val();
+				var guTel3 = $("#guTel3").val();
+				
+				var guName = $("#guName").val();
+				var guSsn = guSsn1 + guSsn2;
+				var guTel = guTel1 + guTel2 + guTel3;
+				
+				$.ajax(
+				{
+					type:"POST"
+					, url:"checkinfo.do?userType=guest&check=info"
+					, data : {guName:guName, guSsn:guSsn, guTel:guTel}
+					, success:function(args)
+					{
+						var infoCount = args;
+						
+						if(infoCount != null && infoCount != 0)
+						{
+							alert("일치하는 회원 정보가 존재합니다.");							
+						}
+						else
+							$("#guestJoinForm").submit();
+						
+					}
+					, error:function(e)
+					{
+						alert(e.responseText);
+					}
+					
+				});
+			}
 		}
-			
 		
-	}
-	
-	
-	
+	} 
+
 	
 </script>
 
@@ -277,7 +417,7 @@
 					<div class="underline"></div>
 					
 					<div class="join_form">
-						<form action="memberinsert.do?type=${type }" method="post" id="joinForm">
+						<form action="memberinsert.do?type=${type }" method="post" id="guestJoinForm">
 							<table class="join_table">
 								<tr>
 									<td class="join_title"><span>아이디</span></td>
@@ -328,6 +468,7 @@
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="nameNullMsg" style="display: none; font-size: 12px; color: red;">이름을 입력해주세요.</span>
 									</td>
 								</tr>
 								<tr>
@@ -343,6 +484,7 @@
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="ssnNullMsg" style="display: none; font-size: 12px; color: red;">주민등록번호를 입력해주세요.</span>
 									</td>
 								</tr>
 								<tr>
@@ -359,35 +501,41 @@
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="telNullMsg" style="display: none; font-size: 12px; color: red;">전화번호를 입력해주세요.</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="join_title"><span>이메일</span></td>
 									<td class="join_input"><input type="email" name="guEmail" id="guEmail" class="join_text" placeholder="이메일을 입력해주세요" required="required">
-									<td>
-										<span class="emailOkMsg" style="color: #94be2c;">
+									<td class="errMsg">
+										<span class="emailErrMsg" style="display: none; font-size: 12px; color: red;">이메일 형식에 맞춰 입력해주세요.</span>
+										<span class="emailOkMsg" style="display: none; color: #94be2c;">
 											<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="emailNullMsg" style="display: none; font-size: 12px; color: red;">이메일을 입력해주세요.</span>
 									</td>
 								</tr>
 								<tr>
 									<td class="join_title"><span>닉네임</span></td>
 									<td class="join_input"><input type="text" name="guNick" id="guNick" class="join_text" required="required" placeholder="닉네임을 입력해주세요"></td>
 									<td class="errMsg">
-										<span class="nickOkMsg" style="color: #94be2c;">
+										<span class="nickErrMsg" style="display: none; font-size: 12px; color: red;">형식에 맞춰 입력해주세요.<br>(한글, 영소문자, 숫자 3~8자)</span>
+										<span class="nickUsingMsg" style="display: none; font-size: 12px; color: red;">이미 사용중인 닉네임입니다.</span>
+										<span class="nickOkMsg" style="display: none; color: #94be2c;">
 											<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="nickNullMsg" style="display: none; font-size: 12px; color: red;">닉네임을 입력해주세요.</span>
 									</td>
 								</tr>
 								<tr>
 									<td><span>관심 분야</span></td>
 									<td class="join_input">
 										<select class="join_text" name="guCategoryCode" id="guCategoryCode" required="required">
-											<option value="">-- 관심 분야를 선택해주세요 ▼ --</option>
+											<option value="0">-- 관심 분야를 선택해주세요 ▼ --</option>
 											<option value="1">자격증</option>
 											<option value="2">취업</option>
 											<option value="3">외국어</option>
@@ -399,11 +547,12 @@
 										</select>
 									</td>
 									<td class="errMsg">
-										<span class="categoryOkMsg" style="color: #94be2c;">
+										<span class="categoryOkMsg" style="display: none; color: #94be2c;">
 											<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
 												<path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
 											</svg>
 										</span>
+										<span class="categoryNullMsg" style="display: none; font-size: 12px; color: red;">관심 분야를 선택해주세요.</span>
 									</td>
 								</tr>
 							</table>

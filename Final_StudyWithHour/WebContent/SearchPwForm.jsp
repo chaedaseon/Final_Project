@@ -25,7 +25,7 @@
 <script type="text/javascript">
 
 
-	$(function()
+	$(document).ready(function()
 	{
 		$("#searchPwBtn").click(function()
 		{	
@@ -64,7 +64,57 @@
 					alert(e.responseText);
 				}
 			});
+			
+			var regPw = /^[a-zA-Z0-9\!@#$%^&*]{8,16}$/;
+			
+			// 1. 비밀번호 정규식 확인
+			$("#searchPwId1").keyup(function()
+			{
+				var searchPwId = $("#searchPwId1").val();
+				
+				// 입력한 값이 없을 경우
+				if(searchPwId == null || searchPwId == "")
+				{
+					$(".pwErrMsg").css("display", "none");
+					$(".pwOkMsg").css("display", "none");
+					$(".pwNullMsg").css("display", "flex");
+				}
+				// pw 정규식 검사
+				else if(!regPw.test(searchPwId))
+				{
+					$(".pwErrMsg").css("display", "flex");
+					$(".pwOkMsg").css("display", "none");
+					$(".pwNullMsg").css("display", "none");
+				}
+				else
+				{
+					$(".pwErrMsg").css("display", "none");
+					$(".pwOkMsg").css("display", "flex");
+					$(".pwNullMsg").css("display", "none");
+				}
+				
+			});// 비밀번호 정규식 확인 end
+			
+			// 2. 비밀번호 확인란에 입력된 비밀번호가 동일한지 체크
+			$("#searchPwId2").keyup(function()
+			{
+				var searchPwId1 = $("#searchPwId1").val();	
+				var searchPwId2 = $("#searchPwId2").val();
+				
+				if (searchPwId1 != searchPwId2)
+				{
+					$(".pw2ErrMsg").css("display", "flex");
+					$(".pw2OkMsg").css("display", "none");
+				}
+				else
+				{
+					$(".pw2OkMsg").css("display", "flex");
+					$(".pw2ErrMsg").css("display", "none");
+				}
+			});// 비밀번호 일치 여부 확인 end
+			
 		});
+		
 	});
 
 </script>
@@ -123,11 +173,11 @@
 								<table>
 								<tr>
 									<td class="join_title"><span>비밀번호</span></td>
-									<td class="join_input"><input type="text" name="searchPwId" id="searchPwId" class="join_text" required="required" placeholder="비밀번호를 입력해주세요"></td>
+									<td class="join_input"><input type="password" name="searchPwId1" id="searchPwId1" class="join_text" required="required" placeholder="비밀번호를 입력해주세요"></td>
 								</tr>
 								<tr>
 									<td class="join_title"><span>비밀번호 확인</span></td>
-									<td class="join_input"><input type="text" name="searchPwName" id="searchPwName" class="join_text" required="required" placeholder="비밀번호를 입력해주세요"></td>
+									<td class="join_input"><input type="password" name="searchPwId2" id="searchPwId2" class="join_text" required="required" placeholder="비밀번호를 입력해주세요"></td>
 								</tr>
 								</table>
 							</div>

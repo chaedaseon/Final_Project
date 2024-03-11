@@ -20,7 +20,7 @@
 	<context:component-scan base-package="com.test.mybatis" />
 	
 	
-	<!-- 회원가입 관련 ─────────────────────────────────────── -->
+	<!-- ──────────────────── [회원가입] ─────────────────── -->
 	
 	<!-- 회원 가입 유형 선택 -->
 	<bean name="/jointype.do" class="com.test.mvc.JoinTypeFormController"></bean>
@@ -34,10 +34,21 @@
 	<!-- 게스트 아이디 중복 검사 -->
 	<bean name="/checkid.do" class="com.test.mvc.JoinCheckController"></bean>
 	
+	<!-- 게스트 닉네임 중복 검사 -->
+	<bean name="/checknick.do" class="com.test.mvc.JoinCheckController"></bean>
+	
+	<!-- 게스트 개인정보 중복 검사 -->
+	<bean name="/checkinfo.do" class="com.test.mvc.JoinCheckController"></bean>
+	
+	
+	<!-- 게스트 비밀번호 확인 -->
+	<bean name="/checkpw.do" class="com.test.mvc.JoinCheckController"></bean>
+	
+	
 	<!-- ──────────────────────────────────────────────  -->
 	
 	
-	<!-- 로그인 관련 ─────────────────────────────────────── -->
+	<!-- ──────────────────── [로그인] ─────────────────── -->
 	
 	<!-- 로그인 페이지로 연결 -->
 	<bean name="/loginform.do" class="com.test.mvc.LoginFormController"></bean>
@@ -62,10 +73,24 @@
 	<!-- ──────────────────────────────────────────────  -->
 
 
-	<!-- 마이페이지 관련 ─────────────────────────────────────── -->
+	<!-- ──────────────────── [호스트] 마이페이지 ─────────────────── -->
 	
 	<!-- 마이페이지 정보수정 페이지 (마이페이지 홈)로 연결 -->
-	<bean name="/guestmypage.do" class="com.test.mvc.GuestUpdateFormController"></bean>
+	<bean name="/hostmypage.do" class="com.test.mvc.HostMyPageFormController"></bean>
+	
+	<!-- 마이페이지 정보수정 수행 -->
+	<bean name="/hostmodify.do" class="com.test.mvc.HostUpdateController"></bean>
+
+	<!-- 회원 탈퇴 -->
+	<bean name="/hostunreg.do" class="com.test.mvc.HostDeleteController"></bean>
+	
+	<!-- ─────────────────────────────────────────────────  -->
+	
+	
+	<!-- ──────────────────── [게스트] 마이페이지 ─────────────────── -->
+	
+	<!-- 마이페이지 정보수정 페이지 (마이페이지 홈)로 연결 -->
+	<bean name="/guestmypage.do" class="com.test.mvc.GuestMyPageFormController"></bean>
 	
 	<!-- 마이페이지 정보수정 수행 -->
 	<bean name="/guestmodify.do" class="com.test.mvc.GuestUpdateController"></bean>
@@ -73,22 +98,27 @@
 	<!-- 회원 탈퇴 -->
 	<bean name="/guestunreg.do" class="com.test.mvc.GuestDeleteController"></bean>
 	
-	<!-- ──────────────────────────────────────────────  -->
+	<!-- ─────────────────────────────────────────────────  -->
 	
 	
-	<!-- 사이드메뉴 관련 ─────────────────────────────────────── -->
+	<!-- ──────────────────── [게스트] 사이드메뉴 ─────────────────── -->
 	<!-- 이웃관리 메뉴 연결 -->
 	<bean name="/friendlist.do" class="com.test.mvc.GuestFriendListController"></bean>
 	
 	<!-- 이웃 삭제 수행 -->
 	<bean name="/frienddelete.do" class="com.test.mvc.GuestFriendDeleteController"></bean>
 	
-	<!-- 마이캘린더 메뉴 연결 -->
-	<!-- <bean name="/guestcalendar.do" class="com.test.mvc.GuestCalendarListController"></bean> -->
+	<!-- 신고관리 메뉴 연결 -->
+	<bean name="/guestredlist.do" class="com.test.mvc.GuestRedBoardListController"></bean>
 	
+	<!-- 게시글 관리 - 작성 글 연결 -->
+	<bean name="/guestboardlist.do" class="com.test.mvc.GuestBoardListController"></bean>
 	
-	<!-- ──────────────────────────────────────────────  -->
+	<!-- 게시글 관리 - 그룹 작성 글 연결 -->
+	<bean name="/guestgroupboardlist.do" class="com.test.mvc.GuestGroupBoardListController"></bean>
 	
+		
+	<!-- ─────────────────────────────────────────────────  -->
 	
 	<!--──────────────────── [호스트]스터디카페 ────────────────────-->
    <!-- 카페 정보 관련 Controller -->
@@ -149,16 +179,6 @@
    
    <!-- 스터디그룹 예약취소 관련 Controller -->
    <bean name="/groupreservedelete.do" class="com.test.mvc.GroupReserveDeleteController"></bean>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

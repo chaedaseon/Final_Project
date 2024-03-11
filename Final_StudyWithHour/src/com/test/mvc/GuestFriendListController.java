@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -21,6 +22,15 @@ public class GuestFriendListController implements Controller
 		ModelAndView mav = new ModelAndView();
 		
 		// 세션 처리
+		// 게스트 코드가 있는 경우에만 접근 가능
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("guCode")==null)
+		{
+			// 게스트 코드가 없는 경우 로그인 폼으로 이동
+			mav.setViewName("redirect:loginform.do");
+			return mav;
+		}
 		
 		
 		// 이웃관리 리스트 출력 실행
@@ -28,10 +38,9 @@ public class GuestFriendListController implements Controller
 		
 		ArrayList<GuestDTO> friendList = new ArrayList<GuestDTO>();
 		
+		GuestDAO dao = new GuestDAO();
 		try
 		{
-			GuestDAO dao = new GuestDAO();
-			
 			dao.connection();
 			
 			friendList = dao.frinedList(guCode);
@@ -45,6 +54,10 @@ public class GuestFriendListController implements Controller
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
+		}
+		finally
+		{
+			dao.close();
 		}
 	
 		

@@ -12,8 +12,6 @@ public class GuestDTO
 	// 이웃관리 속성 구성
 	private String fmCode, fmDate, guFmNick, ftCode;
 
-	
-	
 	// 회원&개인정보 getter/setter 구성
 	public String getGuCode()
 	{

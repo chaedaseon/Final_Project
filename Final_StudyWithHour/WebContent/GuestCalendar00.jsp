@@ -30,12 +30,66 @@
 <script src='../dist/index.global.js'></script>
 
 <script>
-
+	
   	document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
     var nowDate = new Date();
     
+    $.ajax(
+    {
+    	var info = "guCode="+<%=guCode%>;
+    	
+    	type:"POST"
+    	, url: "calendarList.do"
+    	, data: info
+    	, success:function(args)
+    	{
+	    	var calendar = new FullCalendar.Calendar(calendarEl, {
+	        	customButtons:{
+	        		myCustomButton:{
+	        			text:"일정 추가",
+	        			click : function() {
+	        				$("#calendarAdd").modal("show");
+	        			}
+	        		}
+	        	},
+	        	headerToolbar: 
+	        	{
+	        		left: 'prev,next',
+	    	  		center: 'title',
+	    	    	right: 'myCustomButton'
+	        	},
+	        	contentHeight:500,
+	          	initialDate: nowDate,
+	          	locale:"ko",
+	          	editable: true,
+	          	selectable: true,
+	          	dayMaxEvents: true,
+	          	dayCellContent: function(info)					// '일' 삭제
+	    		{
+	          		var number = document.createElement("a");
+	          		number.classList.add("fc-daygrid-day-number");
+	          		number.innerHTML=info.dayNumberText.replace("일","");
+	          		if (info.view.type == "dayGridMonth") {
+	          			return {
+	          				html:number.outerHTML
+	          			};
+	          		}
+	          		return {
+	          			domNodes: []
+	          		};
+	    		}
+	        	, events:data
+	    	}
+    	}
+    	
+    });
+   	 calendar.render();
+    
+    
+    
+    /* 
     var calendar = new FullCalendar.Calendar(calendarEl, {
     	customButtons:{
     		myCustomButton:{
@@ -70,8 +124,8 @@
       		return {
       			domNodes: []
       		};
-		},
-      	events: [
+		}
+    	, events:[
         {
           title: 'All Day Event',
           start: '2023-03-01'
@@ -79,7 +133,7 @@
         {
           title: 'Long Event',
           start: '2023-01-07',
-          end: '2023-03-10'
+          //end: '2023-03-10'
         },
         {
           groupId: 999,
@@ -101,38 +155,12 @@
           start: '2023-01-12T10:30:00',
           end: '2023-01-12T12:30:00'
         },
-        {
-          title: 'Lunch',
-          start: '2023-01-12T12:00:00'
-        },
-        {
-          title: 'Meeting',
-          start: '2023-01-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2023-01-12T17:30:00'
-        },
-        {
-          title: 'Dinner',
-          start: '2023-01-12T20:00:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2023-01-13T07:00:00'
-        },
-        {
-          title: 'Click for Google',
-          url: 'http://google.com/',
-          start: '2023-01-28'
-        }
       ]
     });
-
-    calendar.render();
+ */
     
   });
-
+ 
 </script>
 
 

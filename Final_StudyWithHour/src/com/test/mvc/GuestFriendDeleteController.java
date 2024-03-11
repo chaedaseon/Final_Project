@@ -17,23 +17,30 @@ public class GuestFriendDeleteController implements Controller
 	{
 		// 액션 코드
 		ModelAndView mav = new ModelAndView();
-		HttpSession session = request.getSession();
 		
 		// 세션 처리과정
+		// 게스트 코드가 있는 경우에만 접근 가능
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("guCode")==null)
+		{
+			// 게스트 코드가 없는 경우 로그인 폼으로 이동
+			mav.setViewName("redirect:loginform.do");
+			return mav;
+		}
+				
 		
 		
 		String guCode = request.getParameter("guCode");
 		String fmCode = request.getParameter("fmCode");
 		
+		GuestDAO dao = new GuestDAO();
 		try
 		{
-			GuestDAO dao = new GuestDAO();
 			
 			dao.connection();
 			
 			dao.friendRemove(guCode, fmCode);
-			
-			dao.close();
 			
 			mav.setViewName("redirect:friendlist.do?guCode="+guCode);
 			
@@ -41,6 +48,10 @@ public class GuestFriendDeleteController implements Controller
 		catch (Exception e) 
 		{
 			System.out.println(e.toString());
+		}
+		finally
+		{
+			dao.close();
 		}
 		
 		return mav;

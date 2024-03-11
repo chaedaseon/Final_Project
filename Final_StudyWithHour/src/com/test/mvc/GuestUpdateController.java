@@ -19,6 +19,16 @@ public class GuestUpdateController implements Controller
 		ModelAndView mav = new ModelAndView();
 		
 		// 세션 처리과정
+		// 게스트 코드가 있는 경우에만 접근 가능
+		HttpSession session = request.getSession();
+		
+		if (session.getAttribute("guCode")==null)
+		{
+			// 게스트 코드가 없는 경우 로그인 폼으로 이동
+			mav.setViewName("redirect:loginform.do");
+			return mav;
+		}
+				
 		
 		// 비밀번호 수정을 눌렀을 때, 수행되는 작업
 		String modifyType = request.getParameter("modifyType");
@@ -29,21 +39,23 @@ public class GuestUpdateController implements Controller
 			String upGuPw = request.getParameter("upGuPw");
 			String guCode = request.getParameter("guCode");
 			
+			GuestDAO dao = new GuestDAO();
 			try
 			{
-				GuestDAO dao = new GuestDAO();
-				
 				dao.connection();
 				
 				dao.modifyPw(upGuPw, guCode);
 				
 				mav.setViewName("redirect:guestmypage.do");
 				
-				dao.close();
 			}
 			catch (Exception e) 
 			{
 				System.out.println(e.toString());
+			}
+			finally
+			{
+				dao.close();
 			}
 		}
 		

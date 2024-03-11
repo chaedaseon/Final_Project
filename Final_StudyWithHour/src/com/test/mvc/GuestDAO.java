@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import sun.security.mscapi.CKeyPairGenerator.RSA;
+
 public class GuestDAO
 {
 	private Connection conn;
@@ -26,7 +28,7 @@ public class GuestDAO
 	}
 	
 	
-	// 회원 가입 (멤버 입력)
+	// 게스트 회원 가입 (멤버 입력)
 	public int add(GuestDTO guestDTO) throws SQLException, ClassNotFoundException
 	{
 		
@@ -76,12 +78,11 @@ public class GuestDAO
 	}
 	
 	// 닉네임 중복 확인 쿼리문
-	public String nickCheck(String guNick) throws ClassNotFoundException, SQLException
+	public int nickCheck(String guNick) throws ClassNotFoundException, SQLException
 	{
+		int result = 0;
 		
-		String result = "";
-		
-		String sql = "SELECT GU_NICK FROM GUEST WHERE GU_NICK = ? ";
+		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST WHERE GU_NICK = ? ";
 	
 		PreparedStatement pstmt = conn.prepareStatement(sql);	
 		pstmt.setString(1, guNick);
@@ -89,7 +90,7 @@ public class GuestDAO
 		
 		if(rs.next())
 		{
-			result = rs.getString("GU_NICK");
+			result = rs.getInt("COUNT");
 		}
 		rs.close();
 		pstmt.close();
@@ -98,7 +99,57 @@ public class GuestDAO
 	
 	}
 	
+	// 개인정보 중복 확인 쿼리문
+	public int infoCheck(String guName, String guSsn, String guTel) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT FROM GUEST_INFO WHERE GU_NAME=? AND GU_TEL=? AND GU_SSN=?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guName);
+		pstmt.setString(2, guTel);
+		pstmt.setString(3, guSsn);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+			
+		rs.close();
+		pstmt.close();
+		
+		return result;
+		
+	}
 	
+	// 비밀번호 일치 여부 확인 쿼리문
+	public int pwCheck(String guCode, String guPwCheck) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT"
+				   + " FROM GUEST WHERE GU_CODE = ?"
+				   + " AND ? = (SELECT CRYPTPACK.ENCRYPT(GU_PW, ?)"
+				   + " FROM GUEST WHERE GU_CODE=?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		pstmt.setString(2, guPwCheck);
+		pstmt.setString(3, guPwCheck);
+		pstmt.setString(4, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
 	
 	
 	// 로그인 쿼리문
@@ -107,16 +158,20 @@ public class GuestDAO
 		
 		String result = "";
 		
-		String sql = "SELECT GU_CODE AS COUNT FROM GUEST WHERE GU_ID = ? AND GU_PW = ?";
+		String sql = "SELECT GU_CODE FROM GUEST WHERE GU_ID = ?"
+				   + " AND ? = (SELECT CRYPTPACK.DECRYPT(GU_PW, ?) FROM GUEST WHERE GU_ID=?)"
+				   + " AND GU_CODE NOT IN (SELECT GU_CODE FROM GUEST_UNREG)";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guId);
 		pstmt.setString(2, guPw);
+		pstmt.setString(3, guPw);
+		pstmt.setString(4, guId);
 		ResultSet rs = pstmt.executeQuery();
 		
 		if(rs.next())
 		{
-			result = rs.getString("COUNT");
+			result = rs.getString("GU_CODE");
 		}
 		rs.close();
 		pstmt.close();
@@ -182,10 +237,9 @@ public class GuestDAO
 	{
 		GuestDTO guest = new GuestDTO();
 
-		String sql = "SELECT G.GU_CODE AS GU_CODE, G.GU_ID AS GU_ID, G.GU_PW AS GU_PW, G.GU_NICK AS GU_NICK"
-				   + ", G.GU_DATE AS GU_DATE, G.CATEGORY_CODE AS CATEGORY_CODE, GI.GU_NAME AS GU_NAME, GI.GU_TEL AS GU_TEL"
-				   + ", GI.GU_SSN AS GU_SSN, GI.GU_EMAIL AS GU_EMAIL FROM GUEST G, GUEST_INFO GI"
-				   + " WHERE G.GU_CODE = GI.GU_CODE AND G.GU_CODE = ?";
+		String sql = "SELECT G.GU_CODE AS GU_CODE, G.GU_ID AS GU_ID, G.GU_NICK AS GU_NICK, G.GU_DATE AS GU_DATE"
+				   + ", G.CATEGORY_CODE AS CATEGORY_CODE, GI.GU_NAME AS GU_NAME, GI.GU_TEL AS GU_TEL, GI.GU_SSN AS GU_SSN"
+				   + ", GI.GU_EMAIL AS GU_EMAIL FROM GUEST G, GUEST_INFO GI WHERE G.GU_CODE = GI.GU_CODE AND G.GU_CODE = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -196,7 +250,6 @@ public class GuestDAO
 		{
 			guest.setGuCode(rs.getString("GU_CODE"));
 			guest.setGuId(rs.getString("GU_ID"));
-			guest.setGuPw(rs.getString("GU_PW"));
 			guest.setGuNick(rs.getString("GU_NICK"));
 			guest.setGuDate(rs.getString("GU_DATE"));
 			guest.setGuCategoryCode(rs.getString("CATEGORY_CODE"));

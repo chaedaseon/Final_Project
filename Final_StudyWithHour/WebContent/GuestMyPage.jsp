@@ -7,10 +7,7 @@
 	String cp = request.getContextPath();
 	
 	/* 게스트 세션 받아오기 */
-	String guCode = (String)session.getAttribute("guCode");
-	GuestDAO guestDao = new GuestDAO();
-	guestDao.connection();
-	GuestDTO guest = guestDao.sessionGuest(guCode);
+	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 	
 	/* 전화번호 문자열 자르기 */
 	String guTel = guest.getGuTel();
@@ -18,6 +15,10 @@
 	String guTel1 = guTel.substring(0,3);
 	String guTel2 = guTel.substring(3,7);
 	String guTel3 = guTel.substring(7,11);	
+	
+	/* 가입일자 문자열 자르기 */
+	String guDate = guest.getGuDate().substring(0,11);
+	
 %>
 
 <!DOCTYPE html>
@@ -41,31 +42,52 @@
 		// 수정하기 버튼(연필 모양)을 누르면 비밀번호 확인 후 수정 페이지로 진입 처리
 		$("#modifyIcon").click(function()
 		{	
+			// 취소, 엑스 버튼으로 닫았다가 다시 모달창 열었을 때, 다시 초기화 처리
+			$("#guPwCheck").val("");
+			$(".descrption").css("display", "flex");		
+			$(".wrongPw").css("display", "none");
+			
 			// 진입하기 위한 비밀번호 확인 처리
 			$("#upGuInfo").click(function()
 			{
 				var guPwCheck = $("#guPwCheck").val();
-				var guPw = "<%=guest.getGuPw() %>";
-				var reset = "";
 				
-				if (guPwCheck == guPw)
-				{
-					$("#modifyPwCheck").modal("hide")				// 비밀번호 확인 모달창 hide 처리
-					
-					$("#modifyIcon").css("display", "none");		// 수정 이모티콘 none 처리
-					$("#Icon").css("display","flex");				// 확인, 취소 이모티콘 display 처리
-					
-					$("#guInfo_list").css("display", "none");		// 정보 div none 처리
-					$("#guUpdateForm").css("display", "flex");		// 수정 div display 처리
-				}
-				else
-				{
-					$("#guPwCheck").val("");						// 이전 입력 내용 reset
-					$("#descrption").css("display", "none");		// 기본 안내 메세지 none 처리
-					$("#wrongPw").css("display", "flex");			// 비밀번호 틀릴 경우 틀렸다는 안내 문구 출력
-				}
+				var info = "userType=guest&check=pw"
+				         + "&guCode=" + <%=guest.getGuCode() %>
+						 + "&guPwCheck=" + $("#guPwCheck").val();
+				$.ajax(
+				{	
+					type:"POST"
+					, url : "checkpw.do"
+					, data:info
+					, success:function(args)
+					{
+						var pwCount = args;  
+						
+						if(pwCount == 1)
+						{
+							$("#modifyPwCheck").modal("hide")				// 비밀번호 확인 모달창 hide 처리
+							
+							$("#modifyIcon").css("display", "none");		// 수정 이모티콘 none 처리
+							$("#Icon").css("display","flex");				// 확인, 취소 이모티콘 display 처리
+							
+							$("#guInfo_list").css("display", "none");		// 정보 div none 처리
+							$("#guUpdateForm").css("display", "flex");		// 수정 div display 처리
+						}
+						else
+						{
+							$("#guPwCheck").val("");						// 이전 입력 내용 reset
+							$("#descrption").css("display", "none");		// 기본 안내 메세지 none 처리
+							$("#wrongPw").css("display", "flex");			// 비밀번호 틀릴 경우 틀렸다는 안내 문구 출력
+						}
+					}
+					, error:function(e)
+					{
+						alert(e.responseText);
+					}
+				})
+				
 			});
-			
 			
 			// 닉네임 유효성 & 중복 확인 처리
 			$("#upGuNick").keyup(function()
@@ -168,22 +190,39 @@
 		$("#unregCheck").click(function()
 		{
 			var unregCheck = $("#unregCheckBox").is(":checked");
-			
+		
 			var checkPw = $("#unregCheckPw").val();		// 사용자가 입력한 비밀번호
-			var guPw = "<%=guest.getGuPw()%>";			// 세션으로 넘어온 비밀번호
 			
-			if (unregCheck == false)
-			{
-				alert("확인 사항에 동의해주십시오.");
-			}
-			else if (checkPw == guPw)
-			{
-				$(location).attr("href","guestunreg.do?reasonCode="+unregReason + "&guCode=" +"<%=guest.getGuCode()%>");
-			}
-			else
-				alert("비밀번호가 일치하지 않습니다.");
-			
-		});
+			var info = "userType=guest&check=pw"
+				     + "&guCode=" + <%=guest.getGuCode() %>
+			     	 + "&guPwCheck=" + checkPw;
+			     	 
+			$.ajax(
+			{	
+				type:"POST"
+				, url : "checkpw.do"
+				, data:info
+				, success:function(args)
+				{
+					var pwCount = args;  
+					
+					if(unregCheck == true)
+					{
+						if(pwCount == 1)
+							$(location).attr("href","guestunreg.do?reasonCode="+unregReason + "&guCode=" +"<%=guest.getGuCode()%>");
+						else
+							alert("비밀번호가 일치하지 않습니다.");
+					}
+					else
+						alert("확인 사항에 동의해주십시오.");
+				}
+				, error:function(e)
+				{
+					alert(e.responseText);
+				}
+			})
+		})
+		
 	};
 		
 </script>
@@ -226,7 +265,7 @@
 						<div id= "Icon" style="display: none; justify-content: flex-end; height: 24px;">
 							<div>
 								
-								<button type="button" class="modifyIcon" id="modifyIcon" data-bs-toggle="modal" data-bs-target="#modifyCheck" style="display: flex; align-items: center;">
+								<button type="button" class="modifyIcon" id="modifyOkIcon" data-bs-toggle="modal" data-bs-target="#modifyCheck" style="display: flex; align-items: center;">
 								<!-- <button type="button" class="modifyIcon" data-bs-toggle="modal" data-bs-target="#modifyPwCheck" style="display: flex; align-items: center;"> -->
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
 										<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -257,7 +296,7 @@
 								반가워요, <span style="color: #94be2c;"><%=guest.getGuName() %></span>님!
 							</div>
 							<div>
-								<span style="font-size: 16px;">가입 일자 : <%=guest.getGuDate()%></span>
+								<span style="font-size: 16px;">가입 일자 : <%=guDate %></span>
 							</div>
 						</div>
 					
@@ -304,9 +343,9 @@
 						</div>
 					
 						<!-- 비밀번호 변경 모달 영역 ------------------------------------------------------------------------------------------->
-						<div class="modal fade" id="modifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="#modifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
 						 	<div class="mod al-dialog modal-dialog-centered">
-						    	<div class="modal-content">
+						    	<div class="modal-content" style="z-index: 1000;">
 						      		<div class="modal-header">
 						        		<h1 class="modal-title fs-5" id="staticBackdropLabel">비밀번호 변경</h1>
 					        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -329,7 +368,7 @@
 								      	</div>
 								      	<div class="modal-footer">
 								        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-								        	<button type="submit" class="btn" style="background-color: #94be2c; color: #ffffff;">변경</button>
+								        	<button type="button" class="btn" style="background-color: #94be2c; color: #ffffff;">변경</button>
 								      	</div>
 									</form>
 						    	</div>

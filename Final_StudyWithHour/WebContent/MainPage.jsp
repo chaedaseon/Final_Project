@@ -1,10 +1,21 @@
+<%@page import="com.test.mvc.AdminDTO"%>
+<%@page import="com.test.mvc.GuestDTO"%>
+<%@page import="com.test.mvc.HostDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	/* 
+	AdminDTO admin = (AdminDTO)session.getAttribute("admin");
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
+	HostDTO host = (HostDTO)session.getAttribute("host");
+	 */
 	
-	
+	String adCode = (String)session.getAttribute("adCode");
+	String guCode = (String)session.getAttribute("guCode");
+	String hoCode = (String)session.getAttribute("hoCode");
+	 
 %>
 <!DOCTYPE html>
 <html>

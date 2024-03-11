@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
 <link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/penaltyListStyle.css">
+<link rel="stylesheet" type="text/css" href="css/guestPageStyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -31,13 +31,30 @@
 			<c:import url="SideMenu.jsp"></c:import>
 		
 			<div class="rightContent_div">
-				<div class="penalty_title">
+				<div class="page_title">
 					<span><span>개인</span> 패널티 내역</span>
 				</div>
 				
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+				   		<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">게시판 신고</button>
+				  	</li>
+				  	<li class="nav-item" role="presentation">
+				    	<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">댓글 신고</button>
+				  	</li>
+				  	<li class="nav-item" role="presentation">
+				    	<button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">대댓글 신고</button>
+				  	</li>
+				</ul>
+				<div class="tab-content" id="myTabContent">
+				  	<div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">...</div>
+				  	<div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">...</div>
+				  	<div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">...</div>
+				  	<div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+				</div>
 				
-				<div class="penalty_list">
-					<table>
+				<div>
+					<table class="penalty_list">
 						<tr>
 							<td colspan="4"></td>
 							<td>

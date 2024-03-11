@@ -45,6 +45,15 @@
 						$(".search_account").css("display", "none");
 						$(".search_result").css("display", "block");
 						$(".search_result_btn").css("display", "block");
+						$(".radio_status").css("display","none");
+						/* 
+						alert(args);
+						alert(resultId);
+						
+						var splitId = resultId.substring(0,4);
+						
+						alert(splitId);
+						 */
 						$("#searchId").html(resultId);
 					}					
 				}
@@ -118,7 +127,7 @@
 							
 							<div class="search_result_btn">
 								<div> 
-									<button type="button" class="signUp" onclick="href.location='searchpwform.do'" style="width: 48%;">비밀번호 찾기</button>
+									<button type="button" class="signUp" onclick="location.href='searchpwform.do?type=pw'" style="width: 48%;">비밀번호 찾기</button>
 									<button type="button" class="signUp" style="width: 48%;">로그인 하기</button>
 								</div>
 							</div>

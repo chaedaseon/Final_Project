@@ -36,13 +36,13 @@ public class SearchAccountController implements Controller
 		String searchPwName = request.getParameter("serachPwName");
 		String searchPwTel = request.getParameter("searchPwTel");
 		 
-		try
+		// 게스트 계정 찾기
+		if (userType.equals("guest"))
 		{
-			// 게스트 계정 찾기
-			if (userType.equals("guest"))
+			GuestDAO dao = new GuestDAO();
+			
+			try
 			{
-				GuestDAO dao = new GuestDAO();
-				
 				dao.connection();
 				
 				if(searchType.equals("id"))
@@ -51,7 +51,8 @@ public class SearchAccountController implements Controller
 					
 					/* request.setAttribute("resultId", resultId); */
 					mav.addObject("resultId", resultId);
-					mav.setViewName("SearchAccount_ajax.jsp");
+					/* mav.setViewName("/WEB-INF/view/SearchId_ajax.jsp"); */
+					mav.setViewName("SearchId_ajax.jsp");
 					return mav;
 				}
 				
@@ -62,18 +63,63 @@ public class SearchAccountController implements Controller
 					int resultPw = dao.searchPw(searchPwId, searchPwName, searchPwTel);
 					
 					mav.addObject("resultPw", resultPw);
-					mav.setViewName("SearchAccount_ajax.jsp");
+					
+					/* mav.setViewName("/WEB-INF/view/SearchPw_ajax.jsp"); */
+					mav.setViewName("SearchPw_ajax.jsp");
 					
 					return mav;
 				}
+				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			finally
+			{
 				dao.close();
 			}
+			
 		}
-		
-		catch(Exception e)
+		// 호스트 계정 찾기
+		if (userType.equals("host"))
 		{
-			System.out.println(e.toString());
+			HostDAO dao = new HostDAO();
+			
+			try
+			{
+				dao.connection();
+				
+				if(searchType.equals("id"))
+				{
+					String resultId = dao.searchId(searchIdName, searchIdTel);
+					
+					/* request.setAttribute("resultId", resultId); */
+					mav.addObject("resultId", resultId);
+					mav.setViewName("SearchId_ajax.jsp");
+					return mav;
+				}
+				if(searchType.equals("pw"))
+				{
+					// 아이디, 이름, 전화번호가 일치하는 정보가 있는지 확인
+					// 있으면 1, 없으면 0
+					int resultPw = dao.searchPw(searchPwId, searchPwName, searchPwTel);
+					
+					mav.addObject("resultPw", resultPw);
+					mav.setViewName("SearchPw_ajax.jsp");
+					
+					return mav;
+				}
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			finally
+			{
+				dao.close();
+			}
+			
 		}
+			
 		return mav;
 	}
 }

@@ -5,7 +5,6 @@
 	String cp = request.getContextPath();
 	
 	String message = request.getParameter("message");
-	
 %>
 <!DOCTYPE html>
 <html>

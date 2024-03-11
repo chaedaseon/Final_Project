@@ -26,17 +26,15 @@ public class LoginController implements Controller
 		String userType = request.getParameter("userType");
 		
 		
-		try
+		// 넘어온 로그인 타입이 관리자일 경우 
+		if(userType.equals("admin"))
 		{
-		
-			// 넘어온 로그인 타입이 관리자일 경우 
-			if(userType.equals("admin"))
+			String adId = request.getParameter("userId");		// 관리자 아이디 = 관리자 코드!
+			String adPw = request.getParameter("userPw");
+			
+			AdminDAO dao = new AdminDAO();
+			try
 			{
-				String adId = request.getParameter("userId");		// 관리자 아이디 = 관리자 코드!
-				String adPw = request.getParameter("userPw");
-				
-				AdminDAO dao = new AdminDAO();
-				
 				dao.connection();
 				
 				String adCode = dao.login(adId, adPw);
@@ -60,17 +58,26 @@ public class LoginController implements Controller
 					mav.setViewName("redirect:loginform.do");
 				}		
 				
-				dao.close();
-				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
 			}
-			// 넘어온 로그인 타입이 게스트일 경우
-			else if (userType.equals("guest"))
-			{	
-				String guId = request.getParameter("userId");
-				String guPw = request.getParameter("userPw");
-				
-				GuestDAO dao = new GuestDAO();
-				
+			finally
+			{
+				dao.close();
+			}
+			
+		}
+		// 넘어온 로그인 타입이 게스트일 경우
+		else if (userType.equals("guest"))
+		{	
+			String guId = request.getParameter("userId");
+			String guPw = request.getParameter("userPw");
+			
+			GuestDAO dao = new GuestDAO();
+			
+			try
+			{
 				dao.connection();
 				
 				String guCode = dao.login(guId, guPw);
@@ -90,16 +97,26 @@ public class LoginController implements Controller
 					mav.setViewName("redirect:loginform.do");
 				}	
 				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			finally
+			{
 				dao.close();
 			}
-			// 넘어온 로그인 타입이 호스트일 경우
-			else if (userType.equals("host"))
+			
+		}
+		// 넘어온 로그인 타입이 호스트일 경우
+		else if (userType.equals("host"))
+		{
+			String hoId = request.getParameter("userId");
+			String hoPw = request.getParameter("userPw");
+			
+			HostDAO dao = new HostDAO();
+			
+			try
 			{
-				String hoId = request.getParameter("userId");
-				String hoPw = request.getParameter("userPw");
-				
-				HostDAO dao = new HostDAO();
-				
 				dao.connection();
 				
 				String hoCode = dao.login(hoId, hoPw);
@@ -119,18 +136,18 @@ public class LoginController implements Controller
 					mav.addObject("message", "error");
 					mav.setViewName("redirect:loginform.do");
 				}
-				
+			} catch (Exception e)
+			{
+				System.out.println(e.toString());
+			}
+			finally
+			{
 				dao.close();
 			}
 			
-		} 
-		catch (Exception e)
-		{
-			// TODO: handle exception
 		}
 		
 		return mav;
-		
 	}
 	
 }

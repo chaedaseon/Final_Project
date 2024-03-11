@@ -44,8 +44,13 @@ public class MemberInsertController implements Controller
 			String guSsn = guSsn1 + guSsn2;
 			String guTel = guTel1 + guTel2 + guTel3;
 		
+			System.out.println(guId);
+			System.out.println(guPw);
+			GuestDAO dao = new GuestDAO();
 			try
 			{
+				dao.connection();
+				
 				// GuestDTO 구성
 				GuestDTO guest = new GuestDTO();
 				
@@ -58,25 +63,27 @@ public class MemberInsertController implements Controller
 				guest.setGuNick(guNick);
 				guest.setGuCategoryCode(guCategoryCode);
 				
-				GuestDAO dao = new GuestDAO();
-				dao.connection();
 				// insert 쿼리문 수행하는 dao의 add() 메소드 호출
 				dao.add(guest);
 				
 				// 회원 가입 이후 로그인 된 상태로 유지하기 위한 세션 처리
 				String guCode = dao.login(guId, guPw);
+				
 				HttpSession session = request.getSession();
 				session.setAttribute("guCode", guCode);	
 				guest = dao.sessionGuest(guCode);
 				session.setAttribute("guest", guest);
 				
-				dao.close();
-				
+				mav.setViewName("redirect:MainPage.jsp");
 			} catch (Exception e)
 			{
 				System.out.println(e.toString());
 			}
-			mav.setViewName("MainPage.jsp");
+			finally
+			{
+				dao.close();
+			}
+			return mav;
 		}
 		
 		// 호스트 회원가입일 경우
@@ -97,9 +104,12 @@ public class MemberInsertController implements Controller
 			// 주민번호랑 전화번호는 나눠서 받기 때문에 결합이 필요함!
 			String hoSsn = hoSsn1 + hoSsn2;
 			String hoTel = hoTel1 + hoTel2 + hoTel3;
-					
+			
+			HostDAO dao = new HostDAO();
 			try
 			{
+				dao.connection();
+				
 				// HostDTO 구성
 				HostDTO host = new HostDTO();
 				
@@ -110,18 +120,28 @@ public class MemberInsertController implements Controller
 				host.setHoTel(hoTel);
 				host.setHoEmail(hoEmail);
 				
-				HostDAO dao = new HostDAO();
-				dao.connection();
 				// insert 쿼리문 수행하는 dao의 add() 메소드 호출
 				dao.add(host);
-				dao.close();
+				
+				// 회원 가입 이후 로그인 된 상태로 유지하기 위한 세션 처리
+				String hoCode = dao.login(hoId, hoPw);
+				
+				HttpSession session = request.getSession();
+				session.setAttribute("hoCode", hoCode);	
+				host = dao.sessionHost(hoCode);
+				session.setAttribute("host", host);
+				
+				/* mav.setViewName("/WEB-INF/view/MainPage.jsp"); */
+				mav.setViewName("redirect:MainPage.jsp");
 				
 			} catch (Exception e)
 			{
 				System.out.println(e.toString());
 			}
-			
-			mav.setViewName("/MainPage.jsp");
+			finally
+			{
+				dao.close();
+			}
 			
 		}
 			

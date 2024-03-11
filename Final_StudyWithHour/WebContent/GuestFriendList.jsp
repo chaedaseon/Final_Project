@@ -7,10 +7,7 @@
 	String cp = request.getContextPath();
 	
 	/* 게스트 세션 받아오기 */
-	String guCode = (String)session.getAttribute("guCode");
-	GuestDAO guestDao = new GuestDAO();
-	guestDao.connection();
-	GuestDTO guest = guestDao.sessionGuest(guCode);
+	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 %>
 
 <!DOCTYPE html>
@@ -64,7 +61,7 @@
 										<td>1</td>
 										<td>${friendList.guFmNick }</td>
 										<td>${friendList.fmDate.substring(0, 11) }</td>
-										<td><a href="frienddelete.do?guCode=<%=guCode %>&fmCode=${friendList.fmCode }">X</a></td>
+										<td><a href="frienddelete.do?guCode=<%=guest.getGuCode() %>&fmCode=${friendList.fmCode }">X</a></td>
 									</tr>
 								</c:if>
 							</c:forEach>
@@ -90,7 +87,7 @@
 										<td>1</td>
 										<td>${friendList.guFmNick }</td>
 										<td>${friendList.fmDate.substring(0, 11) }</td>
-										<td><a href="frienddelete.do?guCode=<%=guCode %>&fmCode=${friendList.fmCode }">X</a></td>
+										<td><a href="frienddelete.do?guCode=<%=guest.getGuCode() %>&fmCode=${friendList.fmCode }">X</a></td>
 									</tr>
 								</c:if>
 							</c:forEach>

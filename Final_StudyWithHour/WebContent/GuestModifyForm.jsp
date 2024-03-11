@@ -7,9 +7,7 @@
 	String cp = request.getContextPath();
 	
 	// 게스트 세션 받아오기
-	String guCode = (String)session.getAttribute("guCode");
-	GuestDAO guestDao = new GuestDAO();
-	GuestDTO guest = guestDao.sessionGuest(guCode);
+	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 %>
 
 <!DOCTYPE html>

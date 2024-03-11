@@ -33,6 +33,30 @@ span > span
 }
 
 
+.paging
+{
+	display: flex;
+	justify-content: center;
+}
+
+.page-link
+{
+	color: #5b5b5b;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #93bc32;
+	background: none;
+	outline-color: #93bc32;
+}
+
+.paging
+{
+	margin-top: 50px;
+}
+
 /*-----------------------마이 캘린더-------------------------*/
 /* 
 table#calendar
@@ -94,6 +118,7 @@ table#calendar tr:nth-child(1)
 {
     border: none;
     background: none;
+    font-size: 16px;
 }
 
 
@@ -228,14 +253,90 @@ table#calendar tr:nth-child(1)
 	display: flex;
     align-items: center;
 }
-/*
-td
-{
-	height: 32px;
-}
-*/
+
 td > button
 {
 	border: none;
 	background: none;
 }
+
+/* 패널티 내역 조회 */
+table.penalty_list
+{
+	width: 100%;
+}
+
+table.penalty_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.penalty_list td
+{
+	font-size: 16px;
+}
+
+table.penalty_list th, td
+{
+	height: 45px;
+}
+
+.penalty_sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+table.penalty_list tr:nth-child(14)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+/* 신고 내역 조회 */
+
+table.red_list
+{
+	width: 100%;
+}
+
+table.red_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.red_list td
+{
+	font-size: 16px;
+}
+
+table.red_list th, td
+{
+	height: 45px;
+}
+
+.red_sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+table.red_list tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+
