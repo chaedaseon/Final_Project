@@ -106,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 특정 회원이 등록한 스터디카페 출력 -->
 	<select id="manageCafe" resultType="com.test.mybatis.StudyCafeDTO">
-	SELECT SC_CODE AS SCCODE, SC_NAME AS SCNAME
+	SELECT SC_CODE AS SCCODE, SC_NAME AS SCNAME, SC_ADDR1  AS SCADDR1, SC_TEL AS SCTEL
 	FROM STUDYCAFE
 	WHERE HO_CODE=#{HOCODE}	
 	</select>

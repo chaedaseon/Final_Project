@@ -26,7 +26,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 관리자 계정 생성 -->
 	<insert id="adminInsert">
 	INSERT INTO ADMIN(AD_CODE, AD_PW, AD_NICK, AD_DATE)
-	VALUES(('ADMIN'||LPAD(TO_CHAR(ADMIN_SEQ.NEXTVAL), 3, '0')), CRYPTPACK.ENCRYPT(#{adPw}, #{adPw}) , '관리자'||TO_CHAR(ADMIN_SEQ.NEXTVAL), SYSDATE)	</insert>
+	VALUES(('ADMIN'||LPAD(TO_CHAR(ADMIN_SEQ.NEXTVAL), 3, '0')), #{adPw} , '관리자'||TO_CHAR(ADMIN_SEQ.NEXTVAL), SYSDATE)
+	</insert>
 	
 	<!-- 관리자 비활성화 -->
 	<insert id="adminState">

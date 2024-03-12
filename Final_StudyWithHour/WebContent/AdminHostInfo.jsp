@@ -85,11 +85,13 @@ function list(currPageNo, range, searchType, keyword)
 						<table class="table ">
 							<tbody>
 								<tr>
-									<th>등록한 스터디 카페</th>
+									<th colspan="3">등록한 스터디 카페</th>
 								</tr>
 								<c:forEach var="cafe" items="${cafeList }">
 								<tr>
 									<td class="text-center"><a href="adminstudycafeinfo.do?scCode=${cafe.scCode }">${cafe.scName }</a></td>
+									<td>${cafe.scAddr1 }</td>
+									<td>${cafe.scTel }</td>
 								</tr>
 								</c:forEach>
 							</tbody>
