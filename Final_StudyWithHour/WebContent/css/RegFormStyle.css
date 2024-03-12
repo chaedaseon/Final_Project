@@ -339,6 +339,17 @@ table.register_table tr:last-child
     width: 200px;
 }
 
+.selectCafe_bar
+{
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	border-radius: 5px;
+	/* margin: 0 0 20px 0; */
+	margin: 20px 5px;
+}
+
+
 
 .regInput
 {
@@ -358,20 +369,88 @@ table.register_table tr:last-child
 
 
 /* 차트 */
-.chart-area {
+.chart-area 
+{
   display: flex; 
 }
-.chart-area > div {
+.chart-area > div 
+{
   width: 50%;
 }
-.chart-info {
+.chart-info 
+{
   padding:0 0 0 45px;
 }
 
-.chart-area {
+.chart-area 
+{
   display: block;
 }
-.chart-area > div {
+.chart-area > div 
+{
   width: auto;
 }
 
+
+/* 스터디카페 예약 */
+.space_list 
+{
+	margin:  0 -13px;
+	margin-bottom: 20px;
+}
+
+.box
+{
+	margin: 0 15px;
+}
+
+.space_div
+{
+	display: inline-flex;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+ .info_area, .imgBox
+{
+    height: 100%;
+    width: 350px;
+}
+
+.infoTxt
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.info_area, .inner 
+{
+    border-bottom: 1px solid #ebebeb;
+}
+
+.info_area.type_border 
+{
+    border-top: 1px solid #ebebeb;
+    border-left: 1px solid #ebebeb;
+    border-right: 1px solid #ebebeb;
+}
+.info_area 
+{
+    padding: 13px 15px 11px;
+    background-color: #fff;
+}
+
+.price
+{
+	color: #94BE2C;
+}
+
+figure.box img
+{
+	transform: scale(1);
+	transition: .5s ease-in-out;
+}
+figure.box:hover img
+{
+	transform: scale(1.3);
+}

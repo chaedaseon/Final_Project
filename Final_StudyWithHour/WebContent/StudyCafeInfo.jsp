@@ -127,10 +127,10 @@
 						<tr class="spacer"></tr>
 					</table>
 					<div style="display: flex; justify-content: flex-end;">
-						<button type="button" class="signUp" onclick="location.href='cafeupdateform.do?scCode=${cafe.scCode}'">수정</button>
+						<button type="button" class="signUp">수정</button>
 						<!-- 버튼 눌러서 모달창 띄우기 -->
 				        <button type="button" class="signUp signUp-del" id="cafeDelete" value="${cafe.scCode }" 
-				        data-bs-toggle="modal" data-bs-target="#staticBackdrop">삭제</button>												
+				        data-bs-toggle="modal" data-bs-target="#staticBackdrop">비활성화</button>												
 					</div>
 					<!---------------------- 스터디카페 내역 end ---------------------->
 					
@@ -139,7 +139,7 @@
 						<h4>스터디룸내역</h4>
 					</div>
 					<div class="overflow">	
-					<form action="caferoominsert.do?scCode=${scCode}" method="post" >
+					<form action="caferoominsert.do?scCode=${cafe.scCode }" method="post" >
 					<table class="overflow_table">
 						<tr class="spacer"></tr>
 						<tr>
@@ -157,34 +157,60 @@
 							<td>${rm.srCount }명</td>
 							<td>${rm.srPrice }원</td>
 							<td>
-								<button type="button" class="tableBtn"data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}">수정</button>
+								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}">수정</button>
 							</td>
 							<td>
-								<button type="button" class="tableBtn" onclick="location.href='caferoomdelete.do?scCode=${scCode}'">비활성화</button>
+								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#deleteRoom${r.index}">비활성화</button>
 							</td>
 						</tr>
-		<!-- 모달 영역 -->
+		<!-- 스터디룸 수정 모달 영역 -->
         <div class="modal fade" id="updateRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRoomLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
+	       <form action="caferoomupdate.do?scCode=${cafe.scCode}" method="post">
             <div class="modal-content">
               <div class="modal-header">
-	            <h1 class="modal-title fs-5" id="redStaticLabel">스터디룸 수정</h1>
+	            <h1 class="modal-title fs-5" id="updateRoomLabel">스터디룸 수정</h1>
 	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	          </div>
               <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
-              	<input type="hidden" name="srCode" value="${rm.srCode }">
-                <input type="text" class="regInput" name="name" required="required" placeholder="${rm.srName }">
-                <select name="srCount" class="regInput">
-                	<option selected="selected" value="${rm.srCount }">${rm.srCount }명</option>
+                <input type="text" class="regInput" name="updateName"placeholder="${rm.srName }">
+                <input type="hidden" name="updateCode" value="${rm.srCode }">
+                <select name="updateCount" class="regInput">
                		<c:forEach var="c" begin="2" end="10" step="1">
-		                <option value="${c}">${c}명</option>
+               			<c:choose>
+	               			<c:when test="${c eq rm.srCount }">
+			                <option selected="selected" value="${c}">${c}명</option>
+			                </c:when>
+			                <c:otherwise>
+			                <option value="${c}">${c}명</option>
+			                </c:otherwise>
+		                </c:choose>
 	                </c:forEach>
 				</select>
-				<input type="text" class="regInput" name="price" placeholder="${rm.srPrice }원">
+				<input type="text" class="regInput" name="updatePrice" placeholder="${rm.srPrice }원">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='caferoomupdate.do?scCode=${cafe.scCode}'">Yes</button>
+                <button type="submit" class="btn btn-primary">Yes</button>
+              </div>
+            </div>
+	       </form>
+          </div>
+        </div>
+		<!-- 스터디룸 비활성화 모달 영역 -->
+        <div class="modal fade" id="deleteRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteRoomLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+	            <h1 class="modal-title fs-5" id="deleteRoomLabel">스터디룸 비활성화</h1>
+	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	          </div>
+              <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
+              	<span>비활성화 철회는 불가합니다. 계속 진행하시겠습니까?</span>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="location.href='caferoomdelete.do?scCode=${cafe.scCode}&srCode=${rm.srCode }'">Yes</button>
               </div>
             </div>
           </div>
@@ -193,11 +219,10 @@
 						<tr>
 							<td>추가등록</td>
 							<td>
-								<input type="text" class="regInput" name="name" required="required">
+								<input type="text" class="regInput" name="roomName">
 							</td>
 							<td>
 								<select name="srCount" class="regInput">
-										<option selected="selected">인원</option>										
 										<option value="2">2명</option>										
 										<option value="3">3명</option>										
 										<option value="4">4명</option>										
@@ -210,7 +235,7 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" class="regInput" name="price" required="required">원
+								<input type="text" class="regInput" name="price">원
 							</td>
 							<td colspan="2" style="text-align: center;">
 								<button type="submit" class="tableBtn" style="height: 30px;">등록</button>
@@ -349,23 +374,23 @@
 			</div>
 		</div>
 		  
-        <!-- 모달 영역 -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header" style="border: none;">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body" style="text-align: center;">
-                정말 삭제하시겠습니까? 삭제 이후 복구는 불가합니다.
-              </div>
-              <div class="modal-footer" style="border: none;">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" onclick="location.href='cafedelete.do?scCode=${cafe.scCode}&hoCode=<%=host.getHoCode()%>'">Yes</button>
-              </div>
-            </div>
-          </div>
-        </div>
+ <!-- 스터디카페 비활성화 모달 영역 -->
+ <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+     <div class="modal-content">
+       <div class="modal-header" style="border: none;">
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body" style="text-align: center;">
+         비활성화 철회는 불가합니다. 계속 진행하시겠습니까?
+       </div>
+       <div class="modal-footer" style="border: none;">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+         <button type="button" class="btn btn-primary" onclick="location.href='cafedelete.do?scCode=${cafe.scCode}&hoCode=<%=host.getHoCode()%>'">Yes</button>
+       </div>
+     </div>
+   </div>
+ </div>
 
 	</section>
 

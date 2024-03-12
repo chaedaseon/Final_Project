@@ -41,6 +41,7 @@ public class CafeDetailController implements Controller
 		ArrayList<CafeDTO> review = new ArrayList<CafeDTO>();
 		ArrayList<CafeDTO> room = new ArrayList<CafeDTO>();
 		int count = 0;
+		int reCount = 0;
 		
 		try
 		{
@@ -54,11 +55,13 @@ public class CafeDetailController implements Controller
 			review = dao.reviewNewLists(scCode, 0, 5);			// 해당 카페 리뷰 내역
 			count = dao.cafeReviewCount(scCode, "scafe", "");	// 해당 카페 리뷰 내역 개수
 			room = dao.roomList(scCode);
+			reCount = dao.roomReserveCount(scCode);
 			
 			mav.addObject("cafe", cafe);
 			mav.addObject("review", review);
 			mav.addObject("count", count);
 			mav.addObject("room", room);
+			mav.addObject("reCount", reCount);
 			mav.addObject("scCode", scCode);
 			
 			mav.setViewName("StudyCafeInfo.jsp");
