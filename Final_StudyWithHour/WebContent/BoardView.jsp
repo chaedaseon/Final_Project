@@ -308,31 +308,31 @@
 												<br>
 												<label for="exampleFormControlInput1" class="form-label" id="reason">신고 사유를 선택하세요</label>
 											</div>
+											<form action="#" method="post">
 											<div id="red_radioBox">
-												<form onsubmit="alert('submit!');return false">
-													<input type="radio" class="btn-check" name="reason_code" id="option1" value="201" autocomplete="off">
-													<label class="btn btn-secondary" for="option1">스팸/홍보 도배글입니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option2" value="202" autocomplete="off">
-													<label class="btn btn-secondary" for="option2">음란물입니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option3" value="203" autocomplete="off">
-													<label class="btn btn-secondary" for="option3">불법정보를 포함하고 있습니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option4" value="204" autocomplete="off">
-													<label class="btn btn-secondary" for="option4">청소년에게 유해한 내용입니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option5" value="205" autocomplete="off">
-													<label class="btn btn-secondary" for="option5">욕설/생명경시/혐오/차별적 표현을 포함하고 있습니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option6" value="206" autocomplete="off">
-													<label class="btn btn-secondary" for="option6">개인정보 노출 게시물입니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option7" value="207" autocomplete="off">
-													<label class="btn btn-secondary" for="option7">불쾌한 표현을 포함하고 있습니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option8" value="208" autocomplete="off">
-													<label class="btn btn-secondary" for="option8">카테고리와 맞지 않는 게시물입니다.</label>
-													<input type="radio" class="btn-check" name="reason_code" id="option9" value="209" autocomplete="off">
-													<label class="btn btn-secondary" for="option9">만남 유도성 개시물입니다.</label>
-												
-													<button type="button" class="btn btn-secondary" id="backBtn" data-bs-dismiss="modal">취소</button>
-													<button type="submit" class="btn btn-secondary" id="submitBtn">신고하기</button>
-												</form>
+												<input type="radio" class="btn-check" name="reason_code" id="option1" value="201" autocomplete="off">
+												<label class="btn btn-secondary" for="option1">스팸/홍보 도배글입니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option2" value="202" autocomplete="off">
+												<label class="btn btn-secondary" for="option2">음란물입니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option3" value="203" autocomplete="off">
+												<label class="btn btn-secondary" for="option3">불법정보를 포함하고 있습니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option4" value="204" autocomplete="off">
+												<label class="btn btn-secondary" for="option4">청소년에게 유해한 내용입니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option5" value="205" autocomplete="off">
+												<label class="btn btn-secondary" for="option5">욕설/생명경시/혐오/차별적 표현을 포함하고 있습니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option6" value="206" autocomplete="off">
+												<label class="btn btn-secondary" for="option6">개인정보 노출 게시물입니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option7" value="207" autocomplete="off">
+												<label class="btn btn-secondary" for="option7">불쾌한 표현을 포함하고 있습니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option8" value="208" autocomplete="off">
+												<label class="btn btn-secondary" for="option8">카테고리와 맞지 않는 게시물입니다.</label>
+												<input type="radio" class="btn-check" name="reason_code" id="option9" value="209" autocomplete="off">
+												<label class="btn btn-secondary" for="option9">만남 유도성 개시물입니다.</label>
+											
+												<button type="button" class="btn btn-secondary" id="backBtn" data-bs-dismiss="modal">취소</button>
+												<button type="submit" class="btn btn-secondary" id="submitBtn">신고하기</button>
 											</div>
+											</form>
 											<div class="warning_msg">
 												<label for="exampleFormControlInput1">
 												※주의※<br> 
@@ -500,11 +500,9 @@
 				</form>
 			</div>
 			<div class="button_box">
-				<button onclick="history.back()" class="btn">목록으로</button>
-				<button type="submit" class="btn">전체글</button>
+				<button onclick="history.back()" class="btn">뒤로가기</button>
+				<button class="btn" onclick="location.href='boardcommunitylist.do?'">목록으로</button>
 			</div>
-			
-				
 			</div>
 		</div>		
 	</div>		
