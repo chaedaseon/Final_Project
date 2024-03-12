@@ -7,7 +7,6 @@ public class GuestCalendarDTO
 	
 	
 	// getter / setter 구성
-
 	public String getGu_code()
 	{
 		return gu_code;
