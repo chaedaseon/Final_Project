@@ -29,21 +29,24 @@
 		$(".groupJoin_button").click(function() 
 		{
 		    // 그룹 가입 버튼(모집글 내용)이 속한 댓글 요소의 값을 가져오기
-		    var grCode = $(this).closest("li").find("input[name=grCode]").val();
-		    var grGuCode = $(this).closest("li").find("input[name=guCode]").val();
-		    var grComment = $(this).closest("li").find("input[name=grComment]").val();
-		    var grLeader = $(this).closest("li").find("input[name=grLeader]").val();
-		    var age = $(this).closest("li").find("input[name=age]").val();
-		    var grName = $(this).closest("li").find("input[name=grName]").val();
-		    var grCount = $(this).closest("li").find("input[name=grCount]").val();
-		    var grSubject = $(this).closest("li").find("input[name=grSubject]").val();
-		    var gender = $(this).closest("li").find("input[name=gender]").val();
+		    var grCode = $(this).closest("li").find("input[name=grCode1]").val();
+		    var grGuCode = $(this).closest("li").find("input[name=guCode1]").val();
+		    var grComment = $(this).closest("li").find("input[name=grComment1]").val();
+		    var grLeader = $(this).closest("li").find("input[name=grLeader1]").val();
+		    var age = $(this).closest("li").find("input[name=age1]").val();
+		    var grName = $(this).closest("li").find("input[name=grName1]").val();
+		    var grCount = $(this).closest("li").find("input[name=grCount1]").val();
+		    var grSubject = $(this).closest("li").find("input[name=grSubject1]").val();
+		    var gender = $(this).closest("li").find("input[name=gender1]").val();
+		    var lsCode = $(this).closest("li").find("input[name=lsCode1]").val();
 		    // 현재 사용자의 guCode 값 가져오기
 		    var ssessionGuCode = $("#ssessionGuCode").val();
 		    
-		    if (ssessionGuCode != grGuCode) {
+		    if (ssessionGuCode != grGuCode) 
+		    {
 		        // 모달에 rpCode 저장 및 모달 열기
 		        $("#groupJoinModal").modal("show");
+		        $("input[name=grCode]").val(grCode);
 		        $("input[name=grComment]").val(grComment);
 		        $("#grComment span").text(grComment);
 		        $("input[name=grLeader]").val(grLeader);
@@ -58,6 +61,8 @@
 		        $("#grSubject span").text(grSubject);
 		        $("input[name=gender]").val(gender);
 		        $("#gender span").text(gender);
+		        $("input[name=lsCode]").val(lsCode);
+		        $("#lsCode span").text(lsCode);
 		    } 
 		    else if(ssessionGuCode == grGuCode)
 		    {
@@ -66,7 +71,29 @@
 		    }
 		});
 	});
-
+	
+	$(function()
+	{
+		$("#joinSubmit").click(function()
+   		{
+			var guCode = $("input[name=guCode]").val();
+			var grCode = $("input[name=grCode]").val();
+        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
+        	
+            $.ajax({
+                url: "groupjoin.do",
+                type: "POST",
+                data: data,
+                dataType: "String",
+                success: function(response) {
+                	alert(response);
+                },
+                error: function(response) {
+                	alert(response);
+				} 
+            });
+   		});
+	})
 </script>
 </head>
 <body>
@@ -75,6 +102,7 @@
 	</header>
 <input type="hidden" id="ssessionGuCode" value="<%=guCode%>"/>
 	<section>
+		<c:import url="/SideMenu.jsp"></c:import>
 		<div id="content">
 			<div class="category_bar">
 				<c:import url="/imageSlide.jsp"></c:import>
@@ -93,20 +121,27 @@
 				</button>
 				
 					<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 row-cols-1 text-center justify-content-center px-xl-6 aos-init aos-animate" id="groupRegList_box">
+					<c:choose>
+						<c:when test="${list == null}">
+			    				<!-- <h5 class="card-title">Light card title</h5> -->
+			    		<div id="null_text" style="text-align: center;"><span>현재 모집중인 그룹이 존재하지 않습니다.</span></div>
+						</c:when>
+						<c:otherwise>
 						<c:forEach var="group" items="${list }">
 						<ul>
 							<li>
 							<div class="col my-4" id="groupReg_one">
 								<div class="card">
-									<input type="hidden" name="grCode" value="${group.grCode }"/>
-									<input type="hidden" name="guCode" value="${group.guCode }"/>
-									<input type="hidden" name="grLeader" value="${group.grLeader }"/>
-						      		<input type="hidden" name="age" value="${group.age }"/>
-						      		<input type="hidden" name="grSubject" value="${group.grSubject }"/>
-						      		<input type="hidden" name="grName" value="${group.grName }"/>
-						      		<input type="hidden" name="grCount" value="${group.grCount }"/>
-						      		<input type="hidden" name="grComment" value="${group.grComment }"/>
-						      		<input type="hidden" name="gender" value="${group.gender }"/>
+									<input type="hidden" name="grCode1" value="${group.grCode }"/>
+									<input type="hidden" name="guCode1" value="${group.guCode }"/>
+									<input type="hidden" name="grLeader1" value="${group.grLeader }"/>
+						      		<input type="hidden" name="age1" value="${group.age }"/>
+						      		<input type="hidden" name="grSubject1" value="${group.grSubject }"/>
+						      		<input type="hidden" name="grName1" value="${group.grName }"/>
+						      		<input type="hidden" name="grCount1" value="${group.grCount }"/>
+						      		<input type="hidden" name="lsCode1" value="${group.lsCode }"/>
+						      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
+						      		<input type="hidden" name="gender1" value="${group.gender }"/>
 									<div class="card-header bg-transparent">${group.grName }
 										<c:choose>
 											<c:when test="${group.dDay == 0}">
@@ -135,8 +170,9 @@
 							</li>
 						</ul>	
 						</c:forEach>
+						</c:otherwise>
+					</c:choose>
 						<!-- 가입 요청 모달 영역 -->
-						<form action="groupjoin.do" method="post">
 						<div class="modal fade" id="groupJoinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered">
 						    <div class="modal-content">
@@ -144,12 +180,12 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body">
-						      
 						      <div id="grLeader">그룹장 : <span></span></div>
 						      <div id="grName">그룹명 : <span></span></div>
 						      <div id="age">연령대 : <span></span></div>
 						      <div id="gender">성별 : <span></span></div>
 						      <div id="grCount">모집 인원 : <span></span>명</div>
+						      <div id="lsCode">지역 : <span></span></div>
 						      <div id="grSubject">활동 분류 : <span></span></div>
 						      <div id="grComment">모집 내용 : <br><span></span></div>
 						      <input type="hidden" name="grCode">
@@ -158,17 +194,17 @@
 						      <input type="hidden" name="age" />
 						      <input type="hidden" name="grName" />
 						      <input type="hidden" name="grCount" />
+						      <input type="hidden" name="lsCode" />
 						      <input type="hidden" name="grSubject" />
 						      <input type="hidden" name="grComment" />
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
-						        <button type="submit" class="btn btn-primary" id="scrapSubmit" >가입하기</button>
+						        <button type="button" class="btn btn-primary" id="joinSubmit" >가입하기</button>
 						      </div>
 						    </div>
 						  </div>
 						</div>
-						</form>
 					</div><!-- 그룹 모집글 영역 end -->
 									
 				<div class="search_div">
@@ -201,6 +237,60 @@
 								<c:if test="${vNum!=lastNum }">
 									<li class="page-item"><a class="page-link" href="boardgroupnew.do?vNum=${lastNum}">&gt;</a></li>
 									<li class="page-item"><a class="page-link" href="boardgroupnew.do?vNum=${vNum+1 }">Next</a></li>
+								</c:if>
+							</ul>
+							</nav>
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:when test="${urlparam == 'boardstudygroupadd'}">
+					<c:choose>
+						<c:when test="${count > 12 }">
+							<nav aria-label="Page navigation example paging" class="paging">
+							<ul class="pagination">
+							<c:if test="${vNum!=1 }">
+								<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=${vNum-1}">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=1">&lt;</a></li>
+							</c:if>
+								<c:forEach var="pageNum" items="${page }">
+									<li class="page-item"><a class="page-link" <c:if test="${pageNum == vNum }"></c:if>
+									href="boardgroupadd.do?vNum=${pageNum }">					
+									${pageNum }
+									</a></li>
+								</c:forEach>
+								<c:if test="${vNum!=lastNum }">
+									<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=${lastNum}">&gt;</a></li>
+									<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=${vNum+1 }">Next</a></li>
+								</c:if>
+							</ul>
+							</nav>
+						</c:when>
+						<c:otherwise>
+						
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:when test="${urlparam == 'boardstudygroupend'}">
+					<c:choose>
+						<c:when test="${count > 12 }">
+							<nav aria-label="Page navigation example paging" class="paging">
+							<ul class="pagination">
+							<c:if test="${vNum!=1 }">
+								<li class="page-item"><a class="page-link" href="boardgroupend.do?vNum=${vNum-1}">Previous</a></li>
+								<li class="page-item"><a class="page-link" href="boardgroupend.do?vNum=1">&lt;</a></li>
+							</c:if>
+								<c:forEach var="pageNum" items="${page }">
+									<li class="page-item"><a class="page-link" <c:if test="${pageNum == vNum }"></c:if>
+									href="boardgroupend.do?vNum=${pageNum }">					
+									${pageNum }
+									</a></li>
+								</c:forEach>
+								<c:if test="${vNum!=lastNum }">
+									<li class="page-item"><a class="page-link" href="boardgroupend.do?vNum=${lastNum}">&gt;</a></li>
+									<li class="page-item"><a class="page-link" href="boardgroupend.do?vNum=${vNum+1 }">Next</a></li>
 								</c:if>
 							</ul>
 							</nav>

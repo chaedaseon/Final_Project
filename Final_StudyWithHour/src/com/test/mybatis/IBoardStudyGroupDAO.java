@@ -14,7 +14,12 @@ public interface IBoardStudyGroupDAO
 {
 	public ArrayList<BoardStudyGroupDTO> list(int vNum);	// 전체 그룹 리스트 조회
 	public ArrayList<BoardStudyGroupDTO> dDaylist(int vNum); // 신규 개설 그룹 리스트 조회
+	public ArrayList<BoardStudyGroupDTO> addList(int vNum); // 신규 개설 그룹 리스트 조회
+	public ArrayList<BoardStudyGroupDTO> endList(int vNum); // 신규 개설 그룹 리스트 조회
 	public int count();									// 전체 그룹 갯수 카운트
-	public int dDayListcount();									// 전체 그룹 갯수 카운트
-	public void insertGroupRegistration(Map<String, Object> params);
+	public int dDayListcount();									// 모집중인 그룹 갯수 카운트
+	public int addListCount();									// 추가모집 그룹 갯수 카운트
+	public int endListCount();									// 모집종료 그룹 갯수 카운트
+	public int insertGroupRegistration(BoardStudyGroupDTO group);	// 모집글 등록
+	public int callGroupJoinProcedure(Map<String, Object> data);	// 가입요청
 }
