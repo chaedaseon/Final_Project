@@ -7,7 +7,7 @@ public interface IGuestCalendarDAO
 {
 	// 게스트 캘린더
 	public ArrayList<GuestCalendarDTO> scheduleList(String guCode);
-	public ArrayList<GuestCalendarDTO> searchSchedule(String guCode, String sch_date);
+	public ArrayList<GuestCalendarDTO> searchSchedule(String gu_code, String sch_date);
 	public int scheduleAdd(GuestCalendarDTO guest);
 	public int scheduleModify(GuestCalendarDTO guest);
 	public int scheduleRemove(String guCode);
