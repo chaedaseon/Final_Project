@@ -88,7 +88,8 @@ public class CafeDAO
 			String sql = "SELECT SC_NAME, SC_CODE, SC_ADDR1, SC_ADDR2, SC_OPENHOUR, SC_CLOSEHOUR, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE"
 					+ " FROM VIEW_CAFEROOM"
 					+ " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
-					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))";
+					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
+					+ " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reserveDate);
@@ -119,25 +120,25 @@ public class CafeDAO
 		}
 		else
 		{
-			reserveDate = "%%";
-			reserveHour1 = "%%";
-			reserveHour2 = "%%";
+			reserveHour1 = "%" + reserveHour1 + "%";
+			reserveHour2 = "%" + reserveHour2 + "%";
 			reserveAddr1 = "%" + reserveAddr1 + "%";
 			reserveAddr2 = "%" + reserveAddr2 + "%";
 			
 			String sql = "SELECT SC_NAME, SC_CODE, SC_ADDR1, SC_ADDR2, SC_OPENHOUR, SC_CLOSEHOUR, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE"
 					  + " FROM VIEW_CAFEROOM"
-					  + " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+					  + " WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?"
+					  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					  + " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
-					  + " AND SC_CODE IN (SELECT SC_CODE FROM VIEW_CAFEROOM WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?)";
+					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reserveDate);
-			pstmt.setString(2, reserveHour1);
-			pstmt.setString(3, reserveHour2);
-			pstmt.setInt(4, Integer.parseInt(reserveCount));
-			pstmt.setString(5, reserveAddr1);
-			pstmt.setString(6, reserveAddr2);
+			pstmt.setInt(1, Integer.parseInt(reserveCount));
+			pstmt.setString(2, reserveAddr1);
+			pstmt.setString(3, reserveAddr2);
+			pstmt.setString(4, reserveDate);
+			pstmt.setString(5, reserveHour1);
+			pstmt.setString(6, reserveHour2);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -175,9 +176,11 @@ public class CafeDAO
 			reserveHour1 = "%%";
 			reserveHour2 = "%%";
 			
-			String sql = "SELECT COUNT(SR_CODE) AS COUNT FROM VIEW_CAFEROOM"
+			String sql = "SELECT COUNT(*) AS COUNT"
+					+ " FROM VIEW_CAFEROOM"
 					+ " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
-					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))";
+					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
+					+ " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, reserveDate);
@@ -195,27 +198,26 @@ public class CafeDAO
 		}
 		else
 		{
-			reserveDate = "%%";
-			reserveHour1 = "%%";
-			reserveHour2 = "%%";
+			reserveHour1 = "%" + reserveHour1 + "%";
+			reserveHour2 = "%" + reserveHour2 + "%";
 			reserveAddr1 = "%" + reserveAddr1 + "%";
 			reserveAddr2 = "%" + reserveAddr2 + "%";
 			
-			String sql = "SELECT COUNT(SR_CODE) AS COUNT"
-					  + " FROM VIEW_CAFEROOM"
-					  + " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+			String sql = "SELECT COUNT(*) AS COUNT"
+					  + " FROM VIEW_CAFEROOM WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?"
+					  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					  + " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
-					  + " AND SC_CODE IN (SELECT SC_CODE FROM VIEW_CAFEROOM WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?)";
+					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, reserveDate);
-			pstmt.setString(2, reserveHour1);
-			pstmt.setString(3, reserveHour2);
-			pstmt.setInt(4, Integer.parseInt(reserveCount));
-			pstmt.setString(5, reserveAddr1);
-			pstmt.setString(6, reserveAddr2);
-			
+			pstmt.setInt(1, Integer.parseInt(reserveCount));
+			pstmt.setString(2, reserveAddr1);
+			pstmt.setString(3, reserveAddr2);
+			pstmt.setString(4, reserveDate);
+			pstmt.setString(5, reserveHour1);
+			pstmt.setString(6, reserveHour2);
 			ResultSet rs = pstmt.executeQuery();
+			
 			if (rs.next())
 			{
 				result = rs.getInt("COUNT");
@@ -1146,8 +1148,9 @@ public class CafeDAO
 	{
 		ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
 		
-		String sql = "SELECT SC_CODE, SC_NAME, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE, RNUM, RE_CODE"
-				+ " FROM VIEW_ROOMINFO WHERE SC_CODE = ?";
+		String sql = "SELECT SC_CODE, SC_NAME, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE, ROWNUM RNUM, RE_CODE, SC_ADDR1"
+				+ ", SC_ADDR2, SC_TEL, SC_OPENHOUR, SC_CLOSEHOUR, SC_CONVENIENT, SC_SURROUND, SC_CAUTION, SC_DETAIL, SC_DATE"
+				+ " FROM VIEW_ROOMINFO WHERE SC_CODE = ? AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG) ORDER BY SR_CODE";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, scCode);
@@ -1163,6 +1166,60 @@ public class CafeDAO
 			dto.setSrName(rs.getString("SR_NAME"));
 			dto.setSrCount(rs.getInt("SR_COUNT"));
 			dto.setSrPrice(rs.getInt("SR_PRICE"));
+			dto.setReCode(rs.getString("RE_CODE"));
+			dto.setScAddr1(rs.getString("SC_ADDR1"));
+			dto.setScAddr2(rs.getString("SC_ADDR2"));
+			dto.setScTel(rs.getString("SC_TEL"));
+			dto.setScOpenHour(rs.getString("SC_OPENHOUR"));
+			dto.setScCloseHour(rs.getString("SC_CLOSEHOUR"));
+			dto.setScConvenient(rs.getString("SC_CONVENIENT"));
+			dto.setScSurround(rs.getString("SC_SURROUND"));
+			dto.setScCaution(rs.getString("SC_CAUTION"));
+			dto.setScDetail(rs.getString("SC_DETAIL"));
+			dto.setScDate(rs.getString("SC_DATE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 스터디룸 조회
+	public ArrayList<CafeDTO> roomInfoList(String srCode) throws SQLException
+	{
+		ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
+		
+		String sql = "SELECT SC_CODE, SC_NAME, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE, ROWNUM RNUM, SC_ADDR1"
+				+ ", SC_ADDR2, SC_TEL, SC_OPENHOUR, SC_CLOSEHOUR, SC_CONVENIENT, SC_SURROUND, SC_CAUTION, SC_DETAIL, SC_DATE"
+				+ " FROM VIEW_ROOMINFO WHERE SR_CODE = ? AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG) ORDER BY SR_CODE";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, srCode);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			CafeDTO dto = new CafeDTO();
+			
+			dto.setrNum(rs.getString("RNUM"));
+			dto.setScCode(rs.getString("SC_CODE"));
+			dto.setScName(rs.getString("SC_NAME"));
+			dto.setSrCode(rs.getString("SR_CODE"));
+			dto.setSrName(rs.getString("SR_NAME"));
+			dto.setSrCount(rs.getInt("SR_COUNT"));
+			dto.setSrPrice(rs.getInt("SR_PRICE"));
+			dto.setScAddr1(rs.getString("SC_ADDR1"));
+			dto.setScAddr2(rs.getString("SC_ADDR2"));
+			dto.setScTel(rs.getString("SC_TEL"));
+			dto.setScOpenHour(rs.getString("SC_OPENHOUR"));
+			dto.setScCloseHour(rs.getString("SC_CLOSEHOUR"));
+			dto.setScConvenient(rs.getString("SC_CONVENIENT"));
+			dto.setScSurround(rs.getString("SC_SURROUND"));
+			dto.setScCaution(rs.getString("SC_CAUTION"));
+			dto.setScDetail(rs.getString("SC_DETAIL"));
+			dto.setScDate(rs.getString("SC_DATE"));
 			
 			result.add(dto);
 		}
@@ -1267,7 +1324,9 @@ public class CafeDAO
 	{
 		int result = 0;
 		
-		String sql = "SELECT COUNT(RE_CODE) AS COUNT FROM VIEW_ROOMINFO WHERE SR_CODE = ?";
+		String sql = "SELECT COUNT(*) AS COUNT"
+				+ " FROM VIEW_ROOMINFO WHERE RE_CODE IN (SELECT RE_CODE FROM RESERVATION WHERE RE_STARTDATE >= SYSDATE AND SR_CODE = ?)"
+				+ " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, srCode);
 		ResultSet rs = pstmt.executeQuery();
@@ -1282,6 +1341,119 @@ public class CafeDAO
 		return result;
 	}
 	
+	// 지역 내역 조회
+	public ArrayList<GroupDTO> lfList() throws SQLException
+	{
+		ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+		
+		String sql = "SELECT LF_CODE, LF_LIST FROM LOCATION_FIRST";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			GroupDTO dto = new GroupDTO();
+			
+			dto.setLfCode(rs.getString("LF_CODE"));
+			dto.setLfList(rs.getString("LF_LIST"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 지역 분류 검색 
+	public String searchLf(String lfList) throws SQLException
+	{
+		String result = "";
+		
+		if (lfList == null)
+			lfList = "서울";
+		
+		String sql = "SELECT LF_CODE FROM LOCATION_FIRST WHERE LF_LIST = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, lfList);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			result = rs.getString("LF_CODE");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 지역 소분류 내역 조회
+	public ArrayList<GroupDTO> lsList(String lfCode) throws SQLException
+	{
+		ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+		
+		if(lfCode==null)
+			lfCode = "1";
+		
+		String sql = "SELECT LS_CODE, LS_LIST FROM LOCATION_SECOND WHERE LF_CODE = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, lfCode);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			GroupDTO dto = new GroupDTO();
+			dto.setLsCode(rs.getString("LS_CODE"));
+			dto.setLsList(rs.getString("LS_LIST"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 지역 분류 검색 
+	public String searchLs(String lsList) throws SQLException
+	{
+		String result = "";
+		
+		String sql = "SELECT LS_CODE FROM LOCATION_SECOND WHERE LS_LIST = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, lsList);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			result = rs.getString("LS_CODE");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 스터디룸별 후기 내역
+	public int roomReviewCount(String srCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT FROM VIEW_REVIEW WHERE ? IN (SELECT SR_CODE FROM STUDYROOM)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, srCode);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
 		
 		
 }

@@ -36,6 +36,9 @@ public class CafeDTO
 	private String hrCode, hrDate, reasonCode, redCode, hrdDate, reason, redState, grCode, hrState;
 	
 	
+	
+	
+	
 	// getter / setter 구성 -------------------------------------------------------------------------------------		
 	public String getScCode()
 	{

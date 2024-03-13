@@ -1,5 +1,5 @@
 /*==================================
-	GroupReserveSearchFormController.java
+	GroupReserveFormController.java
 	- 사용자 정의 컨트롤러 클래스
 ===================================*/
 
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
-public class GroupReserveSearchFormController implements Controller
+public class GroupReserveFormController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -42,48 +42,41 @@ public class GroupReserveSearchFormController implements Controller
 		*/
 		
 		CafeDAO dao = new CafeDAO();
-		ArrayList<CafeDTO> lists = new ArrayList<CafeDTO>();
-		ArrayList<GroupDTO> lfList = new ArrayList<GroupDTO>();
-		int count = 0;
-		String lsCode = "";
+		ArrayList<CafeDTO> cafe = new ArrayList<CafeDTO>();
 		
 		try
 		{
-			dao.connection();
-			
-			// 이전 페이지로부터 넘어온 데이터 수신
-			//-- 검색(예약날짜, 지역1, 지역2, 이용시작시간, 이용종료시간, 인원수), 지역코드
+			String grCode = request.getParameter("grCode");
+			String srCode = request.getParameter("srCode");
+			String scCode = request.getParameter("scCode");
 			String reserveDate = request.getParameter("reserveDate");
 			String reserveAddr1 = request.getParameter("reserveAddr1");
 			String reserveAddr2 = request.getParameter("reserveAddr2");
 			String reserveHour1 = request.getParameter("reserveHour1");
 			String reserveHour2 = request.getParameter("reserveHour2");
 			String reserveCount = request.getParameter("reserveCount");
-			String lfCode = request.getParameter("lfCode");
 			
-			// 검색에 따른 스터디룸 내역 조회
-			lists = dao.searchLists(reserveDate, reserveAddr1, reserveAddr2, reserveHour1, reserveHour2, reserveCount);
-			// 검색에 따른 스터디룸 개수 조회
-			count = dao.cafeCount(reserveDate, reserveAddr1, reserveAddr2, reserveHour1, reserveHour2, reserveCount);
-			// 지역 검색을 위한 지역 대분류 내역 조회
-			lfList = dao.lfList();
-			// 게스트가 선택한 지역에 따른 지역 중분류 내역 조회
-			lsCode = dao.searchLs(reserveAddr2);
+			dao.connection();
 			
+			cafe = dao.roomInfoList(srCode);
+			
+			System.out.println(scCode);
+			System.out.println(srCode);
+			System.out.println(reserveDate);
+			System.out.println(reserveAddr1);
+			System.out.println(reserveAddr2);
+			System.out.println(reserveHour1);
+			System.out.println(reserveHour2);
+			System.out.println(reserveCount);
+			
+			mav.addObject("cafe", cafe);
 			mav.addObject("reserveDate", reserveDate);
 			mav.addObject("reserveAddr1", reserveAddr1);
 			mav.addObject("reserveAddr2", reserveAddr2);
 			mav.addObject("reserveHour1", reserveHour1);
 			mav.addObject("reserveHour2", reserveHour2);
 			mav.addObject("reserveCount", reserveCount);
-			mav.addObject("count", count);
-			mav.addObject("lists", lists);
-			mav.addObject("lfList", lfList);
-			mav.addObject("lsCode", lsCode);
-			mav.addObject("lfCode", lfCode);
-			
-			mav.setViewName("Reservation.jsp");
-			//mav.setViewName("/WEB-INF/view/Reservation.jsp");
+			mav.setViewName("ReservationInfo.jsp");
 			
 			dao.close();
 			
@@ -92,6 +85,7 @@ public class GroupReserveSearchFormController implements Controller
 			System.out.println(e.toString());
 		}
 				
+		
 		return mav;
 		
 	}

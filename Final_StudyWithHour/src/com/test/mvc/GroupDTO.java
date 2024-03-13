@@ -29,7 +29,13 @@ public class GroupDTO
 	
 	// 모임 관련 속성
 	private String gschCode, gschDate, gschName, gschContent, gschLocation, gschStartHour, gschEndHour, attState, gschRegDate;
-
+	
+	// 그룹 정보 관련 속성
+	private String grDate, grSubject, grComment, ageCode, genderCode, categoryCode, goCode, ageRange, genderRange, goCheck, gpCode;
+	private int grCount, groupPw;
+	
+	// 지역 관련 속성 → Location_First / Location_Second
+	private String lfCode, lfList, lsCode, lsList;
 	
 	
 	// getter / setter 구성	-----------------------------------------------------------------------
@@ -40,6 +46,142 @@ public class GroupDTO
 	public void setRvCode(String rvCode)
 	{
 		this.rvCode = rvCode;
+	}
+	public String getLfCode()
+	{
+		return lfCode;
+	}
+	public void setLfCode(String lfCode)
+	{
+		this.lfCode = lfCode;
+	}
+	public String getGrDate()
+	{
+		return grDate;
+	}
+	public void setGrDate(String grDate)
+	{
+		this.grDate = grDate;
+	}
+	public String getGrSubject()
+	{
+		return grSubject;
+	}
+	public void setGrSubject(String grSubject)
+	{
+		this.grSubject = grSubject;
+	}
+	public String getGrComment()
+	{
+		return grComment;
+	}
+	public void setGrComment(String grComment)
+	{
+		this.grComment = grComment;
+	}
+	public String getAgeCode()
+	{
+		return ageCode;
+	}
+	public void setAgeCode(String ageCode)
+	{
+		this.ageCode = ageCode;
+	}
+	public String getGenderCode()
+	{
+		return genderCode;
+	}
+	public void setGenderCode(String genderCode)
+	{
+		this.genderCode = genderCode;
+	}
+	public String getLsCode()
+	{
+		return lsCode;
+	}
+	public void setLsCode(String lsCode)
+	{
+		this.lsCode = lsCode;
+	}
+	public String getCategoryCode()
+	{
+		return categoryCode;
+	}
+	public void setCategoryCode(String categoryCode)
+	{
+		this.categoryCode = categoryCode;
+	}
+	public String getGoCode()
+	{
+		return goCode;
+	}
+	public void setGoCode(String goCode)
+	{
+		this.goCode = goCode;
+	}
+	public String getAgeRange()
+	{
+		return ageRange;
+	}
+	public void setAgeRange(String ageRange)
+	{
+		this.ageRange = ageRange;
+	}
+	public String getGenderRange()
+	{
+		return genderRange;
+	}
+	public void setGenderRange(String genderRange)
+	{
+		this.genderRange = genderRange;
+	}
+	public String getLsList()
+	{
+		return lsList;
+	}
+	public void setLsList(String lsList)
+	{
+		this.lsList = lsList;
+	}
+	public String getLfList()
+	{
+		return lfList;
+	}
+	public void setLfList(String lfList)
+	{
+		this.lfList = lfList;
+	}
+	public String getGoCheck()
+	{
+		return goCheck;
+	}
+	public void setGoCheck(String goCheck)
+	{
+		this.goCheck = goCheck;
+	}
+	public String getGpCode()
+	{
+		return gpCode;
+	}
+	public void setGpCode(String gpCode)
+	{
+		this.gpCode = gpCode;
+	}
+	public int getGrCount()
+	{
+		return grCount;
+	}
+	public void setGrCount(int grCount)
+	{
+		this.grCount = grCount;
+	}
+	public int getGroupPw()
+	{
+		return groupPw;
+	}
+	public void setGroupPw(int groupPw)
+	{
+		this.groupPw = groupPw;
 	}
 	public String getGschRegDate()
 	{
