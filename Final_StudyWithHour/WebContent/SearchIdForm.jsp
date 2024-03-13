@@ -38,23 +38,26 @@
 				, data:info
 				, success:function(args)
 				{
-					var resultId = args;
+					var result = args;
 					
-					if (resultId != null)
+					if (result != null)
 					{
 						$(".search_account").css("display", "none");
 						$(".search_result").css("display", "block");
 						$(".search_result_btn").css("display", "block");
 						$(".radio_status").css("display","none");
-						/* 
-						alert(args);
-						alert(resultId);
 						
-						var splitId = resultId.substring(0,4);
+						//alert(typeof resultId);
+						//alert(resultId.substring(0,7));
 						
-						alert(splitId);
-						 */
-						$("#searchId").html(resultId);
+						//alert(result.substring(0,7));
+						
+						//alert(result.replaceAll(result.substring(7), "*"));
+						
+						
+						//var resultId = result.substring(0,7) + result.substring(7).replaceAll('*');
+						
+						$("#searchId").html(result);
 					}					
 				}
 				, error:function(e)

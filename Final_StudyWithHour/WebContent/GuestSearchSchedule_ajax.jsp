@@ -5,25 +5,22 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-
+	
 	String gu_code = request.getParameter("gu_code");
 	
-	ArrayList<GuestCalendarDTO> scheduleList = (ArrayList<GuestCalendarDTO>) request.getAttribute("list");
-	/*
-	String schName = "";
-	String schContent = "";
-	String schDate = "";
-	*/
+	ArrayList<GuestCalendarDTO> scheduleList = (ArrayList<GuestCalendarDTO>) request.getAttribute("schedulelist");
+
 	String result = "";
 	
 	for (GuestCalendarDTO schedule : scheduleList) 
 	{
+		
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("{\"sch_code\":\"" + schedule.getSch_code() + "\"");
 		sb.append(",\"sch_name\":\"" + schedule.getSch_name() + "\"");
 		sb.append(",\"sch_content\":\"" + schedule.getSch_content() + "\"");
-		sb.append(",\"sch_date\":\"" + schedule.getSch_date().substring(0,11) + "\"},");
+		sb.append(",\"sch_date\":\"" + schedule.getSch_date() + "\"},");
 		
 		result += sb.toString();
 	}
@@ -35,5 +32,4 @@
 	result = "[" + result + "]";
 	
 	out.println(result);
-	
 %>

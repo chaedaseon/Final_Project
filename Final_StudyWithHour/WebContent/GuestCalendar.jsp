@@ -78,24 +78,23 @@
 	    for (i = 1; i <= lastDate.getDate(); i++) // 1일부터 마지막 일까지
 	    { 
 	        cell = row.insertCell();
-	        cell.innerHTML = "<div class='date'><a href='#' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
+	        cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></button></div>";
 	        cell.className = "div_date"
 	        cnt = cnt + 1;
 	        if (cnt % 7 == 1)		//일요일 계산 
 	        {
-	        	cell.innerHTML = "<div class='date'><a href='#' style='color: #ff8282;' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
-	           					
+	        	cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #ff8282' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
 	            cell.className = "div_date"
 	        }
 	        if (cnt % 7 == 0) 		// 1주일이 7일 이므로 토요일 계산
 	        { 
-	            cell.innerHTML = "<div class='date'><a href='#' style='color: #62b0ff;' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
+	            cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #62b0ff' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
 	            cell.className = "div_date"
 	            	
 	            row = calendar.insertRow();// 줄 추가
 	        }
 	    }
-		
+
 		var info = "gu_code=<%=guest.getGuCode()%>";
 	    $.ajax(
 	    {
@@ -105,26 +104,50 @@
 	    	, dataType :"json"
 	    	, success:function(jsonObj)
 	    	{
-	    		
 	    		for (var idx=0; idx<jsonObj.length; idx++)
 	    		{
 	    			var sch_name = jsonObj[idx].sch_name;
 	    			var sch_content = jsonObj[idx].sch_content;
 	    			var sch_date = jsonObj[idx].sch_date;
 	    			
-	    			
 	    			for(var i=1; i<lastDate.getDate(); i++)
 	    			{
-	    				if(today.getFullYear()==sch_date.substring(0,4)
-    						&&(String(today.getMonth()+1).padStart(2, '0'))==sch_date.substring(5,7)
-    						&&(String(i).padStart(2,'0'))==sch_date.substring(8,10))
+	    				var year = today.getFullYear();
+	    				var month = String(today.getMonth()+1).padStart(2, '0');
+	    				var day = String(i).padStart(2,'0');
+	    				
+	    				if(year==sch_date.substring(0,4) && month==sch_date.substring(5,7) && day==sch_date.substring(8,10))
 	    				{
-
 	    					var cell = document.getElementById("date_" + sch_date.substring(8, 10)); // 각 날짜에 해당하는 셀 가져오기
 	   						cell.innerHTML += "<div class='sch_name'>" + sch_name.substring(0,6) + "</div>";
+	   						
+	   						if((String(today.getDate()).padStart(2, '0'))== i)
+	   						{
+	   							var out = "";
+								
+								out += "<div class='guestSchedule'>";
+								out += "<button type='button' class='schedule_modifyBtn' data-bs-toggle='modal' data-bs-target='#modifySchedule'>";
+								out += "<div class='schName'>";
+								out += "<span>" + sch_name + "</span>";
+								out += "</div>"; 
+								out += "<div class='schContent'>"+sch_content+"</div>";
+								out += "</button>";
+								out += "</div>";
+							
+				    			$("#resultDiv").append(out);
+				    			
+								$("#datepicker2").val(sch_date.substring(0,10));
+								$("#upSch_name").val(sch_name);
+								$("#upSch_content").val(sch_content);
+	   						}
+	   						
 	    				}
 	    			}
 	    		}
+	    		// 페이지가 처음 로드될 때에는 오늘 날짜 출력
+	    		$("#resultMonth").html(String(today.getMonth()+1).padStart(2, '0'));
+				$("#resultDay").html(String(today.getDate()).padStart(2, '0'));
+				
 	    	}
 	    	, error:function(e)
 	    	{
@@ -133,19 +156,96 @@
     	});
 	}
 	
-	// 일정 추가 모달
+	
+	// 날짜 선택 시, 해당하는 일정 출력
+	function datefn(buttonId)
+	{
+		var year = today.getFullYear();
+		var month = String(today.getMonth()+1).padStart(2, '0');
+		var day = buttonId.substring(5,7);
+		
+		var info = "gu_code=<%=guest.getGuCode()%>&sch_date="+year+"-"+month+"-"+day;
+		
+	    $.ajax(
+	    {
+	    	type:"GET"
+	    	, url:"searchschedule.do"
+	    	, data:info
+	    	, dataType :"json"
+	    	, success:function(jsonObj)
+	    	{
+    			var out = "";
+	    		for (var idx=0; idx<jsonObj.length; idx++)
+	    		{
+	    			var sch_code = jsonObj[idx].sch_code;
+	    			var sch_name = jsonObj[idx].sch_name;
+	    			var sch_content = jsonObj[idx].sch_content;
+	    			var sch_date = jsonObj[idx].sch_date;
+	    			
+    				if(year==sch_date.substring(0,4)&&month==sch_date.substring(5,7)&&(day==sch_date.substring(8,10)))
+    				{
+    					out += "<div class='guestSchedule'>";
+    					out += "<button type='button' class='schedule_modifyBtn' data-bs-toggle='modal' data-bs-target='#modifySchedule'>";
+    					out += "<div class='schName'>";
+    					out += "<span>" + sch_name + "</span>";
+    					out += "</div>"; 
+    					out += "<div class='schContent'>"+sch_content+"</div>";
+    					out += "</button>";
+    					out += "</div>";
+    				}
+					
+					$("#resultDiv").html(out);
+					$("#resultMonth").html(month);
+					$("#resultDay").html(day);
+					$("#schCodeHidden").val(sch_code);
+					$("#datepicker2").val(sch_date.substring(0,10));
+					$("#upSch_name").val(sch_name);
+					$("#upSch_content").val(sch_content);
+					
+	    		}
+	    	}
+	    	, error:function(e)
+	    	{
+	    		$("#resultDiv").html("등록된 일정이 없습니다.");
+	    	}
+    	});
+		
+	}
+	
+	// 일정 추가 모달에 사용되는 datepicker
 	$(function()
 	{
-        $('#datepicker').datepicker();
-     })
+        $('#datepicker1').datepicker();
+     });
 	
+	$(function()
+	{
+        $('#datepicker2').datepicker();
+     });
+ 
 	
+	// 일정 수정 버튼 클릭시 수행
+ 	function deleteSchedule() 
+	{
+        var schCode = $("#schCodeHidden").val();
+        var deleteUrl = "guestscheduledelete.do?gu_code=<%=guest.getGuCode() %>&sch_code=" + schCode;
+        
+        $("#scheduleModifyForm").attr("action", deleteUrl);
+        $("#scheduleModifyForm").submit();
+    }
 	
-	
-
+ 	function updateSchedule() 
+ 	{
+ 		var schCode = $("#schCodeHidden").val();
+        var updateUrl = "guestscheduleupdate.do?gu_code=<%=guest.getGuCode()%>";
+        
+        $("#scheduleModifyForm").attr("action", updateUrl);
+        $("#scheduleModifyForm").submit();
+        
+    }
+ 
 </script>
 </head>
-
 
 <body onload="build();">
 
@@ -177,7 +277,7 @@
 							            </div>
 							            
 							            <div class="addBtn_div">
-					            			<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#addSchedule">일정 등록</button>
+					            			<button type="button" class="addBtn" data-bs-toggle="modal" data-bs-target="#addSchedule">등록</button>
 					            		</div>
 					            		
 					            	</div>
@@ -205,24 +305,24 @@
 					        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      		</div>
 						      		
-						      		<div class="modal-body" style="height: 120px; display: flex; flex-direction: column; justify-content: space-around;">
+						      		<div class="modal-body" id="schmodify_modal_body">
 						        		
 						        		<table>
 						        			<tr>
 						        				<td>
-						        					<span id="descrption">일자를 선택해주세요.</span>
+						        					<span id="descrption">일자</span>
 						        				</td>
 						        				<td>
-						        					<input type="date" id="datepicker" name="sch_date">
+						        					<input type="date" id="datepicker1" name="sch_date" required="required">
 						        				</td>
 						        			</tr>
 						        			<tr>
 						        				<td>일정명</td>
-						        				<td><input type="text" name="sch_name"/></td>
+						        				<td><input type="text" name="sch_name" required="required"></td>
 						        			</tr>
 						        			<tr>
 						        				<td>내용</td>
-						        				<td><input type="text" name="sch_content"/></td>
+						        				<td><input type="text" name="sch_content" required="required"></td>
 						        			</tr>
 						        		
 						        		</table>
@@ -239,7 +339,7 @@
 								      	
 							      	<div class="modal-footer">
 							        	<button type="button" class="btn btn-secondary" id="upGuInfoClose" data-bs-dismiss="modal">취소</button>
-							        	<button type="submit" class="btn" id="upGuInfo" style="background-color: #94be2c; color: #ffffff;">등록</button>
+							        	<button type="submit" class="btn" style="background-color: #94be2c; color: #ffffff;">등록</button>
 							      	</div>
 						    	</div>
 						    	</form>
@@ -249,30 +349,17 @@
 					</div>
 				</div>
 				
-				
-				<div style="margin-top: 35px;">
-					<span style="font-size: 30px; display: flex; justify-content: center; margin-bottom: 20px;">📆오늘의 일정</span>
-					<c:forEach var="calendar" items="${list }">
-						<fmt:parseDate value="${calendar.sch_date}" var="sch_date" pattern="yyyy-MM-dd HH:mm:ss" />
-						<fmt:formatDate value="${sch_date}" pattern="yyyy-MM-dd" var="date" />
-						<c:if test="${date eq today}">
-							<div style="border-left: 3px solid #94be2c; margin-bottom: 30px; width: 300px; height: 50px;">
-								<button type="button" id="schedule_modifyBtn" data-bs-toggle="modal" data-bs-target="#modifySchedule">
-									<div style="font-size: 18px; text-align: left;">
-										<span style="margin-left: 10px;">${calendar.sch_name }</span>
-									</div>
-									<div style="font-size: 14px; margin-left: 10px; text-align: left;">
-										${calendar.sch_content }
-									</div>
-								</button>
-							</div>
-						</c:if>
+				<div class="guestSchedule_div">
+					<span>📆<span id="resultMonth"></span>월 <span id="resultDay"></span>일</span>
+					
+					<div id="resultDiv"></div>
 						
-						
-						<!-- 일정 수정 및 삭제 모달 ----------------------------------------------------------->
-						<div class="modal fade" id="modifySchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-						 	<div class="modal-dialog modal-dialog-centered">
-						 	<form action="guestscheduleupdate.do?gu_code=<%=guest.getGuCode() %>" method="POST" id="scheduleForm">
+					<!-- 일정 수정 및 삭제 모달 ----------------------------------------------------------->
+					<div class="modal fade" id="modifySchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					 	<div class="modal-dialog modal-dialog-centered">
+					 		<form method="POST" id="scheduleModifyForm">
+			        		<input type="hidden" id="schCodeHidden" name="sch_code" value="" />
+				        		
 						    	<div class="modal-content" style="height: 300px;">
 						      		<div class="modal-header">
 						        		<h1 class="modal-title fs-5" id="staticBackdropLabel">일정 수정 및 삭제</h1>
@@ -280,58 +367,38 @@
 						      		</div>
 						      		
 						      		<div class="modal-body" style="height: 120px; display: flex; flex-direction: column; justify-content: space-around;">
-						        		
 						        		<table>
 						        			<tr>
 						        				<td>
-						        					<span id="descrption">일자를 선택해주세요.</span>
+						        					<span id="descrption">일자</span>
 						        				</td>
 						        				<td>
-						        					<input type="date" id="datepicker" name="sch_date" value="${calendar.sch_date}">
+						        					<input type="date" id="datepicker2" name="sch_date" required="required">
 						        				</td>
 						        			</tr>
 						        			<tr>
 						        				<td>일정명</td>
-						        				<td><input type="text" name="sch_name" value="${calendar.sch_name }"></td>
+						        				<td><input type="text" id="upSch_name" name="sch_name" required="required" value=""></td>
 						        			</tr>
 						        			<tr>
 						        				<td>내용</td>
-						        				<td><input type="text" name="sch_content" value="${calendar.sch_content }"/></td>
+						        				<td><input type="text" id="upSch_content" name="sch_content" required="required" value=""></td>
 						        			</tr>
-						        		
 						        		</table>
-						        		
-						        		<span id="wrongPw" style="display: none; flex-direction: column; align-items: center;"><span style="color: red;">비밀번호가 일치하지 않습니다.</span>다시 입력해주세요. </span>
-							        	<!-- 
-							        	<div class="modal_form" style="margin-top: 10px; display: flex; justify-content: center;">
-							        	
-											<input type="password" style="width: 250px;" class="modify_text" id="guPwCheck" name="guPwCheck" placeholder="비밀번호를 입력해주세요">
-											
-										</div>
-										 -->
 							      	</div>
 								      	
 							      	<div class="modal-footer">
-							        	<button type="button" class="btn btn-secondary" id="upGuInfoClose" data-bs-dismiss="modal">삭제</button>
-							        	<button type="submit" class="btn" id="upGuInfo" style="background-color: #94be2c; color: #ffffff;">수정</button>
+							        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteSchedule()">삭제</button>
+							        	<button type="button" class="btn" style="background-color: #94be2c; color: #ffffff;" onclick="updateSchedule()">수정</button>
 							      	</div>
 						    	</div>
-						    	</form>
-						 	 </div>
-						</div>
-						<!-- 일정 수정 및 삭제 모달 end---------------------------------------------------------------------->
-								
-						
-					</c:forEach>
-			    </div>
-			    
-			    
-			    
-			    
+				    		</form>
+				 	 	</div>
+					</div>
+					<!-- 일정 수정 및 삭제 모달 end---------------------------------------------------------------------->
+				</div>
 			</div>
-			
 		</div>
-		
 	</div>
 </section>
 
