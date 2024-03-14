@@ -63,8 +63,13 @@
         		</button>
         		<div class="collapse" id="group-collapse">
           			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">가입내역</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">즐겨찾기</span></a></li>
+            			<li><a href="guestgroupactivelist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">활동중인 그룹</span></a></li>
+            			<li><a href="guestgroupjoinlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">개설 내역</span></a></li>
+            			<li><a href="guestgroupjoinlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">가입 내역</span></a></li>
+            			
           			</ul>
         		</div>
       		</li>
@@ -74,11 +79,11 @@
         		</button>
         		<div class="collapse" id="board-collapse">
           			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
-            			<li><a href="guestboardlist.do?type=board&guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            			<li><a href="guestboardlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
             				<span class="subMenu_item">작성 글</span></a>
           				</li>
             			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">작성 댓글</span></a></li>
-            			<li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">스크랩</span></a></li>
+            			<li><a href="guestscraplist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded"><span class="subMenu_item">스크랩</span></a></li>
           			</ul>
         		</div>
       		</li>

@@ -6,7 +6,7 @@
 	
 	String msg = (String)request.getAttribute("response");
 	
-	System.out.println(msg);
+	//System.out.println(msg);
 	
 	String result = "";
 	
