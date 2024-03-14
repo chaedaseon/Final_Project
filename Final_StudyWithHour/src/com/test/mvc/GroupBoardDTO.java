@@ -12,7 +12,7 @@ public class GroupBoardDTO
 	
 	// 게시글 속성
 	private String gbCode, gbDate, gbTitle, gbContent, gbModate, gbFile;
-	private int gbView;
+	private int gbView, replyCount;
 	
 	
 	// getter / setter 구성
@@ -87,6 +87,14 @@ public class GroupBoardDTO
 	public void setGbFile(String gbFile)
 	{
 		this.gbFile = gbFile;
+	}
+	public int getReplyCount()
+	{
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount)
+	{
+		this.replyCount = replyCount;
 	}
 	
 	

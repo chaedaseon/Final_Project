@@ -47,9 +47,9 @@ public class GroupBoardDAO
 			dto.setGbTitle(rs.getString("GB_TITLE"));
 			dto.setGbContent(rs.getString("GB_CONTENT"));
 			dto.setGbView(rs.getInt("GB_VIEW"));
-			dto.setGbModate("GB_MODATE");
-			dto.setGbFile("GB_FIFLE");
-			dto.setGrName("GR_NAME");
+			dto.setGbModate(rs.getString("GB_MODATE"));
+			dto.setGbFile(rs.getString("GB_FILE"));
+			dto.setGrName(rs.getString("GR_NAME"));
 			
 			result.add(dto);
 		}
@@ -57,11 +57,41 @@ public class GroupBoardDAO
 		rs.close();
 		pstmt.close();
 		
+		return result;
+	}
+	
+	
+	// 그룹 게시글 별 댓글 수 조회
+	public ArrayList<GroupBoardDTO> groupReplyCount() throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
 		
+		String sql = "SELECT GB.GB_CODE AS GB_CODE, COUNT(GR.GRE_CONTENT) AS COUNT FROM GROUP_BOARD GB JOIN GROUP_REPLY GR ON GB.GB_CODE = GR.GB_CODE GROUP BY GB.GB_CODE"; 
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setGbCode(rs.getString("GB_CODE"));
+			dto.setReplyCount(rs.getInt("COUNT"));
+			
+			result.add(dto);
+		}
+		rs.close();
+		pstmt.close();
 		
 		return result;
-		
 	}
+	
+	
+	
+	
+	
+	
+		
 
 	
 }

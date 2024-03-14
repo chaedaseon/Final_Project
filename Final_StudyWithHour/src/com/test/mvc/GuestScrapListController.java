@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-public class GuestBoardListController implements Controller
+public class GuestScrapListController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -40,30 +40,15 @@ public class GuestBoardListController implements Controller
 			group.connection();
 			
 			// 전체(모두 접근 가능한) 게시글 작성 리스트 출력 실행
-			ArrayList<GuestBoardDTO> boardList = new ArrayList<GuestBoardDTO>();
-			ArrayList<GroupBoardDTO> groupBoardList = new ArrayList<GroupBoardDTO>();
-			ArrayList<GuestBoardDTO> boardReplyCount = new ArrayList<GuestBoardDTO>();		
-			ArrayList<GroupBoardDTO> groupReplyCount = new ArrayList<GroupBoardDTO>();
+			ArrayList<GuestBoardDTO> scrapList = new ArrayList<GuestBoardDTO>();
+			//ArrayList<GroupBoardDTO> groupBoardList = new ArrayList<GroupBoardDTO>();
 			
-			// 전체 게시판 작성글 내역
-			boardList = guest.boardList(guCode);
-			mav.addObject("boardList", boardList);
+			// 전체 게시판 스크랩 내역
+			scrapList = guest.guestScrapList(guCode);
+			mav.addObject("scrapList", scrapList);
 			
-			// 전체 게시판 작성글 댓글 수
-			boardReplyCount = guest.boardReplyCount();
-			mav.addObject("boardReplyCount", boardReplyCount);
-			
-			// 그룹 게시판 작성글 내역
-			groupBoardList = group.groupBoardList(guCode);
-			mav.addObject("groupBoardList", groupBoardList);
-			
-			// 그룹 게시판 작성글 댓글 수
-			groupReplyCount = group.groupReplyCount();
-			mav.addObject("groupReplyCount", groupReplyCount);
-			
-			
-			/* mav.setViewName("/WEB-INF/view/GuestBoardList.jsp?guCode="+guCode); */
-			mav.setViewName("GuestBoardList.jsp?guCode="+guCode);
+			/* mav.setViewName("/WEB-INF/view/GuestScrapList.jsp?guCode="+guCode); */
+			mav.setViewName("GuestScrapList.jsp?guCode="+guCode);
 
 			
 		} catch (Exception e)

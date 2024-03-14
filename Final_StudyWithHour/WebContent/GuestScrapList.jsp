@@ -14,7 +14,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GuestRedList.jsp</title>
+<title>GuestScrapList.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -38,7 +38,7 @@
 		
 			<div class="rightContent_div">
 				<div class="page_title">
-					<span><span>작성글</span> 내역</span>
+					<span><span>스크랩</span> 내역</span>
 				</div>
 				
 				<div>
@@ -52,106 +52,80 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
 					   		<button class="nav-link active" id="board-tab" data-bs-toggle="tab" data-bs-target="#board-tab-pane" type="button" role="tab"
-					   		 aria-controls="home-tab-pane" aria-selected="true">게시글</button>
+					   		 aria-controls="home-tab-pane" aria-selected="true">스크랩</button>
 					  	</li>
 					  	<li class="nav-item" role="presentation">
 					    	<button class="nav-link" id="groupBoard-tab" data-bs-toggle="tab" data-bs-target="#groupBoard-tab-pane" type="button" role="tab"
-					    	 aria-controls="profile-tab-pane" aria-selected="false">그룹 게시글</button>
+					    	 aria-controls="profile-tab-pane" aria-selected="false">그룹 스크랩</button>
 					  	</li>
 					</ul>
 					
 					<!-- 탭 영역 --------------------------------------------------------------------------------------->
 					<div class="tab-content" id="myTabContent">
 					
-						<!-- 게시글 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
+						<!-- 스크랩 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
 					  	<div class="tab-pane fade show active" id="board-tab-pane" role="tabpanel" aria-labelledby="board-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
 									<th>No</th>
-									<th style="width: 153px;">게시판 분류</th>
-									<th style="width: 153px;">소분류</th>
-									<th style="width: 240px;">제목</th>
-									<th style="width: 298px;">내용</th>
-									<th style="width: 153px;">작성 일자</th>
-									<th>조회수</th>
+									<th>게시판</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>스크랩 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
 								
-								<c:if test="${empty boardList }">
+								<c:if test="${empty scrapList }">
 									<tr>
-										<td colspan="6">작성 게시글 내역이 존재하지 않습니다.</td>
+										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
 								
-								<c:forEach var="boardList" items="${boardList }">
+								<c:forEach var="scrapList" items="${scrapList }">
 									<tr>
 										<td>1</td>
-										<td>${boardList.bsList }</td>
-										<td>${boardList.bfList }</td>
-										<td><a href="#">${boardList.boTitle }</a></td>
-										
-										<td>
-										<c:set var="data" value="false"></c:set>
-											<c:forEach var="boardReplyCount" items="${boardReplyCount }">
-												<c:if test="${boardReplyCount.boCode eq boardList.boCode }">
-													<c:set var="data" value="true"></c:set>
-													${boardList.boContent.substring(0,15) }... [${boardReplyCount.replyCount }]
-												</c:if>
-											</c:forEach>
-											<c:if test="${not data }">
-												${boardList.boContent.substring(0,15) }... [0]
-											</c:if>
-										</td>
-										
-										<td>${boardList.boDate.substring(0,11) }</td>
-										<td>${boardList.boView }</td>
+										<td>${scrapList.bfList }</td>
+										<td>[${scrapList.bsList}]  ${scrapList.boTitle }</td>
+										<td>${scrapList.guNick } (${scrapList.guId})</td>
+										<td>${scrapList.scrapDate.substring(0,10) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
 							</table>
 						</div>
-						<!-- 게시글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
+						<!-- 스크랩 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 						
-						<!-- 그룹게시글 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
+						<!-- 그룹스크랩 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
 					  	<div class="tab-pane fade" id="groupBoard-tab-pane" role="tabpanel" aria-labelledby="groupBoard-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
 									<th>No</th>
-									<th>그룹명</th>
+									<th>게시판</th>
 									<th>제목</th>
-									<th>내용</th>
-									<th>작성 일자</th>
-									<th>조회수</th>
+									<th>작성자</th>
+									<th>스크랩 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
-								<c:if test="${empty groupBoardList }">
+								
+								<c:if test="${empty groupScrapList }">
 									<tr>
-										<td colspan="6">작성 게시글 내역이 존재하지 않습니다.</td>
+										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
-								<c:forEach var="groupBoardList" items="${groupBoardList }">
+								
+								<c:forEach var="groupScrapList" items="${groupScrapList }">
 									<tr>
 										<td>1</td>
-										<td>${groupBoardList.grName }</td>
-										<td>${groupBoardList.gbTitle }</td>
-										
-										<td>
-											<c:forEach var="groupReplyCount" items="${groupReplyCount }">
-												<c:if test="${groupReplyCount.gbCode eq groupBoardList.gbCode }">
-													${groupBoardList.gbContent.substring(0,15) }... [${groupReplyCount.replyCount}]
-												</c:if>
-											</c:forEach>
-											${groupBoardList.gbContent }... [0]
-										</td>
-										
-										<td>${groupBoardList.gbDate.substring(0,11) }</td>
-										<td>${groupBoardList.gbView }</td>
+										<td>${scrapList.bfList }</td>
+										<td>[${scrapList.bsList}]  ${scrapList.boTitle }</td>
+										<td>${scrapList.guNick } (${scrapList.guId})</td>
+										<td>${scrapList.scrapDate.substring(0,10) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
 							</table>
 						</div>
-						<!-- 그룹게시글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
+						<!-- 그룹스크랩 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 					</div>
 				</div>	
 				

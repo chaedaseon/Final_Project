@@ -140,18 +140,18 @@
 								$("#upSch_name").val(sch_name);
 								$("#upSch_content").val(sch_content);
 	   						}
-	   						
 	    				}
 	    			}
 	    		}
 	    		// 페이지가 처음 로드될 때에는 오늘 날짜 출력
-	    		$("#resultMonth").html(String(today.getMonth()+1).padStart(2, '0'));
-				$("#resultDay").html(String(today.getDate()).padStart(2, '0'));
-				
+	    		$("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+				$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
 	    	}
 	    	, error:function(e)
 	    	{
-	    		alert(e.responseText);
+	    		$("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+				$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
+	    		$("#resultDiv").html("등록된 일정이 없습니다.");
 	    	}
     	});
 	}
@@ -165,7 +165,6 @@
 		var day = buttonId.substring(5,7);
 		
 		var info = "gu_code=<%=guest.getGuCode()%>&sch_date="+year+"-"+month+"-"+day;
-		
 	    $.ajax(
 	    {
 	    	type:"GET"
@@ -195,9 +194,12 @@
     				}
 					
 					$("#resultDiv").html(out);
+					
 					$("#resultMonth").html(month);
 					$("#resultDay").html(day);
+					
 					$("#schCodeHidden").val(sch_code);
+					
 					$("#datepicker2").val(sch_date.substring(0,10));
 					$("#upSch_name").val(sch_name);
 					$("#upSch_content").val(sch_content);
@@ -224,16 +226,17 @@
      });
  
 	
-	// 일정 수정 버튼 클릭시 수행
+	// 일정 삭제 버튼 클릭시 수행
  	function deleteSchedule() 
 	{
         var schCode = $("#schCodeHidden").val();
-        var deleteUrl = "guestscheduledelete.do?gu_code=<%=guest.getGuCode() %>&sch_code=" + schCode;
+        var deleteUrl = "guestscheduledelete.do?gu_code=<%=guest.getGuCode() %>";
         
         $("#scheduleModifyForm").attr("action", deleteUrl);
         $("#scheduleModifyForm").submit();
     }
 	
+ 	// 일정 수정 버튼 클릭시 수행
  	function updateSchedule() 
  	{
  		var schCode = $("#schCodeHidden").val();

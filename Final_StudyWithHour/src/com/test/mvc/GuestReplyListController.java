@@ -1,5 +1,5 @@
-// GuestBoardListFormController.java
-// 전체 게시물 작성 내역(그룹 제외)
+// GuestReplyListFormController.java
+// 전체 댓글 작성 내역(그룹 제외)
 
 package com.test.mvc;
 
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-public class GuestBoardListController implements Controller
+public class GuestReplyListController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception

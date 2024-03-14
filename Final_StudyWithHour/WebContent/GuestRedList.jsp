@@ -2,6 +2,7 @@
 <%@page import="com.test.mvc.GuestDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -71,8 +72,8 @@
 							<table class="red_list">
 								<tr>
 									<th>No</th>
-									<th>게시판 분류</th>
-									<th>게시물 제목</th>
+									<th>게시판</th>
+									<th>게시글 내용</th>
 									<th>신고 사유</th>
 									<th>신고 일자</th>
 									<th>처리 상태</th>
@@ -82,12 +83,22 @@
 								<c:forEach var="redBoardList" items="${redBoardList }">
 									<tr>
 										<td>1</td>
-										<td>${redBoardList.bsList }</td>
-										<td>${redBoardList.boTitle }</td>
+										<td>${redBoardList.bfList }</td>
+										<td>
+											${redBoardList.bsList }
+											<c:choose>
+												<c:when test="${fn:length(redBoardList.boContent) > 15 }">
+													${redBoardList.boContent.substring(0,14) }...
+												</c:when>	
+												<c:otherwise>
+													${redBoardList.boContent }
+												</c:otherwise>									
+											</c:choose>
+										</td> 
 										<td>${redBoardList.reason }</td>
 										<td>${redBoardList.borDate.substring(0,11) }</td>
 										<td>${redBoardList.redstate }</td>
-										<td>${redBoardList.borDate.substring(0,11) }</td>
+										<td>${redBoardList.brdDate.substring(0,11) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
@@ -99,7 +110,7 @@
 					  		<table class="red_list">
 								<tr>
 									<th>No</th>
-									<th>게시물 제목</th>
+									<th>게시판</th>
 									<th>댓글 내용</th>
 									<th>신고 사유</th>
 									<th>신고 일자</th>
