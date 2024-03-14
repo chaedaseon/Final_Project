@@ -36,13 +36,22 @@
 		    var age = $(this).closest("li").find("input[name=age1]").val();
 		    var grName = $(this).closest("li").find("input[name=grName1]").val();
 		    var grCount = $(this).closest("li").find("input[name=grCount1]").val();
+		    var gjCount = $(this).closest("li").find("input[name=gjCount1]").val();
 		    var grSubject = $(this).closest("li").find("input[name=grSubject1]").val();
 		    var gender = $(this).closest("li").find("input[name=gender1]").val();
 		    var lsCode = $(this).closest("li").find("input[name=lsCode1]").val();
+		    var gpPw = $(this).closest("li").find("input[name=gpPw]").val();
 		    // 현재 사용자의 guCode 값 가져오기
 		    var ssessionGuCode = $("#ssessionGuCode").val();
-		    
-		    if (ssessionGuCode != grGuCode) 
+		    if(gpPw != 0)
+		    {
+		    	alert("비밀번호");
+		    }
+		    else if(grCount <= gjCount)
+		    {
+		    	alert("가입 인원이 가득찬 그룹입니다.");
+		    }
+		    else if (ssessionGuCode != grGuCode) 
 		    {
 		        // 모달에 rpCode 저장 및 모달 열기
 		        $("#groupJoinModal").modal("show");
@@ -63,11 +72,12 @@
 		        $("#gender span").text(gender);
 		        $("input[name=lsCode]").val(lsCode);
 		        $("#lsCode span").text(lsCode);
+		        $("input[name=gpPw]").val(gpPw);
+		        $("#gpPw span").text(gpPw);
 		    } 
 		    else if(ssessionGuCode == grGuCode)
 		    {
 		        alert("본인이 개설한 그룹입니다.");
-		        return;
 		    }
 		});
 	});
@@ -84,16 +94,19 @@
                 url: "groupjoin.do",
                 type: "POST",
                 data: data,
-                dataType: "String",
+                dataType: "json",
                 success: function(response) {
-                	alert(response);
+                	var out = "";
+                	out += response.msg;
+                	
+                	alert(out);
                 },
-                error: function(response) {
-                	alert(response);
+                error: function(e) {
+                	alert("잘못된 접근입니다.");
 				} 
             });
    		});
-	})
+	});
 </script>
 </head>
 <body>
@@ -102,7 +115,6 @@
 	</header>
 <input type="hidden" id="ssessionGuCode" value="<%=guCode%>"/>
 	<section>
-		<c:import url="/SideMenu.jsp"></c:import>
 		<div id="content">
 			<div class="category_bar">
 				<c:import url="/imageSlide.jsp"></c:import>
@@ -119,12 +131,63 @@
 					</svg>
 					모집글작성
 				</button>
-				
 					<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 row-cols-1 text-center justify-content-center px-xl-6 aos-init aos-animate" id="groupRegList_box">
 					<c:choose>
 						<c:when test="${list == null}">
 			    				<!-- <h5 class="card-title">Light card title</h5> -->
-			    		<div id="null_text" style="text-align: center;"><span>현재 모집중인 그룹이 존재하지 않습니다.</span></div>
+			    		<div id="null_text" style="text-align: center;"><span>해당 카테고리의 그룹이 존재하지 않습니다.</span></div>
+						</c:when>
+						<c:when test="${urlparam == 'boardstudygroupadd' }">
+							<c:forEach var="group" items="${list }">
+							<ul>
+								<li id="addRegList">
+								<div class="col my-4" id="groupReg_one">
+									<div class="card">
+										<input type="hidden" name=periodCode value="${group.periodCode}"/>
+										<input type="hidden" name="grCode1" value="${group.grCode }"/>
+										<input type="hidden" name="guCode1" value="${group.guCode }"/>
+										<input type="hidden" name="grLeader1" value="${group.grLeader }"/>
+							      		<input type="hidden" name="age1" value="${group.age }"/>
+							      		<input type="hidden" name="grSubject1" value="${group.grSubject }"/>
+							      		<input type="hidden" name="grName1" value="${group.grName }"/>
+							      		<input type="hidden" name="grCount1" value="${group.grCount }"/>
+							      		<input type="hidden" name="lsCode1" value="${group.lsCode }"/>
+							      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
+							      		<input type="hidden" name="gender1" value="${group.gender }"/>
+							      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
+							      		<input type="hidden" id="periodCode" name="periodCode1" value="${group.periodCode }"/>
+										<div class="card-header bg-transparent">${group.grName }
+											<c:choose>
+												<c:when test="${group.periodCode == 1 }">
+													<span class="d-day">상시모집</span>
+												</c:when>
+												<c:when test="${group.periodCode == 2 }">
+													<c:choose>
+													<c:when test="${group.dDay == 0}">
+														<span class="d-day">D-DAY 마감임박</span>
+													</c:when>
+													<c:when test="${group.dDay > 0}">
+														<span class="d-day">D-${group.dDay }</span>
+													</c:when>
+													</c:choose>
+												</c:when>
+												<c:otherwise>
+												</c:otherwise>
+											</c:choose>
+										</div>
+					  					<div class="card-body">
+					    				<!-- <h5 class="card-title">Light card title</h5> -->
+					    					<p class="card-text"><a type="button" class="groupJoin_button" data-bs-target="#groupJoinModal">${group.grComment }</a></p>
+					  					</div>
+					    				<div class="card-bottom">
+					    					<span id="count"><img src="images/people.png">${group.gjCount+1} / ${group.grCount } 명</span>
+					    					<span id="grNum">No. ${group.no}</span>
+					    				</div>
+									</div>
+								</div>
+								</li>
+							</ul>	
+							</c:forEach>
 						</c:when>
 						<c:otherwise>
 						<c:forEach var="group" items="${list }">
@@ -132,6 +195,7 @@
 							<li>
 							<div class="col my-4" id="groupReg_one">
 								<div class="card">
+									<input type="hidden" name=periodCode value="${group.periodCode}"/>
 									<input type="hidden" name="grCode1" value="${group.grCode }"/>
 									<input type="hidden" name="guCode1" value="${group.guCode }"/>
 									<input type="hidden" name="grLeader1" value="${group.grLeader }"/>
@@ -142,18 +206,25 @@
 						      		<input type="hidden" name="lsCode1" value="${group.lsCode }"/>
 						      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
 						      		<input type="hidden" name="gender1" value="${group.gender }"/>
+						      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
+						      		<input type="hidden" name="gpPw" value="${group.gpPw}"/>
 									<div class="card-header bg-transparent">${group.grName }
 										<c:choose>
-											<c:when test="${group.dDay == 0}">
-												<span class="d-day">D-DAY 마감임박</span>
-											</c:when>
-											<c:when test="${group.dDay > 0}">
-												<span class="d-day">D-${group.dDay }</span>
-											</c:when>
-											<c:when test="${group.dDay < 0}">
-												<span class="d-day">모집 종료</span>
+											<c:when test="${group.periodCode == 1 }">
+												<span class="d-day">상시모집</span>
 											</c:when>
 											<c:otherwise>
+												<c:choose>
+												<c:when test="${group.dDay == 0}">
+													<span class="d-day">D-DAY 마감임박</span>
+												</c:when>
+												<c:when test="${group.dDay > 0}">
+													<span class="d-day">D-${group.dDay }</span>
+												</c:when>
+												<c:when test="${group.dDay < 0}">
+													<span class="d-day">모집 종료</span>
+												</c:when>
+												</c:choose>
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -162,7 +233,7 @@
 				    					<p class="card-text"><a type="button" class="groupJoin_button" data-bs-target="#groupJoinModal">${group.grComment }</a></p>
 				  					</div>
 				    				<div class="card-bottom">
-				    					<span id="count"><img src="images/people.png">5 / ${group.grCount } 명</span>
+				    					<span id="count"><img src="images/people.png">${group.gjCount+1 > group.grCount ? group.grCount : group.gjCount+1} / ${group.grCount } 명</span>
 				    					<span id="grNum">No. ${group.no}</span>
 				    				</div>
 								</div>
@@ -264,7 +335,7 @@
 								<c:if test="${vNum!=lastNum }">
 									<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=${lastNum}">&gt;</a></li>
 									<li class="page-item"><a class="page-link" href="boardgroupadd.do?vNum=${vNum+1 }">Next</a></li>
-								</c:if>
+								</c:if>												 
 							</ul>
 							</nav>
 						</c:when>

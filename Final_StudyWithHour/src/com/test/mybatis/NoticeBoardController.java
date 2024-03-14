@@ -318,7 +318,7 @@ public class NoticeBoardController
 		//return "/WEB-INF/view/NoticeBoardList.jsp";	// 공지사항 게시판 호출
 	}
 	
-	@RequestMapping(value = "/noticeview.do", method = RequestMethod.GET) // 커뮤니티 게시판 메인 페이지 요청
+	@RequestMapping(value = "/noticeview.do", method = RequestMethod.GET) // 공지사항 게시판 뷰 페이지 요청
 	public String boardView(ModelMap model, @RequestParam String ntCode, HttpServletRequest request, HttpServletResponse response)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
@@ -362,7 +362,7 @@ public class NoticeBoardController
 		//-- 공지사항 상세페이지 내용 리스트 전달
 		model.addAttribute("list", noticeViewlist);
 		
-		return "/NoticeBoardView.jsp";
+		return "/NoticeView.jsp";
 		//return "/WEB-INF/view/NoticeView.jsp";	// 공지사항 게시판 호출
 	}
 	

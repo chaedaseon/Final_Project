@@ -110,15 +110,21 @@
 	        }
 	        
 	        // 넘기는 파라미터 값 확인하는 코드
-	        const arrayTest = $("#boardModifyForm").serializeArray()
+/* 	        const arrayTest = $("#boardInsertForm").serializeArray()
 	        var param = {};
 			arrayTest.map(function(data,index){
 			param[data.name] = data.value;
-	        alert(param[data.name]);
-			})
+			if(confirm("파라미터 확인"))
+			{
+				alert(param[data.name]);
+			}
+			}) */
 			
 	        // 폼 submit 액션 처리 수행
-			$("#boardInsertForm").submit();
+	        if(confirm("작성한 글을 등록하시겠습니까?"))
+	        {
+				$("#boardInsertForm").submit();
+	        }
 	 		
 	    });
 	});
@@ -185,7 +191,7 @@
 							<label for="formFile" class="form-label"> 파일 삽입</label>
 							<input class="form-control" type="file" id="formFile" name="boFile" disabled="disabled">
 						</div>
-						<input type="text" id="guCode" value="<%=guCode %>"/>
+						<input type="hidden" id="guCode" name="guCode" value="<%=guCode %>"/>
 						</form>
 						<div class="button_box">
 							<button onclick="history.back()" class="btn" id="backBtn">취소</button>

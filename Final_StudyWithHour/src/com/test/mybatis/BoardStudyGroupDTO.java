@@ -18,8 +18,33 @@ CREATE TABLE NOTICE
 
 public class BoardStudyGroupDTO
 {
-	private String grCode, guCode, grDate, grName, grSubject, grComment, grLeader, age, gender, lsCode, category, grOpen, gaCode, periodCode, gaDate;
+	private String grCode, guCode, grDate, grName, grSubject, grComment, grLeader, age, gender, lsCode, category, grOpen, gaCode, periodCode, gaDate, lsList, lfCode;
+	private int no, grCount, dDay, gpPw, gjCount;
 	
+	public String getLfCode()
+	{
+		return lfCode;
+	}
+	public void setLfCode(String lfCode)
+	{
+		this.lfCode = lfCode;
+	}
+	public String getLsList()
+	{
+		return lsList;
+	}
+	public void setLsList(String lsList)
+	{
+		this.lsList = lsList;
+	}
+	public int getGjCount()
+	{
+		return gjCount;
+	}
+	public void setGjCount(int gjCount)
+	{
+		this.gjCount = gjCount;
+	}
 	public String getGaCode()
 	{
 		return gaCode;
@@ -44,8 +69,6 @@ public class BoardStudyGroupDTO
 	{
 		this.gaDate = gaDate;
 	}
-	private int no, grCount, dDay, gpPw;
-	
 	public int getGpPw()
 	{
 		return gpPw;

@@ -21,9 +21,17 @@ CREATE TABLE BOARD
 
 public class CommunityBoardDTO
 {
-	private String boCode, boDate, boTitle, boContent, boMoDate, boFile, bsCode, boWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
+	private String guCode, boCode, boDate, boTitle, boContent, boMoDate, boFile, bsCode, boWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
 	private int no, boView, replyCount;
 	
+	public String getGuCode()
+	{
+		return guCode;
+	}
+	public void setGuCode(String guCode)
+	{
+		this.guCode = guCode;
+	}
 	public int getReplyCount()
 	{
 		return replyCount;

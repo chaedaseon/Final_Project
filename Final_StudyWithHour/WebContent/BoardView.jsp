@@ -70,7 +70,7 @@
         
         $("#delete_button").click(function()
         {
-        	var boguCode = $("#guCode").val();
+        	var boGuCode = $("#guCode").val();
         	
             if(guCode == boGuCode)
 	        {
@@ -212,7 +212,7 @@
 						</h3>
 					</div>
 					<div id="title"><h5>${view.boTitle}</h5>
-						<span class="count" id="posting_number"> 게시글 고유번호 ${view.boCode}</span>
+						<span class="count" id="posting_number"> 게시글 고유번호 : ${view.boCode}</span>
 					</div>
 					<div id="post_info">
 						<a id="user_id">${view.boWriter}</a>
@@ -248,9 +248,9 @@
 					${view.boContent }
 				</div>
 					<div class="board_btn">
-						<button type="submit" class="btn" id="modify_button">수정</button>
+						<button type="button" class="btn" id="modify_button">수정</button>
 						<!-- 버튼 눌러서 모달창 띄우기 -->
-						<button type="button" class="btn" id="delete_button" data-bs-toggle="modal" data-bs-target="#boardViewDelete">삭제</button>
+						<button type="button" class="btn" id="delete_button" >삭제</button>
 						
 						<form action="boardviewscrap.do" method="post">
 						<div class="modal fade" id="boardViewScrap" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -501,7 +501,7 @@
 			</div>
 			<div class="button_box">
 				<button onclick="history.back()" class="btn">뒤로가기</button>
-				<button class="btn" onclick="location.href='boardcommunitylist.do?'">목록으로</button>
+				<button class="btn" onclick="location.href='boardcommunitylist.do?'">전체목록</button>
 			</div>
 			</div>
 		</div>		

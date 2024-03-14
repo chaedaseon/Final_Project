@@ -10,15 +10,15 @@
 				<ul class="navbar-nav" id="category_nav">
 		      		<li class="nav-item" id="category_element">
 						<a class="nav-link"
-						 href="boardgroupnew.do">신규개설</a>
+						 href="boardgroupnew.do">신규모집</a>
 					</li>
 					<li class="nav-item" id="category_element">
 						<a class="nav-link"
-						 href="#">추가모집</a>
+						 href="boardgroupadd.do">추가모집</a>
 					</li>
 					<li class="nav-item" id="category_element">
 						<a class="nav-link"
-						 href="#">모집기간종료</a>
+						 href="boardgroupend.do">모집기간종료</a>
 					</li>
 				</ul>
 			</div>
