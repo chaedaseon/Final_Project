@@ -69,12 +69,13 @@ public class CafeListController implements Controller
 			
 			String articleUrl = "cafedetail.do";
 			
-			/*
+			
 			if (pageNum != null)
 			{
 				articleUrl = articleUrl + "?pageNum=" + currentPage;
 			}
-			*/
+			
+			
 			cafeList = dao.lists(hoCode, start, end);
 			
 			mav.addObject("cafeList", cafeList);

@@ -12,7 +12,7 @@ public class GroupDTO
 	private String rNum;
 	
 	// 스터디카페예약 관련 속성
-	private String reCode, reStartDate, reStartHour, reEndHour, reState;	
+	private String reCode, reStartDate, reStartHour, reEndHour, reState, srCode;	
 	private int reCount;
 	
 	// 이용피드백 관련 속성
@@ -69,6 +69,14 @@ public class GroupDTO
 	public void setRvCode(String rvCode)
 	{
 		this.rvCode = rvCode;
+	}
+	public String getSrCode()
+	{
+		return srCode;
+	}
+	public void setSrCode(String srCode)
+	{
+		this.srCode = srCode;
 	}
 	public String getGschRegDate()
 	{

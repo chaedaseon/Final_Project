@@ -157,13 +157,14 @@
 							<td>${rm.srCount }명</td>
 							<td>${rm.srPrice }원</td>
 							<td>
-								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}">수정</button>
+								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}" value="${rm.srCode }">수정</button>
 							</td>
 							<td>
-								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#deleteRoom${r.index}">비활성화</button>
+								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#deleteRoom${r.index}" value="${rm.srCode }">비활성화</button>
 							</td>
 						</tr>
-		<!-- 스터디룸 수정 모달 영역 -->
+						
+		<!-- 스터디룸 수정 모달 영역 ------------------------------------------------------------------------->
         <div class="modal fade" id="updateRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRoomLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
 	       <form action="caferoomupdate.do?scCode=${cafe.scCode}" method="post">
@@ -197,7 +198,8 @@
 	       </form>
           </div>
         </div>
-		<!-- 스터디룸 비활성화 모달 영역 -->
+        
+		<!-- 스터디룸 비활성화 모달 영역 -------------------------------------------------------->
         <div class="modal fade" id="deleteRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteRoomLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -206,6 +208,7 @@
 	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	          </div>
               <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
+              <input type="hidden" name="deleteCode" value="${rm.srCode }">
               	<span>비활성화 철회는 불가합니다. 계속 진행하시겠습니까?</span>
               </div>
               <div class="modal-footer">
@@ -258,11 +261,11 @@
 						<c:when test="${count > 0 }">
 						<c:forEach var="review" items="${review }">
 							<tr>
-								<td>${review.guNick }</td>
+								<td>👤${review.guNick } [${review.grName}]</td>
 								<td style="text-align: right;">${review.rvDate }</td>
 							</tr>
 							<tr>
-								<td colspan="2">${review.rvContent }</td>
+								<td colspan="2">└ ${review.rvContent }</td>
 							</tr>												
 						</c:forEach>
 						</c:when>

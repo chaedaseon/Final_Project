@@ -1,3 +1,4 @@
+<%@page import="java.io.File"%>
 <%@page import="com.test.mvc.HostDTO"%>
 <%@page import="com.test.mvc.HostDAO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
@@ -7,9 +8,23 @@
 	String cp = request.getContextPath();
 	
 	// 호스트 세션 받아오기
-	HostDTO host = (HostDTO) session.getAttribute("host");
+	String hoCode = (String)session.getAttribute("hoCode");
+	HostDAO hostDao = new HostDAO();
+	HostDTO host = hostDao.sessionHost(hoCode);	
 %>
-
+<%
+	String root = pageContext.getServletContext().getRealPath("/");
+	String savePath = root + "pds" + "\\" + "saveFile";
+	
+	File dir = new File(savePath);
+	// C:\SpringMVCStudy\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\FileSystemApp06\pds\saveFile 
+	
+	if (!dir.exists())
+		dir.mkdirs();
+	
+	String encType = "UTF-8";		//-- 인코딩 방식(UTF-8)
+	int maxFileSize = 5*1024*1024;	//-- 최대 업로드 크기(5MB)
+%>
 
 <!DOCTYPE html>
 <html>
@@ -37,16 +52,11 @@
             height: height,
             oncomplete: function(data) 
             {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
                 var roadAddr = data.roadAddress; // 도로명 주소 변수
 
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
                 document.getElementById('sample4_postcode').value = data.zonecode;
                 document.getElementById("sample4_roadAddress").value = roadAddr;
 
-                // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
                 if(data.autoRoadAddress) 
                 {
                     var expRoadAddr = data.autoRoadAddress;
@@ -73,7 +83,44 @@
 			// 절대경로
 		    fileRoute.value = URL.createObjectURL(event.target.files[0]);
 		});
+		
+	    // 정규식
+	    var regTel = /^(010|011|016|017|018|019)[0-9]{3,4}[0-9]{4}$/;
+	    var regRes = /^[0-9]{0,11}$/;
+	    
+	 	// 사업자번호 정규식 확인
+		$("#resNumber").keyup(function()
+		{
+			var resNum = $("#resNumber").val();
+			
+			// 입력한 사업자번호가 정규표현식에 부합하지 않을 경우
+			if(!regRes.test(resNum))	
+			{
+				alert("사업자번호를 확인해주세요");
+				resNum.focus();
+			}
+		});
+	 	
+		// 전화번호 정규식 확인
+		$("#tel3").blur(function()
+		{
+			var resTel1 = $("#tel1").val();
+			var resTel2 = $("#tel2").val();
+			var resTel3 = $("#tel3").val();
+			
+			var resTel = resTel1 + resTel2 + resTel3;
+			
+			if(!regTel.test(resTel))
+			{
+				alert("전화번호를 확인해주세요");
+				resTel1.focus();
+			}
+			
+			
+		});
+	    
 	});
+	
 
 
 </script>
@@ -115,7 +162,7 @@
 									<span>사업자등록번호</span>
 								</td> 
 								<td class="register_input" colspan="2">
-									<input type="text" class="register_text" name="resNumber" required="required">
+									<input type="text" class="register_text" name="resNumber" id="resNumber" required="required">
 								</td>
 							</tr>
 							<tr>
@@ -123,9 +170,9 @@
 									<span>전화번호</span>
 								</td>
 								<td class="register_input">
-									<input type="tel" class="register_text" style="width: 68px;" name="tel1" required="required">
-									 - <input type="tel" class="register_text" style="width: 75px;" name="tel2" required="required">
-									  - <input type="tel" class="register_text" style="width: 75px;" name="tel3" required="required">
+									<input type="tel" class="register_text" style="width: 68px;" name="tel1" id="tel1" required="required">
+									 - <input type="tel" class="register_text" style="width: 75px;" name="tel2" id="tel2" required="required">
+									  - <input type="tel" class="register_text" style="width: 75px;" name="tel3" id="tel3" required="required">
 								</td>
 							</tr>
 							<tr>
@@ -226,7 +273,6 @@
 								</td> 
 								<td class="register_input" colspan="2">
 									<textarea class="register_text regform-control" name="detail" required="required"></textarea>
-									<span class="span-limit">0/1000</span>
 								</td>
 							</tr>
 							<tr>
@@ -235,7 +281,6 @@
 								</td> 
 								<td class="register_input" colspan="2">
 									<textarea class="register_text regform-control" name="caution" required="required"></textarea>
-									<span class="span-limit">0/1000</span>
 								</td>
 							</tr>
 							<tr>

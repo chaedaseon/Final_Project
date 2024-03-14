@@ -1,9 +1,11 @@
 /*==================================
-	GroupReserveDeleteController.java
+	GroupMeetFormController.java
 	- 사용자 정의 컨트롤러 클래스
 ===================================*/
 
 package com.test.mvc;
+
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
-public class GroupReserveDeleteController implements Controller
+public class GroupMeetFormController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -40,17 +42,31 @@ public class GroupReserveDeleteController implements Controller
 		*/
 		
 		GroupDAO dao = new GroupDAO();
+		GroupDTO meet = new GroupDTO();
+		ArrayList<GroupDTO> attMem = new ArrayList<GroupDTO>();
+		ArrayList<GroupDTO> unattMem = new ArrayList<GroupDTO>();
+		String meetContent = "";
 		
 		try
 		{
-			String grCode = request.getParameter("grCode");
-			String reCode = request.getParameter("reCode");
+			String gschCode = request.getParameter("gschCode");
+			String gjCode = request.getParameter("gjCode");
 			
 			dao.connection();
 			
-			dao.reserveRemove(reCode);
+			meet = dao.meetInfo(gschCode);
+			attMem = dao.meetMemberList(gschCode);
+			meetContent = dao.meetRecord(gschCode);
+			unattMem = dao.unattMemberList(gschCode);
 			
-			mav.setViewName("redirect:groupreservelist.do?grCode=" + grCode);
+			mav.addObject("gjCode", gjCode);
+			mav.addObject("meet", meet);
+			mav.addObject("attMem", attMem);
+			mav.addObject("unattMem", unattMem);
+			mav.addObject("meetContent", meetContent);
+			
+			// 모임기록 작성폼으로 이동
+			mav.setViewName("MeetInsertForm.jsp");
 			
 			dao.close();
 			

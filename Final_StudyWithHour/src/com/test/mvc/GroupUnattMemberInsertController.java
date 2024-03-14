@@ -1,5 +1,5 @@
 /*==================================
-	GroupReserveDeleteController.java
+	SampleController.java
 	- 사용자 정의 컨트롤러 클래스
 ===================================*/
 
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
-public class GroupReserveDeleteController implements Controller
+public class GroupUnattMemberInsertController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -43,14 +43,15 @@ public class GroupReserveDeleteController implements Controller
 		
 		try
 		{
-			String grCode = request.getParameter("grCode");
-			String reCode = request.getParameter("reCode");
-			
 			dao.connection();
 			
-			dao.reserveRemove(reCode);
+			String attlCode = request.getParameter("attlCode");
+			String gschCode = request.getParameter("gschCode");
 			
-			mav.setViewName("redirect:groupreservelist.do?grCode=" + grCode);
+			dao.unattMemberAdd(attlCode);
+			
+			// 기존 폼으로 돌아가기
+			mav.setViewName("redirect:groupmeetform.do?grCode=1&gschCode="+gschCode);
 			
 			dao.close();
 			

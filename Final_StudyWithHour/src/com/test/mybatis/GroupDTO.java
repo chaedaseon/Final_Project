@@ -9,7 +9,7 @@ public class GroupDTO
 {
 	// 주요 속성 구성
 	String gr_code, gr_name, gj_code, gj_date, gu_id, gu_nick, category_code, gu_name, category_list, gender, ld_state;
-	int age, rnum;
+	int age, rnum, gr_count;
 	
 	// getter / setter 구성
 	public String getGr_code()
@@ -20,6 +20,16 @@ public class GroupDTO
 	public void setGr_code(String gr_code)
 	{
 		this.gr_code = gr_code;
+	}
+
+	public int getGr_count()
+	{
+		return gr_count;
+	}
+
+	public void setGr_count(int gr_count)
+	{
+		this.gr_count = gr_count;
 	}
 
 	public int getRnum()

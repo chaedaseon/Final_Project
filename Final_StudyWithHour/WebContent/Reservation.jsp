@@ -22,18 +22,34 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
  
+ 	// 예약 검색 버튼 클릭 시 폼 전송
 	function sendIt(form)
 	{
 		form.submit();
 	}
 	
-	function reserveSubmit()
+ 	// 검색내역에 따른 스터디카페 선택 시 폼 전송
+	function reserveSubmit(srCode)
 	{
-		//alert(document.getElementById("srCode").value);
-		var form = document.getElementById("reserveForm");
+		var form = document.getElementById("reserveForm" + srCode);
 		form.submit();
 	}
- 
+	
+	$(function ()
+	{
+		$('button[id="search"]').on('load', function()
+		{
+			$("#reserveSearch").css("display", "none");
+			$("#listSearch").css("display", "flex");
+		});
+		
+		$('button[id="againSearch"]').on('click', function()
+		{
+			$("#listSearch").css("display", "none");
+			$("#reserveSearch").css("display", "flex");
+		});
+	});
+	
 </script>
 
 </head>
@@ -54,8 +70,8 @@
 				</div>
 				
 				<!-- 검색창 영역 -------------------------------------------------------------------->
-				<div class="select_div">
-				<form action="groupreservesearch.do?grCode=1" method="post">
+				<div class="select_div" id="reserveSearch">
+				<form action="groupreservesearch.do?gjCode=1" method="post">
 					<%-- 지역1을 선택 후 지역2 select에 데이터 출력 --%>
 					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?lfList=' +this.value+ '&grCode=1'">
 						<c:choose>
@@ -70,7 +86,7 @@
 							<c:otherwise>
 							<c:forEach var="lf" items="${lfList }">
 								<c:choose>
-								<c:when test="${lfCode eq lf.lfCode }">
+								<c:when test="${lfCode == lf.lfCode }">
 									<option selected="selected" value="${lf.lfList }">${lf.lfList }</option>
 								</c:when>
 								<c:otherwise>
@@ -143,12 +159,15 @@
 						<option value="9">9명</option>										
 						<option value="10">10명</option>										
 					</select>
-					<button type="button" class="selectBtn" onclick="sendIt(this.form)">Search</button>
+					<button type="button" class="selectBtn" id="search" onclick="sendIt(this.form)">Search</button>
 					</form>
+				</div>
+				<div class="select_div" id="listSearch" style="display: none;">
+					<button type="button" class="selectBtn" id="againSearch">다시 검색</button>
 				</div>
 				
 				<div style="margin-bottom: 15px;">
-					<span style="font-weight: bold;">검색결과(${count })</span>
+					<span id="count" style="font-weight: bold;">검색결과(${count })</span>
 				</div>
 				
 				<!-- 스터디카페 영역 -------------------------------------------------->
@@ -165,8 +184,8 @@
 				</c:when>
 				<c:otherwise>
 				<c:forEach var="cafe" items="${lists }" varStatus="cf">
+					<a href="javascript:reserveSubmit(${cafe.srCode })">
 					<div class="space_div">
-					<a href="javascript:reserveSubmit()">
 					<article class="box">
 					<div class="inner">
 						<div class="imgBox">
@@ -174,9 +193,9 @@
 							<img class="img" src="images/studycafe.jpg" style="width: 100%;">
 							</span>
 						</div>
-					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&grCode=1" method="post" id="reserveForm">
+					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gjCode=1" method="post" id="reserveForm${cafe.srCode }">
 						<div class="info_area type_border" style="height: 180px; display: inline-grid; align-content: space-between;">
-						<h3 class="tit_space">${cafe.scCode}${cafe.scName }_${cafe.srCode}${cafe.srName }</h3>
+						<h3 class="tit_space">${cafe.scName }_${cafe.srName }</h3>
 					<input type="hidden" name="scCode" value="${cafe.scCode}">
 					<input type="hidden" name="reserveDate" value="${reserveDate}">
 					<input type="hidden" name="reserveAddr1" value="${reserveAddr1}">
@@ -184,8 +203,6 @@
 					<input type="hidden" name="reserveHour1" value="${reserveHour1}">
 					<input type="hidden" name="reserveHour2" value="${reserveHour2}">
 					<input type="hidden" name="reserveCount" value="${reserveCount}">
-					<input type="hidden" name="lfCode" value="${lfCode}">
-					<input type="hidden" name="lsCode" value="${lsCode}">
 					</form>
 						<div class="tags">
 						<div>
@@ -220,8 +237,8 @@
 						</div>
 					</div>
 					</article>
-					</a>
 					</div>
+					</a>
 				</c:forEach>
 				</c:otherwise>
 				</c:choose>

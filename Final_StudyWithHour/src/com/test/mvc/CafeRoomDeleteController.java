@@ -1,11 +1,9 @@
 /*==================================
-	CafeDetailController.java
+	CafeRoomDeleteController.java
 	- 사용자 정의 컨트롤러 클래스
 ===================================*/
 
 package com.test.mvc;
-
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +15,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
-public class CafeDetailController implements Controller
+public class CafeRoomDeleteController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -35,38 +33,38 @@ public class CafeDetailController implements Controller
 			mav.setViewName("redirect:loginform.do");
 			return mav;
 		}
-			
+		
 		CafeDAO dao = new CafeDAO();
-		CafeDTO cafe = new CafeDTO();
-		ArrayList<CafeDTO> review = new ArrayList<CafeDTO>();
-		ArrayList<CafeDTO> room = new ArrayList<CafeDTO>();
-		int count = 0;
+		int result = 0;
+		int reCount = 0;
 		
 		try
 		{
+			String srCode = request.getParameter("srCode");
+			String scCode = request.getParameter("scCode");
 			dao.connection();
 			
-			// 이전 페이지(StudyCafeList.jsp)로부터 넘어온 데이터 수신
-			//-- scCode : 스터디카페코드
-			String scCode = request.getParameter("scCode");
+			reCount = dao.roomReserveCount(srCode);
 			
-			cafe = dao.searchCode(scCode);						// 해당 카페 정보
-			review = dao.reviewNewLists(scCode, 0, 5);			// 해당 카페 리뷰 내역
-			count = dao.cafeReviewCount(scCode, "scafe", "");	// 해당 카페 리뷰 내역 개수
-			room = dao.roomList(scCode);
+			if (reCount > 0)
+			{
+				request.setAttribute("msg", "예약내역이 존재하여 삭제가 불가합니다.");
+		        request.setAttribute("url", "/");
+				mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
+			}			
+			else
+				result = dao.roomRemove(srCode);
+				mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
+	
+				
+			if (result <= 0)
+				mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
 			
-			mav.addObject("cafe", cafe);
-			mav.addObject("review", review);
-			mav.addObject("count", count);
-			mav.addObject("room", room);
-			mav.addObject("scCode", scCode);
 			
-			mav.setViewName("StudyCafeInfo.jsp");
-			//mav.setViewName("/WEB-INF/view/StudyCafeInfo.jsp");
 			
 			dao.close();
-		}
-		catch (Exception e)
+			
+		} catch (Exception e)
 		{
 			System.out.println(e.toString());
 		}

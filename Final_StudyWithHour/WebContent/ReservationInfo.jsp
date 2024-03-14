@@ -19,58 +19,49 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6deffd0f352a0e6f8ae48b94ee77f4b3"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6deffd0f352a0e6f8ae48b94ee77f4b3&libraries=services"></script>
 <script type="text/javascript">
-/*
+	
 	function initialize()
 	{
-	   	var addr = document.getElementById("addr").innerText;
+	   	//var addr = document.getElementById("addr").innerText;
 	   	
-		container = document.getElementById("map");
-	    option = {
-	        center: new kakao.maps.LatLng(37.5565401,126.9194871)
-	        ,level: 3 
-	    };  
-
-		var map = new kakao.maps.Map(container, option); 
-	   	alert(addr);
-	 	// 줌인, 줌아웃 불가 
-		map.setZoomable(false);
+	   	container = document.getElementById("map");
+	   	mapCenter = new kakao.maps.LatLng(37.5565401,126.9194871);
+		options =
+		{
+			center: mapCenter
+			, level: 3
+		};
 		
-		// 마커 이미지 생성
-		imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-		imageSize = new kakao.maps.Size(34, 48);
+		map = new kakao.maps.Map(container, options);  
+	   	
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+	   	imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+		imageSize = new kakao.maps.Size(24, 35);
 		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-		// 주소-좌표 변환 객체를 생성
-		var geocoder = new kakao.maps.services.Geocoder();
-
-		// 주소로 좌표를 검색
-		geocoder.addressSearch(addr, function(result, status) 
-		{
-
-	    	// 정상적으로 검색이 완료됐으면 
-	     	if (status === kakao.maps.services.Status.OK) {
-
-	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-	        // 결과값으로 받은 위치를 마커로 표시
-	        var marker = new kakao.maps.Marker({
-	            map: map
-	            , position: coords
-	            , image: markerImage 
-	        });
-
-	        // 지도의 중심을 결과값으로 받은 위치로 이동
-	        map.setCenter(coords);
-	    	} 
-		});
+		// 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map
+            , position: mapCenter
+            , image: markerImage
+        });   
 		
 	}
-*/
+	
+	function sendIt()
+	{
+		var form = document.getElementById("addReserveForm");
+		form.submit();
+	}
+
 </script>
 </head>
 <body>
-<body onload="initialize()">
+<body onload ="initialize()">
 	<header>
 		<c:import url="Menu.jsp"></c:import>
 	</header>
@@ -96,6 +87,9 @@
 						<img src="images/studycafe.jpg" style="width: 500px; height: 400px;">
 					</div>
 					<div style="margin-left: 100px;">
+					<c:choose>
+					<c:when test="${reserveDate != null && reserveAddr1 != null && reserveAddr2 != null && reserveHour1 != null && reserveHour2 != null}">
+					<form action="groupreserveinsert.do?gjCode=1&srCode=${room.srCode }" method="post" id="addReserveForm">
 						<table class="register_table" style="width: 450px; text-align: center;">
 						<tr>
 							<td colspan="2">
@@ -107,26 +101,38 @@
 						<tr class="spacer"></tr>
 						<tr>
 							<td>예약일자</td>
-							<td>${reserveDate }</td>
+							<td>
+								${reserveDate }
+								<input type="hidden" name="reserveDate" value="${reserveDate }">
+							</td>
 						</tr>
 						<tr>
 							<td>이용시간</td>
-							<td>${reserveHour1 }</td>
+							<td>
+								${reserveHour1 }
+								<input type="hidden" name="reserveHour1" value="${reserveHour1 }">
+							</td>
 						</tr>
 						<tr>
 							<td>이용시간</td>
-							<td>${reserveHour2 }</td>
+							<td>
+								${reserveHour2 }
+								<input type="hidden" name="reserveHour2" value="${reserveHour2 }">
+							</td>
 						</tr>
 						<tr>
 							<td>인원수</td>
-							<td>${reserveCount }명</td>
+							<td>
+								${reserveCount }명
+								<input type="hidden" name="reserveCount" value="${reserveCount }">
+							</td>
 						</tr>
 						<tr class="spacer"></tr>
 						</table>
 						<table class="register_table" style="text-align: center;">
 							<tr>
 								<td>
-									<a href="#">바로예약</a>
+									<a href="javascript:sendIt()">바로예약</a>
 								</td>
 							</tr>
 							<tr>
@@ -135,6 +141,23 @@
 								</td>
 							</tr>
 						</table>
+					</form>
+					</c:when>
+					<c:when test="${reserveDate == null}">
+						<table class="register_table" style="text-align: center;">
+							<tr>
+								<td colspan="2">
+									예약 정보를 입력해주세요.
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<a href="groupreservesearch.do?grCode=1">검색으로</a>
+								</td>
+							</tr>
+						</table>
+					</c:when>
+					</c:choose>
 					</div>
 				</div>
 				<div class="sorting_div"></div>
@@ -154,7 +177,7 @@
 							<p>✨${fn:substring(room.scDate,0,11) } OPEN</p>
 							<p>${room.scName }입니다.</p>
 							<p>⏰${room.scOpenHour } ~ ${room.scCloseHour }</p>
-							<p>☎️${room.scTel }</p>
+							<p>📞${room.scTel }</p>
 						</div>
 					</div>
 				</div>
@@ -163,11 +186,11 @@
 				<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 					<li class="nav-item" role="presentation">
 				   		<button class="nav-link active" id="cafeinfo-tab" data-bs-toggle="tab" data-bs-target="#cafeinfo-tab-pane" type="button" role="tab"
-				   		 aria-controls="home-tab-pane" aria-selected="true">스터디카페 소개</button>
+				   		 aria-controls="home-tab-pane" aria-selected="true">편의시설</button>
 				  	</li>
 				  	<li class="nav-item" role="presentation">
 				    	<button class="nav-link" id="conven-tab" data-bs-toggle="tab" data-bs-target="#conven-tab-pane" type="button" role="tab"
-				    	 aria-controls="profile-tab-pane" aria-selected="false">시설안내</button>
+				    	 aria-controls="profile-tab-pane" aria-selected="false">주변시설</button>
 				  	</li>
 				  	<li class="nav-item" role="presentation">
 				    	<button class="nav-link" id="caution-tab" data-bs-toggle="tab" data-bs-target="#caution-tab-pane" type="button" role="tab"
@@ -182,7 +205,7 @@
 				<div class="tab-content" id="myTabContent">
 				  	<div class="tab-pane fade show active" id="cafeinfo-tab-pane" role="tabpanel" aria-labelledby="cafeinfo-tab" tabindex="0">
 						<div style="margin-top: 10px;">
-							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">스터디카페 소개</span>
+							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">편의시설안내</span>
 							<br><br>
 							<p>${room.scConvenient }</p>
 						</div>
@@ -208,12 +231,11 @@
 				  		<div style="margin-top: 10px;">
 							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">이용후기</span>
 							<br><br>
-							<p>[2024-03-04 이용]<br>
-							깨끗하고 좋았어요</p>
-							<p>[2024-03-04 이용]<br>
-							깨끗하고 좋았어요</p>
-							<p>[2024-03-04 이용]<br>
-							깨끗하고 좋았어요</p>
+							<c:forEach var="re" items="${review }">
+							<p>${fn:substring(re.rvDate,0,11) } 🗨️${re.guNick }<br>
+							[${fn:substring(re.reStartDate,0,11) } 이용] ${re.rvContent } 
+							</p>
+							</c:forEach>
 						</div>
 				  	</div>
 				</div>
@@ -231,47 +253,7 @@
 						<div id="map" style="width: 100%; height: 350px;"></div>
 					</div>
 				</div>
-<script>
-var addr = document.getElementById("addr").innerText;
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.5565401,126.9194871), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption);
-
-//줌인, 줌아웃 불가 
-map.setZoomable(false);
-
-// 마커 이미지 생성
-imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-imageSize = new kakao.maps.Size(34, 48);
-var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
-
-// 주소로 좌표를 검색합니다
-geocoder.addressSearch(addr, function(result, status) {
-
-    // 정상적으로 검색이 완료됐으면 
-     if (status === kakao.maps.services.Status.OK) {
-
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-        });
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-    } 
-});    
-</script>
 				</c:forEach>
  			</div>
  		</div>

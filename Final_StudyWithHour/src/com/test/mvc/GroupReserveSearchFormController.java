@@ -82,6 +82,7 @@ public class GroupReserveSearchFormController implements Controller
 			mav.addObject("lsCode", lsCode);
 			mav.addObject("lfCode", lfCode);
 			
+			 
 			mav.setViewName("Reservation.jsp");
 			//mav.setViewName("/WEB-INF/view/Reservation.jsp");
 			

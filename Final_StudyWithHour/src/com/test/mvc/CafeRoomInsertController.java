@@ -7,6 +7,7 @@ package com.test.mvc;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -19,25 +20,19 @@ public class CafeRoomInsertController implements Controller
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		// 액션 코드
-		
+		// 액션 코드		
 		ModelAndView mav = new ModelAndView();
 		
 		// session 설정
-		/*
+		// 호스트코드가 있는 경우에만 접근 가능
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("name")==null)
+		if (session.getAttribute("hoCode")==null)
 		{
-			mav.setViewName("redirect:loginform.action");
+			// 호스트코드가 없는 경우 로그인 폼으로 이동
+			mav.setViewName("redirect:loginform.do");
 			return mav;
 		}
-		else if (session.getAttribute("admin")==null)
-		{
-			mav.setViewName("redirect:logout.action");
-			return mav;
-		}
-		*/
 		
 		CafeDAO dao = new CafeDAO();
 		CafeDTO dto = new CafeDTO();
@@ -47,9 +42,14 @@ public class CafeRoomInsertController implements Controller
 		{
 			dao.connection();
 			String scCode = request.getParameter("scCode");
-			String srName = request.getParameter("name");
+			String srName = request.getParameter("roomName");
 			String srCount = request.getParameter("srCount");
 			String srPrice = request.getParameter("price");
+			
+			System.out.print(scCode);
+			System.out.print(srName);
+			System.out.print(srCount);
+			System.out.print(srPrice);
 			
 			dto.setScCode(scCode);
 			dto.setSrName(srName);
@@ -59,9 +59,8 @@ public class CafeRoomInsertController implements Controller
 			result = dao.addRoom(dto);
 			
 			if (result <= 0)
-				mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
+				mav.setViewName("redirect:cafedetail.do");
 			
-			mav.addObject("scCode", scCode);
 			mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
 			
 			dao.close();

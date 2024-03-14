@@ -18,7 +18,18 @@
 		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
 	</select>
 	
-
+	<!-- 추가모집 가능인원 조회 -->
+	<select id="addMemberCount" resultType="java.lang.Integer">
+		SELECT COUNT(GR_COUNT) - COUNT(GJ_CODE)
+		FROM VIEW_MEMBERINFO
+		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 그룹원 추가모집 요청 -->
+	<insert id="addMember">
+		INSERT INTO GROUP_ADD(GA_CODE, GA_DATE, GR_CODE, PERIOD_CODE)
+		VALUES(TO_CHAR(GROUP_ADD_SEQ.NEXTVAL), SYSDATE, #{param1}, #{param2})
+	</insert>
 
 
 </mapper>

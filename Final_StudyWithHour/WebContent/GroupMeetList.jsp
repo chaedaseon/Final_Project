@@ -86,51 +86,57 @@
 			<button type="button" class="selectBtn" onclick="sendIt()">Search</button>
 			</form>
 		</div>
+		
+		
+		<!-- 모임내역 영역 ------------------------------------------------------------------------------>		
+		<div class="list">
+			<table class="list_table" style="margin-top: 42px;">
+				<tr class="spacer"></tr>
+				<tr>
+					<th>No</th>
+					<th>모임명</th>
+					<th>모임일자</th>
+					<th>모임시간</th>
+					<th>작성자</th>
+					<th>기록</th>
+				</tr>
+				<tr class="spacer"></tr>
+				<c:forEach var="m" items="${meet }">
+				<tr>
+					<td>${m.rNum }</td>
+					<td><a href="#">${m.gschName }</a></td> <!-- 일정명 클릭시 해당 캘린더로 이동 -->
+					<td>${fn:substring(m.gschDate,0,11) }</td>
+					<td>${m.gschStartHour } ~ ${m.gschEndHour }</td>
+					<td>${m.guName }</td>
+					<td>
+						<c:choose>
+						<c:when test="${m.meetState eq '없음' }">
+							<button type="button" onclick="location.href='groupmeetform.do?gjCode=1&gschCode=${m.gschCode}'">기록작성</button>
+						</c:when>
+						<c:when test="${m.meetState eq '있음' }">
+							<button type="button" onclick="location.href='groupmeetform.do?gjCode=1&gschCode=${m.gschCode}'">기록확인</button>
+						</c:when>
+						</c:choose>
+					</td>
+				</tr>
+				</c:forEach>
+				<c:if test="${dataCount <= 0 }">
+				<tr>
+					<td colspan="6" style="text-align: center;">모임내역이 존재하지 않습니다.</td>
+				</tr>
+				</c:if>
+				<tr class="spacer"></tr>
+			</table>
+		</div>
 				
-			<div class="list">
-				<table class="list_table" style="margin-top: 42px;">
-					<tr class="spacer"></tr>
-					<tr>
-						<th>No</th>
-						<th>일정명</th>
-						<th>모임일자</th>
-						<th>시간</th>
-						<th>작성자</th>
-						<th>참석예정자</th>
-						<th></th>
-					</tr>
-					<tr class="spacer"></tr>
-					<c:forEach var="m" items="${meet }">
-					<tr>
-						<td>${m.rNum }</td>
-						<td>${m.gschName }</td> <!-- 일정명 클릭시 해당 캘린더로 이동 -->
-						<td>${fn:substring(m.gschDate,0,11) }</td>
-						<td>${m.gschStartHour } ~ ${m.gschEndHour }</td>
-						<td>${m.guName }</td>
-						<td>ooo, ooo, ooo</td>
-						<td>
-							<button class="btn">수정</button>
-						</td>
-					</tr>
-					</c:forEach>
-					<c:if test="${dataCount <= 0 }">
-					<tr>
-						<td colspan="6" style="text-align: center;">모임내역이 존재하지 않습니다.</td>
-					</tr>
-					</c:if>
-					<tr class="spacer"></tr>
-				</table>
-			</div>
-				
-				
-			<!-- 페이징 ------------------------------------------------------------>
-			<nav aria-label="Page navigation example paging" class="paging">
-				<ul class="pagination">
-					<c:if test="${dataCount != 0 }">
-						<li class="page-item">${pageIndexList }</li>
-					</c:if>
-				</ul>
-			</nav>
+		<!-- 페이징 ------------------------------------------------------------>
+		<nav aria-label="Page navigation example paging" class="paging">
+			<ul class="pagination">
+				<c:if test="${dataCount != 0 }">
+					<li class="page-item">${pageIndexList }</li>
+				</c:if>
+			</ul>
+		</nav>
 			</div>
 			</div>
 	</section>

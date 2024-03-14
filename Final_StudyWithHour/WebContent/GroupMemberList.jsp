@@ -19,7 +19,33 @@
 <link rel="stylesheet" type="text/css" href="css/RegFormStyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+/* 
+	// '-' 를 눌러 인원을 줄일 경우
+	function delCount()
+	{
+		var member = document.getElementById("addMem").innerText;
+		if (member > 0)
+			document.getElementById("addMem").innerHTML = parseInt(member) - 1;
+		//alert(member);
+	}
+	
+	// '+' 를 눌러 인원을 늘릴 경우
+	function addCount()
+	{
+		var member = document.getElementById("addMem").innerText;
+		if (member < ${addMemberCount})
+			document.getElementById("addMem").innerHTML = parseInt(member) + 1;
+	}
+ */	
+	function sendIt()
+	{
+	 	var form = document.getElementById("addMemberForm");
+		form.submit();
+	}
+	
 
+</script>
 </head>
 <body>
 	<header>
@@ -42,6 +68,7 @@
 			<c:forEach var="member" items="${member }">
 				<div class="col-3" style="margin: 0 35px"> 
 					<div style="border: 3px solid #94be2c85; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+					<%-- 그룹원정보 클릭 시 해당 그룹원 프로필카드로 이동 --%>
 					<a href="#">
 					<div style="display: grid; justify-items: center;">
 						<div class="image-area">
@@ -85,48 +112,55 @@
 				</div>
 			</c:forEach>
 		</div>
-			<a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-			<div style="border: 3px solid #94be2c85; border-radius: 10px; height: 60px; width: 80%; text-align: center; margin-left: 83px; padding: 15px;">
-				<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#94be2c" class="bi bi-plus-lg" viewBox="0 0 16 16">
-				  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
-				</svg>
-			</div>
-			</a>
+			<c:choose>
+			<c:when test="${addMemberCount != 0 }">
+				<a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+				<div style="border: 3px solid #94be2c85; border-radius: 10px; height: 60px; width: 80%; text-align: center; margin-left: 83px; padding: 15px;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#94be2c" class="bi bi-plus-lg" viewBox="0 0 16 16">
+					  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/>
+					</svg>
+				</div>
+				</a>
+			</c:when>
+			<c:otherwise>
+				<div style="text-align: center; height: 60px; width: 80%; margin-left: 83px; padding: 15px;">
+					<h4>해당 그룹은 정원 마감으로 인해 추가 모집이 불가합니다.</h4>
+				</div>
+			</c:otherwise>
+			</c:choose>
 		</div>
+	</div>				
+	
 
- <!-- 그룹원 추가모집 모달 영역 -->
+ <!-- 그룹원 추가모집 모달 영역 ------------------------------------------------------------------------------>
  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered">
      <div class="modal-content">
        <div class="modal-header">
-         <h1 class="modal-title fs-5" id="updateRoomLabel">그룹원 추가모집</h1>
+         <h1 class="modal-title fs-5" id="staticBackdropLabel">그룹원 추가모집</h1>
          	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		       </div>
-		       <div class="modal-body" style="text-align: center; display: flex; justify-content: space-around; align-items: center;">
-				<div>
-		       		<span>기간분류</span><br>
-		       		<div style="display: flex; align-items: center;">
-			       		<label><input type="radio">상시</label>
-			       		<label><input type="radio">기간</label>
-		       		</div>
+				<div style="height: 100px; display: flex; align-items: center; justify-content: space-around; flex-direction: column;">
+		        <div>
+		        	그룹원을 추가모집 하시겠습니까?
+		        </div>
+	       		<div>
+			  	<form action="groupmemberinsert.do?gr_code=1" method="post" id="addMemberForm">
+		       		<label><input type="radio" name="period_code" value="1" style="font-size: 20px;">상시모집</label>
+		       		<label><input type="radio" name="period_code" value="2" style="font-size: 20px;">기간모집</label>
+			    </form>
+	       		</div>
 		       	</div>
-		       	<div>
-		       		<span>인원</span><br>
-		       		<a>-</a>
-		       		<span>3</span>
-		       		<a>+</a>
-		       	</div>
-		       </div>
 		       <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-         <button type="button" class="btn btn-primary" onclick="location.href='cafedelete.do?scCode=${cafe.scCode}">Yes</button>
+         <button type="button" class="btn btn-primary" onclick="sendIt()">Yes</button>
        </div>
      </div>
    </div>
  </div>
-	</div>				
+ 
+ 
 	</section>
-	
 	<footer>
 		<jsp:include page="/Footer.jsp" />
 	</footer>

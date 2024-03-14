@@ -1,5 +1,5 @@
 /*==================================
-	GroupReserveDeleteController.java
+	GroupReserveInsertController.java
 	- 사용자 정의 컨트롤러 클래스
 ===================================*/
 
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
-public class GroupReserveDeleteController implements Controller
+public class GroupReserveInsertController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -40,17 +40,28 @@ public class GroupReserveDeleteController implements Controller
 		*/
 		
 		GroupDAO dao = new GroupDAO();
+		GroupDTO dto = new GroupDTO();
 		
 		try
 		{
-			String grCode = request.getParameter("grCode");
-			String reCode = request.getParameter("reCode");
-			
+			String gjCode = request.getParameter("gjCode");
+			String srCode = request.getParameter("srCode");
+			String reserveDate = request.getParameter("reserveDate");
+			String reserveHour1 = request.getParameter("reserveHour1");
+			String reserveHour2 = request.getParameter("reserveHour2");
+			String reserveCount = request.getParameter("reserveCount");
 			dao.connection();
 			
-			dao.reserveRemove(reCode);
+			dto.setReStartDate(reserveDate);
+			dto.setReStartHour(reserveHour1);
+			dto.setReEndHour(reserveHour2);
+			dto.setReCount(Integer.parseInt(reserveCount));
+			dto.setGjCode(gjCode);
+			dto.setSrCode(srCode);
 			
-			mav.setViewName("redirect:groupreservelist.do?grCode=" + grCode);
+			dao.roomReserveAdd(dto);
+			
+			mav.setViewName("redirect:groupreservesearch.do?&gjCode="+gjCode);
 			
 			dao.close();
 			

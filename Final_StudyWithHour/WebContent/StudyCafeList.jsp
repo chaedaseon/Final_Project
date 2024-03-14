@@ -8,7 +8,9 @@
 	String cp = request.getContextPath();
 	
 	// 호스트 세션 받아오기
-	HostDTO host = (HostDTO) session.getAttribute("host");
+	String hoCode = (String)session.getAttribute("hoCode");
+	HostDAO hostDao = new HostDAO();
+	HostDTO host = hostDao.sessionHost(hoCode);
 %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +44,7 @@
 					</div>
 					<div class="sorting_div"></div>
 					<c:forEach var="cafe" items="${cafeList }">
-					<a href="${articleUrl }?scCode=${cafe.scCode }">
+					<a href="cafedetail.do?scCode=${cafe.scCode }">
 					<div class="col-md-12">
 						<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm" style="height: 150px;">
 							<div class="col p-4 d-flex flex-column">
