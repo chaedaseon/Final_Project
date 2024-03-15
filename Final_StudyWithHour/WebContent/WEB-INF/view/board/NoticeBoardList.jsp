@@ -54,7 +54,7 @@
 	<section>
 		<div id="content">
 			<div class="category_bar">
-			<c:import url="/imageSlide.jsp"></c:import>
+			<c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import>
 			
 			<div class="content_div">
 				<div class="board_title">

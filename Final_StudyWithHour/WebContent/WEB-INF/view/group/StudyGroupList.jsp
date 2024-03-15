@@ -50,7 +50,11 @@
 		    {
 				alert("로그인이 필요한 접근입니다.");
 				window.location.href = "loginform.do";
-		    } 
+		    }
+		    else if(grGucode == ssessionGuCode)
+		    {
+		    	alert("본인이 작성한 모집글입니다.");
+		    }
 		    else if(dDay < 0)
 		    {
 		    	if(periodCode == 1)
@@ -190,36 +194,28 @@
 	{
 		$("#joinSubmit").click(function()
    		{
-			var ssessionGuCode = $("#ssessionGuCode").val();
-		    if(ssessionGuCode == grGuCode)
-		    {
-		        alert("본인이 개설한 그룹입니다.");
-		    }
-		    else
-		    {
-				if(confirm("그룹에 가입하시겠습니까?"))
-				{
-					var guCode = $("input[name=guCode]").val();
-					var grCode = $("input[name=grCode]").val();
-		        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
-		            $.ajax({
-		                url: "groupjoin.do",
-		                type: "POST",
-		                data: data,
-		                dataType: "json",
-		                success: function(response) {
-		                	var out = "";
-		                	out += response.msg;
-		                	
-		                	alert(out);
-		                	$("#groupJoinModal").modal("hide");
-		                },
-		                error: function(e) {
-		                	alert("잘못된 접근입니다.");
-						} 
-		            });
-				}
-		    }
+			if(confirm("그룹에 가입하시겠습니까?"))
+			{
+				var guCode = $("input[name=guCode]").val();
+				var grCode = $("input[name=grCode]").val();
+	        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
+	            $.ajax({
+	                url: "groupjoin.do",
+	                type: "POST",
+	                data: data,
+	                dataType: "json",
+	                success: function(response) {
+	                	var out = "";
+	                	out += response.msg;
+	                	
+	                	alert(out);
+	                	$("#groupJoinModal").modal("hide");
+	                },
+	                error: function(e) {
+	                	alert("잘못된 접근입니다.");
+					} 
+	            });
+			}
    		});
 	});
 </script>

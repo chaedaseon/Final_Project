@@ -146,7 +146,7 @@
 			<div class="content_div">
 				<div class="board_title">
 					<span><a href="boardcommunitylist.do" style="color: #94bc32;">커뮤니티</a></span>
-					<c:import url="/CategoryBar.jsp"></c:import>
+					<c:import url="/WEB-INF/view/board/CategoryBar.jsp"></c:import>
 				</div>
 				<div id="form_title">
 					<span>게시글 작성</span>
