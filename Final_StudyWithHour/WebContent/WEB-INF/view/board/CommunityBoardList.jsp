@@ -101,13 +101,13 @@
 	<section>
 		<div id="content">
 			<div class="category_bar">
-				<c:import url="/imageSlide.jsp"></c:import>
+				<c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import>
 				
 			<!-- content div 시작 부분 -->	
 			<div class="content_div">
 				<div class="board_title">
 					<span><a href="boardcommunitylist.do" style="color: #94bc32;">커뮤니티</a></span>
-					<c:import url="/CategoryBar.jsp"></c:import>
+					<c:import url="/WEB-INF/view/board/CategoryBar.jsp"></c:import>
 				</div>
 					<button type="button" class="btn" id="write_button">
 					<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

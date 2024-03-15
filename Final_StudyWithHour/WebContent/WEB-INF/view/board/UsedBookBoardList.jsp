@@ -54,7 +54,7 @@
 <section class="py-6 bg-light-primary">
 	<div id="content">
 		<div class="category_bar">
-			<c:import url="/WEB-INF/view/main/imageSlide.jsp"></c:import>
+			<c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import>
 			<div class="board_title">
 				<span><a href="boardusedbooklist.do" style="color: #94bc32;">중고책방</a></span>
 				<nav class="navbar navbar-expand-lg">
