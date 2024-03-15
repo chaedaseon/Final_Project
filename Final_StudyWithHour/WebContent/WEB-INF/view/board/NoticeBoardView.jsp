@@ -74,7 +74,7 @@
 	<header>
 		<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>
 	</header>
-<input type="text" id="ssessionAdCode" value="<%=adCode%>"/>
+<input type="hidden" id="ssessionAdCode" value="<%=adCode%>"/>
 	<section>
 		<div id="content">
 			<div class="category_bar">

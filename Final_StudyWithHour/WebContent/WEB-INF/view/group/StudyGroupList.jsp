@@ -51,7 +51,7 @@
 				alert("로그인이 필요한 접근입니다.");
 				window.location.href = "loginform.do";
 		    }
-		    else if(grGucode == ssessionGuCode)
+		    else if(grGuCode == ssessionGuCode)
 		    {
 		    	alert("본인이 작성한 모집글입니다.");
 		    }
