@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IAdminStudyCafeDAO">
+
+
+
+
+	<!-- 페이징 검색 게시글 수 -->
+    
+    <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+    	SELECT COUNT(*) AS COUNT
+		FROM 
+		(
+			SELECT SC_CODE AS SCCODE, SC_NAME AS SCNAME, H.HO_ID AS HOID, TO_CHAR(SC.SC_DATE, 'YYYY-MM-DD') AS SCDATE, TO_CHAR(SC.AD_PERDATE, 'YYYY-MM-DD') AS ADPERDATE, SC.AD_CHCODE AS ADCHCODE
+		    FROM STUDYCAFE SC JOIN HOST H
+		      ON SC.HO_CODE = H.HO_CODE
+			ORDER BY TO_NUMBER(SC.SC_CODE) DESC
+		)
+    	where 1=1
+		<choose>
+			<when test="searchType=='num'">
+				AND SCCODE = #{keyword}
+			</when>
+			<when test="searchType=='scname'">
+				AND SCNAME  LIKE '%' || #{keyword} || '%'
+			</when>
+			<when test="searchType=='hoid'">
+				AND HOID  LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+    </select>
+ 
+ 
+   
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.StudyCafeDTO">
+    	select  SCCODE, SCNAME, HOID, SCDATE, ADPERDATE, ADCHCODE, CMCODE
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  SCCODE, SCNAME, HOID, SCDATE, ADPERDATE, ADCHCODE, CMCODE
+				FROM
+				(
+				SELECT SC.SC_CODE AS SCCODE, SC.SC_NAME AS SCNAME, H.HO_ID AS HOID, TO_CHAR(SC.SC_DATE, 'YYYY-MM-DD') AS SCDATE, TO_CHAR(SC.AD_PERDATE, 'YYYY-MM-DD') AS ADPERDATE, SC.AD_CHCODE AS ADCHCODE, CM.CM_CODE AS CMCODE
+			    FROM STUDYCAFE SC JOIN HOST H
+			      ON SC.HO_CODE = H.HO_CODE
+                  LEFT JOIN CAFEUNREG CM
+                    ON CM.SC_CODE = SC.SC_CODE
+				ORDER BY TO_NUMBER(SC.SC_CODE) DESC
+		        )
+		        where 1=1
+	        		<choose>
+						<when test="searchType=='num'">
+							AND SCCODE = #{keyword}
+						</when>
+						<when test="searchType=='scname'">
+							AND SCNAME  LIKE '%' || #{keyword} || '%'
+						</when>
+						<when test="searchType=='hoid'">
+							AND HOID  LIKE '%' || #{keyword} || '%'
+						</when>
+					</choose>
+			    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+
+
+
+
+
+	
+	<!-- 스터디카페 상세 정보 조회 -->
+	<select id="studyCafeInfo" resultType="com.study.mybatis.model.StudyCafeDTO">
+	SELECT SC.SC_CODE AS SCCODE, SC.SC_NAME AS SCNAME, SC.SC_ADDR1 AS SCADDR1, SC.SC_ADDR2 AS SCADDR2, SC.SC_TEL AS SCTEL, SC.SC_OPENHOUR AS SCOPENHOUR, SC.SC_CLOSEHOUR AS SCCLOSEHOUR
+	    , SC.SC_CONVENIENT AS SCCONVENIENT, SC.SC_SURROUND AS SCSURROUND, SC.SC_CAUTION AS SCCAUTION, SC.SC_DETAIL AS SCDETAIL, SC.SC_RESNUMBER AS SCRESNUMBER, SC.SC_FILE AS SCFILE
+	    , H.HO_ID AS HOID, TO_CHAR(SC.SC_DATE, 'YYYY-MM-DD') AS SCDATE, TO_CHAR(SC.AD_PERDATE, 'YYYY-MM-DD') AS ADPERDATE, SC.AD_CHCODE AS ADCHCODE, AD_NICK AS ADNICK
+	FROM STUDYCAFE SC JOIN HOST H
+	  ON SC.HO_CODE = H.HO_CODE
+	  LEFT JOIN ADMIN A
+	   ON SC.AD_CODE = A.AD_CODE
+	WHERE SC.SC_CODE = #{SCCODE}
+	</select>
+	
+	
+	<!-- 특정 스터디카페의 스터디룸 조회 -->
+	<select id="studyRoomList" resultType="com.study.mybatis.model.StudyRoomDTO">
+	SELECT SR_CODE AS SRCODE, SR_NAME AS SRNAME, SR_COUNT AS SRCOUNT, SR_PRICE AS SRPRICE
+	FROM STUDYROOM
+	WHERE SC_CODE=#{SCCODE}
+	   AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)
+	</select>
+	
+	<!-- 특정 스터디카페의 스터디룸 갯수 -->
+	<select id="studyRoomCount" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM STUDYROOM
+	WHERE SC_CODE=#{SCCODE}
+	  AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)
+	</select>
+	
+	<!-- 승인된 카페 update -->
+	<update id="okCafe" parameterType="HashMap">
+	UPDATE STUDYCAFE
+	SET AD_CHCODE = '1', AD_CODE = #{adCodeCK}, AD_PERDATE = SYSDATE
+	WHERE SC_CODE = #{scCode}
+	</update>
+	
+	<!-- 승인 안된 카페 update -->
+	<update id="notOkCafe">
+	UPDATE STUDYCAFE
+	SET AD_CHCODE = '1'
+	WHERE SC_CODE = #{scCode}
+	</update>
+	
+	<!-- 제휴종료 여부 확인 -->
+	<select id="cafeUnregCK" resultType="int">
+	SELECT COUNT(*)
+	FROM STUDYCAFE SC JOIN CAFEUNREG CM
+	  ON SC.SC_CODE = CM.SC_CODE
+	WHERE SC.SC_CODE = #{scCode}
+	</select>
+	
+	<!-- 제휴종료일 확인  -->
+	<select id="cafeUnregDate" resultType="String">
+	SELECT TO_CHAR(CM.CM_DATE, 'YYYY-MM-DD')
+	FROM STUDYCAFE SC JOIN CAFEUNREG CM
+	  ON SC.SC_CODE = CM.SC_CODE
+	WHERE SC.SC_CODE = #{scCode}
+	</select>
+</mapper>

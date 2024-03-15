@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IBoardStudyGroupDAO">
+
+	<select id="list" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
+	
+		SELECT X.NO,X.GRCODE, X.GUCODE, X.GRDATE,X.GACODE, X.PERIODCODE, X.GRLEADER, X.GRNAME, X.GRCOUNT, X.GRSUBJECT, X.GRCOMMENT, X.AGE, X.GENDER, X.LSCODE, X.CATEGORY, X.GROPEN, (TRUNC(X.GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY, X.GPPW
+		,NVL((SELECT COUNT(*) FROM GROUP_JOIN WHERE GR_CODE = X.GRCODE),0) AS GJCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.GACODE, T.PERIODCODE, T.GRCODE, T.GUCODE, T.GRLEADER, T.GRDATE, T.GRNAME, T.GRCOUNT, T.GRSUBJECT, T.GRCOMMENT, T.AGE, T.GENDER, T.LSCODE, T.CATEGORY, T.GROPEN, T.GPPW
+		    FROM
+		    (
+		        SELECT GACODE, PERIODCODE, GRCODE, GUCODE, GRLEADER, GRDATE, GRNAME, GRCOUNT, GRSUBJECT, GRCOMMENT, AGE, GENDER, LSCODE, CATEGORY, GROPEN, GPPW
+		        FROM GR_ALL_VIEW
+		        ORDER BY TO_NUMBER(GRCODE))T
+		    WHERE (SELECT COUNT(*)-(12 * #{vNum}) + 12 FROM GR_ALL_VIEW) >= ROWNUM 
+		    ORDER BY ROWNUM DESC
+		)X
+		WHERE X.NO >= (SELECT COUNT(*)-(12 * #{vNum} - 1) FROM GR_ALL_VIEW)
+	
+	</select>
+	
+	<select id="dDaylist" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
+	
+		SELECT X.NO,X.GRCODE, X.GUCODE, X.GRLEADER, X.GRDATE, X.GRNAME, X.GRCOUNT, X.GRSUBJECT, X.GRCOMMENT, X.AGE, X.GENDER, X.LSCODE, X.CATEGORY, X.GROPEN, X.DDAY
+		,NVL((SELECT COUNT(*) FROM GROUP_JOIN WHERE GR_CODE = X.GRCODE),0) AS GJCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.GRCODE, T.GUCODE, T.GRLEADER, T.GRDATE, T.GRNAME, T.GRCOUNT, T.GRSUBJECT, T.GRCOMMENT, T.AGE, T.GENDER, T.LSCODE, T.CATEGORY, T.GROPEN, T.DDAY
+		    FROM
+		    (
+		        SELECT GRCODE, GUCODE, GRLEADER, GRDATE, GRNAME, GRCOUNT, GRSUBJECT, GRCOMMENT, AGE, GENDER, LSCODE, CATEGORY, GROPEN, (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		        FROM MY_GR_VIEW
+		        ORDER BY GRDATE)T
+		        WHERE ((SELECT COUNT(*)
+		               FROM(
+		               SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		               FROM MY_GR_VIEW)
+		               WHERE DDAY >= 0) - (12 * #{vNum}) + 12) >= ROWNUM
+		        AND DDAY >= 0
+		        ORDER BY ROWNUM DESC
+		)X
+		WHERE X.NO >= (SELECT COUNT(*)
+		               FROM(
+		               SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		               FROM MY_GR_VIEW)
+		               WHERE DDAY >= 0) - (12 * #{vNum} - 1)
+	
+	</select>
+	
+	<select id="addList" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
+		SELECT X.NO,X.GRCODE, X.GUCODE, X.GACODE, X.PERIODCODE, X.GRLEADER, X.GRNAME, X.GRCOUNT, X.GRSUBJECT, X.GRCOMMENT, X.AGE, X.GENDER, X.LSCODE, X.CATEGORY, X.GROPEN, X.DDAY, X.GPPW
+		,NVL((SELECT COUNT(*) FROM GROUP_JOIN WHERE GR_CODE = X.GRCODE),0) AS GJCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.GACODE, T.PERIODCODE, T.GRCODE, T.GUCODE, T.GRLEADER, T.GADATE, T.GRNAME, T.GRCOUNT, T.GRSUBJECT, T.GRCOMMENT, T.AGE, T.GENDER, T.LSCODE, T.CATEGORY, T.GROPEN, T.DDAY, T.GPPW
+		    FROM
+		    (
+		        SELECT GACODE, PERIODCODE, GRCODE, GUCODE, GRLEADER, GADATE, GRNAME, GRCOUNT, GRSUBJECT, GRCOMMENT, AGE, GENDER, LSCODE, CATEGORY, GROPEN, DDAY, GPPW
+		        FROM GR_ADD_VIEW
+		        ORDER BY GADATE)T
+		        WHERE (SELECT COUNT(*)-(12 * #{vNum}) + 12 FROM GR_ADD_VIEW) >= ROWNUM
+		        ORDER BY ROWNUM DESC
+		)X
+		WHERE X.NO >= (SELECT COUNT(*)-(12 * #{vNum} - 1) FROM GR_ADD_VIEW)
+	</select>
+	
+	<select id="endList" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
+		SELECT X.NO,X.GRCODE, X.GUCODE, X.GRLEADER, X.GRDATE, X.GRNAME, X.GRCOUNT, X.GRSUBJECT, X.GRCOMMENT, X.AGE, X.GENDER, X.LSCODE, X.CATEGORY, X.GROPEN, X.DDAY
+		,NVL((SELECT COUNT(*) FROM GROUP_JOIN WHERE GR_CODE = X.GRCODE),0) AS GJCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.GRCODE, T.GUCODE, T.GRLEADER, T.GRDATE, T.GRNAME, T.GRCOUNT, T.GRSUBJECT, T.GRCOMMENT, T.AGE, T.GENDER, T.LSCODE, T.CATEGORY, T.GROPEN, T.DDAY
+		    FROM
+		    (
+		        SELECT GRCODE, GUCODE, GRLEADER, GRDATE, GRNAME, GRCOUNT, GRSUBJECT, GRCOMMENT, AGE, GENDER, LSCODE, CATEGORY, GROPEN, (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		        FROM MY_GR_VIEW
+		        ORDER BY GRDATE)T
+		        WHERE ((SELECT COUNT(*)
+		               FROM(
+		               SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		               FROM MY_GR_VIEW)
+		               WHERE 0 > DDAY) - (12 * #{vNum}) + 12) >= ROWNUM
+		        AND 0 > DDAY
+		        ORDER BY ROWNUM DESC
+		)X
+		WHERE X.NO >= (SELECT COUNT(*)
+		               FROM(
+		               SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		               FROM MY_GR_VIEW)
+		               WHERE 0 > DDAY) - (12 * #{vNum} - 1)
+	</select>
+	
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM MY_GR_VIEW
+	</select>
+	
+	<select id="dDayListcount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM(
+		SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		FROM MY_GR_VIEW)
+		WHERE DDAY >= 0
+	</select>
+	
+	<select id="endListCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM(
+		SELECT (TRUNC(GRDATE + 7) - TRUNC(SYSDATE)) AS DDAY
+		FROM MY_GR_VIEW)
+		WHERE 0 > DDAY
+	</select>
+	
+	<select id="addListCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM GR_ADD_VIEW	
+	</select>
+	
+	<insert id="insertGroupRegistration" parameterType="com.study.mybatis.model.BoardStudyGroupDTO">
+	    <![CDATA[
+	    DECLARE
+	        COUNT_CHECKER EXCEPTION;
+	        P_DATE_COUNT NUMBER;
+	    BEGIN                                                      
+	        SELECT NVL(COUNT(*),0) INTO P_DATE_COUNT
+	        FROM GROUP_REGISTRATION
+	        WHERE GU_CODE = #{guCode}
+	        AND TO_DATE(GR_DATE, 'YYYY-MM-DD') = TO_DATE(SYSDATE,'YYYY-MM-DD');
+	
+	        IF(P_DATE_COUNT < 3) THEN
+	            INSERT INTO GROUP_REGISTRATION(GR_CODE, GR_DATE, GR_NAME, GR_COUNT, GR_SUBJECT, GR_COMMENT, GU_CODE, AGE_CODE, GENDER_CODE, LS_CODE, CATEGORY_CODE, GO_CODE)
+	            VALUES(GROUP_REGISTRATION_SEQ.NEXTVAL, DEFAULT, #{grName}, #{grCount}, #{grSubject}, #{grComment}, #{guCode}, #{ageCode}, #{genderCode}, #{lsCode}, #{categoryCode}, #{goCode})
+	            RETURNING GR_CODE INTO P_GR_CODE;
+	        ELSIF (P_DATE_COUNT = 3) THEN
+	            RAISE COUNT_CHECKER;
+	        END IF;
+	
+	        IF (#{goCode} = '2')                                  
+	            THEN INSERT INTO GROUP_PW(GP_CODE, GP_PW, GR_CODE)        
+	                 VALUES(GROUP_PW_SEQ.NEXTVAL, #{gpPw}, P_GR_CODE);
+	        END IF;
+	
+	        COMMIT;
+	       
+	        EXCEPTION
+	            WHEN COUNT_CHECKER THEN
+	                RAISE_APPLICATION_ERROR(-20001, '개설 요청 수 초과');
+	                ROLLBACK;
+	            WHEN OTHERS THEN ROLLBACK;
+	    END;
+	    ]]>
+	</insert>
+	
+	<insert id="callGroupJoinProcedure" parameterType="hashMap">
+        { CALL PRC_GROUP_JOIN_INSERT(
+            #{P_GU_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+            #{P_GR_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+        ) }
+    </insert>
+	
+	<select id="lsList" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
+		SELECT LS_CODE AS LSCODE, LS_LIST AS LSLIST, LF_CODE AS LFCODE
+		FROM LOCATION_SECOND
+		WHERE LF_CODE = #{lfCode}
+		ORDER BY TO_NUMBER(LS_CODE)
+	</select>
+	
+	<insert id="callGroupRegistrationProcedure" parameterType="hashMap">
+    {CALL PRC_GROUP_REGISTRATION_INSERT(
+        #{P_GR_NAME, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GR_COUNT, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+        #{P_GR_SUBJECT, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GR_COMMENT, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GU_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_AGE_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GENDER_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_LS_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_CATEGORY_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GO_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+        #{P_GP_PW, mode=IN, jdbcType=INTEGER, javaType=java.lang.String}
+    )}
+</insert>
+	
+</mapper>

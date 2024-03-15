@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.ICommunityBoardDAO">
+
+<!-- ============================================
+    	CommunityBoardDAO.xml
+        - mybatis 환경 설정 파일 활용
+================================================= -->
+
+	<select id="list" resultType="com.study.mybatis.model.CommunityBoardDTO">
+		SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		    SELECT B.BO_CODE AS BOCODE, TO_CHAR(B.BO_DATE) AS BODATE, B.BO_TITLE AS BOTITLE
+		        , B.BO_CONTENT AS BOCONTENT, B.BO_VIEW AS BOVIEW
+		        , TO_CHAR(B.BO_MODATE) AS BOMODATE, B.BO_FILE AS BOFILE, B.BS_CODE AS BSCODE
+		        , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		        (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+		        ORDER BY TO_NUMBER(BOCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * #{vNum})+10 FROM BOARD) >= ROWNUM 
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * #{vNum} - 1) FROM BOARD)
+	</select>
+	
+	<!-- 게시글 갯수 확인 -->
+	<select id="count" resultType="java.lang.Integer">
+		SELECT COUNT(*) AS COUNT
+		FROM BOARD_VIEW
+	</select>
+    
+    <select id="searchBsCodeList" resultType="com.study.mybatis.model.CommunityBoardDTO">
+		SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		        SELECT BO_CODE AS BOCODE, TO_CHAR(BO_DATE) AS BODATE, BO_TITLE AS BOTITLE
+		        , BO_CONTENT AS BOCONTENT, BO_VIEW AS BOVIEW
+		        , TO_CHAR(BO_MODATE) AS BOMODATE, BO_FILE AS BOFILE, BS_CODE AS BSCODE
+		        , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		        (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+		        ORDER BY TO_NUMBER(BOCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * ${param2}) + 10 FROM BOARD
+		           WHERE BS_CODE = '${param1}') >= ROWNUM
+		    AND BSCODE = '${param1}'
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * ${param2} -1) FROM BOARD
+		                WHERE BS_CODE = '${param1}')    
+    </select>
+    
+    <select id="usedBookSearchBsCodeList" resultType="com.study.mybatis.model.CommunityBoardDTO">
+		SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		        SELECT BO_CODE AS BOCODE, TO_CHAR(BO_DATE) AS BODATE, BO_TITLE AS BOTITLE
+		        , BO_CONTENT AS BOCONTENT, BO_VIEW AS BOVIEW
+		        , TO_CHAR(BO_MODATE) AS BOMODATE, BO_FILE AS BOFILE, BS_CODE AS BSCODE
+		        , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		        (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+		        WHERE BS_CODE = '${param1}'
+		        ORDER BY TO_NUMBER(BOCODE))T
+		    WHERE (SELECT COUNT(*)-(9 * ${param2}) + 9 FROM BOARD
+		           WHERE BS_CODE = '${param1}') >= ROWNUM
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(9 * ${param2}) + 1  FROM BOARD
+		                WHERE BS_CODE = '${param1}')    
+    </select>
+    
+    <select id="usedBookList" resultType="com.study.mybatis.model.CommunityBoardDTO">
+    	SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		        SELECT BO_CODE AS BOCODE, TO_CHAR(BO_DATE) AS BODATE, BO_TITLE AS BOTITLE
+		        , BO_CONTENT AS BOCONTENT, BO_VIEW AS BOVIEW
+		        , TO_CHAR(BO_MODATE) AS BOMODATE, BO_FILE AS BOFILE, BS_CODE AS BSCODE
+		        , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		        (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+                WHERE BS_CODE = '5'
+                OR BS_CODE = '6'
+                ORDER BY TO_NUMBER(BOCODE))T
+            WHERE (SELECT COUNT(*)-(9 * #{vNum}) + 9 FROM BOARD
+		           WHERE BS_CODE = '5'
+                   OR BS_CODE = '6') >= ROWNUM
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(9 * #{vNum}) + 1  FROM BOARD
+		                WHERE BS_CODE = '5'
+                        OR BS_CODE = '6')
+    </select>
+    
+    <select id="scBsCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+		FROM BOARD_VIEW
+		WHERE BSCODE = ${bsCode}
+    </select>
+    
+    <select id="searchTitleList" resultType="com.study.mybatis.model.CommunityBoardDTO">
+        SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		        SELECT BO_CODE AS BOCODE, TO_CHAR(BO_DATE) AS BODATE, BO_TITLE AS BOTITLE
+		        , BO_CONTENT AS BOCONTENT, BO_VIEW AS BOVIEW
+		        , TO_CHAR(BO_MODATE) AS BOMODATE, BO_FILE AS BOFILE, BS_CODE AS BSCODE
+		        , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		        (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+		        ORDER BY TO_NUMBER(BOCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * ${param2})+ 10 FROM BOARD
+		    	   WHERE BO_TITLE like '%${param1}%') >= ROWNUM
+		    and BOTITLE like '%${param1}%'
+		    ORDER BY ROWNUM DESC
+		    )X
+		WHERE X.NO >= (SELECT COUNT(*)-(10 * ${param2} -1) FROM BOARD
+		               WHERE BO_TITLE like '%${param1}%')
+    </select>
+
+	<select id="searchNum" resultType="com.study.mybatis.model.CommunityBoardDTO">
+        SELECT NO,BODATE,BOTITLE,BOCONTENT,BOVIEW,BOMODATE,BOFILE,BSCODE,BOWRITER,REPLYCOUNT
+		FROM BOARD_VIEW
+		WHERE NO = ${searchNum}
+    </select>
+
+	<select id="searchNickList" resultType="com.study.mybatis.model.CommunityBoardDTO">
+		SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT
+		FROM
+		(
+		    SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE,T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT
+		    FROM
+		    (
+		        SELECT BO_CODE AS BOCODE, TO_CHAR(BO_DATE) AS BODATE, BO_TITLE AS BOTITLE
+		             , BO_CONTENT AS BOCONTENT, BO_VIEW AS BOVIEW
+		             , TO_CHAR(BO_MODATE) AS BOMODATE, BO_FILE AS BOFILE, BS_CODE AS BSCODE
+		             , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		               (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		        FROM GUEST
+		        WHERE GU_CODE = B.GU_CODE)AS BOWRITER
+		        , NVL((SELECT COUNT(*)
+                        FROM(
+                        SELECT RP_CODE, BO_CODE
+                        FROM REPLY
+                        UNION ALL
+                        SELECT RR.RP_CODE, RP.BO_CODE
+                        FROM REPLY RP
+                        RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+                        WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT
+		        FROM BOARD B
+		        ORDER BY TO_NUMBER(BOCODE))T
+		    WHERE (SELECT COUNT(*)-(10 * ${param2})+ 10 FROM 
+                            (SELECT (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		                   (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')' 
+		                    FROM GUEST
+		                    WHERE GU_CODE = B.GU_CODE) AS BOWRITER
+		                    FROM BOARD B)
+		                WHERE BOWRITER like '%${param1}%') >= ROWNUM
+		    and BOWRITER like '%${param1}%'
+		    ORDER BY ROWNUM DESC
+		    )X                 
+		WHERE X.NO >= (SELECT COUNT(*) - (10 * ${param2} -1)
+		               FROM
+		               (
+		                   (SELECT (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)|| '(' ||
+		                   (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')' 
+		                    FROM GUEST
+		                    WHERE GU_CODE = B.GU_CODE) AS BOWRITER
+		                    FROM BOARD B))
+		                WHERE BOWRITER like '%${param1}%')
+	</select>
+
+	<select id="scTitleCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM BOARD_VIEW
+		WHERE BOTITLE like '%${param1}%'
+	</select>
+
+	<select id="scNickCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM BOARD_VIEW
+		WHERE BOWRITER like '%${param1}%'
+	</select>
+
+    <insert id="insert">
+        INSERT INTO BOARD(BO_CODE, BO_DATE, BO_TITLE, BO_CONTENT, BO_MODATE, BO_FILE, BS_CODE, GU_CODE)
+		VALUES(TO_CHAR(BOARD_SEQ.NEXTVAL), DEFAULT, #{boTitle}, #{boContent}, DEFAULT, null, #{bsCode}, #{guCode})
+    </insert>
+    
+    <select id="allReplyCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM(
+		SELECT RP_CODE, BO_CODE
+		FROM REPLY
+		UNION ALL
+		SELECT RR.RP_CODE, RP.BO_CODE
+		FROM REPLY RP
+		RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+		WHERE BO_CODE = ${boCode}
+	</select>
+
+</mapper>

@@ -85,6 +85,144 @@ table.list_table tr:last-child
 /* 리스트 테이블 end */
 
 
+/*--------- 마이페이지 ---------*/
+.hoMypage_div
+{
+	display: flex; flex-direction: row; 
+	justify-content: space-between;
+}
+
+.hoMypage_div > div
+{
+	width: 100%; 
+	/* border-radius: 15px; */ 
+	/* box-shadow: 5px 5px 5px #d3d3d3; */
+	margin-top: 50px; 
+	height: 150px; 
+	/* border: 1px solid rgba(0, 0, 0, 0.175); */
+	border-bottom: 2px solid #94be24;
+	
+}
+
+.hoInfo_div
+{
+	display: flex;
+}
+
+.hoInfo
+{
+	width: 40%;
+	height: 100%;
+	display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modifyIcon
+{
+	display: flex; 
+	justify-content: flex-end;
+}
+
+#hoInfo_list, #hoInfo_modify
+{
+	display: flex;
+	width: 60%;
+	justify-content: space-evenly;
+}
+
+.hoInfo_list1
+{
+	/* width: 30%; */
+	height: 100%;
+	font-size: 16px; 
+	margin-left: 15px;
+}
+
+.hoInfo_list2
+{
+	/* width: 30%; */
+	height: 100%;
+	font-size: 16px; 
+	margin-left: 15px;
+}
+
+.joinGroupInfo
+{
+	margin-top: 50px; 
+	display: flex; 
+	justify-content: space-between;
+}
+
+.joinGroupInfo > div
+{
+	width: 30%; 
+	border-radius: 10px; 
+	height: 200px; 
+	box-shadow: 5px 5px 5px #d3d3d3;
+	border: 1px solid rgba(0, 0, 0, 0.175); 
+	font-size: 28px;
+}
+
+.groupInfo_title
+{
+	margin-left: 20px; 
+	margin-top: 20px;
+}
+
+.groupInfo_title > span
+{
+	color: #94BE2C;
+}
+
+.groupCount
+{
+	text-align: right; 
+	margin-right: 10%;
+}
+
+.groupCount > span
+{
+	color: #94BE2C; 
+	font-size: 40px; 
+	font-weight: bold;
+}
+
+.modify_text
+{
+	border: none;
+	border-bottom: 2px solid #dfdfdf;
+	width: 180px;
+	height: 30px;
+	/* margin-bottom: 15px; */
+}
+
+.modify_text:focus
+{
+ 	outline: none; 
+}
+
+.modifyIcon
+{
+	cursor: pointer;
+	height: 24px;
+	border: none;
+	background: none;
+}
+
+#checkIcon, #closeIcon
+{
+	display: flex;
+    align-items: center;
+}
+
+td > button
+{
+	border: none;
+	background: none;
+}
+/* --------------------------------------------- */
+
 
 
 

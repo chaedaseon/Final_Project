@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.study.mybatis.model.IGuestCalendarDAO">
+
+	<!-- 일정 조회 쿼리문 -->
+	<select id="scheduleList" resultType="com.study.mybatis.model.GuestCalendarDTO">
+		SELECT SCH_CODE, SCH_DATE, SCH_NAME, SCH_CONTENT, SCH_REGDATE
+		FROM SCHEDULE
+		WHERE GU_CODE = #{gu_code}
+	</select>
+	
+	
+	<!-- 클릭한 날짜에 대한 일정 조회 쿼리문 -->
+	<select id="searchSchedule" resultType="com.study.mybatis.model.GuestCalendarDTO">
+		SELECT SCH_CODE, SCH_DATE, SCH_NAME, SCH_CONTENT, SCH_REGDATE 
+		FROM SCHEDULE 
+		WHERE GU_CODE = #{param1} AND SCH_DATE = #{param2}
+	</select>
+
+	<!-- 일정 입력 쿼리문 -->
+	<insert id="scheduleAdd">
+		INSERT INTO SCHEDULE(SCH_CODE, SCH_DATE, SCH_NAME, SCH_CONTENT, GU_CODE)
+		VALUES (SCHEDULE_SEQ.NEXTVAL, #{sch_date}, #{sch_name}, #{sch_content}, #{gu_code})
+	</insert> 
+	
+	<!-- 일정 수정 쿼리문 -->
+	<update id="scheduleModify">
+		UPDATE SCHEDULE
+		SET SCH_DATE=TO_DATE(#{sch_date}, 'YYYY-MM-DD'), SCH_NAME=#{sch_name}, SCH_CONTENT=#{sch_content}
+		WHERE SCH_CODE=#{sch_code}
+	</update>
+	
+	<!-- 일정 삭제 쿼리문 -->
+	<delete id="scheduleRemove">
+		DELETE
+		FROM SCHEDULE
+		WHERE SCH_CODE=#{sch_code}
+	</delete>
+	
+	
+</mapper>

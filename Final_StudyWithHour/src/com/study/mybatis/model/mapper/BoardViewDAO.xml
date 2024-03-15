@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IBoardViewDAO">
+
+	<select id="list" resultType="com.study.mybatis.model.BoardViewDTO">
+		SELECT BOCODE,BODATE,BOTITLE,BOCONTENT,BOVIEW,BOMODATE,BOFILE,BSCODE,BOWRITER,REPLYCOUNT,GUCODE
+		FROM BOARD_VIEW
+		WHERE BOCODE = ${boCode}
+	</select>
+
+	<select id="replyList" resultType="com.study.mybatis.model.BoardViewDTO">
+		SELECT RP_CODE AS RPCODE, RP_DATE AS RPDATE, RP_CONTENT AS RPCONTENT, RP_MODATE AS RPMODATE, BO_CODE AS BOCODE
+		,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = R.GU_CODE)|| '(' ||
+		 (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		  FROM GUEST
+		  WHERE GU_CODE = R.GU_CODE)AS RPWRITER , GU_CODE AS GUCODE
+		FROM REPLY R
+		WHERE BO_CODE = ${boCode}
+		ORDER BY TO_NUMBER(RPCODE)
+	</select>
+	
+	<select id="reReplyList" resultType="com.study.mybatis.model.BoardViewDTO">	
+		SELECT RRE_CODE AS RRECODE, RRE_DATE AS RREDATE, RRE_CONTENT AS RRECONTENT, RRE_MODATE AS RREMODATE, RP_CODE AS RPCODE
+		    ,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = RR.GU_CODE)|| '(' ||
+		    (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		    FROM GUEST
+		    WHERE GU_CODE = RR.GU_CODE)AS RREWRITER, GU_CODE AS GUCODE
+		FROM RE_REPLY RR
+		ORDER BY TO_NUMBER(RRECODE)
+		
+	</select>
+	
+	<select id="allReplyCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM(
+		SELECT RP_CODE, BO_CODE
+		FROM REPLY
+		UNION ALL
+		SELECT RR.RP_CODE, RP.BO_CODE
+		FROM REPLY RP
+		RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)
+		WHERE BO_CODE = ${boCode}
+	</select>
+	
+	<insert id="addReply">
+		INSERT INTO REPLY(RP_CODE, RP_DATE, RP_CONTENT, RP_MODATE, BO_CODE, GU_CODE)
+		VALUES(TO_CHAR(REPLY_SEQ.NEXTVAL), DEFAULT, #{rpContent}, DEFAULT, #{boCode}, #{guCode})
+	</insert>
+	
+	<insert id="addReReply">
+		INSERT INTO RE_REPLY(RRE_CODE, RRE_DATE, RRE_CONTENT, RRE_MODATE, RP_CODE, GU_CODE)
+		VALUES(TO_CHAR(RE_REPLY_SEQ.NEXTVAL), DEFAULT, #{rreContent}, DEFAULT, #{rpCode}, #{guCode})
+	</insert>
+	
+	<update id="increaseBoardView"> 
+		UPDATE BOARD
+		SET BO_VIEW = #{param2} + 1
+		WHERE BO_CODE = ${param1}
+	</update>
+	
+	<select id="boardView" resultType="int">
+		SELECT BO_VIEW AS BOVIEW
+		FROM BOARD
+		WHERE BO_CODE = ${param1}
+	</select>
+	
+	<update id="boardViewModify">
+		UPDATE BOARD
+		SET BS_CODE = #{bsCode}, BO_TITLE = #{boTitle},BO_CONTENT = #{boContent},BO_MODATE = SYSDATE
+		WHERE BO_CODE = #{boCode}
+	</update>
+	
+	<delete id="boardViewDelete">
+		DELETE
+		FROM BOARD
+		WHERE BO_CODE = ${boCode}
+	</delete>	
+	
+	<update id="boardViewModifyReply">
+		UPDATE REPLY
+		SET RP_CONTENT = '${rpContent}', RP_MODATE = DEFAULT
+		WHERE RP_CODE = ${rpCode}
+	</update>
+	
+	<update id="boardViewModifyRereply">
+		UPDATE RE_REPLY
+		SET RRE_CONTENT = '${rreContent}', RRE_MODATE = DEFAULT
+		WHERE RRE_CODE = ${rreCode}
+	</update>
+	
+	<delete id="boardViewDeleteReply">
+		DELETE
+		FROM REPLY
+		WHERE RP_CODE = ${rpCode}
+	</delete>
+	
+	<delete id="boardViewDeleteRereply">
+		DELETE
+		FROM RE_REPLY
+		WHERE RRE_CODE = ${rreCode}
+	</delete>
+</mapper>

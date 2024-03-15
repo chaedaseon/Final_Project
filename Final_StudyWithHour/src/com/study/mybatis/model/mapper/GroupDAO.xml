@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IGroupDAO">
+	
+	<!-- 그룹원 정보 조회 -->
+	<select id="memberList" resultType="com.study.mybatis.model.GroupDTO">
+		SELECT ROWNUM RNUM, GR_CODE, GR_NAME, GJ_CODE, GJ_DATE, GU_ID, GU_NICK, CATEGORY_CODE, GU_NAME, CATEGORY_LIST, GENDER, AGE, LD_STATE
+		FROM VIEW_MEMBERINFO
+		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 그룹 인원 조회 -->
+	<select id="memberCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM VIEW_MEMBERINFO
+		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 추가모집 가능인원 조회 -->
+	<select id="addMemberCount" resultType="java.lang.Integer">
+		SELECT COUNT(GR_COUNT) - COUNT(GJ_CODE)
+		FROM VIEW_MEMBERINFO
+		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 그룹원 추가모집 요청 -->
+	<insert id="addMember">
+		INSERT INTO GROUP_ADD(GA_CODE, GA_DATE, GR_CODE, PERIOD_CODE)
+		VALUES(TO_CHAR(GROUP_ADD_SEQ.NEXTVAL), SYSDATE, #{param1}, #{param2})
+	</insert>
+
+
+</mapper>

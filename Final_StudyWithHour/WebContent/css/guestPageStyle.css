@@ -226,34 +226,30 @@ table#calendar tr:nth-child(1)
 /*--------- 마이페이지 ---------*/
 .guMypage_div
 {
-	display: flex; flex-direction: row; 
+	display: flex; 
+	flex-direction: row; 
 	justify-content: space-between;
 }
 
 .guMypage_div > div
 {
 	width: 100%; 
-	/* border-radius: 15px; */ 
-	/* box-shadow: 5px 5px 5px #d3d3d3; */
 	margin-top: 50px; 
-	height: 150px; 
-	/* border: 1px solid rgba(0, 0, 0, 0.175); */
 	border-bottom: 2px solid #94be24;
 	
 }
 
-.guInfo_div
-{
-	display: flex;
-}
-
 .guInfo
 {
-	width: 40%;
-	height: 100%;
-	display: flex;
+    width: 100%;
+    height: 100%;
+    display: flex;
     align-items: center;
     flex-direction: column;
+    background: #94be2424;
+    padding: 30px;
+    border-radius: 30px;x-direction: column;
+    font-size: 40px;
 }
 
 .modifyIcon
@@ -264,14 +260,15 @@ table#calendar tr:nth-child(1)
 
 #guInfo_list, #guInfo_modify
 {
-	display: flex;
-	width: 60%;
-	justify-content: space-evenly;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
 }
+
 
 .guInfo_list1
 {
-	/* width: 30%; */
+	width: 30%;
 	height: 100%;
 	font-size: 16px; 
 	margin-left: 15px;
@@ -279,7 +276,6 @@ table#calendar tr:nth-child(1)
 
 .guInfo_list2
 {
-	/* width: 30%; */
 	height: 100%;
 	font-size: 16px; 
 	margin-left: 15px;
@@ -332,7 +328,7 @@ table#calendar tr:nth-child(1)
 	border-bottom: 2px solid #dfdfdf;
 	width: 180px;
 	height: 30px;
-	/* margin-bottom: 15px; */
+	margin-bottom: 15px;
 }
 
 .modify_text:focus
@@ -360,7 +356,24 @@ td > button
 	background: none;
 }
 
+.unregBtn
+{
+	float: right;
+    border: none;
+    background: none;
+    color: #5b5b5b;
+}
+
+
+.groupInfo
+{
+	cursor: pointer;
+	
+}
+
+
 /*-----------------------스터디그룹 관리-------------------------*/
+
 .group_list
 {
 	width: 80%; 
@@ -401,7 +414,49 @@ td > button
 
 
 
+table.groupJoin_list
+{
+	width: 100%;
+}
 
+table.groupJoin_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.groupJoin_list td
+{
+	font-size: 16px;
+}
+
+table.groupJoin_list th, td
+{
+	height: 45px;
+}
+
+.penalty_sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+table.groupJoin_list tr:nth-last-child(1)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+table.groupJoin_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
 
 
 
@@ -463,7 +518,7 @@ table.board_list a
 
 /* ---------------------------------------------------------------- */
 
-/* 패널티 내역 조회 */
+/* --------------------- 패널티 내역 조회 ------------------------ */
 table.penalty_list
 {
 	width: 100%;

@@ -17,32 +17,37 @@
 	
 	<!-- ① 기존 코드 -->
 	<!-- ※ Annotation 표기법으로 Controller 객체를 등록할 수 있도록 한다. -->
-	<context:component-scan base-package="com.test.mybatis" />
+	<context:component-scan base-package="com.study.mybatis" />
 	
+	
+	<!-- ──────────────────── [메인페이지] ─────────────────── -->
+	<bean name="/studywithhour.do" class="com.study.mvc.controller.MainPageController"></bean>
+	
+	<!-- ──────────────────────────────────────────────  -->
 	
 	<!-- ──────────────────── [회원가입] ─────────────────── -->
 	
 	<!-- 회원 가입 유형 선택 -->
-	<bean name="/jointype.do" class="com.test.mvc.JoinTypeFormController"></bean>
+	<bean name="/jointype.do" class="com.study.mvc.controller.JoinTypeFormController"></bean>
 	
 	<!-- 회원가입 폼 연결 -->
-	<bean name="/join.do" class="com.test.mvc.JoinFormController"></bean>
+	<bean name="/join.do" class="com.study.mvc.controller.JoinFormController"></bean>
 	
 	<!-- 게스트 / 호스트 회원가입 -->
-	<bean name="/memberinsert.do" class="com.test.mvc.MemberInsertController"></bean>
+	<bean name="/memberinsert.do" class="com.study.mvc.controller.MemberInsertController"></bean>
 	
 	<!-- 게스트 아이디 중복 검사 -->
-	<bean name="/checkid.do" class="com.test.mvc.JoinCheckController"></bean>
+	<bean name="/checkid.do" class="com.study.mvc.controller.JoinCheckController"></bean>
 	
 	<!-- 게스트 닉네임 중복 검사 -->
-	<bean name="/checknick.do" class="com.test.mvc.JoinCheckController"></bean>
+	<bean name="/checknick.do" class="com.study.mvc.controller.JoinCheckController"></bean>
 	
 	<!-- 게스트 개인정보 중복 검사 -->
-	<bean name="/checkinfo.do" class="com.test.mvc.JoinCheckController"></bean>
+	<bean name="/checkinfo.do" class="com.study.mvc.controller.JoinCheckController"></bean>
 	
 	
 	<!-- 게스트 비밀번호 확인 -->
-	<bean name="/checkpw.do" class="com.test.mvc.JoinCheckController"></bean>
+	<bean name="/checkpw.do" class="com.study.mvc.controller.JoinCheckController"></bean>
 	
 	
 	<!-- ──────────────────────────────────────────────  -->
@@ -51,38 +56,38 @@
 	<!-- ──────────────────── [로그인] ─────────────────── -->
 	
 	<!-- 로그인 페이지로 연결 -->
-	<bean name="/loginform.do" class="com.test.mvc.LoginFormController"></bean>
+	<bean name="/loginform.do" class="com.study.mvc.controller.LoginFormController"></bean>
 	
 	<!-- 로그인 수행 -->
-	<bean name="/login.do" class="com.test.mvc.LoginController"></bean>
+	<bean name="/login.do" class="com.study.mvc.controller.LoginController"></bean>
 	
 	<!-- 로그아웃 (세션 삭제) -->
-	<bean name="/logout.do" class="com.test.mvc.LogoutController"></bean>
+	<bean name="/logout.do" class="com.study.mvc.controller.LogoutController"></bean>
 	
 	<!-- 아이디 찾기 페이지로 연결 -->
-	<bean name="/searchidform.do" class="com.test.mvc.SearchAccountFormController"></bean>
+	<bean name="/searchidform.do" class="com.study.mvc.controller.SearchAccountFormController"></bean>
 	
 	<!-- 비밀번호 찾기 페이지로 연결 -->
-	<bean name="/searchpwform.do" class="com.test.mvc.SearchAccountFormController"></bean>
+	<bean name="/searchpwform.do" class="com.study.mvc.controller.SearchAccountFormController"></bean>
 	
 	<!-- 아이디 찾기 수행 -->
-	<bean name="/searchid.do" class="com.test.mvc.SearchAccountController"></bean>
+	<bean name="/searchid.do" class="com.study.mvc.controller.SearchAccountController"></bean>
 	
 	<!-- 비밀번호 찾기 수행 -->
-	<bean name="/searchpw.do" class="com.test.mvc.SearchAccountController"></bean>
+	<bean name="/searchpw.do" class="com.study.mvc.controller.SearchAccountController"></bean>
 	<!-- ──────────────────────────────────────────────  -->
 
 
 	<!-- ──────────────────── [호스트] 마이페이지 ─────────────────── -->
 	
 	<!-- 마이페이지 정보수정 페이지 (마이페이지 홈)로 연결 -->
-	<bean name="/hostmypage.do" class="com.test.mvc.HostMyPageFormController"></bean>
+	<bean name="/hostmypage.do" class="com.study.mvc.controller.HostMyPageFormController"></bean>
 	
 	<!-- 마이페이지 정보수정 수행 -->
-	<bean name="/hostmodify.do" class="com.test.mvc.HostUpdateController"></bean>
+	<bean name="/hostmodify.do" class="com.study.mvc.controller.HostUpdateController"></bean>
 
 	<!-- 회원 탈퇴 -->
-	<bean name="/hostunreg.do" class="com.test.mvc.HostDeleteController"></bean>
+	<bean name="/hostunreg.do" class="com.study.mvc.controller.HostDeleteController"></bean>
 	
 	<!-- ─────────────────────────────────────────────────  -->
 	
@@ -90,104 +95,141 @@
 	<!-- ──────────────────── [게스트] 마이페이지 ─────────────────── -->
 	
 	<!-- 마이페이지 정보수정 페이지 (마이페이지 홈)로 연결 -->
-	<bean name="/guestmypage.do" class="com.test.mvc.GuestMyPageFormController"></bean>
+	<bean name="/guestmypage.do" class="com.study.mvc.controller.GuestMyPageFormController"></bean>
 	
 	<!-- 마이페이지 정보수정 수행 -->
-	<bean name="/guestmodify.do" class="com.test.mvc.GuestUpdateController"></bean>
+	<bean name="/guestmodify.do" class="com.study.mvc.controller.GuestUpdateController"></bean>
 
 	<!-- 회원 탈퇴 -->
-	<bean name="/guestunreg.do" class="com.test.mvc.GuestDeleteController"></bean>
+	<bean name="/guestunreg.do" class="com.study.mvc.controller.GuestDeleteController"></bean>
 	
 	<!-- ─────────────────────────────────────────────────  -->
 	
 	
 	<!-- ──────────────────── [게스트] 사이드메뉴 ─────────────────── -->
 	<!-- 이웃관리 메뉴 연결 -->
-	<bean name="/friendlist.do" class="com.test.mvc.GuestFriendListController"></bean>
+	<bean name="/friendlist.do" class="com.study.mvc.controller.GuestFriendListController"></bean>
 	
 	<!-- 이웃 삭제 수행 -->
-	<bean name="/frienddelete.do" class="com.test.mvc.GuestFriendDeleteController"></bean>
+	<bean name="/frienddelete.do" class="com.study.mvc.controller.GuestFriendDeleteController"></bean>
 	
 	<!-- 신고관리 메뉴 연결 -->
-	<bean name="/guestredlist.do" class="com.test.mvc.GuestRedBoardListController"></bean>
+	<bean name="/guestredlist.do" class="com.study.mvc.controller.GuestRedBoardListController"></bean>
 	
 	<!-- 게시글 관리 - 작성 글 연결 -->
-	<bean name="/guestboardlist.do" class="com.test.mvc.GuestBoardListController"></bean>
+	<bean name="/guestboardlist.do" class="com.study.mvc.controller.GuestBoardListController"></bean>
+	
+	<!-- 게시글 관리 - 작성 댓글 연결 -->
+	<bean name="/guestreplylist.do" class="com.study.mvc.controller.GuestReplyListController"></bean>
 	
 	<!-- 게시글 관리 - 스크랩 목록 연결 -->
-	<bean name="/guestscraplist.do" class="com.test.mvc.GuestScrapListController"></bean>
+	<bean name="/guestscraplist.do" class="com.study.mvc.controller.GuestScrapListController"></bean>
 	
 	<!-- 스터디그룹 관리 - 활동중인 그룹 연결-->
-	<bean name="/guestgroupactivelist.do" class="com.test.mvc.GuestGroupActiveListController"></bean>
+	<bean name="/guestgroupactivelist.do" class="com.study.mvc.controller.GuestGroupActiveListController"></bean>
 	
+	<!-- 스터디그룹 관리 - 개설내역 연결 -->
+	<bean name="/guestgroupopenlist.do" class="com.study.mvc.controller.GuestGroupOpenListController"></bean>
 	
 	<!-- 스터디그룹 관리 - 가입내역 연결 -->
-	<bean name="/guestgroupjoinlist.do" class="com.test.mvc.GuestGroupJoinListController"></bean>
+	<bean name="/guestgroupjoinlist.do" class="com.study.mvc.controller.GuestGroupJoinListController"></bean>
 	
 	
 	
 		
 	<!-- ─────────────────────────────────────────────────  -->
 	
+	
 	<!--──────────────────── [호스트]스터디카페 ────────────────────-->
    <!-- 카페 정보 관련 Controller -->
-   <bean name="/cafelist.do" class="com.test.mvc.CafeListController"></bean>
-   <bean name="/cafedetail.do" class="com.test.mvc.CafeDetailController"></bean>
+   <bean name="/cafelist.do" class="com.study.mvc.controller.CafeListController"></bean>
+   <bean name="/cafedetail.do" class="com.study.mvc.controller.CafeDetailController"></bean>
    
    <!-- 카페 등록 관련 Controller -->
-   <bean name="/cafeinsertform.do" class="com.test.mvc.CafeInsertFormController"></bean>
-   <bean name="/cafeinsert.do" class="com.test.mvc.CafeInsertController"></bean>
+   <bean name="/cafeinsertform.do" class="com.study.mvc.controller.CafeInsertFormController"></bean>
+   <bean name="/cafeinsert.do" class="com.study.mvc.controller.CafeInsertController"></bean>
    
    <!-- 카페 수정 관련 Controller -->
-   <bean name="/cafeupdateform.do" class="com.test.mvc.CafeUpdateFormController"></bean>
-   <bean name="/cafeupdate.do" class="com.test.mvc.CafeUpdateController"></bean>
+   <bean name="/cafeupdateform.do" class="com.study.mvc.controller.CafeUpdateFormController"></bean>
+   <bean name="/cafeupdate.do" class="com.study.mvc.controller.CafeUpdateController"></bean>
    
    <!-- 카페 삭제 관련 Controller -->
-   <bean name="/cafedelete.do" class="com.test.mvc.CafeDeleteController"></bean>
+   <bean name="/cafedelete.do" class="com.study.mvc.controller.CafeDeleteController"></bean>
    
    <!-- 카페 리뷰내역 관련 Controller -->
-   <bean name="/cafereviewlist.do" class="com.test.mvc.CafeReviewListController"></bean>
+   <bean name="/cafereviewlist.do" class="com.study.mvc.controller.CafeReviewListController"></bean>
    
    <!-- 카페 예약내역 관련 Controller -->
-   <bean name="/cafereservelist.do" class="com.test.mvc.CafeReserveListController"></bean>
-   <bean name="/cafereservedetail.do" class="com.test.mvc.CafeReserveDetailController"></bean>
+   <bean name="/cafereservelist.do" class="com.study.mvc.controller.CafeReserveListController"></bean>
+   <bean name="/cafereservedetail.do" class="com.study.mvc.controller.CafeReserveDetailController"></bean>
    
    <!-- 스터디룸 등록 관련 Controller -->
-   <bean name="/caferoominsert.do" class="com.test.mvc.CafeRoomInsertController"></bean>
+   <bean name="/caferoominsert.do" class="com.study.mvc.controller.CafeRoomInsertController"></bean>
    
    <!-- 스터디룸 수정 관련 Controller -->
-   <bean name="/caferoomupdate.do" class="com.test.mvc.CafeRoomUpdateController"></bean>
+   <bean name="/caferoomupdate.do" class="com.study.mvc.controller.CafeRoomUpdateController"></bean>
+   
+   <!-- 스터디룸 삭제 관련 Controller -->
+   <bean name="/caferoomdelete.do" class="com.study.mvc.controller.CafeRoomDeleteController"></bean>
    
    <!-- 호스트 피드백입력 관련 Controller -->
-   <bean name="/hostfeedbackinsert.do" class="com.test.mvc.HostFeedbackInsertController"></bean>
+   <bean name="/hostfeedbackinsert.do" class="com.study.mvc.controller.HostFeedbackInsertController"></bean>
    
    <!-- 호스트 신고내역 관련 Controller -->
-   <bean name="/hostredlist.do" class="com.test.mvc.HostRedListController"></bean>
+   <bean name="/hostredlist.do" class="com.study.mvc.controller.HostRedListController"></bean>
    
    <!-- 호스트 신고요청 관련 Controller -->
-   <bean name="/hostredinsert.do" class="com.test.mvc.HostRedInsertController"></bean>
-   <bean name="/hostredinsertform.do" class="com.test.mvc.HostRedInsertFormController"></bean>
+   <bean name="/hostredinsert.do" class="com.study.mvc.controller.HostRedInsertController"></bean>
+   <bean name="/hostredinsertform.do" class="com.study.mvc.controller.HostRedInsertFormController"></bean>
    
    <!-- 호스트 통계내역 관련 Controller -->
-   <bean name="/hoststatuslist.do" class="com.test.mvc.HostStatusListController"></bean>
+   <bean name="/hoststatuslist.do" class="com.study.mvc.controller.HostStatusListController"></bean>
    
+   <!-- ─────────────────────────────────────────────────  -->
    
    
    <!--──────────────────── [게스트]스터디그룹  ────────────────────-->
    <!-- 스터디그룹 예약내역 관련 Controller -->
-   <bean name="/groupreservelist.do" class="com.test.mvc.GroupReserveListController"></bean>
+   <bean name="/groupreservelist.do" class="com.study.mvc.controller.GroupReserveListController"></bean>
    
    <!-- 스터디그룹 패널티내역 관련 Controller -->
-   <bean name="/grouppenaltylist.do" class="com.test.mvc.GroupPenaltyListController"></bean>
+   <bean name="/grouppenaltylist.do" class="com.study.mvc.controller.GroupPenaltyListController"></bean>
    
    <!-- 스터디그룹 모임내역 관련 Controller -->
-   <bean name="/groupmeetlist.do" class="com.test.mvc.GroupMeetListController"></bean>
+   <bean name="/groupmeetlist.do" class="com.study.mvc.controller.GroupMeetListController"></bean>
+   
+   <!-- 스터디그룹 모임내역 관련 Controller -->
+   <bean name="/groupmeetform.do" class="com.study.mvc.controller.GroupMeetFormController"></bean>
+   
+   <!-- 스터디그룹 모임기록 관련 Controller -->
+   <bean name="/groupmeetinsert.do" class="com.study.mvc.controller.GroupMeetInsertController"></bean>
    
    <!-- 스터디그룹 리뷰 관련 Controller -->
-   <bean name="/groupreviewinsert.do" class="com.test.mvc.GroupReviewInsertController"></bean>
+   <bean name="/groupreviewinsert.do" class="com.study.mvc.controller.GroupReviewInsertController"></bean>
    
    <!-- 스터디그룹 예약취소 관련 Controller -->
-   <bean name="/groupreservedelete.do" class="com.test.mvc.GroupReserveDeleteController"></bean>
+   <bean name="/groupreservedelete.do" class="com.study.mvc.controller.GroupReserveDeleteController"></bean>
+   
+   <!-- 스터디그룹 검색 관련 Controller -->
+   <bean name="/groupreservesearch.do" class="com.study.mvc.controller.GroupReserveSearchFormController"></bean>
+   
+   <!-- 스터디그룹 지역리스트 조회 관련 Controller -->
+   <bean name="/locationlist.do" class="com.study.mvc.controller.LocationListController"></bean>
+   
+   <!-- 스터디그룹 예약상세 관련 Controller -->
+   <bean name="/grouproomreserveform.do" class="com.study.mvc.controller.GroupReserveFormController"></bean>
+   
+   <!-- 스터디그룹 예약상세 관련 Controller -->
+   <bean name="/groupreserveinsert.do" class="com.study.mvc.controller.GroupReserveInsertController"></bean>
+
+   <!-- 모임 불참자 관련 Controller -->
+   <bean name="/groupunattmemberinsert.do" class="com.study.mvc.controller.GroupUnattMemberInsertController"></bean>
+	
+	
+	<!-- ─────────────────────────────────────────────────  -->
+	
+	
+	
 	
 	
 	<!-- ③ mybatis 등록 과정에서 생겨나는 추가 코드 『2』 -->
@@ -211,7 +253,7 @@
 		
 		<!-- ⑤ 매퍼 파일을 작성하고 와서 다시 추가 -->
 		<!-- value 구성 과정 check~!!! -->
-		<property name="mapperLocations" value="classpath:com/test/mybatis/mapper/*.xml"></property>
+		<property name="mapperLocations" value="classpath:com/study/mybatis/model/mapper/*.xml"></property>
 		<!-- 인터페이스에 객체화 시켜서 돌아가게하겠다~ 라는 의미의 코드 -->
 	
 	</bean>
