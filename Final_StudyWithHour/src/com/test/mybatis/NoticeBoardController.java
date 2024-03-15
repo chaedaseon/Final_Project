@@ -362,8 +362,41 @@ public class NoticeBoardController
 		//-- 공지사항 상세페이지 내용 리스트 전달
 		model.addAttribute("list", noticeViewlist);
 		
-		return "/NoticeView.jsp";
+		return "/NoticeBoardView.jsp";
 		//return "/WEB-INF/view/NoticeView.jsp";	// 공지사항 게시판 호출
 	}
 	
+	@RequestMapping(value = "/noticeviewmodifyform.do", method = RequestMethod.GET)	// 게시글 수정 폼 요청
+	public String noticeViewModifyForm(ModelMap model, @RequestParam String ntCode)
+	{
+		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
+
+		ArrayList<NoticeBoardDTO> list = dao.noticeViewlist(ntCode);
+
+		model.addAttribute("list", list);
+
+		return "/NoticeViewUpdateForm.jsp";
+		// return "/WEB-INF/view/BoardCommunityUpdateForm.jsp";
+	}
+
+	@RequestMapping(value = "/noticeviewmodify.do", method = RequestMethod.POST)	// 게시글 수정
+	public String boardViewModify(NoticeBoardDTO nt)
+	{
+		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
+
+		dao.noticeModify(nt);
+
+		return "redirect:noticeboardview.do?ntCode=" + nt.getNtCode();
+	}
+
+	
+	  @RequestMapping(value="/noticeviewdelete.do", method = RequestMethod.GET)	// 게시글 삭제
+	  public String boardViewDelete(@RequestParam String ntCode) 
+	  { 
+		  INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
+		  
+		  dao.noticeDelete(ntCode);
+		  
+		  return "redirect:boardnoticelist.do"; 
+	  }
 }

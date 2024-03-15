@@ -129,7 +129,7 @@
 		<div id="content">
 			<div class="content_div">
 				<div class="board_title">
-					<span><a href="#" style="color: #94bc32;">커뮤니티</a></span>
+					<span><a href="boardcommunitylist.do" style="color: #94bc32;">커뮤니티</a></span>
 					<c:import url="/CategoryBar.jsp"></c:import>
 				</div>
 				<div id="form_title">

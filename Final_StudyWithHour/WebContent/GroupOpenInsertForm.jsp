@@ -27,7 +27,7 @@
 
 	function fn_checkByte(obj)
 	{
-	    const maxByte = 500; //최대 500바이트
+	    const maxByte = 250; //최대 500바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
@@ -48,7 +48,7 @@
     	}
     
     	if(totalByte>maxByte){
-    		alert('최대 500까지만 입력가능합니다.');
+    		alert('최대 250까지만 입력가능합니다.');
         	document.getElementById("nowByte").innerText = totalByte;
             document.getElementById("nowByte").style.color = "red"; // 글자수 넘어가면 카운트 빨간색
         }
@@ -447,41 +447,63 @@
 </script>
 <script type="text/javascript">
 	
-	$(function()
+	$(document).ready(function() 
 	{
-		var disabled = false;
-		
-		$(".form-check-input").click(function()
+		$('#selectGoCode').click(function() 
 		{
-			if (disabled) {
-	        	$("#toggle").prop('disabled', true);       // 비활성화된 경우 활성화
-	        }
-	        else {
-	            $("#toggle").prop('disabled', false);        // 활성화된 경우 비활성화
-	        	$("#toggle").prop('value',null);       // 비활성화된 경우 활성화
-	        }
-	        disabled = !disabled;
-		})
-	})
+			var result = $('#selectGoCode option:selected').val();
+			if (result == '1')
+			{
+				$('#toggle').attr('disabled',true);
+			} 
+			else if (result == '2')
+			{
+				$('#toggle').attr('disabled',false);
+			}
+		}); 
+	}); 
+
 	
 	$(function()
 	{
 		$("#submitBtn").click(function()
 		{
 			// 넘기는 파라미터 값 확인하는 코드
-	        const arrayTest = $("#regForm").serializeArray()
-	        var param = {};
-			arrayTest.map(function(data,index)
-			{
-				param[data.name] = data.value;
-				
-				alert(param[data.name]);
-				
-			})
 			
 			if(confirm("작성한 모집글을 등록하시겠습니까?"))
 	        {
-				$("#regForm").submit();
+				var guCode = $("input[name=guCode]").val();
+				var category = $("select[name=category]").val();
+				var age = $("select[name=age]").val();
+				var gender = $("select[name=gender]").val();
+				var lsCode = $("select[name=lsCode]").val();
+				var grCount = $("select[name=grCount]").val();
+				var goCode = $("select[name=goCode]").val();
+				var pw = $("input[name=pw]").val();
+				var grName = $("input[name=grName]").val();
+				var grSubject = $("input[name=grSubject]").val();
+				var grComment = $("textarea[name=grComment]").val();
+
+	        	var data = {"P_GR_NAME": guCode, "P_GR_COUNT": grCount, "P_GR_SUBJECT": grSubject,
+							"P_GR_COMMENT":grComment, "P_GU_CODE":guCode, "P_AGE_CODE":age,
+							"P_GENDER_CODE":gender, "P_LS_CODE":lsCode, "P_CATEGORY_CODE":category,
+							"P_GO_CODE":goCode, "P_GP_PW":pw}
+	            $.ajax({
+	                url: "groupregistration.do",
+	                type: "POST",
+	                data: data,
+	                dataType: "json",
+	                success: function(response) {
+	                	var out = "";
+	                	out += response.msg;
+	                	
+	                	alert(out);
+	                	window.location.href = "boardgrouplist.do";
+	                },
+	                error: function(e) {
+	                	alert("잘못된 접근입니다.");
+					} 
+	            });
 	        }
 		})
 	})
@@ -505,7 +527,7 @@
 				</div>
 				<div class="sub_title_div">
 					<div class="content_box">
-					<form id="regForm" action="#" method="post">
+					<form id="regForm" action="boardgrouplist.do" method="post">
 						<div class="mb-3">
 							<input type="hidden" name="guCode" value="<%=guCode%>"/>
 							<label for="exampleFormControlInput1" class="form-label">카테고리</label>
@@ -530,10 +552,19 @@
 								<option value="1">동일</option>
 								<option value="2">무관</option>
 							</select>
+							<label for="exampleFormControlInput1" class="form-label">모집인원수</label>
+							<select name="grCount" class="category">
+								<option value="3" selected="selected">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+							</select>
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">지역</label>
-							<select class="category" id="lfList" >
+							<select class="category" id="lfList" name="lfList">
 								<option value="1" selected="selected">서울</option>
 								<option value="2">인천</option>
 								<option value="3">경기</option>
@@ -640,10 +671,13 @@
 							</c:forEach>
 							</select>
 						</div>
-						<div class="form-check form-switch">
-						  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-						  <label class="form-check-label" for="flexSwitchCheckDefault">그룹 비밀번호 설정(미설정시 자동 공개)</label>
-						  <input type="text" id="toggle" name="pw" value="" placeholder="비밀번호 4자리" style="width: 120px;" disabled="disabled"/>
+						<div class="mb-3">
+							<label class="form-check-label" for="flexSwitchCheckDefault">그룹 비밀번호 설정</label>
+							<select name="goCode" id="selectGoCode" class="category">
+								<option value="1">공개</option>
+								<option value="2">비공개</option>
+							</select>
+						  	<input type="text" id="toggle" name="pw" value="" placeholder="비밀번호 4자리" style="width: 120px;" disabled="disabled"/>
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">제목</label>
@@ -651,7 +685,12 @@
 						</div>
 						
 						<div class="mb-3">
-							<div id="text_count"><label for="exampleFormControlTextarea1" class="form-label">내용</label><span><span id="nowByte">0</span>/500bytes</span></div>
+							<label for="exampleFormControlInput1" class="form-label">스터디 주제(간단하게 작성)</label>
+								<input type="text" class="form-control" id="exampleFormControlInput1" name="grSubject">
+						</div>
+						
+						<div class="mb-3">
+							<div id="text_count"><label for="exampleFormControlTextarea1" class="form-label">내용</label><span><span id="nowByte">0</span>/250bytes</span></div>
 							<textarea class="form-control" id="exampleFormControlTextarea1"	name="grComment" rows="3" spellcheck="false" onkeyup="fn_checkByte(this)"></textarea>
 						</div>
 						

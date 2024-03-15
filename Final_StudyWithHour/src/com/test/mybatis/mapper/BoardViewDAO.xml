@@ -72,6 +72,12 @@
 		WHERE BO_CODE = #{boCode}
 	</update>
 	
+	<delete id="boardViewDelete">
+		DELETE
+		FROM BOARD
+		WHERE BO_CODE = ${boCode}
+	</delete>	
+	
 	<update id="boardViewModifyReply">
 		UPDATE REPLY
 		SET RP_CONTENT = '${rpContent}', RP_MODATE = DEFAULT

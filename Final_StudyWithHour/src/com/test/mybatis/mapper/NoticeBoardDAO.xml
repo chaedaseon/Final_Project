@@ -99,7 +99,7 @@
 	</select>
 	
 	<select id="noticeViewlist" resultType="com.test.mybatis.NoticeBoardDTO">
-		SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW
+		SELECT NT_CODE AS NTCODE, NT_TITLE AS NTTITLE, NT_CONTENT AS NTCONTENT, NT_DATE AS NTDATE, NT_VIEW AS NTVIEW, AD_CODE AS ADCODE
      , (SELECT AD_NICK
         FROM ADMIN
         WHERE AD_CODE = N.AD_CODE) AS NTWRITER
@@ -112,5 +112,17 @@
 		SET NT_VIEW = NT_VIEW + 1
 		WHERE NT_CODE = ${param1}
 	</update>
+	
+	<update id="noticeModify">
+		UPDATE NOTICE
+		SET NT_TITLE = #{ntTitle}, NT_CONTENT = #{ntContent}, NT_MODATE = DEFAULT
+		WHERE NT_CODE = #{ntCode}
+	</update>
+	
+	<delete id="noticeDelete">
+		DELETE
+		FROM NOTICE
+		WHERE NT_CODE = ${ntCode}
+	</delete>
 	
 </mapper>

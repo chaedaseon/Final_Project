@@ -27,7 +27,7 @@
 
 	function fn_checkByte(obj)
 	{
-	    const maxByte = 4000; //최대 4000바이트
+	    const maxByte = 2000; //최대 4000바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
@@ -49,7 +49,7 @@
     
     	if(totalByte>maxByte)
     	{
-    		alert('최대 4000Byte까지만 입력가능합니다.');
+    		alert('최대 2000자 까지만 입력가능합니다.');
         	document.getElementById("nowByte").innerText = totalByte;
             document.getElementById("nowByte").style.color = "red"; // 글자수 넘어가면 카운트 빨간색
         }
@@ -108,7 +108,13 @@
 	            $("#errCode2").css("display","inline");
 	            return;                        //--submit 액션 처리 중단
 	        }
-	        
+	        alert($("select[name='bsCode']").val());
+	        if($("select[name='bsCode']").val()==null)
+	        {
+	            $("#errCode3").html("카테고리를 선택하세요!!");
+	            $("#errCode3").css("display","inline");
+	            return;                        //--submit 액션 처리 중단
+	        }
 	        // 넘기는 파라미터 값 확인하는 코드
 /* 	        const arrayTest = $("#boardInsertForm").serializeArray()
 	        var param = {};
@@ -139,7 +145,7 @@
 		<div id="content">
 			<div class="content_div">
 				<div class="board_title">
-					<span><a href="#" style="color: #94bc32;">커뮤니티</a></span>
+					<span><a href="boardcommunitylist.do" style="color: #94bc32;">커뮤니티</a></span>
 					<c:import url="/CategoryBar.jsp"></c:import>
 				</div>
 				<div id="form_title">
@@ -152,10 +158,11 @@
 							<div>
 							<label for="exampleFormControlInput1" class="form-label">게시판</label>
 							<select name="bfCode" name="board_first" id="board_first" class="category">
-								<option value="1" selected="selected">커뮤니티</option>
+								<option value="1">커뮤니티</option>
 								<option value="2">중고책방</option>
 							</select>
 							</div>
+							<span id="errCode3" style="display: none; color: red;"></span>
 							<div id="community_box">
 							<label for="exampleFormControlInput1" class="form-label">분류</label>
 								<select name="bsCode" id="select_community" class="category" disabled="disabled">
@@ -181,7 +188,7 @@
 						
 						<div class="mb-3">
 							<div id="text_count"><label for="exampleFormControlTextarea1" class="form-label" id="content">내용</label>
-							<span><span id="nowByte">0</span>/4000bytes</span></div>
+							<span><span id="nowByte">0</span>/2000bytes</span></div>
 							<span id="errCode2" style="display: none; color: red;"></span>
 							<textarea class="form-control" id="exampleFormControlTextarea1"	rows="3" 
 							spellcheck="false" onkeyup="fn_checkByte(this)" name="boContent"></textarea>

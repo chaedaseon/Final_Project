@@ -625,7 +625,13 @@ public class CommunityBoardController
     {
 		ICommunityBoardDAO dao = sqlSession.getMapper(ICommunityBoardDAO.class);
 		
-        dao.insert(board);
+		try
+		{
+			dao.insert(board);
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
  
         return "redirect:boardcommunitylist.do";
     }

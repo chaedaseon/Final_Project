@@ -3,6 +3,10 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	String adCode = (String)session.getAttribute("adCode");
+	String guCode = (String)session.getAttribute("guCode");
+	String hoCode = (String)session.getAttribute("hoCode");
 %>
 <!DOCTYPE html>
 <html>
@@ -19,12 +23,58 @@
 <link rel="stylesheet" type="text/css" href="css/gusetRedStyle.css">
 <link rel="stylesheet" type="text/css" href="css/sliderStyle.css">
 <link rel="stylesheet" type="text/css" href="css/postViewStyle.css">
+<script type="text/javascript">
+
+	$(document).ready(function() 
+	{
+		$("#delete_button").click(function()
+		{
+			var ssessionAdCode = $("#ssessionAdCode").val();
+			var adCode = $("#adCode").val();
+			
+			if(adCode == 'null')
+			{
+				alert("관리자만 수정 및 삭제가 가능합니다.");
+			}
+			else if(adCode != ssessionAdCode)
+			{
+				alert("작성자와 일치하지 않습니다.");
+			}
+			else if(adCode == ssessionAdCode)
+			{
+				$("#noticeDelete").modal("show");
+			}
+		});
+	});
+
+	$(document).ready(function() 
+	{
+		$("#modify_button").click(function()
+		{
+			var ssessionAdCode = $("#ssessionAdCode").val();
+			var adCode = $("#adCode").val();
+			
+			if(adCode == 'null')
+			{
+				alert("관리자만 수정 및 삭제가 가능합니다.");
+			}
+			else if(adCode != ssessionAdCode)
+			{
+				alert("작성자와 일치하지 않습니다.");
+			}
+			else if(adCode == ssessionAdCode)
+			{
+				window.location.href = "noticeviewmodifyform.do";
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<header>
 		<c:import url="/Menu.jsp"></c:import>
 	</header>
-	
+<input type="text" id="ssessionAdCode" value="<%=adCode%>"/>
 	<section>
 		<div id="content">
 			<div class="category_bar">
@@ -53,26 +103,30 @@
 						</div>
 					</div>
 				<div class="content_main" id="content_main">
-					${view.ntContent }
+					<p style="white-space: pre-line;">${view.ntContent }</p>
 				<div class="board_btn">
 					<button type="submit" class="btn" id="modify_button">수정</button>
 					<!-- 버튼 눌러서 모달창 띄우기 -->
-					<button type="button" class="btn" id="delete_button" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">삭제</button>
+					<input type="hidden" name="adCode" id="adCode" value="${view.adCode }"/>
+					<button type="button" class="btn" id="delete_button">삭제</button>
 			
 					<!-- 모달 영역 -->
-					<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<form action="noticeviewdelete.do" method="get">
+					<div class="modal fade" id="noticeDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-centered">
 					    <div class="modal-content">
 					      <div class="modal-body">
+					      	<input type="hidden" name="ntCode" value="${param.ntCode }">
 					        정말로 삭제하시겠습니까?
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-					        <button type="button" class="btn btn-primary">Understood</button>
+					        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
+					        <button type="submit" class="btn btn-primary">삭제하기</button>
 					      </div>
 					    </div>
 					  </div>
 					</div>
+					</form>
 				</div>
 				</div>
 				</c:forEach>

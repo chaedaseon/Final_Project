@@ -18,8 +18,16 @@ CREATE TABLE NOTICE
 
 public class NoticeBoardDTO
 {
-	private String ntCode, ntTitle, ntContent, ntDate, ntWriter, ntModate;
+	private String ntCode, ntTitle, ntContent, ntDate, ntWriter, ntModate, adCode;	// 공지사항 및 관리자 정보
 	
+	public String getAdCode()
+	{
+		return adCode;
+	}
+	public void setAdCode(String adCode)
+	{
+		this.adCode = adCode;
+	}
 	public String getNtModate()
 	{
 		return ntModate;

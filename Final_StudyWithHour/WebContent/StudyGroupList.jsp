@@ -40,44 +40,148 @@
 		    var grSubject = $(this).closest("li").find("input[name=grSubject1]").val();
 		    var gender = $(this).closest("li").find("input[name=gender1]").val();
 		    var lsCode = $(this).closest("li").find("input[name=lsCode1]").val();
-		    var gpPw = $(this).closest("li").find("input[name=gpPw]").val();
+		    var gpPw = $(this).closest("li").find("input[name=gpPw1]").val();
+		    var dDay = $(this).closest("li").find("input[name=dDay1]").val();
+		    var periodCode = $(this).closest("li").find("input[name=periodCode1]").val();
 		    // 현재 사용자의 guCode 값 가져오기
 		    var ssessionGuCode = $("#ssessionGuCode").val();
-		    if(gpPw != 0)
+		    
+		    if (ssessionGuCode == 'null') 
 		    {
-		    	alert("비밀번호");
+				alert("로그인이 필요한 접근입니다.");
+				window.location.href = "loginform.do";
+		    } 
+		    else if(dDay < 0)
+		    {
+		    	if(periodCode == 1)
+		    	{
+		    		if(gpPw != 0)
+		    		{
+		    			$("#groupPassword").modal("show");
+		    			$("#InsertPassword").val("");
+		    			
+		    			$("#insertSubmit").unbind("click").click(function()
+						{
+		    				if($("#InsertPassword").val() == gpPw)
+		    				{
+		    					$("#groupPassword").modal("hide");
+		    					$("#groupJoinModal").modal("show");
+						        $("input[name=grCode]").val(grCode);
+						        $("input[name=grComment]").val(grComment);
+						        $("#grComment span").text(grComment);
+						        $("input[name=grLeader]").val(grLeader);
+						        $("#grLeader span").text(grLeader);
+						        $("input[name=age]").val(age);
+						        $("#age span").text(age);
+						        $("input[name=grName]").val(grName);
+						        $("#grName span").text(grName);
+						        $("input[name=grCount]").val(grCount);
+						        $("#grCount span").text(grCount);
+						        $("input[name=grSubject]").val(grSubject);
+						        $("#grSubject span").text(grSubject);
+						        $("input[name=gender]").val(gender);
+						        $("#gender span").text(gender);
+						        $("input[name=lsCode]").val(lsCode);
+						        $("#lsCode span").text(lsCode);
+		    				}
+		    				else if($("#InsertPassword").val() != gpPw)
+		    				{
+		    					alert("비밀번호가 틀렸습니다.");
+		    					$("#groupPassword").modal("hide");
+		    				}
+						});
+		    		}
+		    		else
+		    		{
+		    			$("#groupJoinModal").modal("show");
+				        $("input[name=grCode]").val(grCode);
+				        $("input[name=grComment]").val(grComment);
+				        $("#grComment span").text(grComment);
+				        $("input[name=grLeader]").val(grLeader);
+				        $("#grLeader span").text(grLeader);
+				        $("input[name=age]").val(age);
+				        $("#age span").text(age);
+				        $("input[name=grName]").val(grName);
+				        $("#grName span").text(grName);
+				        $("input[name=grCount]").val(grCount);
+				        $("#grCount span").text(grCount);
+				        $("input[name=grSubject]").val(grSubject);
+				        $("#grSubject span").text(grSubject);
+				        $("input[name=gender]").val(gender);
+				        $("#gender span").text(gender);
+				        $("input[name=lsCode]").val(lsCode);
+				        $("#lsCode span").text(lsCode);
+		    		}
+		    	}
+		    	else
+		    	{
+		    		alert("모집이 종료된 그룹입니다.");
+		    	}
 		    }
 		    else if(grCount <= gjCount)
 		    {
 		    	alert("가입 인원이 가득찬 그룹입니다.");
 		    }
-		    else if (ssessionGuCode != grGuCode) 
+		    else
 		    {
-		        // 모달에 rpCode 저장 및 모달 열기
-		        $("#groupJoinModal").modal("show");
-		        $("input[name=grCode]").val(grCode);
-		        $("input[name=grComment]").val(grComment);
-		        $("#grComment span").text(grComment);
-		        $("input[name=grLeader]").val(grLeader);
-		        $("#grLeader span").text(grLeader);
-		        $("input[name=age]").val(age);
-		        $("#age span").text(age);
-		        $("input[name=grName]").val(grName);
-		        $("#grName span").text(grName);
-		        $("input[name=grCount]").val(grCount);
-		        $("#grCount span").text(grCount);
-		        $("input[name=grSubject]").val(grSubject);
-		        $("#grSubject span").text(grSubject);
-		        $("input[name=gender]").val(gender);
-		        $("#gender span").text(gender);
-		        $("input[name=lsCode]").val(lsCode);
-		        $("#lsCode span").text(lsCode);
-		        $("input[name=gpPw]").val(gpPw);
-		        $("#gpPw span").text(gpPw);
-		    } 
-		    else if(ssessionGuCode == grGuCode)
-		    {
-		        alert("본인이 개설한 그룹입니다.");
+		    	if(gpPw != 0)
+	    		{
+	    			$("#groupPassword").modal("show");
+	    			$("#InsertPassword").val("");
+	    			
+	    			$("#insertSubmit").click(function()
+					{
+	    				if($("#InsertPassword").unbind("click").val() == gpPw)
+	    				{
+	    					$("#groupPassword").modal("hide");
+	    					$("#groupJoinModal").modal("show");
+					        $("input[name=grCode]").val(grCode);
+					        $("input[name=grComment]").val(grComment);
+					        $("#grComment span").text(grComment);
+					        $("input[name=grLeader]").val(grLeader);
+					        $("#grLeader span").text(grLeader);
+					        $("input[name=age]").val(age);
+					        $("#age span").text(age);
+					        $("input[name=grName]").val(grName);
+					        $("#grName span").text(grName);
+					        $("input[name=grCount]").val(grCount);
+					        $("#grCount span").text(grCount);
+					        $("input[name=grSubject]").val(grSubject);
+					        $("#grSubject span").text(grSubject);
+					        $("input[name=gender]").val(gender);
+					        $("#gender span").text(gender);
+					        $("input[name=lsCode]").val(lsCode);
+					        $("#lsCode span").text(lsCode);
+	    				}
+	    				else
+	    				{
+	    					alert("비밀번호가 틀렸습니다.");
+	    					$("#groupPassword").modal("hide");
+	    				}
+					});
+		    		
+	    		}
+		    	else
+		    	{
+		    		$("#groupJoinModal").modal("show");
+			        $("input[name=grCode]").val(grCode);
+			        $("input[name=grComment]").val(grComment);
+			        $("#grComment span").text(grComment);
+			        $("input[name=grLeader]").val(grLeader);
+			        $("#grLeader span").text(grLeader);
+			        $("input[name=age]").val(age);
+			        $("#age span").text(age);
+			        $("input[name=grName]").val(grName);
+			        $("#grName span").text(grName);
+			        $("input[name=grCount]").val(grCount);
+			        $("#grCount span").text(grCount);
+			        $("input[name=grSubject]").val(grSubject);
+			        $("#grSubject span").text(grSubject);
+			        $("input[name=gender]").val(gender);
+			        $("#gender span").text(gender);
+			        $("input[name=lsCode]").val(lsCode);
+			        $("#lsCode span").text(lsCode);
+		    	}
 		    }
 		});
 	});
@@ -86,25 +190,36 @@
 	{
 		$("#joinSubmit").click(function()
    		{
-			var guCode = $("input[name=guCode]").val();
-			var grCode = $("input[name=grCode]").val();
-        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
-        	
-            $.ajax({
-                url: "groupjoin.do",
-                type: "POST",
-                data: data,
-                dataType: "json",
-                success: function(response) {
-                	var out = "";
-                	out += response.msg;
-                	
-                	alert(out);
-                },
-                error: function(e) {
-                	alert("잘못된 접근입니다.");
-				} 
-            });
+			var ssessionGuCode = $("#ssessionGuCode").val();
+		    if(ssessionGuCode == grGuCode)
+		    {
+		        alert("본인이 개설한 그룹입니다.");
+		    }
+		    else
+		    {
+				if(confirm("그룹에 가입하시겠습니까?"))
+				{
+					var guCode = $("input[name=guCode]").val();
+					var grCode = $("input[name=grCode]").val();
+		        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
+		            $.ajax({
+		                url: "groupjoin.do",
+		                type: "POST",
+		                data: data,
+		                dataType: "json",
+		                success: function(response) {
+		                	var out = "";
+		                	out += response.msg;
+		                	
+		                	alert(out);
+		                	$("#groupJoinModal").modal("hide");
+		                },
+		                error: function(e) {
+		                	alert("잘못된 접근입니다.");
+						} 
+		            });
+				}
+		    }
    		});
 	});
 </script>
@@ -155,8 +270,21 @@
 							      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
 							      		<input type="hidden" name="gender1" value="${group.gender }"/>
 							      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
+							      		<input type="hidden" name="dDay1" value="${group.dDay }"/>
+							      		<input type="hidden" name="gpPw1" value="${group.gpPw}"/>
 							      		<input type="hidden" id="periodCode" name="periodCode1" value="${group.periodCode }"/>
-										<div class="card-header bg-transparent">${group.grName }
+										<div class="card-header bg-transparent">
+										<c:choose>
+										<c:when test="${group.grOpen == '공개'}">
+											<span>${group.grName }</span>									
+										</c:when>
+										<c:when test="${group.grOpen == '비공개'}">
+											<span>${group.grName }<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+															  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+															</svg>
+											</span>
+										</c:when>
+										</c:choose>
 											<c:choose>
 												<c:when test="${group.periodCode == 1 }">
 													<span class="d-day">상시모집</span>
@@ -196,20 +324,33 @@
 							<div class="col my-4" id="groupReg_one">
 								<div class="card">
 									<input type="hidden" name=periodCode value="${group.periodCode}"/>
-									<input type="hidden" name="grCode1" value="${group.grCode }"/>
-									<input type="hidden" name="guCode1" value="${group.guCode }"/>
-									<input type="hidden" name="grLeader1" value="${group.grLeader }"/>
-						      		<input type="hidden" name="age1" value="${group.age }"/>
-						      		<input type="hidden" name="grSubject1" value="${group.grSubject }"/>
-						      		<input type="hidden" name="grName1" value="${group.grName }"/>
-						      		<input type="hidden" name="grCount1" value="${group.grCount }"/>
-						      		<input type="hidden" name="lsCode1" value="${group.lsCode }"/>
-						      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
-						      		<input type="hidden" name="gender1" value="${group.gender }"/>
-						      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
-						      		<input type="hidden" name="gpPw" value="${group.gpPw}"/>
-									<div class="card-header bg-transparent">${group.grName }
-										<c:choose>
+										<input type="hidden" name="grCode1" value="${group.grCode }"/>
+										<input type="hidden" name="guCode1" value="${group.guCode }"/>
+										<input type="hidden" name="grLeader1" value="${group.grLeader }"/>
+							      		<input type="hidden" name="age1" value="${group.age }"/>
+							      		<input type="hidden" name="grSubject1" value="${group.grSubject }"/>
+							      		<input type="hidden" name="grName1" value="${group.grName }"/>
+							      		<input type="hidden" name="grCount1" value="${group.grCount }"/>
+							      		<input type="hidden" name="lsCode1" value="${group.lsCode }"/>
+							      		<input type="hidden" name="grComment1" value="${group.grComment }"/>
+							      		<input type="hidden" name="gender1" value="${group.gender }"/>
+							      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
+							      		<input type="hidden" name="dDay1" value="${group.dDay }"/>
+							      		<input type="hidden" name="gpPw1" value="${group.gpPw}"/>
+							      		<input type="hidden" id="periodCode" name="periodCode1" value="${group.periodCode }"/>
+									<div class="card-header bg-transparent">
+									<c:choose>
+									<c:when test="${group.grOpen == '공개'}">
+										<span>${group.grName }</span>									
+									</c:when>
+									<c:when test="${group.grOpen == '비공개'}">
+										<span>${group.grName }<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+														  <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+														</svg>
+										</span>
+									</c:when>
+									</c:choose>
+									<c:choose>
 											<c:when test="${group.periodCode == 1 }">
 												<span class="d-day">상시모집</span>
 											</c:when>
@@ -276,6 +417,26 @@
 						    </div>
 						  </div>
 						</div>
+						
+						<div class="modal fade" id="groupPassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						  <div class="modal-dialog modal-dialog-centered">
+						    <div class="modal-content">
+						      <div class="modal-header">비공개 그룹 비밀번호 입력
+						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      </div>
+						      <div class="modal-body">
+						      	<input type="text" id="InsertPassword" name="InsertPassword" placeholder="비밀번호 4자리"/>
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
+						        <button type="button" class="btn btn-primary" id="insertSubmit" >입력</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						
+						
+						
 					</div><!-- 그룹 모집글 영역 end -->
 									
 				<div class="search_div">

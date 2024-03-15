@@ -19,6 +19,7 @@ public interface IBoardViewDAO
 	public int addReReply(BoardViewDTO board);
 	public int increaseBoardView(String boCode, int boView);	// 게시글 조회수 증가
 	public int boardView(String boCode);
+	public int boardViewDelete(String boCode);
 	public int boardViewModify(BoardViewDTO board);
 	public int boardViewModifyReply(BoardViewDTO board);
 	public int boardViewModifyRereply(BoardViewDTO board);

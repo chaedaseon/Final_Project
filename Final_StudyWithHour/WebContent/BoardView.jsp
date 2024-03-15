@@ -245,7 +245,7 @@
 						</div>
 					</div>
 				<div class="content_main">
-					${view.boContent }
+					<p style="white-space: pre-line;">${view.boContent }</p>
 				</div>
 					<div class="board_btn">
 						<button type="button" class="btn" id="modify_button">수정</button>
@@ -357,7 +357,8 @@
 				<div id="comment_list">
 					<ul>
 						<c:forEach var="reply" items="${replyList }">
-						<li><p id="comment_id">${reply.rpWriter }</p><p id="comment_detail">
+						<li><p id="comment_id">${reply.rpWriter }</p>
+						<p id="comment_detail" style="white-space: pre-line;">
 						${reply.rpContent }
 						</p><p id="comment_date">${reply.rpDate }</p>
 						<a type="button" class="replyBtn" id="replyBtn_${reply.rpCode }">답글</a> 
@@ -426,7 +427,8 @@
 						<c:choose>
 							<c:when test="${reply.rpCode == rereply.rpCode }">
 							<li id="rereply_id">
-								<p id="comment_id">re : ${rereply.rreWriter }</p><p id="comment_detail">
+								<p id="comment_id">re : ${rereply.rreWriter }</p>
+								<p id="comment_detail" style="white-space: pre-line;">
 									${rereply.rreContent }
 									</p><p id="comment_date">${rereply.rreDate }</p>
 									<a type="button" class="rereplyModifyBtn" id="rereplyModify_${rereply.rreCode }">수정</a> 

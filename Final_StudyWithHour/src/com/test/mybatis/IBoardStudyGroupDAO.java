@@ -23,4 +23,5 @@ public interface IBoardStudyGroupDAO
 	public int endListCount();									// 모집종료 그룹 갯수 카운트
 	public int insertGroupRegistration(BoardStudyGroupDTO group);	// 모집글 등록
 	public int callGroupJoinProcedure(Map<String, Object> data);	// 가입요청
+	public int callGroupRegistrationProcedure(Map<String, Object> data);	// 가입요청
 }
