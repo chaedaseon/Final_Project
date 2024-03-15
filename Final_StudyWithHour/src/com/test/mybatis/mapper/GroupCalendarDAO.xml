@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.test.mybatis.IGroupCalendarDAO">
+
+	<!-- 일정 조회 쿼리문 -->
+
+	<select id="groupScheduleList" resultType="com.test.mybatis.GroupCalendarDTO">
+		SELECT GSCHCODE, GSCHNAME, GSCHDATE, STARTHOUR, ENDHOUR, CONTENT, LOCATION, LEADMEMBER, ATTCK, GSCHTYPE
+		FROM
+		(
+	    SELECT GSCHCODE, GRCODE, GSCHNAME, TO_CHAR(GSCHDATE, 'YYYY-MM-DD') AS GSCHDATE, GSCHYEAR, GSCHMONTH, GSCHDAY, STARTHOUR, ENDHOUR, CONTENT, LOCATION, LEADMEMBER, ATTCK, GSCHTYPE
+	    FROM VIEW_GROUP_SCHEDULE
+	    ORDER BY GSCHDATE DESC
+		)
+		WHERE GRCODE = #{grCode}
+	</select>
+		
+	
+	<!-- 클릭한 날짜에 대한 일정 조회 쿼리문 -->
+ 	
+	<select id="groupSearchSchedule" resultType="com.test.mybatis.GroupCalendarDTO">
+		select GSCHCODE, GSCHNAME, TO_CHAR(GSCHDATE, 'YYYY-MM-DD') AS GSCHDATE, STARTHOUR, ENDHOUR, CONTENT, LOCATION, LEADMEMBER, ATTCK, GSCHTYPE
+		from VIEW_GROUP_SCHEDULE
+		where grcode = #{param1}
+		  AND TO_CHAR(GSCHDATE, 'YYYY-MM-DD') = #{param2}
+	</select>
+	
+	<!-- 그룹 멤버 목록 출력 리스트 -->
+	<select id="groupMemberSelect" resultType="com.test.mybatis.GuestDTO">
+	SELECT GJ.GJ_CODE AS GJCODE, GU.GU_NICK AS GUNICK
+	FROM GROUP_JOIN GJ JOIN GUEST GU
+	  ON GJ.GU_CODE = GU.GU_CODE
+	WHERE GR_CODE=#{param1}
+	  AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+
+	<!-- 모임/일정 생성자 그룹가입요청코드 출력 -->
+	<select id="leadMember" resultType="String">
+	SELECT GJ_CODE
+	FROM GROUP_JOIN
+	WHERE GR_CODE = #{param1} AND GU_CODE = #{param2}
+	 AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 일정 입력 쿼리문 -->
+	
+	<insert id="groupScheduleAdd">
+		INSERT INTO GROUP_SCHEDULE(GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_REGDATE, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GSCH_MODATE, GJ_CODE , ATT_CODE)
+		VALUES(TO_CHAR(GROUP_SCHEDULE_SEQ.NEXTVAL),  TO_DATE(#{gschDate}, 'YYYY-MM-DD'), #{gschName}, #{content}
+		, SYSDATE, #{location}, TO_CHAR(#{startHour}), #{endHour},  SYSDATE, #{leadMember}, #{attCk})
+	</insert> 
+	
+	
+	<!-- 직전에 인서트된 일정 코드 가져오기 -->
+	<select id="getGschCode" resultType="String">
+	SELECT GSCH_CODE
+	FROM 
+	(
+	SELECT * 
+	FROM GROUP_SCHEDULE
+	WHERE GJ_CODE = #{leadMember} 
+	AND ATT_CODE = '1'
+	ORDER BY GSCH_REGDATE DESC
+	)
+	WHERE ROWNUM = '1'
+	
+	</select>	
+	
+	
+	<!-- 참석멤버 테이블에 삽입-->
+	<insert id="attListInsert" parameterType="HashMap">
+	INSERT INTO ATTENDANCE_LIST(ATTL_CODE, GSCH_CODE, GJ_CODE)
+	VALUES(TO_CHAR(ATTENDANCE_LIST_SEQ.NEXTVAL), #{gschCode}, #{gjCode})
+	</insert>
+	
+	<!-- 특정 일정에 참석하는 멤버들 닉네임 출력 -->
+	<select id="attlMemberNick" resultType="String">
+	SELECT GU.GU_NICK
+	FROM ATTENDANCE_LIST ATTL JOIN GROUP_JOIN GJ
+	  ON ATTL.GJ_CODE = GJ.GJ_CODE
+	  JOIN GUEST GU ON GJ.GU_CODE = GU.GU_CODE
+	WHERE GSCH_CODE = #{gschCode}
+	</select>
+	
+	 <!-- 특정 일정을 등록한 그룹코드 가져오기 -->
+	 <select id="getAddMember" parameterType="HashMap" resultType="String">
+	 SELECT LEADMEMBER
+	from VIEW_GROUP_SCHEDULE
+	WHERE ATTCK = #{attCk} AND GSCHCODE = #{gschCode}
+	 </select>	
+	 
+	 <!-- 일정 삭제 중 모임일 경우 참석자 테이블 선행 삭제-->
+	 <delete id="attMemDel">
+	DELETE
+	FROM ATTENDANCE_LIST
+	WHERE GSCH_CODE = #{gschCode}
+	 </delete>
+	 
+	 <!-- 일정 삭제 -->
+	 <delete id="gschDel">
+	DELETE
+	FROM GROUP_SCHEDULE
+	WHERE GSCH_CODE = #{gschCode}
+	 </delete>
+	<!-- 일정 수정 쿼리문 -->
+<!--	
+	<update id="scheduleModify">
+		UPDATE SCHEDULE
+		SET SCH_DATE=TO_DATE(#{sch_date}, 'YYYY-MM-DD'), SCH_NAME=#{sch_name}, SCH_CONTENT=#{sch_content}
+		WHERE SCH_CODE=#{sch_code}
+	</update>
+ -->	
+	<!-- 일정 삭제 쿼리문 -->
+<!-- 	
+	<delete id="scheduleRemove">
+		DELETE
+		FROM SCHEDULE
+		WHERE SCH_CODE=#{sch_code}
+	</delete>
+ -->	
+	
+</mapper>
