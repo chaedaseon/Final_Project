@@ -25,8 +25,7 @@ public class HostStatusListController implements Controller
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
-		// 액션 코드
-		
+		// 액션 코드		
 		ModelAndView mav = new ModelAndView();
 		
 		// session 설정
@@ -48,14 +47,22 @@ public class HostStatusListController implements Controller
 		int noshowCount = 0;
 		int cancelCount = 0;
 		
+		int totalPrice = 0;
+		int stateYetPrice = 0;
+		int stateDonePrice = 0;
+		int noshowPrice = 0;
+		int cancelPrice = 0;
+		
 		try
 		{
+			// 이전 페이지로부터 넘어온 데이터 수신
 			String hoCode = request.getParameter("hoCode");
 			String scCode = request.getParameter("scCode");
 			String cfState = request.getParameter("cfState");
 			String code = "";
 			dao.connection();
 			
+			// 호스트의 카페 내역 조회
 			cafe = dao.lists(hoCode, 1, 10);
 			
 			if (cfState == null)
@@ -70,22 +77,36 @@ public class HostStatusListController implements Controller
 			else
 				code = cfState;
 			
+			// 예약건수 통계내역
 			totalCount = dao.cafeAllCount(code, cfState);
 			stateYetCount = dao.cafeStateCount(code, cfState, "이용예정");
 			stateDoneCount = dao.cafeStateCount(code, cfState, "이용완료");
 			noshowCount = dao.cafeStateCount(code, cfState, "노쇼");
 			cancelCount = totalCount - (stateYetCount + stateDoneCount + noshowCount);
 			
+			// 총액 통계내역 (이용완료 = 총액)
+			totalPrice = dao.cafeAllPrice(code, cfState);
+			stateDonePrice = dao.cafeStatePrice(code, cfState, "이용완료");
+			noshowPrice = dao.cafeStatePrice(code, cfState, "노쇼");
+			stateYetPrice = dao.cafeStateCount(code, cfState, "이용예정");
+			cancelPrice = totalPrice - (stateYetPrice + stateDonePrice + noshowPrice);
+			
+			
 			mav.addObject("cancelCount", cancelCount);
 			mav.addObject("stateYetCount", stateYetCount);
 			mav.addObject("stateDoneCount", stateDoneCount);
-			
 			mav.addObject("noshowCount", noshowCount);
 			mav.addObject("totalCount", totalCount);
+			
+			mav.addObject("noshowPrice", noshowPrice);
+			mav.addObject("stateYetPrice", stateYetPrice);
+			mav.addObject("cancelPrice", cancelPrice);
+			mav.addObject("stateDonePrice", stateDonePrice);
 			mav.addObject("cafe", cafe);
 			mav.addObject("scCode", scCode);
 			
-			mav.setViewName("/WEB-INF/view/host/StatisticsList.jsp");
+			mav.setViewName("StatisticsList.jsp");
+			//mav.setViewName("/WEB-INF/view/StatisticsList.jsp");
 			
 			dao.close();
 			

@@ -1462,15 +1462,56 @@ public class CafeDAO
 		return result;
 	}
 	
-	// 스터디룸 예약 
-	public int roomReserveInsert(String gjCode)
+	// [스터디카페기준] 전체 예약내역 가격 조회
+	public int cafeAllPrice(String code, String cfState) throws SQLException
 	{
 		int result = 0;
+		String search = "";
 		
-		String sql = "";
+		if (cfState.equals("cfAll"))
+			search = "HO_CODE";
+		else
+			search = "SC_CODE";
+		
+		String sql = "SELECT NVL(SUM(SR_PRICE),0) AS PRICE FROM VIEW_RESERVE WHERE " +search+ " = ? AND SC_CODE NOT IN (SELECT SC_CODE FROM CAFEUNREG)";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, code);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+			result = rs.getInt("PRICE");
+		
+		rs.close();
+		pstmt.close();
 		
 		return result;
 	}
+	
+	// [스터디카페기준] 이용상태에 따른 총액 조회
+	public int cafeStatePrice(String code, String cfState, String state) throws SQLException
+	{
+		int result = 0;
+		String search = "";
 		
+		if (cfState.equals("cfAll"))
+			search = "HO_CODE";
+		else
+			search = "SC_CODE";
+		
+		
+		String sql = "SELECT FB_STATE, NVL(SUM(SR_PRICE),0) AS PRICE FROM VIEW_RESERVE"
+				+ " WHERE " + search + " = ? AND FB_STATE = ? AND SC_CODE NOT IN (SELECT SC_CODE FROM CAFEUNREG)"
+				+ " GROUP BY FB_STATE";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, code);
+		pstmt.setString(2, state);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+			result = rs.getInt("PRICE");
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
 		
 }

@@ -8,11 +8,16 @@
 	// 호스트 세션 받아오기
 	HostDTO host = (HostDTO) session.getAttribute("host");
 	
+	// 차트 영역부분에 필요한 데이터 수신
 	String cfSelect = request.getParameter("cfState");
 	int cancelCount = (Integer)request.getAttribute("cancelCount");
 	int stateDoneCount = (Integer)request.getAttribute("stateDoneCount");
 	int noshowCount = (Integer)request.getAttribute("noshowCount");
 	int totalCount = (Integer)request.getAttribute("totalCount");
+	
+	int stateDonePrice = (Integer)request.getAttribute("stateDonePrice");
+	int cancelPrice = (Integer)request.getAttribute("cancelPrice");
+	int noshowPrice = (Integer)request.getAttribute("noshowPrice");
 			
 %>
 <!DOCTYPE html>
@@ -38,39 +43,27 @@
 		{
 			var f = document.searchForm;
 			f.submit();
+			var selectText = $("#cfState option:selected").text();
+			var scName = document.getElementById("name");
+			
+			//$("#name").val() = selectText;
+			
+			//alert(selectText);
+			//scName.innerHTML = selectText;
+			//scName.value = selectText;
+			
 		});
+		
 		
 		var searchArr = $('#cfState').find("option");
 		searchArr.each(function(i)
 		{     
-			  var optionValue = $(this).val();     
-			  if(optionValue == <%=cfSelect%>)
-				  $(this).attr("selected","selected"); 
-		
+			var optionValue = $(this).val();     
+			if(optionValue == <%=cfSelect%>)
+				$(this).attr("selected","selected");
 		});
+		
 	});
-			<%-- 
-			var select = $("select[name=cfState]").val();
-			var params = "hoCode=" + <%=hoCode%> + "&select=" + select;
-			
-		$.ajax(
-				{
-					type:"POST"
-					, url:"hoststatuslist.do"
-					, data:params
-					//, dataType:"json"			//-- check~!!!
-					, success:function(select)
-					{
-						
-						$("#name").innerHTML = select;
-						
-					}
-					, error:function(e)
-					{
-						alert(e.responseText);
-					}
-				});
-		 --%>
 		
 </script>
 
@@ -95,63 +88,91 @@
 				<!-- 검색창 영역 -------------------------------------------------------------------->
 				<div class="select_div">
 					<form action="hoststatuslist.do?hoCode=<%=host.getHoCode() %>" method="post" name="searchForm">
-					<!-- <span class="date_calendar" style="margin-left: calc(( 100% - 550px)/2);"> 
-						<input type="date" id="datePicker">
-					</span> -->
-					<select class="select_bar" name="cfState" id="cfState">
-						<option value="cfAll">전체</option>
-					<c:forEach var="cafe" items="${cafe }" varStatus="cf">
-						<option value="${cafe.scCode }">${cafe.scName }</option>
-					</c:forEach>
-					</select>
+						<select class="select_bar" name="cfState" id="cfState">
+							<option value="cfAll">전체</option>
+						<c:forEach var="cafe" items="${cafe }" varStatus="cf">
+							<option value="${cafe.scCode }">${cafe.scName }</option>
+						</c:forEach>
+						</select>
 					</form>
 				</div>
-
-				<div>
+				
+				
+				<!-- 통계 영역 -------------------------------------------------------------------->
+				<div style="margin-top: 10px;">
 					<table class="register_table">
 						<tr>
-							<th>스터디카페</th>
-							<th>총 예약건수</th>
+							<th></th>
+							<th>총 예약건수[총액]</th>
 							<th>이용완료</th>
 							<th>취소</th>
 							<th>노쇼</th>
 						</tr>
 						<tr>
-							<td></td>
-							<td id="total">${totalCount }건</td>
+							<td><div id="name"></div></td>
+							<td id="total">${totalCount }건[${stateDonePrice }원]</td>
 							<td id="state">${stateDoneCount }건</td>
 							<td id="cancel">${cancelCount }건</td>
-							<td id="noshow">${noshowCount } 건</td>
+							<td id="noshow">${noshowCount }건</td>
 						</tr>
 					</table>
-					<div>
-					<div style="margin-top: 10px;"></div>
+				</div>
+				<div style="margin-top: 10px;"></div>
+				
+				<div style="display: flex;">  	
+				<!-- 차트 영역 ------------------------------------------------------------------------->
+				<div style="width: 70%;">
+				<canvas id="myChart"></canvas>
+					<script>
+					var ctx = document.getElementById('myChart').getContext('2d');
+					var chart = new Chart(ctx, {
+					    type: 'bar',  
+					    data: {
+					        labels: ['전체','이용완료','취소','노쇼'],
+					        datasets: [{
+					            label: '',
+					            backgroundColor: [
+					              'rgba(255, 99, 132, 0.5)',
+					              'rgba(255, 159, 64, 0.5)',
+					              'rgba(255, 205, 86, 0.5)',
+					              'rgba(75, 192, 192, 0.5)'
+					            ],
+					            data: [<%=totalCount%>, <%=stateDoneCount%> ,<%=cancelCount%>, <%=noshowCount%>,]
+					        }]
+					    },
 					
-					<!-- 차트 영역 ------------------------------------------------------------------------->
-					<div style="width: 100%;">
-					<canvas id="myChart"></canvas>
-<script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    type: 'bar',  
-    data: {
-        labels: ['전체','이용완료','취소','노쇼'],
-        datasets: [{
-            label: '',
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.5)',
-              'rgba(255, 159, 64, 0.5)',
-              'rgba(255, 205, 86, 0.5)',
-              'rgba(75, 192, 192, 0.5)'
-            ],
-            data: [<%=totalCount%>, <%=stateDoneCount%> ,<%=cancelCount%>, <%=noshowCount%>,]
-        }]
-    },
+					}); 
+					
+					</script>
+				</div>
 
-}); 
 
-</script>
-</div>
+				<div style="margin-top: 10px;"></div>
+					
+				<!-- 차트 영역 ------------------------------------------------------------------------->
+				<div style="width: 70%; margin: 0 auto;">
+				<canvas id="priceChart"></canvas>
+					<script>
+					var ctx = document.getElementById('priceChart').getContext('2d');
+					var chart = new Chart(ctx, {
+					    type: 'doughnut',  
+					    data: {
+					    	labels: ['전체','이용완료','취소','노쇼'],
+					        datasets: [{
+					            label: '',
+					            backgroundColor: [
+					              'rgba(255, 99, 132, 0.5)',
+					              'rgba(255, 159, 64, 0.5)',
+					              'rgba(255, 205, 86, 0.5)',
+					              'rgba(75, 192, 192, 0.5)'
+					            ],
+					            data: [<%=stateDonePrice%>, <%=stateDonePrice%> ,<%=cancelPrice%>, <%=noshowPrice%>,]
+					        }]
+					    },
+					
+					}); 
+					
+					</script>
 					</div>
 				</div>
 			</div>
