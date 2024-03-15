@@ -70,6 +70,10 @@ table
 .list_table tr > th, td
 {
 	height: 45px;
+}
+
+.list_table tr > th
+{
 	text-align: center;
 }
 

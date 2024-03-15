@@ -46,7 +46,7 @@
 				</c:if>
 				
 					<c:forEach var="groupActiveList" items="${groupActiveList }">
-					<div class="group_list" onclick="location.href='#'">
+					<div class="group_list" onclick="location.href='grouppagemain.do?gu_code=<%=guest.getGuCode()%>&gr_code=${groupActiveList.grCode }'">
 						<div class="group_name">
 							${groupActiveList.grName }
 						</div>

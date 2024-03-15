@@ -55,7 +55,7 @@ public class GuestCalendarController
 		
 		model.addAttribute("schedulelist", schedulelist);
 		
-		return "/WEB-INF/view/gueset/GuestSearchSchedule_ajax.jsp";
+		return "/WEB-INF/view/guest/GuestSearchSchedule_ajax.jsp";
 	}
 	
 	// 개인 일정 등록 수행

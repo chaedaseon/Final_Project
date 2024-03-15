@@ -185,8 +185,10 @@ table.list_table tr:last-child
 
 .card
 {
+	/* max-width: 18rem; */
 	border-radius: 15px;
 	box-shadow: 5px 5px 5px #d3d3d3;
+	height: 200px;
 }
 
 .card-header
@@ -267,3 +269,16 @@ table.list_table tr:last-child
 {
 	border: none;
 }
+/* 
+.groupJoin_info td
+{
+	text-align: left;
+	height: 26px;
+	width: 25%;
+}
+
+.groupJoin_info tr> td:nth-child(1) 
+{
+	width: 100px;
+}
+ */

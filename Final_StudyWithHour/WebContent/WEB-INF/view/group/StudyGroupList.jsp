@@ -19,8 +19,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sliderStyle.css">
+<!-- <link rel="stylesheet" type="text/css" href="css/sliderStyle.css"> -->
 <link rel="stylesheet" type="text/css" href="css/studyGroupPageStyle.css">
 <script type="text/javascript">
 
@@ -228,8 +227,8 @@
 	<section>
 		<div id="content">
 			<div class="category_bar">
-				<c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import>
-				
+				<img style="width: 1400px; height: 200px;" alt="" src="/images/sample_banner2.png">
+				<%-- <c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import> --%>
 			<!-- content div 시작 부분 -->	
 			<div class="content_div">
 				<div class="board_title">
@@ -384,10 +383,42 @@
 						<div class="modal fade" id="groupJoinModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered">
 						    <div class="modal-content">
-						      <div class="modal-header">그룹에 가입하기
+						      <div class="modal-header">그룹 모집 상세 정보
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body">
+						      <!-- <table class="groupJoin_info">
+						      	<tr>
+						      		<td>그룹장 : </td>
+						      		<td id="grLeader"><span></span></td>
+						      		<td>그룹명 : </td>
+						      		<td id="grName"><span></span></td>
+						      	</tr>
+						      	<tr id="age">
+						      		<td>연령대 : </td>
+						      		<td><span></span></td>
+						      	</tr>
+						      	<tr id="gender">
+						      		<td>성별 : </td>
+						      		<td><span></span></td>
+						      	</tr>
+						      	<tr id="grCount">
+						      		<td>모집 인원 : </td>
+						      		<td><span id="grCount"></span></td>
+						      	</tr>
+						      	<tr id="lsCode">
+						      		<td>지역 : </td>
+						      		<td><span></span></td>
+						      	</tr>
+						      	<tr id="grSubject">
+						      		<td>활동 분류 : </td>
+						      		<td><span></span></td>
+						      	</tr>
+						      	<tr id="grComment">
+						      		<td>모집 내용 : </td>
+						      		<td><span></span></td>
+						      	</tr>
+						      </table> -->
 						      <div id="grLeader">그룹장 : <span></span></div>
 						      <div id="grName">그룹명 : <span></span></div>
 						      <div id="age">연령대 : <span></span></div>
@@ -395,7 +426,7 @@
 						      <div id="grCount">모집 인원 : <span></span>명</div>
 						      <div id="lsCode">지역 : <span></span></div>
 						      <div id="grSubject">활동 분류 : <span></span></div>
-						      <div id="grComment">모집 내용 : <br><span></span></div>
+						      <div id="grComment">모집 내용 : <br><span></span></div> 
 						      <input type="hidden" name="grCode">
 						      <input type="hidden" name="guCode" value="<%=guCode%>">
 						      <input type="hidden" name="grLeader" />
@@ -407,7 +438,7 @@
 						      <input type="hidden" name="grComment" />
 						      </div>
 						      <div class="modal-footer">
-						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
+						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 						        <button type="button" class="btn btn-primary" id="joinSubmit" >가입하기</button>
 						      </div>
 						    </div>
@@ -425,13 +456,11 @@
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
-						        <button type="button" class="btn btn-primary" id="insertSubmit" >입력</button>
+						        <button type="button" class="btn btn-primary" id="insertSubmit">입력</button>
 						      </div>
 						    </div>
 						  </div>
 						</div>
-						
-						
 						
 					</div><!-- 그룹 모집글 영역 end -->
 									

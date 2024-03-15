@@ -3,16 +3,10 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
-	/* 
-	AdminDTO admin = (AdminDTO)session.getAttribute("admin");
-	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
-	HostDTO host = (HostDTO)session.getAttribute("host");
-	 */
 	
 	String adCode = (String)session.getAttribute("adCode");
 	String guCode = (String)session.getAttribute("guCode");
 	String hoCode = (String)session.getAttribute("hoCode");
-	 
 %>
 <!DOCTYPE html>
 <html>
@@ -25,7 +19,6 @@
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
 <link rel="stylesheet" type="text/css" href="css/mainPageStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -405,7 +398,6 @@
 					<!-- 공지사항 영역 start -->
 					<div class="col-4" style="padding: 40px;">
 					<div class="subject-title">📢 공지사항<a href="PersonalPenaltyList.jsp" style="font-size: 16px;">더보기</a></div>
-						<!-- <div class="subject-title"><a href="#">📢 공지사항</a></div> -->
 						<div class="">
 							<ul class="list-item" style="border-top: 1px solid #e1e1e1;">
 								<li>

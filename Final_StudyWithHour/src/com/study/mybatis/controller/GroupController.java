@@ -57,12 +57,13 @@ public class GroupController
 		return "redirect:groupmemberlist.do?gr_code="+ gr_code;
 	}
 	
-	
-	@RequestMapping(value="/groupmain.do", method = RequestMethod.GET)
-	public String groupmain()
+	// 그룹 메인 연결
+	@RequestMapping(value="/grouppagemain.do", method = RequestMethod.GET)
+	public String groupmain(@RequestParam("gu_code")String gu_code, @RequestParam("gr_code")String gr_code)
 	{
-		//IGroupDAO dao = sqlSession.getMapper(IGroupDAO.class);
+		IGroupDAO dao = sqlSession.getMapper(IGroupDAO.class);
 		
-		return "/WEB-INF/view/group/GroupMain.jsp";
+		
+		return "/WEB-INF/view/group/GroupPageMain.jsp";
 	}
 }

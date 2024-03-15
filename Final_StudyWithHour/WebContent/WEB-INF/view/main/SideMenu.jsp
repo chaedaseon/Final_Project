@@ -18,12 +18,77 @@
 	// 호스트 세션 받아오기
 	HostDTO host = (HostDTO) session.getAttribute("host");
 	String hoCode = (String)session.getAttribute("hoCode");
+	
+	// grCode 받아오기
+	String grCode = request.getParameter("gr_code"); 
 %>
 
 <div class="sideMenu-area">
 	<div class ="sideMenu-content">
+	
+		<!-- 그룹 페이지 진입 -->
+		<% if(guCode != null && grCode != null) 
+		{%>
+		<div class="profile-area">
+			<div class="card-area">
+				<div class="image-area">
+					<img src="images/woman.png" class="image-file">
+				</div>
+				<div class="text-area">
+					<p><span class="name">그룹이지롱 님</span><br>
+					<span class="nickname"><%=guest.getGuNick() %></span></p>
+				</div>
+			</div>
+		</div>
+		
+		<ul class="list-unstyled ps-0">
+      		<li class="mb-1">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='grouppagemain.do?grCode=<%=grCode%>'">
+          			<span class="menu_item">그룹 페이지</span>
+        		</button>
+      		</li> 
+      		<li class="mb-1">
+       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+       			 onclick="location.href='groupreservelist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+         				<span class="menu_item">예약 내역</span>
+       			</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='grouppenaltylist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+          			<span class="menu_item">패널티 내역</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='groupmemberlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+          			<span class="menu_item">카페 예약</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.hreg='groupmeetlist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+          			<span class="menu_item">그룹원 관리</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='#'">
+          			<span class="menu_item">모임 관리</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="locaton.href='#'">
+          			<span class="menu_item">그룹 캘린더</span>
+        		</button>
+      		</li>
+      	</ul>
+		
 		<!-- 게스트 로그인 -->
-		<% if(guCode != null)
+		<%} 
+		else if(guCode != null && grCode == null)		
 		{%>
 		
 		<div class="profile-area">
@@ -98,8 +163,6 @@
         		</button>
       		</li>
       	</ul>
-      	
-      	
       	<%}
 		/* 호스트 로그인한 경우 */
      	else if (hoCode != null)	

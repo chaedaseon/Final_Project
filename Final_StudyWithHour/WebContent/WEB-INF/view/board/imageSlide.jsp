@@ -4,6 +4,7 @@
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 %>
+
 <div class="slider">
 	<div class="slide"></div>
 	<div class="slide"></div>

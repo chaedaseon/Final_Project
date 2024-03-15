@@ -46,7 +46,6 @@ public class GuestGroupActiveListController implements Controller
 			groupActiveList = group.groupActiveList(guCode);
 			mav.addObject("groupActiveList", groupActiveList);
 			
-			
 			mav.setViewName("/WEB-INF/view/guest/GuestGroupActiveList.jsp?guCode="+guCode);
 
 			

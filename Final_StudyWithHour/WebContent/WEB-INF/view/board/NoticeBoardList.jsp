@@ -82,7 +82,7 @@
 							            <td>${notice.no }</td>
 										<td><a href="noticeview.do?ntCode=${notice.ntCode }">${notice.ntTitle}</a></td>
 							            <td>${notice.ntWriter}</td>
-							            <td>${notice.ntDate}</td>
+							            <td>${notice.ntDate.substring(0,10)}</td>
 							            <td>${notice.ntView}</td>
 							        </tr>
 						        </c:forEach>
