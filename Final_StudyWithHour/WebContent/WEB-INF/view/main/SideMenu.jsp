@@ -66,6 +66,8 @@
             				<span class="subMenu_item">개설 내역</span></a></li>
             			<li><a href="guestgroupjoinlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
             				<span class="subMenu_item">가입 내역</span></a></li>
+            			<li><a href="groupreservelist.do?grCode=1" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">그룹 연결</span></a></li>
             			
           			</ul>
         		</div>
