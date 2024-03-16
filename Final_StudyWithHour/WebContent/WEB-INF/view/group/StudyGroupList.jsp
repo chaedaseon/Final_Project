@@ -19,7 +19,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
-<!-- <link rel="stylesheet" type="text/css" href="css/sliderStyle.css"> -->
+<link rel="stylesheet" type="text/css" href="css/sliderStyle.css">
 <link rel="stylesheet" type="text/css" href="css/studyGroupPageStyle.css">
 <script type="text/javascript">
 
@@ -227,8 +227,7 @@
 	<section>
 		<div id="content">
 			<div class="category_bar">
-				<img style="width: 1400px; height: 200px;" alt="" src="/images/sample_banner2.png">
-				<%-- <c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import> --%>
+				<c:import url="/WEB-INF/view/board/imageSlide.jsp"></c:import>
 			<!-- content div 시작 부분 -->	
 			<div class="content_div">
 				<div class="board_title">
@@ -241,11 +240,11 @@
 					</svg>
 					모집글작성
 				</button>
-					<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 row-cols-1 text-center justify-content-center px-xl-6 aos-init aos-animate" id="groupRegList_box">
+					<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 row-cols-1 text-center px-xl-6 aos-init aos-animate" id="groupRegList_box">
 					<c:choose>
 						<c:when test="${list == null}">
 			    				<!-- <h5 class="card-title">Light card title</h5> -->
-			    		<div id="null_text" style="text-align: center;"><span>해당 카테고리의 그룹이 존재하지 않습니다.</span></div>
+			    		<div id="null_text"><span>해당 카테고리의 그룹이 존재하지 않습니다.</span></div>
 						</c:when>
 						<c:when test="${urlparam == 'boardstudygroupadd' }">
 							<c:forEach var="group" items="${list }">
@@ -365,7 +364,6 @@
 										</c:choose>
 									</div>
 				  					<div class="card-body">
-				    				<!-- <h5 class="card-title">Light card title</h5> -->
 				    					<p class="card-text"><a type="button" class="groupJoin_button" data-bs-target="#groupJoinModal">${group.grComment }</a></p>
 				  					</div>
 				    				<div class="card-bottom">
@@ -387,38 +385,43 @@
 						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						      </div>
 						      <div class="modal-body">
-						      <!-- <table class="groupJoin_info">
+						      <table class="groupJoin_info">
 						      	<tr>
-						      		<td>그룹장 : </td>
+						      		<td>그룹장</td>
 						      		<td id="grLeader"><span></span></td>
-						      		<td>그룹명 : </td>
+						      		<td>그룹명</td>
 						      		<td id="grName"><span></span></td>
 						      	</tr>
-						      	<tr id="age">
-						      		<td>연령대 : </td>
-						      		<td><span></span></td>
+						      	<tr>
+						      		<td>연령대</td>
+						      		<td id="age"><span></span></td>
+						      		<td>성별</td>
+						      		<td id="gender"><span></span></td>
 						      	</tr>
-						      	<tr id="gender">
-						      		<td>성별 : </td>
-						      		<td><span></span></td>
+						      	<tr>
+						      		<td>모집 인원</td>
+						      		<td id="grCount"><span id="grCount"></span></td>
+						      		<td>지역</td>
+						      		<td id="lsCode"><span></span></td>
 						      	</tr>
-						      	<tr id="grCount">
-						      		<td>모집 인원 : </td>
-						      		<td><span id="grCount"></span></td>
+						      	<tr>
+						      		<td>활동 분류</td>
+						      		<td id="grSubject"><span></span></td>
+						      		<td>모집 마감일</td>
+						      		<td></td>
 						      	</tr>
-						      	<tr id="lsCode">
-						      		<td>지역 : </td>
-						      		<td><span></span></td>
+						      	<tr class="spacer"></tr>
+						      	<tr>
+						      		<td colspan="4" style="text-align: center;">모집 내용</td>
 						      	</tr>
-						      	<tr id="grSubject">
-						      		<td>활동 분류 : </td>
-						      		<td><span></span></td>
+						      	<tr>
+						      		<td colspan="4" id="grComment" style="background: none; height: 80px;">
+						      			<span></span>
+						      		</td>
 						      	</tr>
-						      	<tr id="grComment">
-						      		<td>모집 내용 : </td>
-						      		<td><span></span></td>
-						      	</tr>
-						      </table> -->
+						      </table>
+						      
+						      <!-- 
 						      <div id="grLeader">그룹장 : <span></span></div>
 						      <div id="grName">그룹명 : <span></span></div>
 						      <div id="age">연령대 : <span></span></div>
@@ -426,7 +429,10 @@
 						      <div id="grCount">모집 인원 : <span></span>명</div>
 						      <div id="lsCode">지역 : <span></span></div>
 						      <div id="grSubject">활동 분류 : <span></span></div>
+						      
 						      <div id="grComment">모집 내용 : <br><span></span></div> 
+						       -->
+						      
 						      <input type="hidden" name="grCode">
 						      <input type="hidden" name="guCode" value="<%=guCode%>">
 						      <input type="hidden" name="grLeader" />
@@ -439,7 +445,7 @@
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-						        <button type="button" class="btn btn-primary" id="joinSubmit" >가입하기</button>
+						        <button type="button" class="btn" id="joinSubmit" style="background-color: #94be2c; color: #ffffff;">가입하기</button>
 						      </div>
 						    </div>
 						  </div>

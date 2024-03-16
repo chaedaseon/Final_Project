@@ -131,9 +131,6 @@
             				<span class="subMenu_item">개설 내역</span></a></li>
             			<li><a href="guestgroupjoinlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
             				<span class="subMenu_item">가입 내역</span></a></li>
-            			<li><a href="groupreservelist.do?grCode=1" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-            				<span class="subMenu_item">그룹 연결</span></a></li>
-            			
           			</ul>
         		</div>
       		</li>
@@ -153,12 +150,14 @@
         		</div>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" onclick="location.href='guestredlist.do?type=board&guCode=<%=guCode %>'">
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='guestredlist.do?type=board&guCode=<%=guCode %>'">
           			<span class="menu_item">신고 내역 관리</span>
         		</button>
       		</li>
       		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu" >
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='guestpenaltylist.do?guCode=<%=guCode %>'" >
           			<span class="menu_item">패널티 관리</span>
         		</button>
       		</li>

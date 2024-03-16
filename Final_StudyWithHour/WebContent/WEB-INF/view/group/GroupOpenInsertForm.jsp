@@ -16,7 +16,6 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
 <link rel="stylesheet" type="text/css" href="css/formStyle.css">
@@ -518,12 +517,8 @@
 	<section>
 		<div id="content">
 			<div class="content_div">
-				<div class="board_title">
-					<span><a href="#" style="color: #94bc32;">스터디그룹</a></span>
-					<c:import url="/CategoryBar_group.jsp"></c:import>
-				</div>
 				<div id="form_title">
-					<span>그룹 개설 요청서 작성</span>
+					<span>그룹 <span style="color: #94be2c;">개설 요청서</span> 작성</span>
 				</div>
 				<div class="sub_title_div">
 					<div class="content_box">

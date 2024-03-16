@@ -37,7 +37,7 @@
 		
 			<div class="rightContent_div">
 				<div class="page_title">
-					<span>그룹<span> 가입 신청</span> 내역</span>
+					<span>그룹<span> 개설 신청</span> 내역</span>
 				</div>
 				
 				<div>
@@ -47,7 +47,6 @@
 							<option>개설</option>
 							<option>대기</option>
 							<option>미개설</option>
-							<option>탈퇴</option>
 						</select>
 						
 						<table class="groupJoin_list">
@@ -57,14 +56,13 @@
 								<th>카테고리</th>
 								<th>상태</th>
 								<th>사유</th>
-								<th>가입 신청일자</th>
-								<th>탈퇴 일자</th>
+								<th>개설 신청일자</th>
 							</tr>
 							<tr class="spacer"></tr>
 							
 							<c:if test="${empty groupJoinList }">
 								<tr>
-									<td colspan="5">가입 신청 내역이 존재하지 않습니다.</td>
+									<td colspan="6" style="text-align: center;">개설 신청 내역이 존재하지 않습니다.</td>
 								</tr>
 							</c:if>
 							

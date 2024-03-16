@@ -19,9 +19,6 @@
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/gusetRedStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sliderStyle.css">
 <link rel="stylesheet" type="text/css" href="css/postViewStyle.css">
 <script type="text/javascript">
 

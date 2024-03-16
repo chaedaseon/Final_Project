@@ -269,16 +269,27 @@ table.list_table tr:last-child
 {
 	border: none;
 }
-/* 
+
+.modal-header
+{
+	font-size: 22px;
+}
+
 .groupJoin_info td
 {
 	text-align: left;
-	height: 26px;
-	width: 25%;
+	height: 30px;
+	border: 1px solid #e1e1e1;
 }
 
-.groupJoin_info tr> td:nth-child(1) 
+.spacer
 {
-	width: 100px;
+	height: 40px;
 }
- */
+
+.groupJoin_info tr> td:nth-child(1), .groupJoin_info tr> td:nth-child(3)  
+{
+	background-color: #f7f7f7;
+	width: 20%;
+}
+ 

@@ -85,7 +85,38 @@ public class GuestBoardDAO
 		
 		return result;
 	}
-
+	
+	// 전체 게시판 댓글 작성 내역 조회
+	public ArrayList<GuestBoardDTO> replyList(String guCode) throws SQLException
+	{
+		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
+		
+		String sql = "SELECT RP_DATE, RP_CONTENT, BO_CODE, BO_TITLE, BS_LIST, BF_LIST FROM VIEW_REPLY_LIST WHERE GU_CODE = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GuestBoardDTO dto = new GuestBoardDTO();
+			
+			dto.setRpDate(rs.getString("RP_DATE"));
+			dto.setRpContent(rs.getString("RP_CONTENT"));
+			dto.setBoCode(rs.getString("BO_CODE"));
+			dto.setBoTitle(rs.getString("BO_TITLE"));
+			dto.setBfList(rs.getString("BF_LIST"));
+			dto.setBsList(rs.getString("BS_LIST"));
+			
+			result.add(dto);
+		
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
 	
 	// 스크랩 게시글 조회
 	public ArrayList<GuestBoardDTO> guestScrapList(String guCode) throws SQLException
@@ -126,10 +157,6 @@ public class GuestBoardDAO
 	}
 	
 	
-	
-	
-	
-	
 	// 게시물 신고 내역 개수 조회
 	public int redBoardCount(String guCode) throws SQLException
 	{
@@ -163,7 +190,7 @@ public class GuestBoardDAO
 		String sql = "SELECT BW.BO_CODE AS BO_CODE, BW.BO_DATE AS BO_DATE, BW.BO_TITLE AS BO_TITLE, BW.BO_CONTENT AS BO_CONTENT, BW.BO_VIEW AS BO_VIEW"
 				   + ", BW.BO_MODATE AS BO_MODATE, BW.BO_FILE AS BO_FILE, BS.BS_LIST AS BS_LIST, BF.BF_LIST AS BF_LIST"
 				   + ", BW.GU_CODE AS GU_CODE, BW.BOR_CODE AS BOR_CODE, BW.BOR_DATE AS BOR_DATE, BW.REASON AS REASON"
-				   + ", BR.BRD_CODE AS BRD_CODE, BR.BRD_DATE AS BRD_DATE\r\n, BR.RED_CODE AS RED_CODE, RS.REDSTATE AS REDSTATE"
+				   + ", BR.BRD_CODE AS BRD_CODE, BR.BRD_DATE AS BRD_DATE, BR.RED_CODE AS RED_CODE, RS.REDSTATE AS REDSTATE"
 				   + " FROM BOARD_RED_LIST_VIEW BW, BOARD_REDDONE BR, REDSTATE RS, BOARD_SECOND BS, BOARD_FIRST BF"
 				   + " WHERE BW.BOR_CODE = BR.BOR_CODE AND BR.RED_CODE = RS.RED_CODE AND BW.BS_CODE = BS.BS_CODE"
 				   + " AND BS.BF_CODE = BF.BF_CODE AND BW.GU_CODE = ?";
@@ -209,7 +236,7 @@ public class GuestBoardDAO
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "";
+		String sql = "SELECT RP_CODE, RP_CONTENT, RR_CODE, RR_DATE, REASON, BS_LIST, BF_LIST, REDSTATE, RRD_DATE FROM REPLY_RED_LIST_VIEW WHERE GU_CODE = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -219,6 +246,15 @@ public class GuestBoardDAO
 		{
 			GuestBoardDTO dto = new GuestBoardDTO();
 			
+			dto.setRpCode(rs.getString("RP_CODE"));
+			dto.setRpContent(rs.getString("RP_CONTENT"));
+			dto.setRrCode(rs.getString("RR_CODE"));
+			dto.setRrDate(rs.getString("RR_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setBsList(rs.getString("BS_LIST"));
+			dto.setBfList(rs.getString("BF_LIST"));
+			dto.setRedstate(rs.getString("REDSTATE"));
+			dto.setRrdDate(rs.getString("RRD_DATE"));
 			
 			result.add(dto);
 		}
@@ -228,6 +264,39 @@ public class GuestBoardDAO
 		
 		return result;
 	}
+	
+	
+	// 패널티 부여 내역 조회
+	public ArrayList<GuestBoardDTO> penaltyList(String guCode) throws SQLException
+	{
+		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
+		
+		String sql = "SELECT PBO_CODE, PBO_DATE AS START_DATE, PBO_DATE+7 AS END_DATE, BRD_CODE, REASON, GU_CODE, BO_CODE, BO_TITLE FROM VIEW_BOARD_PENALTY WHERE GU_CODE= ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GuestBoardDTO dto = new GuestBoardDTO();
+			
+			dto.setPboCode(rs.getString("PBO_CODE"));
+			dto.setStartDate(rs.getString("START_DATE"));
+			dto.setEndDate(rs.getString("END_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setBoTitle(rs.getString("BO_TITLE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+		
+	}
+	
 
 	
 }

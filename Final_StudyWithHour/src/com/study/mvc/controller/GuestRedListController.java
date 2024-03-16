@@ -42,13 +42,16 @@ public class GuestRedListController implements Controller
 			String guCode = request.getParameter("guCode");
 			dao.connection();
 			
+			// 게시글 신고 내역
 			ArrayList<GuestBoardDTO> redBoardList = new ArrayList<GuestBoardDTO>();
-			
 			redBoardList = dao.redBoardList(guCode);
-			
 			mav.addObject("redBoardList", redBoardList);
 			
-			
+			// 댓글&대댓글 신고 내역
+			ArrayList<GuestBoardDTO> redReplyList = new ArrayList<GuestBoardDTO>();
+			redReplyList = dao.redReplyList(guCode);
+			mav.addObject("redReplyList", redReplyList);
+					
 			mav.setViewName("/WEB-INF/view/guest/GuestRedList.jsp");
 			
 			dao.close();

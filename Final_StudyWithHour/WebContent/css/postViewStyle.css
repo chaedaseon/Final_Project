@@ -53,6 +53,11 @@ p
 	border-bottom: 3px solid #94BE2C;
 }
 
+#category> h3
+{
+	margin-top: 50px;
+}
+
 #title
 {
 	padding-top: 15px;

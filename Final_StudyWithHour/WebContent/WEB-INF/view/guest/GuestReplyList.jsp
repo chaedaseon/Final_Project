@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GuestScrapList.jsp</title>
+<title>GuestReplyList.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -37,94 +37,84 @@
 		
 			<div class="rightContent_div">
 				<div class="page_title">
-					<span><span>스크랩</span> 내역</span>
+					<span><span>작성 댓글</span> 내역</span>
 				</div>
 				
 				<div>
-					<div class="board_list">
-						<select class="red_sorting">
-							<option selected="selected">--처리 상태--</option>
-							<option>승인</option>
-							<option>반려</option>
-						</select>
-					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
-					   		<button class="nav-link active" id="board-tab" data-bs-toggle="tab" data-bs-target="#board-tab-pane" type="button" role="tab"
-					   		 aria-controls="home-tab-pane" aria-selected="true">스크랩</button>
+					   		<button class="nav-link active" id="reply-tab" data-bs-toggle="tab" data-bs-target="#reply-tab-pane" type="button" role="tab"
+					   		 aria-controls="reply-tab-pane" aria-selected="true">댓글</button>
 					  	</li>
 					  	<li class="nav-item" role="presentation">
-					    	<button class="nav-link" id="groupBoard-tab" data-bs-toggle="tab" data-bs-target="#groupBoard-tab-pane" type="button" role="tab"
-					    	 aria-controls="profile-tab-pane" aria-selected="false">그룹 스크랩</button>
+					    	<button class="nav-link" id="groupReply-tab" data-bs-toggle="tab" data-bs-target="#groupReply-tab-pane" type="button" role="tab"
+					    	 aria-controls="groupReply-tab-pane" aria-selected="false">그룹 댓글</button>
 					  	</li>
 					</ul>
 					
 					<!-- 탭 영역 --------------------------------------------------------------------------------------->
 					<div class="tab-content" id="myTabContent">
 					
-						<!-- 스크랩 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
-					  	<div class="tab-pane fade show active" id="board-tab-pane" role="tabpanel" aria-labelledby="board-tab" tabindex="0">
+						<!-- 댓글 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
+					  	<div class="tab-pane fade show active" id="reply-tab-pane" role="tabpanel" aria-labelledby="reply-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th>No</th>
-									<th>게시판</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>스크랩 일자</th>
+									<th style="width: 5%;">No</th>
+									<th style="width: 10%;">게시판</th>
+									<th style="width: 30%;">본문 제목</th>
+									<th style="width: 40%;">댓글 내용</th>
+									<th style="width: 15%;">작성 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
-								
-								<c:if test="${empty scrapList }">
+								<c:if test="${empty replyList }">
 									<tr>
-										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
+										<td colspan="5" style="text-align: center;">작성 댓글이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
 								
-								<c:forEach var="scrapList" items="${scrapList }">
+								<c:forEach var="replyList" items="${replyList }">
 									<tr>
 										<td>1</td>
-										<td>${scrapList.bfList }</td>
-										<td><a href="boardview.do?boCode=${scrapList.boCode }">[${scrapList.bsList}]  ${scrapList.boTitle }</a></td>
-										<td>${scrapList.guNick } (${scrapList.guId})</td>
-										<td>${scrapList.scrapDate.substring(0,10) }</td>
+										<td>${replyList.bfList }</td>
+										<td><a href="boardview.do?boCode=${replyList.boCode }">[${replyList.bsList }] ${replyList.boTitle }</a></td>
+										<td>${replyList.rpContent }</td>										
+										<td>${replyList.rpDate.substring(0,11) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
 							</table>
 						</div>
-						<!-- 스크랩 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
+						<!-- 댓글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 						
-						<!-- 그룹스크랩 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
-					  	<div class="tab-pane fade" id="groupBoard-tab-pane" role="tabpanel" aria-labelledby="groupBoard-tab" tabindex="0">
+						<!-- 그룹 댓글 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
+					  	<div class="tab-pane fade" id="groupReply-tab-pane" role="tabpanel" aria-labelledby="groupReply-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
 									<th>No</th>
-									<th>게시판</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>스크랩 일자</th>
+									<th>그룹명</th>
+									<th>본문 제목</th>
+									<th>댓글 내용</th>
+									<th>작성 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
-								
-								<c:if test="${empty groupScrapList }">
+								<c:if test="${empty groupReplyList }">
 									<tr>
-										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
+										<td colspan="5" style="text-align: center;">작성 댓글이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
-								
-								<c:forEach var="groupScrapList" items="${groupScrapList }">
+								<c:forEach var="groupReplyList" items="${groupReplyList }">
 									<tr>
 										<td>1</td>
-										<td>${scrapList.bfList }</td>
-										<td>[${scrapList.bsList}]  ${scrapList.boTitle }</td>
-										<td>${scrapList.guNick } (${scrapList.guId})</td>
-										<td>${scrapList.scrapDate.substring(0,10) }</td>
+										<td>${groupReplyList.grName }</td>
+										<td>${groupReplyList.gbTitle }</td>
+										<td>${groupReplyList.greContent }</td>
+										<td>${groupReplyList.greDate.substring(0,11) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
 							</table>
 						</div>
-						<!-- 그룹스크랩 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
+						<!-- 그룹 댓글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 					</div>
 				</div>	
 				
@@ -154,7 +144,7 @@
 	</section>
 	
 	<footer>
-	 	<c:import url="/WEB-INF/view/main/Footer.jsp"></c:import>
+		<c:import url="/WEB-INF/view/main/Footer.jsp"></c:import>
 	</footer>
 
 </body>

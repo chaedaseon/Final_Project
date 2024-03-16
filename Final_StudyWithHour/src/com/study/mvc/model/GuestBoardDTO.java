@@ -11,6 +11,7 @@ public class GuestBoardDTO
 	
 	// 댓글
 	private String rpCode, rpDate, rpContent, rpModate;
+	private String rrCode, rrDate;
 	private String brCode, brDate;
 	private String rrdCode, rrdDate;
 	private int replyCount;
@@ -22,6 +23,9 @@ public class GuestBoardDTO
 	
 	// 스크랩
 	private String scrapCode, scrapDate, guNick, guId;
+	
+	// 패널티
+	private String pboCode, startDate, endDate;
 	
 	// getter / setter 구성
 	public String getGuCode()
@@ -337,9 +341,46 @@ public class GuestBoardDTO
 	{
 		this.guId = guId;
 	}
-	
-	
-	
+	public String getPboCode()
+	{
+		return pboCode;
+	}
+	public void setPboCode(String pboCode)
+	{
+		this.pboCode = pboCode;
+	}
+	public String getStartDate()
+	{
+		return startDate;
+	}
+	public void setStartDate(String startDate)
+	{
+		this.startDate = startDate;
+	}
+	public String getEndDate()
+	{
+		return endDate;
+	}
+	public void setEndDate(String endDate)
+	{
+		this.endDate = endDate;
+	}
+	public String getRrCode()
+	{
+		return rrCode;
+	}
+	public void setRrCode(String rrCode)
+	{
+		this.rrCode = rrCode;
+	}
+	public String getRrDate()
+	{
+		return rrDate;
+	}
+	public void setRrDate(String rrDate)
+	{
+		this.rrDate = rrDate;
+	}
 	
 	
 }

@@ -17,6 +17,7 @@ import com.study.mvc.model.GroupBoardDTO;
 import com.study.mvc.model.GuestBoardDAO;
 import com.study.mvc.model.GuestBoardDTO;
 
+
 public class GuestReplyListController implements Controller
 {
 	@Override
@@ -45,29 +46,18 @@ public class GuestReplyListController implements Controller
 			group.connection();
 			
 			// 전체(모두 접근 가능한) 게시글 작성 리스트 출력 실행
-			ArrayList<GuestBoardDTO> boardList = new ArrayList<GuestBoardDTO>();
-			ArrayList<GroupBoardDTO> groupBoardList = new ArrayList<GroupBoardDTO>();
-			ArrayList<GuestBoardDTO> boardReplyCount = new ArrayList<GuestBoardDTO>();		
-			ArrayList<GroupBoardDTO> groupReplyCount = new ArrayList<GroupBoardDTO>();
+			ArrayList<GuestBoardDTO> replyList = new ArrayList<GuestBoardDTO>();
+			ArrayList<GroupBoardDTO> groupReplyList = new ArrayList<GroupBoardDTO>();
 			
-			// 전체 게시판 작성글 내역
-			boardList = guest.boardList(guCode);
-			mav.addObject("boardList", boardList);
+			// 전체 게시판 작성 댓글 내역
+			replyList = guest.replyList(guCode);
+			mav.addObject("replyList", replyList);
 			
-			// 전체 게시판 작성글 댓글 수
-			boardReplyCount = guest.boardReplyCount();
-			mav.addObject("boardReplyCount", boardReplyCount);
+			// 그룹 게시판 작성 댓글 내역
+			groupReplyList = group.groupReplyList(guCode);
+			mav.addObject("groupReplyList", groupReplyList);
 			
-			// 그룹 게시판 작성글 내역
-			groupBoardList = group.groupBoardList(guCode);
-			mav.addObject("groupBoardList", groupBoardList);
-			
-			// 그룹 게시판 작성글 댓글 수
-			groupReplyCount = group.groupReplyCount();
-			mav.addObject("groupReplyCount", groupReplyCount);
-			
-			
-			mav.setViewName("/WEB-INF/view/guest/GuestBoardList.jsp?guCode="+guCode);
+			mav.setViewName("/WEB-INF/view/guest/GuestReplyList.jsp?guCode="+guCode);
 
 			
 		} catch (Exception e)

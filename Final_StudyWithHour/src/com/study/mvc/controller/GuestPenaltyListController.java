@@ -1,5 +1,5 @@
-// GuestRedBoardListFormController.java
-// 게시물 신고 내역
+// GuestPenaltyListController.java
+// 패널티 부여 내역
 
 package com.study.mvc.controller;
 
@@ -12,10 +12,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import com.study.mvc.model.BoardDAO;
-import com.study.mvc.model.BoardDTO;
+import com.study.mvc.model.GuestBoardDAO;
+import com.study.mvc.model.GuestBoardDTO;
 
-public class GuestRedBoardListController implements Controller
+public class GuestPenaltyListController implements Controller
 {
 
 	@Override
@@ -35,33 +35,20 @@ public class GuestRedBoardListController implements Controller
 			return mav;
 		}
 		
-		BoardDAO dao = new BoardDAO();
+		GuestBoardDAO dao = new GuestBoardDAO();
 		
 		try
 		{
-			// 게시물/댓글/대댓글 타입 확인 → board / reply / rereply
-			String type = request.getParameter("type");
 			String guCode = request.getParameter("guCode");
 			dao.connection();
 			
-			if(type!=null && type.equals("board"))
-			{
-				// 게시글 신고 리스트 출력 실행
-				ArrayList<BoardDTO> redBoardList = new ArrayList<BoardDTO>();
-				
-				
-				redBoardList = dao.redBoardList(guCode);
-				
-				mav.addObject("redBoardList", redBoardList);
+			ArrayList<GuestBoardDTO> penaltyList = new ArrayList<GuestBoardDTO>();
 			
-			} // board일 경우 end
-			if(type!=null && type.equals("reply"))
-			{
-				
-			}
+			penaltyList = dao.penaltyList(guCode);
 			
+			mav.addObject("penaltyList", penaltyList);
 			
-			mav.setViewName("/WEB-INF/view/guest/GuestRedList.jsp");
+			mav.setViewName("/WEB-INF/view/guest/GuestPenaltyList.jsp");
 			
 			dao.close();
 			

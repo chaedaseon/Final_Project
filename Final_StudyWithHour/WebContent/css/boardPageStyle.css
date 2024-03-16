@@ -70,11 +70,11 @@ table
 .list_table tr > th, td
 {
 	height: 45px;
+	text-align: center;
 }
 
 .list_table tr > th
 {
-	text-align: center;
 }
 
 .spacer 
@@ -135,6 +135,7 @@ table.list_table tr:last-child
 
 /* 검색 영역 */
 
+
 .category_search
 {
 	margin-top: 5px;
@@ -142,7 +143,7 @@ table.list_table tr:last-child
 	justify-content: flex-end;
 }
 
-.category_search > select, input, .search_btn
+.category_search > select, .category_search>input, .search_btn
 {
 	height: 26px;
 }

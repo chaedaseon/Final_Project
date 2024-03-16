@@ -14,7 +14,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
 <link rel="stylesheet" type="text/css" href="css/menuStyle.css">
-<link rel="stylesheet" type="text/css" href="css/sideMenuStyle.css">
 <link rel="stylesheet" type="text/css" href="css/sliderStyle.css">
 <link rel="stylesheet" type="text/css" href="css/boardPageStyle.css">
 <script type="text/javascript">
@@ -75,7 +74,7 @@
 				</nav>
 			</div>
 		    <div class="container">
-	        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 text-center justify-content-center px-xl-6 aos-init aos-animate" data-aos="fade-up">
+	        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 text-center px-xl-6 aos-init aos-animate" data-aos="fade-up">
 	            <c:choose>
 					<c:when test="${list == null}">
 						<td colspan="6">조회 결과 없음</td>						
@@ -129,8 +128,8 @@
 			    </c:choose>
 	        </div>
 	   		<div class="search_div">
-				<div class="category_search">
-					<form id="searchForm" autocomplete="off">
+				<form id="searchForm" autocomplete="off">
+					<div class="category_search">
 						<select id="searchType" name="searchType">
 							<option value="searchNum">번호</option>
 							<option value="searchTitle">제목</option>
@@ -138,8 +137,8 @@
 						</select> 
 					<input type="text" id="keyword" name="keyword" class="search_input">
 					<button type="button" class="search_btn">Search</button>
-					</form>
-				</div>
+					</div>
+				</form>
 			</div>
 			<c:choose>
 				<c:when test="${urlparam == 'usedbooksearchcategory'}">

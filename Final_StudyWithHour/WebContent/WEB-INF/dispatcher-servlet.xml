@@ -115,7 +115,7 @@
 	<bean name="/frienddelete.do" class="com.study.mvc.controller.GuestFriendDeleteController"></bean>
 	
 	<!-- 신고관리 메뉴 연결 -->
-	<bean name="/guestredlist.do" class="com.study.mvc.controller.GuestRedBoardListController"></bean>
+	<bean name="/guestredlist.do" class="com.study.mvc.controller.GuestRedListController"></bean>
 	
 	<!-- 게시글 관리 - 작성 글 연결 -->
 	<bean name="/guestboardlist.do" class="com.study.mvc.controller.GuestBoardListController"></bean>
@@ -135,8 +135,8 @@
 	<!-- 스터디그룹 관리 - 가입내역 연결 -->
 	<bean name="/guestgroupjoinlist.do" class="com.study.mvc.controller.GuestGroupJoinListController"></bean>
 	
-	
-	
+	<!-- 패널티 내역 -->
+	<bean name="/guestpenaltylist.do" class="com.study.mvc.controller.GuestPenaltyListController"></bean>	
 		
 	<!-- ─────────────────────────────────────────────────  -->
 	

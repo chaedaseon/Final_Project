@@ -79,12 +79,18 @@
 									<th>처리 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
+								<c:if test="${empty redBoardList }">
+									<tr>
+										<td colspan="7" style="text-align: center;">게시글 신고 내역이 존재하지 않습니다.</td>
+									</tr>
+								</c:if>
+								
 								<c:forEach var="redBoardList" items="${redBoardList }">
 									<tr>
 										<td>1</td>
 										<td>${redBoardList.bfList }</td>
 										<td>
-											${redBoardList.bsList }
+											[${redBoardList.bsList }]
 											<c:choose>
 												<c:when test="${fn:length(redBoardList.boContent) > 15 }">
 													${redBoardList.boContent.substring(0,14) }...
@@ -105,7 +111,7 @@
 						</div>
 						
 						
-					  	<div class="tab-pane fade" id="reply-tab-pane" role="tabpanel" aria-labelledby="reply-tab" tabindex="0">
+					  	<div class="tab-pane fade" id="replyred-tab-pane" role="tabpanel" aria-labelledby="replyred-tab" tabindex="0">
 					  		<table class="red_list">
 								<tr>
 									<th>No</th>
@@ -117,14 +123,48 @@
 									<th>처리 일자</th>
 								</tr>
 								<tr class="spacer"></tr>
-								<c:forEach var="redBoardList" items="${redBoardList }">
+								<c:if test="${empty redReplyList }">
+									<tr>
+										<td colspan="7">댓글 신고 내역이 존재하지 않습니다.</td>
+									</tr>
+								</c:if>
+								
+								<c:forEach var="redReplyList" items="${redReplyList }">
 									<tr>
 										<td>1</td>
-										<td>${redBoardList.boTitle }</td>
-										<td>${redBoardList.reason }</td>
-										<td>${redBoardList.borDate.substring(0,11) }</td>
-										<td>${redBoardList.redstate }</td>
-										<td>${redBoardList.borDate.substring(0,11) }</td>
+										<td>${redReplyList.bfList }</td>
+										<td>[${redReplyList.bsList }] 
+											<c:choose>
+												<c:when test="${fn:length(redReplyList.rpContent) > 15 }">
+													${redReplyList.rpContent.substring(0,14) }...
+												</c:when>	
+												<c:otherwise>
+													${redReplyList.rpContent }
+												</c:otherwise>									
+											</c:choose>
+										</td>
+										<td>${redReplyList.reason }</td>
+										<td>${redReplyList.rrDate.substring(0,11) }</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redReplyList.redstate }">
+													처리 중
+												</c:when>
+												<c:otherwise>
+													${redReplyList.redstate }
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redReplyList.rrdDate }">
+													-
+												</c:when>
+												<c:otherwise>
+													${redReplyList.rrdDate.substring(0,11) }
+												</c:otherwise>
+											</c:choose>
+										</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>

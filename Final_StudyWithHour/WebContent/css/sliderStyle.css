@@ -5,8 +5,7 @@
   overflow: hidden;
   
   width: 1400px;
-  /* height: 150px; */
-  height: 200px;
+  height: 150px;
   
 }
 
@@ -28,11 +27,11 @@
 }
 .slide:nth-child(2) {
   background-image: url(../images/mini_banner3.png);
-  animation-delay: -10s;
+  animation-delay: -5s;
 }
 .slide:nth-child(3) {
   background-image: url(../images/mini_banner.png);
-  animation-delay: -15s;
+  animation-delay: -10s;
 }
 
 @keyframes slider 

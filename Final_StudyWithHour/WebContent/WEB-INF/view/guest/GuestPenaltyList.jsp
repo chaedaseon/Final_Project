@@ -13,7 +13,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GuestGroupJoinList.jsp</title>
+<title>GuestPenaltyList.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -37,47 +37,46 @@
 		
 			<div class="rightContent_div">
 				<div class="page_title">
-					<span>그룹<span> 가입 신청</span> 내역</span>
+					<span><span>패널티</span> 내역</span>
 				</div>
 				
 				<div>
-					<div class="groupJoin_list">
+					<div class="penalty_sorting">
 						<select class="red_sorting">
-							<option selected="selected">--활동 상태--</option>
-							<option>개설</option>
-							<option>대기</option>
-							<option>미개설</option>
-							<option>탈퇴</option>
+							<option selected="selected">--처리 상태--</option>
+							<option>승인</option>
+							<option>반려</option>
 						</select>
-						
-						<table class="groupJoin_list">
+					</div>
+					
+					
+					<div>
+						<table class="penalty_list">
 							<tr>
 								<th>No</th>
-								<th>그룹명</th>
-								<th>카테고리</th>
-								<th>상태</th>
+								<th>컨텐츠</th>
 								<th>사유</th>
-								<th>가입 신청일자</th>
-								<th>탈퇴 일자</th>
+								<th>부여일자</th>
+								<th>종료일자</th>
+								<th>유효여부</th>
 							</tr>
 							<tr class="spacer"></tr>
 							
-							<c:if test="${empty groupJoinList }">
+							<c:if test="${empty penaltyList }">
 								<tr>
-									<td colspan="5">가입 신청 내역이 존재하지 않습니다.</td>
+									<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
 								</tr>
 							</c:if>
 							
-							<c:forEach var="groupJoinList" items="${groupJoinList }">
-							<tr>
-								<td>1</td>
-								<td>${groupJoinList.grName }</td>
-								<td>${groupJoinList.categoryList }</td>
-								<td>${groupJoinList.rsState }</td>
-								<td>그냥~</td>
-								<td>${groupJoinList.gjDate.substring(0,10) }</td>
-								<td>${groupJoinList.gunDate.substring(0,10) }</td>
-							</tr>
+							<c:forEach var="penaltyList" items="${penaltyList }">
+								<tr>
+									<td>1</td>
+									<td>${penaltyList.boTitle }</td>
+									<td>${penaltyList.reason }</td>
+									<td>${penaltyList.startDate.substring(0,10) }</td>
+									<td>${penaltyList.endDate.substring(0,10) }</td>
+									<td>유효</td>
+								</tr>
 							</c:forEach>
 							<tr class="spacer"></tr>
 						</table>

@@ -547,12 +547,12 @@ table.penalty_list th, td
 	float: right;
 }
 
-table.board_list tr:nth-child(14)
+table.penalty_list tr:last-child
 {
 	border-bottom: 3px solid #94BE2C;
 }
 
-table.board_list a
+table.penalty_list a
 {
 	text-decoration: none;
 	color: #212529;

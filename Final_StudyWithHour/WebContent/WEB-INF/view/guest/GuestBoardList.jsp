@@ -90,11 +90,11 @@
 											<c:forEach var="boardReplyCount" items="${boardReplyCount }">
 												<c:if test="${boardReplyCount.boCode eq boardList.boCode }">
 													<c:set var="data" value="true"></c:set>
-													[${boardList.bsList }] ${boardList.boTitle } [${boardReplyCount.replyCount }]
+													<a href="boardview.do?boCode=${boardList.boCode }">[${boardList.bsList }] ${boardList.boTitle } [${boardReplyCount.replyCount }]</a>
 												</c:if>
 											</c:forEach>
 											<c:if test="${not data }">
-												[${boardList.bsList }] ${boardList.boTitle } [0]
+												<a href="boardview.do?boCode=${boardList.boCode }">[${boardList.bsList }] ${boardList.boTitle } [0]</a>
 											</c:if>
 										</td>
 										
