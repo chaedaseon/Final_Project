@@ -121,7 +121,7 @@ function search(currPageNo, range, pageSize, searchType)
 						<c:forEach var="notice" items="${list }">						
 							<tr>
 								<td>${notice.ntCode}</td>
-								<td><a href="#">${notice.ntTitle} 				
+								<td><a href="noticeview.do?ntCode=${notice.ntCode}">${notice.ntTitle} 				
 								</a></td>
 								<td>${notice.adCode }</td>
 								<td>${notice.ntDate }</td>

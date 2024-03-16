@@ -28,12 +28,8 @@ span > span
 
 .notice_btn
 {
-	border: 2px solid #94be2c;
 	background-color: #94be2c;
 	color: #ffffff;
-	border-radius: 3px;
-	font-size: 16px;
-	height: 30px;
 }
 
 /* 셀렉트 박스 end */
@@ -62,12 +58,6 @@ input.modal_input:focus
 {
 	outline-color: #94be2c;
 }
-
-
-
-
-
-
 
 
 /* 리스트 테이블 */
@@ -115,25 +105,6 @@ table.list_table tr:last-child
 	border-bottom: 3px solid #94BE2C;
 } 
 /* 리스트 테이블 end */
-
-
-/* 상세정보 조회 페이지 */
-.info_div
-{
-	margin-top: 64px;
-} 
-/* 
-.info_list th
-{
-	font-size: 16px;
-	color: #5b5b5b;
-} */
-
-.info_div td:first-child
-{
-	font-weight: bold;
-	width: 40%;
-}
 
 /* 페이징 처리 버튼 */
 nav
@@ -200,11 +171,44 @@ nav
 	font-weight: bold;
 }
 
-
 .err
 {
 	font-size: red;
 	color: red;
 }
 
+
+/* info 부분 css */
+.info_div
+{
+	margin-top: 64px;
+} 
+
+.info_table
+{
+	margin-top: 20px;
+	margin-bottom: 50px;
+	border: 1px solid #e1e1e1;
+}
+
+.info_table th
+{
+	width: 15%;
+	background-color: #f7fced;
+	padding-left: 10px;
+	border-right: 1px solid #e1e1e1;
+	border-left: 1px solid #e1e1e1;
+	height: 45px;
+}
+
+.info_table td
+{
+	width: 35%;
+	padding-left: 10px;
+}
+
+.info_table tr
+{
+	border-bottom: 1px solid #e1e1e1;
+}
 

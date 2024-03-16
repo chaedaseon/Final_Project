@@ -117,8 +117,8 @@
 					        정말로 삭제하시겠습니까?
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
-					        <button type="submit" class="btn btn-primary">삭제하기</button>
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					        <button type="submit" class="btn" style="background-color: #94be2c; color: #ffffff;">삭제하기</button>
 					      </div>
 					    </div>
 					  </div>

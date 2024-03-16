@@ -43,7 +43,6 @@ function adminCreate()
 		createForm.submit();
 	}
 
-
 	
 }
 
@@ -94,7 +93,7 @@ function strongPassword (str)
 							<td>
 								<c:choose>
 									<c:when test="${admin.adUndate != null}"> ${admin.adUndate }</c:when>
-									<c:otherwise> -</c:otherwise>
+									<c:otherwise>-</c:otherwise>
 								</c:choose>
 							</td>
 							<td>
@@ -126,7 +125,7 @@ function strongPassword (str)
 	                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 	                          <form action="adminadminstate.do?adCode=${admin.adCode}" method="get">
 	                          <input type="text" style="display: none;" name="adCodeUnreg" value="${admin.adCode}">
-	                          <button type="submit" class="btn btn-primary">Yes</button>
+	                          <button type="submit" class="btn notice_btn">Yes</button>
 	                          </form>
 	                        </div>
 	                      </div>
@@ -191,7 +190,7 @@ function strongPassword (str)
                         	<span class="err" id="err"></span>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn" data-bs-dismiss="modal">No</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                           <button type="button" class="btn notice_btn"  onclick="adminCreate()">Yes</button>
                         </div>
                         </form>

@@ -125,7 +125,7 @@ function search(currPageNo, range, pageSize, searchType)
 							<td>${guest.guCode }</td>
 							<td><a href="adminguestinfo.do?guCode=${guest.guCode }&currPageNo=${pagination.currPageNo}&range=${pagination.range}&searchType=${pagination.searchType }&keyword=${pagination.keyword }" >${guest.guId }</a></td>
 							<td>${guest.guEmail }</td>
-							<td>${guest.guDate }</td>
+							<td>${guest.guDate.substring(0,10) }</td>
 							<td>${guest.guUn }</td>
 						</tr>
 						</c:forEach>

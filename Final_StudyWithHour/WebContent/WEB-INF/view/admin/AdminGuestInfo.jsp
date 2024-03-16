@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Template.jsp</title>
+<title>AdminGuestInfo.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -45,32 +45,29 @@ function list(currPageNo, range, searchType, keyword)
 			<div class="rightContent_div" >
 				
 				<div class="page_title">
-					<span><span>회원 번호</span> ${guest.guCode}</span>
+					<span><span>회원</span> 상세 정보</span>
 				</div>
 					
-					
-					<div class="info_div">
-					<table class="table "  >
+				<div class="info_div">
+					<table class="info_table"  >
 						<tbody>
 							<tr>
 								<th >아이디</th>
 								<td >${guest.guId}</td>
 								<th >닉네임</th>
 								<td>${guest.guNick }</td>
-								<th >유효패널티</th>
-								<td>${penaltyCount}</td>
 							</tr>
 							<tr>
 								<th >이름</th>
 								<td>${guest.guName}</td>
 								<th >전화번호</th>
-								<td colspan="3">${guest.guTel }</td>
+								<td>${guest.guTel.substring(0,3) } - ${guest.guTel.substring(3,7) } - ${guest.guTel.substring(7,11) }</td>
 							</tr>
 							<tr>
 								<th>주민등록번호</th>
 								<td>${guest.guSsn }</td>
 								<th>이메일</th>
-								<td colspan="3">${guest.guEmail }</td>
+								<td>${guest.guEmail }</td>
 							</tr>
 							<tr>
 								<th>가입 사유</th>
@@ -78,40 +75,37 @@ function list(currPageNo, range, searchType, keyword)
 								<th>가입일자</th>
 								<td>${guest.guDate }</td>
 							</tr>
+							<tr>
+								<th >유효패널티</th>
+								<td>${penaltyCount}</td>
+							</tr>
 						</tbody>
 					</table>
-				 </div>
 				 
-				 <div class="info_div">
-					<table class="table ">
+					<table class="info_table ">
 						<tbody>
 							<tr>
-								<th >가입한 스터디그룹 목록</th>
+								<th rowspan="5" style="text-align: center;">가입한 스터디그룹 목록</th>
 							</tr>
-							<c:forEach var="group" items="${groupList }">
+								<c:forEach var="group" items="${groupList }">
 								<tr>
-									<td class="text-center" ><a href="adminstudygroupinfo.do?grCode=${group.grCode }">${group.grName }</a></td>
+									<td><a href="adminstudygroupinfo.do?grCode=${group.grCode }">${group.grName }</a></td>
 								</tr>
-							</c:forEach>
-
+								</c:forEach>
 						</tbody>
 					</table>
-					</div>			
-					<div class="info_div">
-						<table class="table ">
-							<tbody>
-								<tr>
-									<th >탈퇴 일자</th>
-									<td >${unregDate }</td>
-									<th >탈퇴 사유</th>
-									<td >${reason }</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-
-
-					<br>
+					<table class="info_table ">
+						<tbody>
+							<tr>
+								<th >탈퇴 일자</th>
+								<td >${unregDate }</td>
+								<th >탈퇴 사유</th>
+								<td >${reason }</td>
+							</tr>
+						</tbody>
+					</table>
+				
+				</div>
 					<div class="list-foot">
 						<div class="row justify-content-center">
 							<div class="col-1 list-page">
@@ -122,8 +116,7 @@ function list(currPageNo, range, searchType, keyword)
 
 					</div>
 					<!-- list-foot -->
-				
-		</div>
+			</div>
 		</div>
 	</section>
 	

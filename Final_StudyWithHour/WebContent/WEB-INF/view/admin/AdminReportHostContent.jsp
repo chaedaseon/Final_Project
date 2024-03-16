@@ -67,7 +67,7 @@
 </head>
 <body>
 	<header>
-		<c:import url="Menu.jsp"></c:import>
+		<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>
 	</header>
 	
 	<section>
@@ -222,7 +222,7 @@
 	                          <h1 class="modal-title fs-5" id="staticBackdropLabel">신고 처리</h1>
 	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                        </div>
-	                        <div class="modal-body">
+	                        <div class="modal-body" style="display: flex; justify-content: center;">
 	                        	
 	                        	
 						    <div class="form-check form-check-inline">
@@ -249,7 +249,7 @@
 	                        </div>
 	                        <div class="modal-footer sorting_div">
 	                        <form id="hostReportProcess"  action="adminreporthostprocess.do" method="post">
-	                          <button type="button" class="btn" data-bs-dismiss="modal">No</button>
+	                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 	                          <input type="text" style="display: none;" id="hrCode" name="hrCode" value="${code }">
 	                          <input type="text" style="display: none;" id="redCode" name="redCode" >
 	                   		  <input type="text" style="display: none;" id="currPageNo" name="currPageNo" value="${currPageNo}" >

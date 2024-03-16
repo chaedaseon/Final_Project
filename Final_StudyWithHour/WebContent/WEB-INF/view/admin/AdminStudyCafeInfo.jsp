@@ -203,27 +203,27 @@
 	                          <h1 class="modal-title fs-5" id="staticBackdropLabel">승인 처리</h1>
 	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                        </div>
-	                        <div class="modal-body">
-	                        	
-	                        	
-						    <div class="form-check form-check-inline">
-							  <input class="form-check-input" type="radio" name="adchcode" id="adchcode1">
-							  <label class="form-check-label" for="adchcode1">
-							    승인
-							  </label>
-							</div>
-							<div class="form-check form-check-inline">
-							  <input class="form-check-input" type="radio" name="adchcode" id="adchcode2">
-							  <label class="form-check-label" for="adchcode1">
-							    반려
-							  </label>
-							</div>
+	                        <div class="modal-body" style="display: flex; justify-content: center;">
+		                        	
+		                        	
+							    <div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="adchcode" id="adchcode1">
+								  <label class="form-check-label" for="adchcode1">
+								    승인
+								  </label>
+								</div>
+								<div class="form-check form-check-inline">
+								  <input class="form-check-input" type="radio" name="adchcode" id="adchcode2">
+								  <label class="form-check-label" for="adchcode1">
+								    반려
+								  </label>
+								</div>
 
 	                          
 	                        </div>
 	                        <div class="modal-footer sorting_div">
 	                        <form id="studyCafeCK"  action="studycafecheck.do" method="post">
-	                          <button type="button" class="btn" data-bs-dismiss="modal">No</button>
+	                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
 	                          <input type="text" style="display: none;" id="scCode" name="scCode" value="${studyCafe.scCode }">
 	                          <input type="text" style="display: none;" id="check" name="check" >
 	                          <input type="text" style="display: none;" id="adCode" name="adCode" value="${adCode}" >

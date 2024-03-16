@@ -186,7 +186,7 @@
 										<td><a href="#">${boardTitle } (이후 게시물 번호로 연결 ${boardCode } )</a></td>
 									</tr>
 									<tr>
-										<th>신고게시물 덧글</th>
+										<th>신고게시물 댓글</th>
 										<td>${report.rpContent }</td>
 									</tr>
 	
@@ -252,8 +252,7 @@
 	                          <h1 class="modal-title fs-5" id="staticBackdropLabel">신고 처리</h1>
 	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	                        </div>
-	                        <div class="modal-body">
-	                        	
+	                        <div class="modal-body" style="display: flex; justify-content: center;">	                        	
 	                        	
 						    <div class="form-check form-check-inline">
 							  <input class="form-check-input redcode" type="radio" name="redcode" id="redcode1">
@@ -279,7 +278,7 @@
 	                        </div>
 	                        <div class="modal-footer sorting_div">
 	                        <form id="groupBBSReportProcess"  action="" method="post">
-	                          <button type="button" class="btn " data-bs-dismiss="modal">No</button>
+	                          <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">No</button>
 	                          <input type="text" style="display: none;" id="code" name="code" value="${code }">
 	                          <input type="text" style="display: none;" id="rpUser" name="rpUser" value="${report.rpUser }">
 	                          <input type="text" style="display: none;" id="rtype" name="rtype" value="${rtype }">
