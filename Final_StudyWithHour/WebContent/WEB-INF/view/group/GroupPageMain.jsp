@@ -21,48 +21,151 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
-//이전 버튼
-function fn_prev(currPageNo, range, pageSize) 
-{
+// 달력 생성 함수 (페이지 로드되면 실행)
+	function build()
+	{
+		
+	 	var today = new Date(); // 오늘 날짜
+		var date = new Date();
+	 	
+	 	var guCode = ${guCode};
+	 	var grCode = ${grCode};
+		
+		
+	    var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); 					// 현재 달의 첫째 날
+	    var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 				// 현재 달의 마지막 날
+	    var calTb = document.getElementById("calendar"); 									// 테이블 달력을 만들 테이블
+	    var yearMonth = document.getElementById("yearMonth"); 								// 달력 상단에 년도와 월 출력할 곳
+	    yearMonth.innerHTML = today.getFullYear() + "년 "+ (today.getMonth() + 1) + "월"; 	// 해당 위치에 현재 보여지는 년도와 월 출력
 
-	var currPageNo = (range - 1) * pageSize;
-	var range = range - 1;
-
-	var url = "groupticketlist.do";
-	url = url + "?currPageNo=" + currPageNo;
-	url = url + "&range=" + range;
-	location.href = url;
-
-}
-
-//페이지 번호 클릭
-
-function fn_pagination(currPageNo, range) 
-{
-
-	var url = "groupticketlist.do";
-	url = url + "?currPageNo=" + currPageNo;
-	url = url + "&range=" + range;
-	location.href = url;	
-
-}
-//다음 버튼 이벤트
-function fn_next(currPageNo, range, pageSize) 
-{
-
-	var currPageNo = (range * pageSize) + 1;
-	var range = parseInt(range) + 1;	
-
-	var url = "groupticketlist.do";
-	url = url + "?currPageNo=" + currPageNo;
-	url = url + "&range=" + range;
-	location.href = url;
-}
-
+	    
+	    // 남은 테이블 줄 삭제
+	    while (calTb.rows.length > 2) 
+	    {
+	    	calTb.deleteRow(calTb.rows.length - 1);
+	    }
+	    var row = null;
+	    row = calTb.insertRow();
+	    var cnt = 0;
+	
+	    // 1일 시작칸 찾기
+	    for (i = 0; i < nMonth.getDay(); i++) 
+	    {
+	        cell = row.insertCell();
+	        cnt = cnt + 1;
+	    }
+	
+	    // 달력 출력
+	    for (i = 1; i <= lastDate.getDate(); i++) // 1일부터 마지막 일까지
+	    { 
+	        cell = row.insertCell();
+	        cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></button></div>";
+	        cell.className = "div_date"
+	        cnt = cnt + 1;
+	        if (cnt % 7 == 1)		//일요일 계산 
+	        {
+	        	cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #ff8282' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
+	            cell.className = "div_date"
+	        }
+	        if (cnt % 7 == 0) 		// 1주일이 7일 이므로 토요일 계산
+	        { 
+	            cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #62b0ff' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
+	            cell.className = "div_date"
+	            	
+	            row = calendar.insertRow();// 줄 추가
+	        }
+	    }
+	    $.ajax(
+	    {
+	    	type:"POST"
+	    	, url:"groupschedulelist.do"
+	    	, data: {grCode : grCode}
+	    	, dataType :"json"
+	    	, success:function(jsonObj)
+	    	{
+	    		for (var idx=0; idx<jsonObj.length; idx++)
+	    		{
+	    			// gschCode, gschName, gschDate, startHour , endHour , content, location, leadMember, attCk, gschType
+	    			var gschCode = jsonObj[idx].gschCode;
+	    			var gschName = jsonObj[idx].gschName;
+	    			var gschDate = jsonObj[idx].gschDate;
+	    			var startHour = jsonObj[idx].startHour;
+	    			var endHour = jsonObj[idx].endHour;
+	    			var content = jsonObj[idx].content;
+	    			var location = jsonObj[idx].location;
+	    			var leadMember = jsonObj[idx].leadMember;
+	    			var attCk = jsonObj[idx].attCk;
+	    			var memberListNickName = jsonObj[idx].memberListNickName;
+	    			var gschType = jsonObj[idx].gschType;
+					
+	   
+	    			for(var i=1; i<lastDate.getDate(); i++)
+	    			{
+	    				
+	    				var year = today.getFullYear();
+	    				var month = String(today.getMonth()+1).padStart(2, '0');
+	    				var day = String(i).padStart(2,'0');
+	    				
+	    				
+	    				
+	    				if(year==gschDate.substring(0,4) && month==gschDate.substring(5,7) && day==gschDate.substring(8,10))
+	    				{
+	    					var cell = document.getElementById("date_" + gschDate.substring(8, 10)); // 각 날짜에 해당하는 셀 가져오기
+	   						cell.innerHTML += "<div class='sch_name'>" + gschName.substring(0,6) + "</div>";
+	   						if((String(today.getDate()).padStart(2, '0'))== i)
+	   						{
+	   							var out = "";
+								out += "<div class='guestSchedule'>";
+								out += "<button type='button' class='schedule_modifyBtn' data-bs-toggle='modal' data-bs-target='#detailSchedule'>";
+								out += "<div class='schName'>";
+								out += "<span>" + gschName + "</span>";
+								out += "</div>"; 
+								out += "<div class='schContent'>" + content +"</div>";
+								out += "</button>";
+								out += "</div>";
+								
+				    			
+								$("#datepicker2").val(gschDate.substring(0,10));
+								$("#gschDate").html(gschDate);
+								$("#gschName").html(gschName);
+								$("#startHour").html(startHour);
+								$("#endHour").html(endHour);
+								$("#location").html(location);
+								$("#gschcontent").html(content);
+								$("#gschType").html(gschType);
+								$("#gschCode").val(gschCode)
+								$("#attCk").val(attCk)
+								
+								if (attCk=="1")
+								{
+									$("#memberck").text("참석자");
+									$("#memberList").html(memberListNickName);
+								}
+								else
+								{
+									$("#memberck").html(" ");
+									$("#memberList").html(" ");
+								}
+	   						}
+	   						
+	    				}
+	    			} 
+	    		}
+	    		// 페이지가 처음 로드될 때에는 오늘 날짜 출력
+	    		
+	    		$("#resultMonth").html(String(today.getMonth()+1).padStart(2, '0'));
+				$("#resultDay").html(String(today.getDate()).padStart(2, '0'));
+				
+	    	}
+	    	, error:function(e)
+	    	{
+	    	}
+		}); 
+	}//-- build()
 </script>
 
 </head>
-<body>
+<body onLoad="build()">
 
 	<header>
 		<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>
@@ -87,16 +190,43 @@ function fn_next(currPageNo, range, pageSize)
 					<div class="group-main ">
 						<div class="col-8 card group-main-calendar" >
 						
-							<div class="card-header bg-transparent">그룹 캘린더<span class="d-day">+</span></div>
+							<div class="card-header bg-transparent">그룹 캘린더</div>
 			  					<div class="card-body">
 									
-									캘린더 영역
+									<!-- 캘린더 영역 -->
+							<div>	
+						<table id="calendar" style="margin-top: 35px;">
+							<tr>
+					            <td colspan="7">
+					            	<div style="display: flex; justify-content: center; position: relative">
+						            	<div>
+							            	<span id="yearMonth"></span>
+							            </div>
+							            
+					            		
+					            	</div>
+					            </td>
+				        	</tr>
+						
+					        <tr>
+					            <th style="color: #ff8282;">일</th>
+					            <th>월</th>
+					            <th>화</th>
+					            <th>수</th>
+					            <th>목</th>
+					            <th>금</th>
+					            <th style="color: #62b0ff;">토</th>
+					        </tr>
+					    </table>
+					    
+					</div>
+							<!-- 캘린더 영역 끝 -->	
 									
 		  						</div>
 						</div>
 						<div class="col-4">
 							<div class="card" >
-								<div class="card-header bg-transparent">D-DAY<span class="d-day">+</span></div>
+								<div class="card-header bg-transparent">D-DAY</div>
 				  					<div class="card-body">
 										일정 이름... <br>
 										<div class="gsch-dday">
@@ -106,15 +236,14 @@ function fn_next(currPageNo, range, pageSize)
 			  						</div>
 							</div>
 							<div class="card" >
-								<div class="card-header bg-transparent">그룹원<span class="d-day">+</span></div>
+								<div class="card-header bg-transparent">그룹원</div>
 				  					<div class="card-body">
 										<div class="row">
-											<div class="col-4">누구누구1</div>
-											<div class="col-4">누구누구2</div>
-											<div class="col-4">누구누구3</div>
-											<div class="col-4">누구누구4</div>
-											<div class="col-4">누구누구5</div>
-											<div class="col-4">누구누구6</div>
+											<div class="col-4">👑 ${leaderNick }</div>
+											<c:forEach var="member" items="${memberNick }">
+											<div class="col-4">${member }</div>
+											
+											</c:forEach>
 										</div>
 				  					</div>
 							</div>
@@ -127,13 +256,12 @@ function fn_next(currPageNo, range, pageSize)
 						<div class="col-8 " >
 						
 							<div class="card">
-								<div class="card-header bg-transparent">최근 게시물<span class="d-day">+</span></div>
+								<div class="card-header bg-transparent">최근 게시물</div>
 				  					<div class="card-body">
 				    				<!-- <h5 class="card-title">Light card title</h5> -->
-				    					<p class="card-text">토익 800점 이상을 목표하시는 분들 함께해요! 홍대에서 주 2일 만나서 스터디 예정입니다.</p>
-				    					<p class="card-text">토익 800점 이상을 목표하시는 분들 함께해요! 홍대에서 주 2일 만나서 스터디 예정입니다.</p>
-				    					<p class="card-text">토익 800점 이상을 목표하시는 분들 함께해요! 홍대에서 주 2일 만나서 스터디 예정입니다.</p>
-				    					<p class="card-text">토익 800점 이상을 목표하시는 분들 함께해요! 홍대에서 주 2일 만나서 스터디 예정입니다.</p>
+				    				<c:forEach var="board" items="${boardList }">
+				    					<p class="card-text"><a href="#">${board.gbTitle }</a></p>
+				    				</c:forEach> 
 				  					</div>
 							</div>
 						</div>
@@ -141,12 +269,12 @@ function fn_next(currPageNo, range, pageSize)
 						<div class="col-4 " >
 							
 							<div class="card">
-								<div class="card-header bg-transparent">알림<span class="d-day"></span></div>
+								<div class="card-header bg-transparent">알림</div>
 			  					<div class="card-body">
-			    					<p class="card-text">00가입</p>
-			    					<p class="card-text">그룹장 변경(0000님)</p>
-			    					<p class="card-text">그룹장 변경(0000님)</p>
-			    					<p class="card-text">그룹장 변경(0000님)</p>
+			  					<c:forEach var="record" items="${recordList }">
+			    					<p class="card-text">(${record.RECORDDATE}) ${record.RECORD }</p>
+			  						
+			  					</c:forEach>
 			  					</div>
 							</div>
 						</div>

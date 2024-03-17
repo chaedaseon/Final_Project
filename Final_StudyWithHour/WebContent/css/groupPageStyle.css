@@ -167,3 +167,207 @@ nav
 }
 
 
+/* 메인 영역 */
+
+.group-main
+{
+	display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    padding-left: 0px;
+}
+
+
+.group-main>div
+{
+	margin-right: 10px;
+}
+
+.gsch-dday
+{
+	font-weight: bold;
+	color:#94be2c;
+	font-size: xx-large ;
+	
+}
+
+/* 그룹 캘린더--------------------------------------------- */
+
+
+/* 
+table#calendar
+{
+	border: 1px solid gray;
+}
+ */
+table#calendar tr:nth-child(n+2)  /* , table#calendar tr:nth-child(n+2) > td */
+{
+	border: 1px solid #e1e1e1;
+}
+
+table#calendar th
+{
+	text-align: center;
+	width: 99px;
+}
+
+table#calendar tr
+{
+	height: 77px;
+}
+
+table#calendar tr:nth-child(2)
+{
+	height: 28px;
+}
+
+table#calendar tr:nth-child(1)
+{
+	height:60px; 
+	font-size: 30px;
+}
+
+.div_date
+{
+	position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.dateBtn
+{
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.top-date
+{
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 90%;
+    text-align: center;
+}
+
+.top-date > a
+{
+	color: #62b0ff;
+}
+
+.i
+{
+	text-align: center;
+	/* padding-right: 5px; */
+}
+
+.sch_name
+{
+	font-size: 12px;
+	background: #94be2c;
+	color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding-left: 5px;
+    text-align: left;
+}
+
+.calBtn, .addBtn
+{
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+.calBtn
+{
+	color: #94be2c;
+	font-size: 24px;
+}
+
+.addBtn_div
+{
+	float: right; 
+	position: absolute; 
+	right: 0;
+}
+
+.schedule_modifyBtn
+{
+	width: 100%;
+    border: none;
+    background: none;
+}
+
+#schmodify_modal_body
+{
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.guestSchedule_div
+{
+	margin-top: 35px;
+	display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.guestSchedule_div > span
+{
+	font-size: 30px; 
+	display: flex; 
+	justify-content: center; 
+	margin-bottom: 20px;
+}
+
+#resultMonth, #resultDay
+{
+	width: 40px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.guestSchedule
+{
+	border-left: 3px solid #94be2c; 
+	margin-bottom: 30px; 
+	width: 300px; 
+	height: 55px;
+}
+
+.schName
+{
+	font-size: 20px; 
+	text-align: left;
+}
+
+.schName > span
+{
+	margin-left: 10px;
+}
+
+.schContent
+{
+	margin-top: 5px;
+	font-size: 14px;
+	margin-left: 10px;
+	text-align: left;
+	color: #5b5b5b;
+}
+
+/* --------------------------------------------- 그룹 캘린더*/
+
+.attMember
+{
+	display: none;
+}
+ 
+
+.contentDiv>.content
+{
+	width: 100%;
+	
+}
