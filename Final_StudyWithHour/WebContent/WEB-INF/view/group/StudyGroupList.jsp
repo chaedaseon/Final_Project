@@ -42,6 +42,7 @@
 		    var gpPw = $(this).closest("li").find("input[name=gpPw1]").val();
 		    var dDay = $(this).closest("li").find("input[name=dDay1]").val();
 		    var periodCode = $(this).closest("li").find("input[name=periodCode1]").val();
+		    var endDate = $(this).closest("li").find("input[name=endDate]").val();
 		    // 현재 사용자의 guCode 값 가져오기
 		    var ssessionGuCode = $("#ssessionGuCode").val();
 		    
@@ -86,6 +87,7 @@
 						        $("#gender span").text(gender);
 						        $("input[name=lsCode]").val(lsCode);
 						        $("#lsCode span").text(lsCode);
+						        $("#endDate span").text(endDate);
 		    				}
 		    				else if($("#InsertPassword").val() != gpPw)
 		    				{
@@ -114,6 +116,7 @@
 				        $("#gender span").text(gender);
 				        $("input[name=lsCode]").val(lsCode);
 				        $("#lsCode span").text(lsCode);
+				        $("#endDate span").text(endDate);
 		    		}
 		    	}
 		    	else
@@ -155,6 +158,7 @@
 					        $("#gender span").text(gender);
 					        $("input[name=lsCode]").val(lsCode);
 					        $("#lsCode span").text(lsCode);
+					        $("#endDate span").text(endDate);
 	    				}
 	    				else
 	    				{
@@ -184,6 +188,7 @@
 			        $("#gender span").text(gender);
 			        $("input[name=lsCode]").val(lsCode);
 			        $("#lsCode span").text(lsCode);
+			        $("#endDate span").text(endDate);
 		    	}
 		    }
 		});
@@ -266,6 +271,7 @@
 							      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
 							      		<input type="hidden" name="dDay1" value="${group.dDay }"/>
 							      		<input type="hidden" name="gpPw1" value="${group.gpPw}"/>
+							      		<input type="hidden" name="endDate" value="${group.endDate}"/>
 							      		<input type="hidden" id="periodCode" name="periodCode1" value="${group.periodCode }"/>
 										<div class="card-header bg-transparent">
 										<c:choose>
@@ -331,6 +337,7 @@
 							      		<input type="hidden" name="gjCount1" value="${group.gjCount }"/>
 							      		<input type="hidden" name="dDay1" value="${group.dDay }"/>
 							      		<input type="hidden" name="gpPw1" value="${group.gpPw}"/>
+							      		<input type="hidden" name="endDate" value="${group.endDate}"/>
 							      		<input type="hidden" id="periodCode" name="periodCode1" value="${group.periodCode }"/>
 									<div class="card-header bg-transparent">
 									<c:choose>
@@ -408,7 +415,7 @@
 						      		<td>활동 분류</td>
 						      		<td id="grSubject"><span></span></td>
 						      		<td>모집 마감일</td>
-						      		<td></td>
+						      		<td id="endDate"><span></span></td>
 						      	</tr>
 						      	<tr class="spacer"></tr>
 						      	<tr>

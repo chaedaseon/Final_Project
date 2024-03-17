@@ -18,9 +18,17 @@ CREATE TABLE NOTICE
 
 public class BoardStudyGroupDTO
 {
-	private String grCode, guCode, grDate, grName, grSubject, grComment, grLeader, age, gender, lsCode, category, grOpen, gaCode, periodCode, gaDate, lsList, lfCode;
+	private String grCode, guCode, grDate, grName, grSubject, grComment, grLeader, age, gender, lsCode, category, grOpen, gaCode, periodCode, gaDate, lsList, lfCode,endDate;
 	private int no, grCount, dDay, gpPw, gjCount;
 	
+	public String getEndDate()
+	{
+		return endDate;
+	}
+	public void setEndDate(String endDate)
+	{
+		this.endDate = endDate;
+	}
 	public String getLfCode()
 	{
 		return lfCode;

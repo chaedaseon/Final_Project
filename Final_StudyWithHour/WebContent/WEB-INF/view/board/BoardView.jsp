@@ -503,6 +503,7 @@
 			</div>
 			<div class="button_box">
 				<button onclick="history.back()" class="btn">뒤로가기</button>
+				<button class="btn" onclick="location.href='boardusedbooklist.do?'">중고책방목록</button>
 				<button class="btn" onclick="location.href='boardcommunitylist.do?'">전체목록</button>
 			</div>
 			</div>

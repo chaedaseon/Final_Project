@@ -364,7 +364,23 @@ public class NoticeBoardController
 		return "/WEB-INF/view/board/NoticeBoardView.jsp";	// 공지사항 게시판 호출
 	}
 	
-	@RequestMapping(value = "/noticeviewmodifyform.do", method = RequestMethod.GET)	// 게시글 수정 폼 요청
+	@RequestMapping(value = "/noticeinsertform.do", method = RequestMethod.GET)	// 공지사항 입력폼 요청
+	public String noticeViewInsertForm()
+	{
+		return "/WEB-INF/view/board/NoticeInsertForm.jsp";
+	}
+
+	@RequestMapping(value = "/noticeinsert.do", method = RequestMethod.POST)	// 공지사항 입력
+	public String boardViewInsert(NoticeBoardDTO nt)
+	{
+		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
+
+		dao.noticeInsert(nt);
+
+		return "redirect:noticeview.do?ntCode=" + nt.getNtCode();
+	}
+	
+	@RequestMapping(value = "/noticemodifyform.do", method = RequestMethod.GET)	// 공지사항 수정 폼 요청
 	public String noticeViewModifyForm(ModelMap model, @RequestParam String ntCode)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
@@ -373,21 +389,21 @@ public class NoticeBoardController
 
 		model.addAttribute("list", list);
 
-		return "/WEB-INF/view/board/BoardCommunityUpdateForm.jsp";
+		return "/WEB-INF/view/board/NoticeUpdateForm.jsp";
 	}
 
-	@RequestMapping(value = "/noticeviewmodify.do", method = RequestMethod.POST)	// 게시글 수정
+	@RequestMapping(value = "/noticemodify.do", method = RequestMethod.POST)	// 공지사항 수정
 	public String boardViewModify(NoticeBoardDTO nt)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
 
 		dao.noticeModify(nt);
 
-		return "redirect:noticeboardview.do?ntCode=" + nt.getNtCode();
+		return "redirect:noticeview.do?ntCode=" + nt.getNtCode();
 	}
 
 	
-	  @RequestMapping(value="/noticeviewdelete.do", method = RequestMethod.GET)	// 게시글 삭제
+	  @RequestMapping(value="/noticedelete.do", method = RequestMethod.GET)	// 공지사항 삭제
 	  public String boardViewDelete(@RequestParam String ntCode) 
 	  { 
 		  INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);

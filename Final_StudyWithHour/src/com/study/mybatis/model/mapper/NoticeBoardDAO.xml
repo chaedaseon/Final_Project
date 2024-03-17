@@ -104,7 +104,7 @@
         FROM ADMIN
         WHERE AD_CODE = N.AD_CODE) AS NTWRITER
 		FROM NOTICE N
-		WHERE NT_CODE = ${NTCODE}
+		WHERE NT_CODE = ${ntCode}
 	</select>
 	
 	<update id="increaseNoticeView"> 
@@ -112,6 +112,11 @@
 		SET NT_VIEW = NT_VIEW + 1
 		WHERE NT_CODE = ${param1}
 	</update>
+	
+	<insert id="noticeInsert">
+		INSERT INTO NOTICE(NT_CODE, NT_TITLE, NT_CONTENT, NT_DATE, NT_VIEW, NT_MODATE, AD_CODE)
+		VALUES(NOTICE_SEQ.NEXTVAL, #{ntTitle}, #{ntContent}, DEFAULT, DEFAULT, DEFAULT, #{adCode})
+	</insert>
 	
 	<update id="noticeModify">
 		UPDATE NOTICE

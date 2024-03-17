@@ -50,6 +50,7 @@
 		{
 			var ssessionAdCode = $("#ssessionAdCode").val();
 			var adCode = $("#adCode").val();
+			var ntCode = $("input[name=ntCode]").val();
 			
 			if(adCode == 'null')
 			{
@@ -61,7 +62,7 @@
 			}
 			else if(adCode == ssessionAdCode)
 			{
-				window.location.href = "noticeviewmodifyform.do";
+				window.location.href = "noticemodifyform.do?ntCode=" + ntCode;
 			}
 		});
 	});
@@ -108,7 +109,7 @@
 					<button type="button" class="btn" id="delete_button">삭제</button>
 			
 					<!-- 모달 영역 -->
-					<form action="noticeviewdelete.do" method="get">
+					<form action="noticedelete.do" method="get">
 					<div class="modal fade" id="noticeDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-centered">
 					    <div class="modal-content">

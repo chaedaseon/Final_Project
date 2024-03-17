@@ -20,6 +20,7 @@ public interface INoticeBoardDAO
 	public int scNickCount(String searchNick);		// 작성자 조회 카운트
 	public ArrayList<NoticeBoardDTO> noticeViewlist(String ntCode);
 	public int increaseNoticeView(String ntCode);	// 조회수 증가
+	public int noticeInsert(NoticeBoardDTO nt);	// 공지사항 수정
 	public int noticeModify(NoticeBoardDTO nt);	// 공지사항 수정
 	public int noticeDelete(String ntCode);	// 공지사항 삭제
 }

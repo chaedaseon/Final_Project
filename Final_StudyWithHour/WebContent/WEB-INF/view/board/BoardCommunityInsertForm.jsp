@@ -27,7 +27,7 @@
 
 	function fn_checkByte(obj)
 	{
-	    const maxByte = 2000; //최대 4000바이트
+	    const maxByte = 2000; //최대 2000바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
