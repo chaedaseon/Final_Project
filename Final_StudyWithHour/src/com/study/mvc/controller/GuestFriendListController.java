@@ -1,5 +1,5 @@
 // GuestFriendListFormController.java
-// 이웃관리 
+// 이웃관리 리스트 출력
 
 package com.study.mvc.controller;
 

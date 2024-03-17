@@ -1,4 +1,4 @@
-// GuestUnregController.java
+// GuestDeleteController.java
 // 회원탈퇴 
 
 package com.study.mvc.controller;

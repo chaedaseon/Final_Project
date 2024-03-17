@@ -10,9 +10,10 @@
 	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 	
 %>
+<%-- 
 <jsp:useBean id="now" class="java.util.Date"/>
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
-
+ --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,7 +49,7 @@
 	}
 	
 	// 달력 생성 함수 (페이지 로드되면 실행)
-	function build()
+	function createCalendar()
 	{
 	    var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); 					// 현재 달의 첫째 날
 	    var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 				// 현재 달의 마지막 날
@@ -248,7 +249,7 @@
 </script>
 </head>
 
-<body onload="build();">
+<body onload="createCalendar();">
 
 <header>
 	<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>

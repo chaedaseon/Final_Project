@@ -42,7 +42,7 @@
 				
 				<div>
 					<div class="groupJoin_list">
-						<select class="red_sorting">
+						<select class="sorting">
 							<option selected="selected">--활동 상태--</option>
 							<option>개설</option>
 							<option>대기</option>

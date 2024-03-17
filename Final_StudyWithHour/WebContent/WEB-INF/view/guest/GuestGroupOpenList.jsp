@@ -41,15 +41,15 @@
 				</div>
 				
 				<div>
-					<div class="groupJoin_list">
-						<select class="red_sorting">
+					<div class="groupOpen_list">
+						<select class="sorting">
 							<option selected="selected">--활동 상태--</option>
 							<option>개설</option>
 							<option>대기</option>
 							<option>미개설</option>
 						</select>
 						
-						<table class="groupJoin_list">
+						<table class="groupOpen_list">
 							<tr>
 								<th>No</th>
 								<th>그룹명</th>

@@ -9,11 +9,7 @@
 	String gu_code = request.getParameter("gu_code");
 	
 	ArrayList<GuestCalendarDTO> scheduleList = (ArrayList<GuestCalendarDTO>) request.getAttribute("list");
-	/*
-	String schName = "";
-	String schContent = "";
-	String schDate = "";
-	*/
+
 	String result = "";
 	
 	for (GuestCalendarDTO schedule : scheduleList) 

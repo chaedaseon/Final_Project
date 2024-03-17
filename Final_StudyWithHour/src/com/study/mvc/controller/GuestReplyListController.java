@@ -45,7 +45,6 @@ public class GuestReplyListController implements Controller
 			guest.connection();
 			group.connection();
 			
-			// 전체(모두 접근 가능한) 게시글 작성 리스트 출력 실행
 			ArrayList<GuestBoardDTO> replyList = new ArrayList<GuestBoardDTO>();
 			ArrayList<GroupBoardDTO> groupReplyList = new ArrayList<GroupBoardDTO>();
 			

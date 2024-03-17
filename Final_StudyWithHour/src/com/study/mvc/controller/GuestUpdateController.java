@@ -1,5 +1,5 @@
-// ModifyInfoCheckController.java
-// 회원가입 
+// GuestUpdateController.java
+// 게스트 정보 수정 컨트롤러 
 
 package com.study.mvc.controller;
 

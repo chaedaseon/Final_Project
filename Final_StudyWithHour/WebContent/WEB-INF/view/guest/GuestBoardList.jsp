@@ -42,7 +42,7 @@
 				
 				<div>
 					<div class="board_list">
-						<select class="red_sorting">
+						<select class="sorting">
 							<option selected="selected">--처리 상태--</option>
 							<option>승인</option>
 							<option>반려</option>

@@ -40,14 +40,13 @@
 				<span><span>이웃</span> 관리</span>
 			</div>
 		
-			<div style="display: flex; justify-content: space-between; margin-top: 60px;">
-			
+			<div class="friend_list">
 				<div style="width: 40%">
 					<div>
 						♥ 찜한 이웃
 					</div>
-					<div style="width: 100%; height: 400px; overflow: auto; overflow-x: hidden;">
-						<table style="width: 100%; margin: 10px;">
+					<div class="like_list">
+						<table>
 							<tr>
 								<th>번호</th>
 								<th>닉네임</th>
@@ -72,8 +71,8 @@
 					<div>
 						※ 차단한 이웃
 					</div>			
-					<div style="width: 100%; height: 400px; overflow: auto; overflow-x: hidden;">
-						<table style="width: 100%; margin: 10px;">
+					<div class="block_list">
+						<table>
 							<tr>
 								<th>번호</th>
 								<th>닉네임</th>

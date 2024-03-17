@@ -1,5 +1,5 @@
-// GuestGroupJoinListFormController.java
-// 그룹 가입 신청 내역
+// GuestGroupActiveListFormController.java
+// 그룹 활동 내역
 
 package com.study.mvc.controller;
 

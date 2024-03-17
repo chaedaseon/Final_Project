@@ -23,12 +23,6 @@ public class GuestCalendarController
 	@RequestMapping(value = "/guestcalendarlist.do", method=RequestMethod.GET)
 	public String calendarList(ModelMap model, String gu_code)
 	{
-		//IGuestCalendarDAO dao = sqlsession.getMapper(IGuestCalendarDAO.class);
-		
-		//ArrayList<GuestCalendarDTO> list = dao.scheduleList(gu_code);
-		
-		//model.addAttribute("list", list);
-		
 		return "/WEB-INF/view/guest/GuestCalendar.jsp";
 	}
 	

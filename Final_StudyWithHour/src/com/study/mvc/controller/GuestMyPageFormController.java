@@ -1,4 +1,4 @@
-// ModifyInfoCheckController.java
+// GuestMyPageFormController.java
 // 회원가입 
 
 package com.study.mvc.controller;

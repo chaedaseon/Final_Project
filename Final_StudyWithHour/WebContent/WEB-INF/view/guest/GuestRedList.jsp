@@ -42,7 +42,7 @@
 				
 				<div>
 					<div class="red_list">
-						<select class="red_sorting">
+						<select class="sorting">
 							<option selected="selected">--처리 상태--</option>
 							<option>승인</option>
 							<option>반려</option>
@@ -51,19 +51,19 @@
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
 					   		<button class="nav-link active" id="boardred-tab" data-bs-toggle="tab" data-bs-target="#boardred-tab-pane" type="button" role="tab"
-					   		 aria-controls="home-tab-pane" aria-selected="true" onclick="location.href=guestredlist.do?type=board">게시판 신고</button>
+					   		 aria-controls="home-tab-pane" aria-selected="true">게시판 신고</button>
 					  	</li>
 					  	<li class="nav-item" role="presentation">
 					    	<button class="nav-link" id="replyred-tab" data-bs-toggle="tab" data-bs-target="#replyred-tab-pane" type="button" role="tab"
-					    	 aria-controls="profile-tab-pane" aria-selected="false" onclick="location.href='#'">댓글 신고</button>
+					    	 aria-controls="profile-tab-pane" aria-selected="false">댓글 신고</button>
 					  	</li>
 					  	<li class="nav-item" role="presentation">
 					    	<button class="nav-link" id="groupboardred-tab" data-bs-toggle="tab" data-bs-target="#groupboardred-tab-pane" type="button" role="tab"
-					    	 aria-controls="contact-tab-pane" aria-selected="false" onclick="location.href='#'">그룹 게시글 신고</button>
+					    	 aria-controls="contact-tab-pane" aria-selected="false">그룹 게시글 신고</button>
 					  	</li>
 					  	<li class="nav-item" role="presentation">
 					    	<button class="nav-link" id="groupreplyred-tab" data-bs-toggle="tab" data-bs-target="#groupreplyred-tab-pane" type="button" role="tab"
-					    	 aria-controls="contact-tab-pane" aria-selected="false" onclick="location.href='#'">그룹 댓글 신고</button>
+					    	 aria-controls="contact-tab-pane" aria-selected="false">그룹 댓글 신고</button>
 					  	</li>
 					</ul>
 					<div class="tab-content" id="myTabContent">

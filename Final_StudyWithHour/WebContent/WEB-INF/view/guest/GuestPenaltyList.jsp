@@ -42,7 +42,7 @@
 				
 				<div>
 					<div class="penalty_sorting">
-						<select class="red_sorting">
+						<select class="sorting">
 							<option selected="selected">--유효 상태--</option>
 							<option>유효</option>
 							<option>무효</option>

@@ -30,7 +30,6 @@ public class GuestFriendDeleteController implements Controller
 			mav.setViewName("redirect:loginform.do");
 			return mav;
 		}
-				
 		
 		
 		String guCode = request.getParameter("guCode");

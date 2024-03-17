@@ -45,7 +45,7 @@ public class JoinCheckController implements Controller
 					idCount = dao.idCheck(guId); 
 					
 					mav.addObject("idCount", idCount);
-					mav.setViewName("/WEB-INF/view/main/Join_ajax.jsp");
+					mav.setViewName("/WEB-INF/view/main/CheckId_ajax.jsp");
 				}
 				// 게스트 닉네임 중복 확인
 				if (check != null && check.equals("nick"))
