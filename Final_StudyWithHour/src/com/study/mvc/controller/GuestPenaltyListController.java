@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.study.mvc.model.GroupBoardDAO;
+import com.study.mvc.model.GroupBoardDTO;
 import com.study.mvc.model.GuestBoardDAO;
 import com.study.mvc.model.GuestBoardDTO;
 
@@ -35,22 +37,29 @@ public class GuestPenaltyListController implements Controller
 			return mav;
 		}
 		
-		GuestBoardDAO dao = new GuestBoardDAO();
+		GuestBoardDAO guest = new GuestBoardDAO();
+		GroupBoardDAO group = new GroupBoardDAO();
 		
 		try
 		{
+			group.connection();
+			guest.connection();
+
 			String guCode = request.getParameter("guCode");
-			dao.connection();
 			
 			ArrayList<GuestBoardDTO> penaltyList = new ArrayList<GuestBoardDTO>();
-			
-			penaltyList = dao.penaltyList(guCode);
-			
+			penaltyList = guest.penaltyList(guCode);
 			mav.addObject("penaltyList", penaltyList);
 			
-			mav.setViewName("/WEB-INF/view/guest/GuestPenaltyList.jsp");
+			ArrayList<GroupBoardDTO> groupBoardPenaltyList = new ArrayList<GroupBoardDTO>();
+			groupBoardPenaltyList = group.groupBoardPenaltyList(guCode);
+			mav.addObject("groupBoardPenaltyList", groupBoardPenaltyList);
 			
-			dao.close();
+			ArrayList<GroupBoardDTO> groupBreakPenaltyList = new ArrayList<GroupBoardDTO>();
+			groupBreakPenaltyList = group.groupBreakPenaltyList(guCode);
+			mav.addObject("groupBreakPenaltyList", groupBreakPenaltyList);
+			
+			mav.setViewName("/WEB-INF/view/guest/GuestPenaltyList.jsp");
 			
 		} catch (Exception e)
 		{
@@ -58,7 +67,8 @@ public class GuestPenaltyListController implements Controller
 		}
 		finally
 		{
-			dao.close();
+			group.close();
+			guest.close();
 		}
 	
 		

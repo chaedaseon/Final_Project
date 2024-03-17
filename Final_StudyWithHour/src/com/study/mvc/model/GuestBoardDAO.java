@@ -266,12 +266,12 @@ public class GuestBoardDAO
 	}
 	
 	
-	// 패널티 부여 내역 조회
+	// 전체 게시판&댓글&대댓글 패널티 부여 내역 조회
 	public ArrayList<GuestBoardDTO> penaltyList(String guCode) throws SQLException
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "SELECT PBO_CODE, PBO_DATE AS START_DATE, PBO_DATE+7 AS END_DATE, BRD_CODE, REASON, GU_CODE, BO_CODE, BO_TITLE FROM VIEW_BOARD_PENALTY WHERE GU_CODE= ?";
+		String sql = "SELECT PBO_CODE, PBO_DATE AS START_DATE, PBO_DATE+90 AS END_DATE, BRD_CODE, REASON, GU_CODE, BO_CODE, BO_TITLE FROM VIEW_BOARD_PENALTY WHERE GU_CODE= ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -297,6 +297,5 @@ public class GuestBoardDAO
 		
 	}
 	
-
 	
 }

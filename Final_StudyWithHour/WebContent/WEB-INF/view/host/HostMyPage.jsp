@@ -178,6 +178,16 @@
 		
 			<div class= "hoMypage_div">
 				<div class="hoMypage">
+					<div class="hoInfo_div">
+					<div class="hoInfo">
+						<div>
+							반가워요, <span style="color: #94be2c;"><%=host.getHoName() %></span>님!
+						</div>
+						<div>
+							<span style="font-size: 16px;">가입 일자 : <%=hoDate %></span>
+						</div>
+					</div>
+				
 					
 					<!-- 아이콘 처리 영역 ------------------------------------------------------------------------->					
 					<div>
@@ -192,7 +202,6 @@
 						<!-- 기본 수정 아이콘 end ---------------------------------------------------------->
 						
 						<!-- 수정 아이콘 눌렀을 때 나타나는 상단 아이콘 영역 ------------------------------------------------------->
-						<%-- <form action="guestmodify.do?modifyType=all&guCode=<%=guCode %>" method="post" id="test"> --%>
 						<div id= "hoIcon" style="display: none; justify-content: flex-end; height: 24px;">
 							<div>
 								<button type="button" class="modifyIcon" id="hoModifyOkIcon" data-bs-toggle="modal" data-bs-target="#hoModifyCheck" style="display: flex; align-items: center;">
@@ -217,23 +226,12 @@
 					<!-- 아이콘 처리 end ------------------------------------------------------------------------->
 					
 					
-					<div class="hoInfo_div">
-					
-						<div class="hoInfo" style="font-size: 30px;">
-							<div>
-								반가워요, <span style="color: #94be2c;"><%=host.getHoName() %></span>님!
-							</div>
-							<div>
-								<span style="font-size: 16px;">가입 일자 : <%=hoDate %></span>
-							</div>
-						</div>
-					
-						<div id="hoInfo_list">
+					<div id="hoInfo_list">
 							<div class="hoInfo_list1" id="hoInfo_list1">
 								<table>
 									<tr>
 										<td style="width: 100px;">이름</td>
-										<td style="width: 150px;"><%=host.getHoName() %>	</td>
+										<td style="width: 150px;"><%=host.getHoName() %></td>
 									</tr>
 									<tr>
 										<td>아이디</td>
@@ -258,7 +256,7 @@
 										<td>비밀번호</td>
 										<td>
 											<button type="button" class="modal_btn" data-bs-toggle="modal" data-bs-target="#hoModifyPw">
-												변경하기
+											    변경하기
 											</button>
 										</td>
 									</tr>
@@ -267,36 +265,36 @@
 						</div>
 					
 						<!-- 비밀번호 변경 모달 영역 ------------------------------------------------------------------------------------------->
-						<div class="modal fade" id="hoModifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" >
-						 	<div class="mod al-dialog modal-dialog-centered">
-						    	<div class="modal-content" style="z-index: 1000;">
-						      		<div class="modal-header">
-						        		<h1 class="modal-title fs-5" id="staticBackdropLabel">비밀번호 변경</h1>
-					        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						      		</div>
-						        	<form action="hostmodify.do?modifyType=pw&hoCode=<%= host.getHoCode()%>" method="post">
-							      		<div class="modal-body">
-							        		변경할 비밀번호를 입력해주세요.
-								        	<div class="modal_form" style="margin-top: 10px;">
-												<table>
-													<tr>
-														<td style="width: 150px;">비밀번호</td>
-														<td><input type="text" class="upHoPw" id="upHoPw" name="upHoPw"></td>
-													</tr>
-													<tr>
-														<td>비밀번호 확인</td>
-														<td><input type="text" class="upHoPw" id="upHoPwCheck"></td>
-													</tr>
-												</table>
-											</div>
-								      	</div>
-								      	<div class="modal-footer">
-								        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-								        	<button type="button" class="btn" style="background-color: #94be2c; color: #ffffff;">변경</button>
-								      	</div>
-									</form>
-						    	</div>
-						 	 </div>
+						<div class="modal fade" id="hoModifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						    <div class="modal-dialog modal-dialog-centered">
+						        <div class="modal-content" style="z-index: 1000;">
+						            <div class="modal-header">
+						                <h1 class="modal-title fs-5" id="staticBackdropLabel">비밀번호 변경</h1>
+						                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						            </div>
+						            <form action="hostmodify.do?modifyType=pw&hoCode=<%=host.getHoCode() %>" method="post">
+						                <div class="modal-body">
+						                    변경할 비밀번호를 입력해주세요.
+						                    <div class="modal_form" style="margin-top: 10px;">
+						                        <table>
+						                            <tr>
+						                                <td style="width: 150px;">비밀번호</td>
+						                                <td><input type="password" class="upHoPw" id="upHoPw" name="upHoPw"></td>
+						                            </tr>
+						                            <tr>
+						                                <td>비밀번호 확인</td>
+						                                <td><input type="password" class="upHoPw" id="upHoPwCheck"></td>
+						                            </tr>
+						                        </table>
+						                    </div>
+						                </div>
+						                <div class="modal-footer">
+						                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						                    <button type="submit" class="btn" style="background-color: #94be2c; color: #ffffff;">변경</button>
+						                </div>
+						            </form>
+						        </div>
+						    </div>
 						</div>
 						<!-- 비밀번호 변경 모달 end ------------------------------------------------------------>
 
@@ -392,95 +390,71 @@
 						</div>
 						<!-- 정보 수정 확인 모달 end ---------------------------------------------------------------------------->
 						
+					<!-- 회원 탈퇴 -->
+					<div>
+						<button type="button" class="unregBtn" data-bs-toggle="modal" data-bs-target="#hoUnregBtn">
+							  회원 탈퇴
+						</button>
 						
-					</div>
-				</div>
-			</div>
-
-			<div class="joinGroupInfo">
-				<div>
-					<div class="groupInfo_title"><span>활동</span> 중인 스터디그룹</div><br>
-					<div class="groupCount">
-						<span>2</span>개
-					</div>
-				</div>
-				
-				<div>
-					<div class="groupInfo_title"><span>대기</span> 중인 스터디그룹</div><br>
-					<div class="groupCount">
-						<span>1</span>개
-					</div>
-				</div>
-				
-				<div>
-				
-				</div>
-				
-			</div>
-			
-			
-			<!-- 회원 탈퇴 -->
-			<div>
-				<button type="button" class="modal_btn" data-bs-toggle="modal" data-bs-target="#hoUnregBtn">
-					  회원 탈퇴
-					</button>
-				
-					<!-- 모달 영역 -->
-					<div class="modal fade" id="hoUnregBtn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticModal" aria-hidden="true">
-					 	<div class="modal-dialog modal-dialog-centered" style="display: flex; justify-content: center;">
-					    	<div class="modal-content" style="height: 300px; text-align: center; width: 60%;">
-					      		<div class="modal-header">
-					        		<h1 class="modal-title fs-5" id="staticModal">회원 탈퇴</h1>
-				        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      		</div>
-					      		
-					      		
-					      		<div class="modal-body">
-					      			
-					      			<!-- 회원 탈퇴 1단계 -->
-					      			<div class="reason">
-						        		회원 탈퇴 사유를 입력해주세요.
-							        	<div class="modal_form">
-							        		<select name="unregReason">
-							        			<option value="101">개인정보 노출 우려</option>
-							        			<option value="102">재가입 목적</option>
-							        			<option value="103">서비스 불만족</option>
-							        			<option value="104">이용 안함</option>
-							        			<option value="105">기타</option>
-								        		</select>
+						<!-- 모달 영역 -->
+						<div class="modal fade" id="hoUnregBtn" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticModal" aria-hidden="true">
+						 	<div class="modal-dialog modal-dialog-centered" style="display: flex; justify-content: center;">
+						    	<div class="modal-content" style="height: 300px; text-align: center; width: 60%;">
+						      		<div class="modal-header">
+						        		<h1 class="modal-title fs-5" id="staticModal">회원 탈퇴</h1>
+					        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						      		</div>
+						      		
+						      		
+						      		<div class="modal-body">
+						      			
+						      			<!-- 회원 탈퇴 1단계 -->
+						      			<div class="reason">
+							        		회원 탈퇴 사유를 입력해주세요.
+								        	<div class="modal_form">
+								        		<select name="unregReason">
+								        			<option value="101">개인정보 노출 우려</option>
+								        			<option value="102">재가입 목적</option>
+								        			<option value="103">서비스 불만족</option>
+								        			<option value="104">이용 안함</option>
+								        			<option value="105">기타</option>
+									        		</select>
+											</div>
 										</div>
-									</div>
-									
-									<!-- 회원 탈퇴 2단계 -->
-									<div class="unregCheck" style="display: none;">
-										탈퇴 후 계정 복구는 불가합니다.<br>
-										탈퇴하시겠습니까?<br>
 										
-										<input type="checkbox" class="unregCheckBox">예, 확인했습니다.
-										
-										<input type="password" placeholder="비밀번호를 입력해주세요" class="unregCheckPw">
-									</div>
-									
-						      	</div>
-						      	
-						      	
-						      	<div class="modal-footer reason">
-						        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-						        	<button type="button" class="btn" onclick="unregCheck1()" style="background-color: #94be2c; color: #ffffff;">다음</button>
-						      	</div>
-						      	
-						      	<div class="modal-footer unregCheckBtn" style="display: none;">
-						        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-						        	<button type="button" class="btn" id="hoUnregCheck" style="background-color: #94be2c; color: #ffffff;">탈퇴</button>
-						      	</div>
-						      	
-					    	</div>
-					 	 </div>
+										<!-- 회원 탈퇴 2단계 -->
+										<div class="unregCheck" style="display: none;">
+											탈퇴 후 계정 복구는 불가합니다.<br>
+											탈퇴하시겠습니까?<br>
+											
+											<input type="checkbox" class="unregCheckBox">예, 확인했습니다.
+											
+											<input type="password" placeholder="비밀번호를 입력해주세요" class="unregCheckPw">
+										</div>
+							      	</div>
+							      	
+							      	
+							      	<div class="modal-footer reason">
+							        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							        	<button type="button" class="btn" onclick="unregCheck1()" style="background-color: #94be2c; color: #ffffff;">다음</button>
+							      	</div>
+							      	
+							      	<div class="modal-footer unregCheckBtn" style="display: none;">
+							        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							        	<button type="button" class="btn" id="hoUnregCheck" style="background-color: #94be2c; color: #ffffff;">탈퇴</button>
+							      	</div>
+							      	
+						    	</div>
+						 	 </div>
+						</div>
 					</div>
+					<!-- 회원 탈퇴 end------------------------------------------------------------------------------------------------>
 				</div>
 			</div>
 		</div>
-		
+			
+		</div>
+	</div>
 		
 </section>
 

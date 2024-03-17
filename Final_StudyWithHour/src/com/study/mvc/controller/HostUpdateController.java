@@ -74,28 +74,29 @@ public class HostUpdateController implements Controller
 			String upHoTel = upHoTel1 + upHoTel2 + upHoTel3;
 			String upHoEmail = request.getParameter("upHoEmail");
 			
+			HostDAO dao = new HostDAO();
+			HostDTO dto = new HostDTO();
 			// 정보 수정
 			try
 			{
-				HostDAO dao = new HostDAO();
-				HostDTO dto = new HostDTO();
-				
 				dao.connection();
 				
 				dto.setHoTel(upHoTel);
-				dto.setHoEmail(upHoEmail);;
-				dto.setHoCode(hoCode);;
+				dto.setHoEmail(upHoEmail);
+				dto.setHoCode(hoCode);
 				
 				dao.modify(dto);
 				
 				mav.setViewName("redirect:hostmypage.do");
 				
-				dao.close();
-				
 			}
 			catch (Exception e) 
 			{
 				System.out.println(e.toString());
+			}
+			finally
+			{
+				dao.close();
 			}
 		}
 		

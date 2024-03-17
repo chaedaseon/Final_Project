@@ -17,7 +17,6 @@
 	
 	/* 가입일자 문자열 자르기 */
 	String guDate = guest.getGuDate().substring(0,11);
-	
 %>
 
 <!DOCTYPE html>
@@ -158,7 +157,7 @@
 		});
 		
 		
-		// 모달창 닫음 처리
+		// 정보수정 창 닫음 처리
 		$("#closeIcon").click(function()
 		{
 			$("#modifyIcon").css("display", "flex");
@@ -329,7 +328,7 @@
 									<tr>
 										<td>비밀번호</td>
 										<td>
-											<button type="button" class="modal_btn" data-bs-toggle="modal" data-bs-target="#hoModifyPw">
+											<button type="button" class="modal_btn" data-bs-toggle="modal" data-bs-target="#guModifyPw">
 											    변경하기
 											</button>
 										</td>
@@ -339,25 +338,25 @@
 						</div>
 					
 						<!-- 비밀번호 변경 모달 영역 ------------------------------------------------------------------------------------------->
-						<div class="modal fade" id="hoModifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal fade" id="guModifyPw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						    <div class="modal-dialog modal-dialog-centered">
 						        <div class="modal-content" style="z-index: 1000;">
 						            <div class="modal-header">
 						                <h1 class="modal-title fs-5" id="staticBackdropLabel">비밀번호 변경</h1>
 						                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						            </div>
-						            <form action="hostmodify.do?modifyType=pw&hoCode=1" method="post">
+						            <form action="guestmodify.do?modifyType=pw&guCode=<%=guest.getGuCode() %>" method="post">
 						                <div class="modal-body">
 						                    변경할 비밀번호를 입력해주세요.
 						                    <div class="modal_form" style="margin-top: 10px;">
 						                        <table>
 						                            <tr>
 						                                <td style="width: 150px;">비밀번호</td>
-						                                <td><input type="text" class="upHoPw" id="upHoPw" name="upHoPw"></td>
+						                                <td><input type="password" class="upGuPw" id="upGuPw" name="upGuPw"></td>
 						                            </tr>
 						                            <tr>
 						                                <td>비밀번호 확인</td>
-						                                <td><input type="text" class="upHoPw" id="upHoPwCheck"></td>
+						                                <td><input type="password" class="upGuPw" id="upGuPwCheck"></td>
 						                            </tr>
 						                        </table>
 						                    </div>
@@ -540,33 +539,8 @@
 					</div>	
 				</div>
 			</div>
-				
-			<div class="joinGroupInfo">
-				<div class="groupInfo"  onclick="location.href='guestgroupactivelist.do?guCode=<%=guest.getGuCode()%>'">
-					<div class="groupInfo_title"><span>활동</span> 중인 스터디그룹</div><br>
-					<div class="groupCount">
-						<span>2</span>개
-					</div>
-				</div>
-				
-				<div class="groupInfo">
-					<div class="groupInfo_title"><span>대기</span> 중인 스터디그룹</div><br>
-					<div class="groupCount">
-						<span>1</span>개
-					</div>
-				</div>
-				
-				<div class="groupInfo" onclick="location.href='guestcalendarlist.do?gu_code=<%=guest.getGuCode()%>'">
-					<div class="groupInfo_title"><span>오늘</span>의 일정</div><br>
-					<div class="groupCount">
-						<span>1</span>개
-					</div>
-				</div>
-				
-			</div>
 		</div>
-		
-		
+	</div>
 </section>
 
 <footer>

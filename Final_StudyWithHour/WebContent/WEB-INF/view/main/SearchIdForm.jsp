@@ -19,9 +19,9 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 
-
 	$(function()
 	{
+		
 		$("#searchIdBtn").click(function()
 		{	
 			var userType = $("input[name='userType']:checked").val();
@@ -47,22 +47,12 @@
 						$(".search_result_btn").css("display", "block");
 						$(".radio_status").css("display","none");
 						
-						//alert(typeof resultId);
-						//alert(resultId.substring(0,7));
-						
-						//alert(result.substring(0,7));
-						
-						//alert(result.replaceAll(result.substring(7), "*"));
-						
-						
-						//var resultId = result.substring(0,7) + result.substring(7).replaceAll('*');
-						
 						$("#searchId").html(result);
 					}					
 				}
 				, error:function(e)
 				{
-					alert(e.responseText);
+					alert("일치하는 정보가 존재하지 않습니다.");
 				}
 			});
 		});

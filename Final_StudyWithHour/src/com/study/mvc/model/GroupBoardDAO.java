@@ -121,5 +121,67 @@ public class GroupBoardDAO
 		return result;
 	}
 	
+	// 그룹 게시판&댓글 패널티 부여 내역 조회
+	public ArrayList<GroupBoardDTO> groupBoardPenaltyList(String guCode) throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
+		
+		String sql = "SELECT PGB_DATE AS START_DATE, PGB_DATE+90 AS END_DATE, REASON, GR_NAME, GB_TITLE, GU_CODE FROM VIEW_GROUP_BOARD_PENALTY WHERE GU_CODE=?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setStartDate(rs.getString("START_DATE"));
+			dto.setEndDate(rs.getString("END_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setGbTitle(rs.getString("GB_TITLE"));
+			dto.setGuCode(rs.getString("GU_CODE"));
+			
+			result.add(dto);
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+		
+	}
+	
+	// 그룹 활동(그룹 해체) 패널티 부여 내역 조회
+	public ArrayList<GroupBoardDTO> groupBreakPenaltyList(String guCode) throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
+		
+		String sql = "SELECT GR_NAME, GR_DATE AS START_DATE, GR_DATE+90 AS END_DATE, REASON, REASON_CODE, GR_CODE"
+				   + " FROM VIEW_GROUP_ACTIVE_PENALTY WHERE GR_CODE IN (SELECT GR_CODE FROM GROUP_JOIN WHERE GU_CODE=?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setStartDate(rs.getString("START_DATE"));
+			dto.setEndDate(rs.getString("END_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setReasonCode(rs.getString("REASON_CODE"));
+			
+			result.add(dto);
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+		
+	}
+	
 	
 }

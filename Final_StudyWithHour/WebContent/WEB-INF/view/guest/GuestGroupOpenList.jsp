@@ -27,13 +27,13 @@
 <body>
 
 	<header>
-		<c:import url="Menu.jsp"></c:import>
+		<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>
 	</header>
 	
 	<section>
 	
 		<div id="content">
-			<c:import url="SideMenu.jsp"></c:import>
+			<c:import url="/WEB-INF/view/main/SideMenu.jsp"></c:import>
 		
 			<div class="rightContent_div">
 				<div class="page_title">

@@ -79,7 +79,7 @@ public class MemberInsertController implements Controller
 				guest = dao.sessionGuest(guCode);
 				session.setAttribute("guest", guest);
 				
-				mav.setViewName("redirect:MainPage.jsp");
+				mav.setViewName("redirect:studywithhour.do");
 			} catch (Exception e)
 			{
 				System.out.println(e.toString());
@@ -136,8 +136,7 @@ public class MemberInsertController implements Controller
 				host = dao.sessionHost(hoCode);
 				session.setAttribute("host", host);
 				
-				/* mav.setViewName("/WEB-INF/view/MainPage.jsp"); */
-				mav.setViewName("redirect:MainPage.jsp");
+				mav.setViewName("redirect:studywithhour.do");
 				
 			} catch (Exception e)
 			{

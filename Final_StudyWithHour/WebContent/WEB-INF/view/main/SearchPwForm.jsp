@@ -61,7 +61,7 @@
 				}
 				, error:function(e)
 				{
-					alert(e.responseText);
+					alert("일치하는 정보가 존재하지 않습니다.");
 				}
 			});
 			

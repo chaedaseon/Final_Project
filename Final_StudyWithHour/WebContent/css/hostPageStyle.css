@@ -1,6 +1,14 @@
 @charset "UTF-8";
 
 /* 페이지 기본 css */
+section
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    flex-direction: column;
+}
 
 /* 페이지 설명 */
 .page_title > span
@@ -88,34 +96,30 @@ table.list_table tr:last-child
 /*--------- 마이페이지 ---------*/
 .hoMypage_div
 {
-	display: flex; flex-direction: row; 
+	display: flex; 
+	flex-direction: row; 
 	justify-content: space-between;
 }
 
 .hoMypage_div > div
 {
 	width: 100%; 
-	/* border-radius: 15px; */ 
-	/* box-shadow: 5px 5px 5px #d3d3d3; */
 	margin-top: 50px; 
-	height: 150px; 
-	/* border: 1px solid rgba(0, 0, 0, 0.175); */
 	border-bottom: 2px solid #94be24;
 	
 }
 
-.hoInfo_div
-{
-	display: flex;
-}
-
 .hoInfo
 {
-	width: 40%;
-	height: 100%;
-	display: flex;
+    width: 100%;
+    height: 100%;
+    display: flex;
     align-items: center;
     flex-direction: column;
+    background: #94be2424;
+    padding: 30px;
+    border-radius: 30px;x-direction: column;
+    font-size: 40px;
 }
 
 .modifyIcon
@@ -126,14 +130,15 @@ table.list_table tr:last-child
 
 #hoInfo_list, #hoInfo_modify
 {
-	display: flex;
-	width: 60%;
-	justify-content: space-evenly;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
 }
+
 
 .hoInfo_list1
 {
-	/* width: 30%; */
+	width: 30%;
 	height: 100%;
 	font-size: 16px; 
 	margin-left: 15px;
@@ -141,7 +146,6 @@ table.list_table tr:last-child
 
 .hoInfo_list2
 {
-	/* width: 30%; */
 	height: 100%;
 	font-size: 16px; 
 	margin-left: 15px;
@@ -194,7 +198,7 @@ table.list_table tr:last-child
 	border-bottom: 2px solid #dfdfdf;
 	width: 180px;
 	height: 30px;
-	/* margin-bottom: 15px; */
+	margin-bottom: 15px;
 }
 
 .modify_text:focus
@@ -221,6 +225,22 @@ td > button
 	border: none;
 	background: none;
 }
+
+.unregBtn
+{
+	float: right;
+    border: none;
+    background: none;
+    color: #5b5b5b;
+}
+
+
+.groupInfo
+{
+	cursor: pointer;
+	
+}
+
 /* --------------------------------------------- */
 
 

@@ -317,7 +317,7 @@
 	
 	
 	// 회원가입 작업 수행!!!!
-	function sginUp()
+	function signUp()
 	{
 		var result = true;
 		var foundError = false;
@@ -556,7 +556,7 @@
 								</tr>
 							</table>
 							<div class="underline"></div>
-							<input type="button" class="signUp" id="signUpBtn" onclick="sginUp()" value="회 원 가 입">
+							<input type="button" class="signUp" id="signUpBtn" onclick="signUp()" value="회 원 가 입">
 						</form>
 					</div>
 				

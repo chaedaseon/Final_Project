@@ -47,7 +47,7 @@ public class GuestGroupOpenListController implements Controller
 			groupOpenList = group.groupJoinList(guCode);
 			mav.addObject("groupOpenList", groupOpenList);
 			
-			mav.setViewName("/WEB-INF/view/guest/GuestGroupJoinList.jsp?guCode="+guCode);
+			mav.setViewName("/WEB-INF/view/guest/GuestGroupOpenList.jsp?guCode="+guCode);
 
 			
 		} catch (Exception e)

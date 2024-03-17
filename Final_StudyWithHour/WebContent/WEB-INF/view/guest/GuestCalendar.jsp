@@ -329,13 +329,6 @@
 						        		</table>
 						        		
 						        		<span id="wrongPw" style="display: none; flex-direction: column; align-items: center;"><span style="color: red;">비밀번호가 일치하지 않습니다.</span>다시 입력해주세요. </span>
-							        	<!-- 
-							        	<div class="modal_form" style="margin-top: 10px; display: flex; justify-content: center;">
-							        	
-											<input type="password" style="width: 250px;" class="modify_text" id="guPwCheck" name="guPwCheck" placeholder="비밀번호를 입력해주세요">
-											
-										</div>
-										 -->
 							      	</div>
 								      	
 							      	<div class="modal-footer">

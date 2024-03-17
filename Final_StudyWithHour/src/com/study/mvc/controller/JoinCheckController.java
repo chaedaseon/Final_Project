@@ -45,7 +45,7 @@ public class JoinCheckController implements Controller
 					idCount = dao.idCheck(guId); 
 					
 					mav.addObject("idCount", idCount);
-					mav.setViewName("/WEB-INF/view/main/Join_ajax");
+					mav.setViewName("/WEB-INF/view/main/Join_ajax.jsp");
 				}
 				// 게스트 닉네임 중복 확인
 				if (check != null && check.equals("nick"))
@@ -120,8 +120,7 @@ public class JoinCheckController implements Controller
 					idCount = dao.idCheck(hoId); 
 					
 					mav.addObject("idCount", idCount);
-					/* mav.setViewName("WEB-INF/view/CheckId_ajax.jsp"); */
-					mav.setViewName("CheckId_ajax.jsp");
+					mav.setViewName("WEB-INF/view/main/CheckId_ajax.jsp"); 
 				}
 				// 호스 개인정보 중복 확인
 				if(check != null && check.equals("info"))
@@ -135,8 +134,7 @@ public class JoinCheckController implements Controller
 					infoCount = dao.infoCheck(hoName, hoSsn, hoTel);
 					
 					mav.addObject("infoCount", infoCount);
-					/* mav.setViewName("/WEB-INF/view/CheckInfo_ajax.jsp"); */
-					mav.setViewName("CheckInfo_ajax.jsp");
+					mav.setViewName("/WEB-INF/view/main/CheckInfo_ajax.jsp");
 					
 				}	
 				

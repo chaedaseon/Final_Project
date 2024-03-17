@@ -134,7 +134,7 @@ public class HostDAO
 	{
 		int result = 0;
 		
-		String sql = "UPDATE HOST SET HO_PW = CRYPTPACK.DECRYPT(?, ?) WHERE HO_CODE=?";
+		String sql = "UPDATE HOST SET HO_PW = CRYPTPACK.ENCRYPT(?, ?) WHERE HO_CODE=?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, hoPw);
@@ -173,7 +173,7 @@ public class HostDAO
 	{
 		int result = 0;
 		
-		String sql = "{call PRC_GUEST_UNREG(?, ?)}";
+		String sql = "{call PRC_HOST_UNREG(?, ?)}";
 		
 		CallableStatement cstmt = conn.prepareCall(sql);
 		cstmt.setString(1, hoCode);
@@ -261,8 +261,6 @@ public class HostDAO
 		
 		return result;
 	}
-	
-	
 	
 	// 세션에 올릴 객체 생성 (호스트 회원 정보, 호스트 개인 정보)
 	public HostDTO sessionHost(String hoCode) throws ClassNotFoundException, SQLException

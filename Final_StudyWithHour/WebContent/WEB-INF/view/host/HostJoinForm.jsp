@@ -20,7 +20,6 @@
 <script type="text/javascript" src="js/ajax.js"></script>
 <script type="text/javascript">
 	
-	
 	$(document).ready(function()
 	{
 		// 정규식
@@ -232,13 +231,13 @@
 			}
 			if(!regEmail.test(hoEmail))
 			{
-				$(".eamilErrMsg").css("display", "flex");	
+				$(".emailErrMsg").css("display", "flex");	
 				$(".emailOkMsg").css("display", "none");	
 				$(".emailNullMsg").css("display", "none");
 			}
 			else
 			{
-				$(".eamilErrMsg").css("display", "none");	
+				$(".emailErrMsg").css("display", "none");	
 				$(".emailOkMsg").css("display", "flex");	
 				$(".emailNullMsg").css("display", "none");
 			}
@@ -248,7 +247,7 @@
 	
 	
 	// 회원가입 작업 수행!!!!
-	function sginUp()
+	function signUp()
 	{
 		var result = true;
 		var foundError = false;
@@ -310,7 +309,6 @@
 						}
 						else
 							$("#hostJoinForm").submit();
-						
 					}
 					, error:function(e)
 					{
@@ -446,7 +444,7 @@
 								</tr>
 							</table>
 							<div class="underline"></div>
-							<input type="button" class="signUp" id="signUpBtn" onclick="sginUp()" value="회 원 가 입">
+							<input type="button" class="signUp" id="signUpBtn" onclick="signUp()" value="회 원 가 입">
 						</form>
 					</div>
 				
