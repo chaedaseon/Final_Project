@@ -225,6 +225,9 @@
 
    <!-- 모임 불참자 관련 Controller -->
    <bean name="/groupunattmemberinsert.do" class="com.study.mvc.controller.GroupUnattMemberInsertController"></bean>
+   
+   <!-- 프로필 카드 관련 Controller -->
+   <bean name="/groupmemberprofile.do" class="com.study.mvc.controller.GuestProfileInfoController"></bean>
 	
 	
 	<!-- ─────────────────────────────────────────────────  -->

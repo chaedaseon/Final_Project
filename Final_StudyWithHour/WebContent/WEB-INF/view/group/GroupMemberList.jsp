@@ -20,24 +20,7 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
-/* 
-	// '-' 를 눌러 인원을 줄일 경우
-	function delCount()
-	{
-		var member = document.getElementById("addMem").innerText;
-		if (member > 0)
-			document.getElementById("addMem").innerHTML = parseInt(member) - 1;
-		//alert(member);
-	}
-	
-	// '+' 를 눌러 인원을 늘릴 경우
-	function addCount()
-	{
-		var member = document.getElementById("addMem").innerText;
-		if (member < ${addMemberCount})
-			document.getElementById("addMem").innerHTML = parseInt(member) + 1;
-	}
- */	
+
 	function sendIt()
 	{
 	 	var form = document.getElementById("addMemberForm");
