@@ -30,8 +30,6 @@ public class GuestGroupDTO
 	
 	private int grCount;
 	
-	
-
 	// getter / setter 구성
 	public String getGrCode()
 	{
@@ -322,6 +320,6 @@ public class GuestGroupDTO
 	{
 		this.grCount = grCount;
 	}
-	
+
 	
 }

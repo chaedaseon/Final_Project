@@ -91,4 +91,5 @@ public class GroupController
 		
 		return "/WEB-INF/view/group/GroupPageMain.jsp";
 	}
+	
 }

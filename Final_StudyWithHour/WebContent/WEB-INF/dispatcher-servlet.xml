@@ -126,6 +126,12 @@
 	<!-- 게시글 관리 - 스크랩 목록 연결 -->
 	<bean name="/guestscraplist.do" class="com.study.mvc.controller.GuestScrapListController"></bean>
 	
+	<!-- 스크랩 인서트 -->
+	<bean name="/boardviewscrap.do" class="com.study.mvc.controller.GuestScrapInsertController"></bean>
+	
+	<!-- 스크랩 내역 삭제 -->
+	<bean name="/boardscrapdelete.do" class="com.study.mvc.controller.GuestScrapDeleteController"></bean>
+		
 	<!-- 스터디그룹 관리 - 활동중인 그룹 연결-->
 	<bean name="/guestgroupactivelist.do" class="com.study.mvc.controller.GuestGroupActiveListController"></bean>
 	

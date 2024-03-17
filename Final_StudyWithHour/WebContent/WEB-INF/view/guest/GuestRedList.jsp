@@ -46,6 +46,7 @@
 							<option selected="selected">--처리 상태--</option>
 							<option>승인</option>
 							<option>반려</option>
+							<option>처리 중</option>
 						</select>
 					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
@@ -170,8 +171,128 @@
 								<tr class="spacer"></tr>
 							</table>
 					  	</div>
-					  	<div class="tab-pane fade" id="groupboardred-tab-pane" role="tabpanel" aria-labelledby="groupboardred-tab" tabindex="0">...</div>
-					  	<div class="tab-pane fade" id="groupreplyred-tab-pane" role="tabpanel" aria-labelledby="groupreplyred-tab" tabindex="0">...</div>
+					  	<div class="tab-pane fade" id="groupboardred-tab-pane" role="tabpanel" aria-labelledby="groupboardred-tab" tabindex="0">
+							<table class="red_list">
+								<tr>
+									<th>No</th>
+									<th>그룹명</th>
+									<th>게시글 내용</th>
+									<th>신고 사유</th>
+									<th>신고 일자</th>
+									<th>처리 상태</th>
+									<th>처리 일자</th>
+								</tr>
+								<tr class="spacer"></tr>
+								<c:if test="${empty redGroupBoardList }">
+									<tr>
+										<td colspan="7" style="text-align: center;">그룹 게시글 신고 내역이 존재하지 않습니다.</td>
+									</tr>
+								</c:if>
+								
+								<c:forEach var="redGroupBoardList" items="${redGroupBoardList }">
+									<tr>
+										<td>1</td>
+										<td>${redGroupBoardList.grName }</td>
+										<td>
+											<c:choose>
+												<c:when test="${fn:length(redGroupBoardList.gbContent) > 15 }">
+													${redGroupBoardList.gbContent.substring(0,14) }...
+												</c:when>	
+												<c:otherwise>
+													${redGroupBoardList.gbContent }
+												</c:otherwise>									
+											</c:choose>
+										</td> 
+										<td>${redGroupBoardList.reason }</td>
+										<td>${redGroupBoardList.gbrDate.substring(0,11) }</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redGroupBoardList.redstate }">
+													처리 중
+												</c:when>
+												<c:otherwise>
+													${redGroupBoardList.redstate }
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redGroupBoardList.gbrdDate }">
+													-
+												</c:when>
+												<c:otherwise>
+													${redGroupBoardList.gbrdDate.substring(0,11) }
+												</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+								</c:forEach>
+								<tr class="spacer"></tr>
+							</table>
+						</div>
+						
+						
+					  	<div class="tab-pane fade" id="groupreplyred-tab-pane" role="tabpanel" aria-labelledby="groupreplyred-tab" tabindex="0">
+					  		<table class="red_list">
+								<tr>
+									<th>No</th>
+									<th>그룹명</th>
+									<th>댓글 내용</th>
+									<th>신고 사유</th>
+									<th>신고 일자</th>
+									<th>처리 상태</th>
+									<th>처리 일자</th>
+								</tr>
+								<tr class="spacer"></tr>
+								<c:if test="${empty redGroupReplyList }">
+									<tr>
+										<td colspan="7">그룹 댓글 신고 내역이 존재하지 않습니다.</td>
+									</tr>
+								</c:if>
+								
+								<c:forEach var="redGroupReplyList" items="${redGroupReplyList }">
+									<tr>
+										<td>1</td>
+										<td>${redGroupReplyList.grName }</td>
+										<td> 
+											<c:choose>
+												<c:when test="${fn:length(redGroupReplyList.greContent) > 15 }">
+													${redGroupReplyList.greContent.substring(0,14) }...
+												</c:when>	
+												<c:otherwise>
+													${redGroupReplyList.greContent }
+												</c:otherwise>									
+											</c:choose>
+										</td>
+										<td>${redGroupReplyList.reason }</td>
+										<td>${redGroupReplyList.grrDate.substring(0,11) }</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redGroupReplyList.redstate }">
+													처리 중
+												</c:when>
+												<c:otherwise>
+													${redGroupReplyList.redstate }
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redGroupReplyList.grrdDate }">
+													-
+												</c:when>
+												<c:otherwise>
+													${redGroupReplyList.grrdDate.substring(0,11) }
+												</c:otherwise>
+											</c:choose>
+										</td>
+									</tr>
+								</c:forEach>
+								<tr class="spacer"></tr>
+							</table>
+					  	
+					  	
+					  	</div>
 					</div>
 				</div>	
 				

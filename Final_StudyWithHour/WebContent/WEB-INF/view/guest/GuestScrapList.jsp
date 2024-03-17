@@ -1,13 +1,14 @@
 <%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 	
 	// 게스트 세션 받아오기
 	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
-    
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -41,13 +42,6 @@
 				</div>
 				
 				<div>
-					<div>
-						<select class="sorting">
-							<option selected="selected">--처리 상태--</option>
-							<option>승인</option>
-							<option>반려</option>
-						</select>
-					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
 					   		<button class="nav-link active" id="scrap-tab" data-bs-toggle="tab" data-bs-target="#scrap-tab-pane" type="button" role="tab"
@@ -63,14 +57,17 @@
 					<div class="tab-content" id="myTabContent">
 					
 						<!-- 스크랩 탭 눌렀을 때 나타나는 영역 --------------------------------------------------------->
+					  	
+					  	
 					  	<div class="tab-pane fade show active" id="scrap-tab-pane" role="tabpanel" aria-labelledby="scrap-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th>No</th>
-									<th>게시판</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>스크랩 일자</th>
+									<th style="width: 5%;">No</th>
+									<th style="width: 15%;">게시판</th>
+									<th style="width: 50%;">제목</th>
+									<th style="width: 15%;">작성자</th>
+									<th style="width: 10%;">스크랩 일자</th>
+									<th style="width: 5%;">취소</th>
 								</tr>
 								<tr class="spacer"></tr>
 								
@@ -85,8 +82,9 @@
 										<td>1</td>
 										<td>${scrapList.bfList }</td>
 										<td><a href="boardview.do?boCode=${scrapList.boCode }">[${scrapList.bsList}]  ${scrapList.boTitle }</a></td>
-										<td>${scrapList.guNick } (${scrapList.guId})</td>
+										<td>${scrapList.guNick } (${scrapList.guId })</td>
 										<td>${scrapList.scrapDate.substring(0,10) }</td>
+										<td><a href="boardscrapdelete.do?boCode=${scrapList.boCode }&guCode=<%=guest.getGuCode()%>">취소</a></td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
@@ -99,7 +97,7 @@
 							<table class="board_list">
 								<tr>
 									<th>No</th>
-									<th>게시판</th>
+									<th>그룹명</th>
 									<th>제목</th>
 									<th>작성자</th>
 									<th>스크랩 일자</th>
@@ -108,17 +106,17 @@
 								
 								<c:if test="${empty groupScrapList }">
 									<tr>
-										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
+										<td colspan="5" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
 								
 								<c:forEach var="groupScrapList" items="${groupScrapList }">
 									<tr>
 										<td>1</td>
-										<td>${scrapList.bfList }</td>
-										<td>[${scrapList.bsList}]  ${scrapList.boTitle }</td>
-										<td>${scrapList.guNick } (${scrapList.guId})</td>
-										<td>${scrapList.scrapDate.substring(0,10) }</td>
+										<td>${groupScrapList.grName }</td>
+										<td>${groupScrapList.gbTitle }</td>
+										<td>${groupScrapList.guNick }  (${groupScrapList.guId })</td>
+										<td>${groupScrapList.gbsDate.substring(0,10) }</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>

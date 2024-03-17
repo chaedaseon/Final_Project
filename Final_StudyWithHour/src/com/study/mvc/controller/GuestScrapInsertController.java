@@ -1,9 +1,8 @@
-// GuestBoardListFormController.java
-// 전체 게시물 작성 내역(그룹 제외)
+// GuestScrapInsertController.java
+// 게시물 스크랩 
 
 package com.study.mvc.controller;
 
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import com.study.mvc.model.GroupBoardDAO;
-import com.study.mvc.model.GroupBoardDTO;
 import com.study.mvc.model.GuestBoardDAO;
-import com.study.mvc.model.GuestBoardDTO;
 
-public class GuestScrapListController implements Controller
+public class GuestScrapInsertController implements Controller
 {
 	@Override
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
@@ -37,26 +34,17 @@ public class GuestScrapListController implements Controller
 		}
 		
 		GuestBoardDAO guest = new GuestBoardDAO();
-		GroupBoardDAO group = new GroupBoardDAO();
-		String guCode = request.getParameter("guCode");
 		try
 		{
+			String guCode = request.getParameter("guCode");
+			String boCode = request.getParameter("boCode");
+			
 			guest.connection();
-			group.connection();
 			
-			// 전체(모두 접근 가능한) 게시글 작성 리스트 출력 실행
-			ArrayList<GuestBoardDTO> scrapList = new ArrayList<GuestBoardDTO>();
-			ArrayList<GroupBoardDTO> groupScrapList = new ArrayList<GroupBoardDTO>();
+			// 전체(모두 접근 가능한) 게시글 스크랩 인서트 실행
+			guest.scrapAdd(guCode, boCode);
 			
-			// 전체 게시판 스크랩 내역
-			scrapList = guest.guestScrapList(guCode);
-			mav.addObject("scrapList", scrapList);
-			
-			// 그룹 게시판 스크랩 내역
-			groupScrapList = group.groupScrapList(guCode);
-			mav.addObject("groupScrapList", groupScrapList);
-			
-			mav.setViewName("/WEB-INF/view/guest/GuestScrapList.jsp?guCode="+guCode);
+			mav.setViewName("redirect:boardview.do?boCode="+boCode);
 
 			
 		} catch (Exception e)
@@ -65,7 +53,6 @@ public class GuestScrapListController implements Controller
 		}
 		finally
 		{
-			group.close();
 			guest.close();
 		}
 	

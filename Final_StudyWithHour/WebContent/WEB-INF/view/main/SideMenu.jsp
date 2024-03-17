@@ -44,19 +44,19 @@
 		<ul class="list-unstyled ps-0">
       		<li class="mb-1">
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='grouppagemain.do?grCode=<%=grCode%>'">
+        		 onclick="location.href='grouppagemain.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 페이지</span>
         		</button>
       		</li> 
       		<li class="mb-1">
        			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-       			 onclick="location.href='groupreservelist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+       			 onclick="location.href='groupreservelist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
          				<span class="menu_item">예약 내역</span>
        			</button>
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='grouppenaltylist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+        		 onclick="location.href='grouppenaltylist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">패널티 내역</span>
         		</button>
       		</li>
@@ -68,7 +68,7 @@
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.hreg='groupmeetlist.do?gu_code=<%=guCode%>&grCode=<%=grCode%>'">
+        		 onclick="location.hreg='groupmeetlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹원 관리</span>
         		</button>
       		</li>
@@ -82,6 +82,11 @@
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
         		 onclick="locaton.href='#'">
           			<span class="menu_item">그룹 캘린더</span>
+        		</button>
+      		</li><li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="locaton.href='groupboardlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+          			<span class="menu_item">그룹 게시판</span>
         		</button>
       		</li>
       	</ul>

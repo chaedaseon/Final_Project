@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.study.mvc.model.GroupBoardDAO;
+import com.study.mvc.model.GroupBoardDTO;
 import com.study.mvc.model.GuestBoardDAO;
 import com.study.mvc.model.GuestBoardDTO;
 
@@ -35,26 +37,36 @@ public class GuestRedListController implements Controller
 			return mav;
 		}
 		
-		GuestBoardDAO dao = new GuestBoardDAO();
-		
+		GuestBoardDAO guest = new GuestBoardDAO();
+		GroupBoardDAO group = new GroupBoardDAO();
 		try
 		{
 			String guCode = request.getParameter("guCode");
-			dao.connection();
+			guest.connection();
+			group.connection();
 			
 			// 게시글 신고 내역
 			ArrayList<GuestBoardDTO> redBoardList = new ArrayList<GuestBoardDTO>();
-			redBoardList = dao.redBoardList(guCode);
+			redBoardList = guest.redBoardList(guCode);
 			mav.addObject("redBoardList", redBoardList);
 			
 			// 댓글&대댓글 신고 내역
 			ArrayList<GuestBoardDTO> redReplyList = new ArrayList<GuestBoardDTO>();
-			redReplyList = dao.redReplyList(guCode);
+			redReplyList = guest.redReplyList(guCode);
 			mav.addObject("redReplyList", redReplyList);
-					
+			
+			// 그룹 게시글 신고 내역
+			ArrayList<GroupBoardDTO> redGroupBoardList = new ArrayList<GroupBoardDTO>();
+			redGroupBoardList = group.redGroupBoardList(guCode);
+			mav.addObject("redGroupBoardList", redGroupBoardList);
+			
+			// 그룹 댓글 신고 내역
+			ArrayList<GroupBoardDTO> redGroupReplyList = new ArrayList<GroupBoardDTO>();
+			redGroupReplyList = group.redGroupReplyList(guCode);
+			mav.addObject("redGroupReplyList", redGroupReplyList);
+			
 			mav.setViewName("/WEB-INF/view/guest/GuestRedList.jsp");
 			
-			dao.close();
 			
 		} catch (Exception e)
 		{
@@ -62,7 +74,8 @@ public class GuestRedListController implements Controller
 		}
 		finally
 		{
-			dao.close();
+			group.close();
+			guest.close();
 		}
 	
 		

@@ -20,7 +20,14 @@ public class GroupBoardDTO
 	private String startDate, endDate, reason, reasonCode;
 	private String grDate;
 	
+	// 그룹 스크랩 속성
+	private String gbsCode, gbsDate, gjCode, guNick, guId;
 	
+	// 그룹 게시글 신고 속성
+	private String gbrCode, gbrDate, gbrdDate, redstate;
+
+	// 그룹 댓글 신고 속성
+	private String grrCode, grrDate, grrdDate; 
 	
 	// getter / setter 구성
 	public String getGuCode()
@@ -175,5 +182,103 @@ public class GroupBoardDTO
 	{
 		this.reasonCode = reasonCode;
 	}
+	public String getGbsCode()
+	{
+		return gbsCode;
+	}
+	public void setGbsCode(String gbsCode)
+	{
+		this.gbsCode = gbsCode;
+	}
+	public String getGbsDate()
+	{
+		return gbsDate;
+	}
+	public void setGbsDate(String gbsDate)
+	{
+		this.gbsDate = gbsDate;
+	}
+	public String getGjCode()
+	{
+		return gjCode;
+	}
+	public void setGjCode(String gjCode)
+	{
+		this.gjCode = gjCode;
+	}
+	public String getGuNick()
+	{
+		return guNick;
+	}
+	public void setGuNick(String guNick)
+	{
+		this.guNick = guNick;
+	}
+	public String getGuId()
+	{
+		return guId;
+	}
+	public void setGuId(String guId)
+	{
+		this.guId = guId;
+	}
+	public String getGbrCode()
+	{
+		return gbrCode;
+	}
+	public void setGbrCode(String gbrCode)
+	{
+		this.gbrCode = gbrCode;
+	}
+	public String getGbrDate()
+	{
+		return gbrDate;
+	}
+	public void setGbrDate(String gbrDate)
+	{
+		this.gbrDate = gbrDate;
+	}
+	public String getGbrdDate()
+	{
+		return gbrdDate;
+	}
+	public void setGbrdDate(String gbrdDate)
+	{
+		this.gbrdDate = gbrdDate;
+	}
+	public String getRedstate()
+	{
+		return redstate;
+	}
+	public void setRedstate(String redstate)
+	{
+		this.redstate = redstate;
+	}
+	public String getGrrCode()
+	{
+		return grrCode;
+	}
+	public void setGrrCode(String grrCode)
+	{
+		this.grrCode = grrCode;
+	}
+	public String getGrrDate()
+	{
+		return grrDate;
+	}
+	public void setGrrDate(String grrDate)
+	{
+		this.grrDate = grrDate;
+	}
+	public String getGrrdDate()
+	{
+		return grrdDate;
+	}
+	public void setGrrdDate(String grrdDate)
+	{
+		this.grrdDate = grrdDate;
+	}
+	
+	
 	
 }

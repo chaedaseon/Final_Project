@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,6 +11,7 @@
 	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
     
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -123,7 +126,8 @@
 										<td>${groupBoardPenaltyList.reason }</td>
 										<td>${groupBoardPenaltyList.startDate.substring(0,10) }</td>
 										<td>${groupBoardPenaltyList.endDate.substring(0,10) }</td>
-										<td>유효</td>
+										<td>유효
+										</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>

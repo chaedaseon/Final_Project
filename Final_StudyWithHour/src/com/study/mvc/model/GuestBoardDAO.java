@@ -156,6 +156,45 @@ public class GuestBoardDAO
 		return result;
 	}
 	
+	// 게시물 스크랩 인서트
+	public int scrapAdd(String boCode, String guCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "INSERT INTO SCRAP(SCRAP_CODE, SCRAP_DATE, GU_CODE, BO_CODE)"
+				   + " VALUES (TO_CHAR(SCRAP_SEQ.NEXTVAL), SYSDATE, ?, ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		pstmt.setString(2, boCode);
+		
+		result = pstmt.executeUpdate();
+		
+		pstmt.close();
+		
+		
+		return result;
+	}
+	
+	// 게시물 스크랩 삭제
+	public int scrapRemove(String boCode, String guCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "DELETE SCRAP WHERE BO_CODE=? AND GU_CODE=?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		pstmt.setString(2, boCode);
+		
+		result = pstmt.executeUpdate();
+		
+		pstmt.close();
+		
+		
+		return result;
+	}
+	
 	
 	// 게시물 신고 내역 개수 조회
 	public int redBoardCount(String guCode) throws SQLException

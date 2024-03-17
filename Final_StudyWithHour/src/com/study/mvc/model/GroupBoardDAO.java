@@ -121,6 +121,116 @@ public class GroupBoardDAO
 		return result;
 	}
 	
+	// 그룹 스크랩 게시글 조회
+	public ArrayList<GroupBoardDTO> groupScrapList(String guCode) throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
+		
+		String sql = "SELECT GBS_CODE, GBS_DATE, GJ_CODE, GR_NAME, GB_CODE, GB_TITLE, GU_NICK, GU_ID"
+				   + " FROM VIEW_GROUP_SCRAP WHERE GJ_CODE IN"
+				   + " (SELECT GJ.GJ_CODE FROM GUEST G JOIN GROUP_JOIN GJ ON G.GU_CODE = GJ.GU_CODE"
+				   + " WHERE G.GU_CODE = ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setGbsCode(rs.getString("GBS_CODE"));
+			dto.setGbsDate(rs.getString("GBS_DATE"));
+			dto.setGjCode(rs.getString("GJ_CODE"));
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setGbCode(rs.getString("GB_CODE"));
+			dto.setGbTitle(rs.getString("GB_TITLE"));
+			dto.setGuNick(rs.getString("GU_NICK"));
+			dto.setGuId(rs.getString("GU_ID"));
+			
+			result.add(dto);
+		}
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 그룹 게시물 신고 내역 조회
+	public ArrayList<GroupBoardDTO> redGroupBoardList(String guCode) throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
+		
+		String sql = "SELECT GBR_CODE, GBR_DATE, REASON, GB_CODE, GJ_CODE, GB_CONTENT, GBRD_DATE, GR_NAME, REDSTATE"
+				   + " FROM VIEW_GROUPBOARD_RED_LIST WHERE GJ_CODE"
+				   + " IN (SELECT GJ.GJ_CODE FROM GUEST G JOIN GROUP_JOIN GJ ON G.GU_CODE = GJ.GU_CODE"
+				   + " WHERE G.GU_CODE = ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setGbrCode(rs.getString("GBR_CODE"));
+			dto.setGbrDate(rs.getString("GBR_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setGbCode(rs.getString("GB_CODE"));
+			dto.setGbContent(rs.getString("GB_CONTENT"));
+			dto.setGbrdDate(rs.getString("GBRD_DATE"));
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setRedstate(rs.getString("REDSTATE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 그룹 댓글 신고 내역 조회
+	public ArrayList<GroupBoardDTO> redGroupReplyList(String guCode) throws SQLException
+	{
+		ArrayList<GroupBoardDTO> result = new ArrayList<GroupBoardDTO>();
+		
+		String sql = "SELECT GRR_CODE, GRR_DATE, REASON, GB_CODE, GRE_CONTENT, GJ_CODE, GRRD_DATE, GR_NAME, REDSTATE"
+				  + " FROM VIEW_GROUPREPLY_RED_LIST WHERE GJ_CODE"
+				  + " IN (SELECT GJ.GJ_CODE FROM GUEST G JOIN GROUP_JOIN GJ ON G.GU_CODE = GJ.GU_CODE"
+				  + " WHERE G.GU_CODE = ?)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		
+		while(rs.next())
+		{
+			GroupBoardDTO dto = new GroupBoardDTO();
+			
+			dto.setGrrCode(rs.getString("GRR_CODE"));
+			dto.setGrrDate(rs.getString("GRR_DATE"));
+			dto.setReason(rs.getString("REASON"));
+			dto.setGbCode(rs.getString("GB_CODE"));
+			dto.setGreContent(rs.getString("GRE_CONTENT"));
+			dto.setGjCode(rs.getString("GJ_CODE"));
+			dto.setGrrdDate(rs.getString("GRRD_DATE"));
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setRedstate(rs.getString("REDSTATE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	
+	
 	// 그룹 게시판&댓글 패널티 부여 내역 조회
 	public ArrayList<GroupBoardDTO> groupBoardPenaltyList(String guCode) throws SQLException
 	{
