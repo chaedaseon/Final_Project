@@ -22,8 +22,16 @@ CREATE TABLE BOARD
 public class CommunityBoardDTO
 {
 	private String guCode, boCode, boDate, boTitle, boContent, boMoDate, boFile, bsCode, boWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
-	private int no, boView, replyCount;
+	private int no, boView, replyCount, scrapCount;
 	
+	public int getScrapCount()
+	{
+		return scrapCount;
+	}
+	public void setScrapCount(int scrapCount)
+	{
+		this.scrapCount = scrapCount;
+	}
 	public String getGuCode()
 	{
 		return guCode;

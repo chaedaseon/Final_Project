@@ -127,21 +127,34 @@ public class NoticeBoardController
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
 		
 		// 기준 페이지에 대한 목록 받아오기
-		ArrayList<NoticeBoardDTO> searchNumList = dao.searchNum(searchNum);
+		try
+		{
+			ArrayList<NoticeBoardDTO> searchNumList = dao.searchNum(searchNum);
+			if (searchNumList == null)
+			{
+				String nulllist = "null";
+				model.addAttribute("list", nulllist);
+			}
+			else
+			{
+				int count = dao.count();
+				
+				int page = 1;
+				
+				//-- 목록에 출력할 공지사항 리스트
+				model.addAttribute("list", searchNumList);
+				//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
+				model.addAttribute("count", count);
+				//-- 출력해줄 페이지 목록
+				model.addAttribute("page", page);
+			}
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
 		
-		int count = dao.count();
-		
-		int page = 1;
 		
 		String urlparam = "noticeboardsearchNum";
-		
-		//-- 목록에 출력할 공지사항 리스트
-		model.addAttribute("list", searchNumList);
-		//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
-		model.addAttribute("count", count);
-		//-- 출력해줄 페이지 목록
-		model.addAttribute("page", page);
-		
 		model.addAttribute("urlparam", urlparam);
 		
 		return "/WEB-INF/view/board/NoticeBoardList.jsp";	// 공지사항 게시판 호출
@@ -152,80 +165,92 @@ public class NoticeBoardController
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
 		
-		// 기준 페이지에 대한 목록 받아오기
-		ArrayList<NoticeBoardDTO> searchTitleList = dao.searchTitleList(searchTitle, vNum);
-		
-		int count = dao.scTitleCount(searchTitle);
-		
-		// 페이지 목록 만들 ArrayList
-		ArrayList<Integer> page = new ArrayList<Integer>();
-		
-		//-- 현재 선택 페이지 전후(-2 ~ +2) 로 페이지를 만들 수 있는 값이 있다면
-		//   페이징 목록에 추가 (페이지 번호는 5개까지)
-		//-- -2~기준, 기준~2가 없을 경우 반대쪽 수로 채워줌
-		int n = vNum;
-		
-		// 기준 번호보다 1~2 큰 페이지에 값이 없을 경우
-		// 이전 페이지 번호를 가져와 리스트에 넣어주기
-		if(dao.searchTitleList(searchTitle,vNum+2).size() == 0)
+		try
 		{
-			if(dao.searchTitleList(searchTitle,vNum+1).size() == 0)
+			// 기준 페이지에 대한 목록 받아오기
+			ArrayList<NoticeBoardDTO> searchTitleList = dao.searchTitleList(searchTitle, vNum);
+			if (searchTitleList == null)
 			{
-				if(dao.searchTitleList(searchTitle,vNum-4).size() != 0)
-					page.add(vNum-4);
+				String nulllist = "null";
+				model.addAttribute("list", nulllist);
+			}
+			else
+			{
+				// 페이지 목록 만들 ArrayList
+				ArrayList<Integer> page = new ArrayList<Integer>();
 				
-				if(dao.searchTitleList(searchTitle,vNum-3).size() != 0)
-					page.add(vNum-3);
-			}
-			else
-			{
-				if(dao.searchTitleList(searchTitle,vNum-3).size() != 0)
-					page.add(vNum-3);					
-			}
+				//-- 현재 선택 페이지 전후(-2 ~ +2) 로 페이지를 만들 수 있는 값이 있다면
+				//   페이징 목록에 추가 (페이지 번호는 5개까지)
+				//-- -2~기준, 기준~2가 없을 경우 반대쪽 수로 채워줌
+				int n = vNum;
+				
+				// 기준 번호보다 1~2 큰 페이지에 값이 없을 경우
+				// 이전 페이지 번호를 가져와 리스트에 넣어주기
+				if(dao.searchTitleList(searchTitle,vNum+2).size() == 0)
+				{
+					if(dao.searchTitleList(searchTitle,vNum+1).size() == 0)
+					{
+						if(dao.searchTitleList(searchTitle,vNum-4).size() != 0)
+							page.add(vNum-4);
+						
+						if(dao.searchTitleList(searchTitle,vNum-3).size() != 0)
+							page.add(vNum-3);
+					}
+					else
+					{
+						if(dao.searchTitleList(searchTitle,vNum-3).size() != 0)
+							page.add(vNum-3);					
+					}
 
-		}
+				}
 
-		for (int i = n-2; i <= n+2; i++)
+				for (int i = n-2; i <= n+2; i++)
+				{
+					if(dao.searchTitleList(searchTitle,i).size() != 0)
+					{
+						page.add(i);
+					}
+				}
+				
+				int count = dao.scTitleCount(searchTitle);
+				// 기준 번호보다 1~2 작은 페이지에 값이 없을 경우
+				// 이후 페이지 번호를 가져와 리스트에 넣어주기
+				if(dao.searchTitleList(searchTitle,vNum-2).size() == 0)
+				{
+					
+					if(dao.searchTitleList(searchTitle,vNum-1).size() == 0)
+					{
+						if(dao.searchTitleList(searchTitle,vNum+3).size() != 0)
+							page.add(vNum+3);
+						if(dao.searchTitleList(searchTitle,vNum+4).size() != 0)
+							page.add(vNum+4);
+					}
+					else
+					{
+						if(dao.searchTitleList(searchTitle,vNum+3).size() != 0)
+							page.add(vNum+3);					
+					}
+				}
+				// 페이지 목록의 마지막 번호 저장하기
+				int lastNum = page.get(page.size()-1);
+				
+				//-- 목록에 출력할 공지사항 리스트
+				model.addAttribute("list", searchTitleList);
+				//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
+				model.addAttribute("count", count);
+				//-- 출력해줄 페이지 목록
+				model.addAttribute("page", page);
+				//-- 현재 목록 기준 페이지
+				model.addAttribute("vNum", vNum);
+				//-- 현재 목록 기준 페이지 마지막 번호
+				model.addAttribute("lastNum", lastNum);
+			}
+		} catch (Exception e)
 		{
-			if(dao.searchTitleList(searchTitle,i).size() != 0)
-			{
-				page.add(i);
-			}
+			System.out.println(e.toString());
 		}
-		
-		// 기준 번호보다 1~2 작은 페이지에 값이 없을 경우
-		// 이후 페이지 번호를 가져와 리스트에 넣어주기
-		if(dao.searchTitleList(searchTitle,vNum-2).size() == 0)
-		{
-			
-			if(dao.searchTitleList(searchTitle,vNum-1).size() == 0)
-			{
-				if(dao.searchTitleList(searchTitle,vNum+3).size() != 0)
-					page.add(vNum+3);
-				if(dao.searchTitleList(searchTitle,vNum+4).size() != 0)
-					page.add(vNum+4);
-			}
-			else
-			{
-				if(dao.searchTitleList(searchTitle,vNum+3).size() != 0)
-					page.add(vNum+3);					
-			}
-		}
-		// 페이지 목록의 마지막 번호 저장하기
-		int lastNum = page.get(page.size()-1);
 		
 		String urlparam = "noticeboardsearchTitle";
-		//-- 목록에 출력할 공지사항 리스트
-		model.addAttribute("list", searchTitleList);
-		//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
-		model.addAttribute("count", count);
-		//-- 출력해줄 페이지 목록
-		model.addAttribute("page", page);
-		//-- 현재 목록 기준 페이지
-		model.addAttribute("vNum", vNum);
-		//-- 현재 목록 기준 페이지 마지막 번호
-		model.addAttribute("lastNum", lastNum);
-		
 		model.addAttribute("urlparam", urlparam);
 	
 		return "/WEB-INF/view/board/NoticeBoardList.jsp";	// 공지사항 게시판 호출
@@ -236,82 +261,93 @@ public class NoticeBoardController
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
 		
-		// 기준 페이지에 대한 목록 받아오기
-		ArrayList<NoticeBoardDTO> searchNickList = dao.searchNickList(searchNick, vNum);
-		
-		int count = dao.scNickCount(searchNick);
-		
-		
-		// 페이지 목록 만들 ArrayList
-		ArrayList<Integer> page = new ArrayList<Integer>();
-		
-		
-		//-- 현재 선택 페이지 전후(-2 ~ +2) 로 페이지를 만들 수 있는 값이 있다면
-		//   페이징 목록에 추가 (페이지 번호는 5개까지)
-		//-- -2~기준, 기준~2가 없을 경우 반대쪽 수로 채워줌
-		int n = vNum;
-		
-		// 기준 번호보다 1~2 큰 페이지에 값이 없을 경우
-		// 이전 페이지 번호를 가져와 리스트에 넣어주기
-		if(dao.searchNickList(searchNick,vNum+2).size() == 0)
+		try
 		{
-			if(dao.searchNickList(searchNick,vNum+1).size() == 0)
+			// 기준 페이지에 대한 목록 받아오기
+			ArrayList<NoticeBoardDTO> searchNickList = dao.searchNickList(searchNick, vNum);
+			if (searchNickList == null)
 			{
-				if(dao.searchNickList(searchNick,vNum-4).size() != 0)
-					page.add(vNum-4);
+				String nulllist = "null";
+				model.addAttribute("list", nulllist);
+			}
+			else
+			{
+				// 페이지 목록 만들 ArrayList
+				ArrayList<Integer> page = new ArrayList<Integer>();
 				
-				if(dao.searchNickList(searchNick,vNum-3).size() != 0)
-					page.add(vNum-3);
-			}
-			else
-			{
-				if(dao.searchNickList(searchNick,vNum-3).size() != 0)
-					page.add(vNum-3);					
-			}
+				
+				//-- 현재 선택 페이지 전후(-2 ~ +2) 로 페이지를 만들 수 있는 값이 있다면
+				//   페이징 목록에 추가 (페이지 번호는 5개까지)
+				//-- -2~기준, 기준~2가 없을 경우 반대쪽 수로 채워줌
+				int n = vNum;
+				
+				// 기준 번호보다 1~2 큰 페이지에 값이 없을 경우
+				// 이전 페이지 번호를 가져와 리스트에 넣어주기
+				if(dao.searchNickList(searchNick,vNum+2).size() == 0)
+				{
+					if(dao.searchNickList(searchNick,vNum+1).size() == 0)
+					{
+						if(dao.searchNickList(searchNick,vNum-4).size() != 0)
+							page.add(vNum-4);
+						
+						if(dao.searchNickList(searchNick,vNum-3).size() != 0)
+							page.add(vNum-3);
+					}
+					else
+					{
+						if(dao.searchNickList(searchNick,vNum-3).size() != 0)
+							page.add(vNum-3);					
+					}
 
-		}
+				}
 
-		for (int i = n-2; i <= n+2; i++)
+				for (int i = n-2; i <= n+2; i++)
+				{
+					if(dao.searchNickList(searchNick,i).size() != 0)
+					{
+						page.add(i);
+					}
+				}
+				
+				// 기준 번호보다 1~2 작은 페이지에 값이 없을 경우
+				// 이후 페이지 번호를 가져와 리스트에 넣어주기
+				if(dao.searchNickList(searchNick,vNum-2).size() == 0)
+				{
+					
+					if(dao.searchNickList(searchNick,vNum-1).size() == 0)
+					{
+						if(dao.searchNickList(searchNick,vNum+3).size() != 0)
+							page.add(vNum+3);
+						if(dao.searchNickList(searchNick,vNum+4).size() != 0)
+							page.add(vNum+4);
+					}
+					else
+					{
+						if(dao.searchNickList(searchNick,vNum+3).size() != 0)
+							page.add(vNum+3);					
+					}
+				}
+				int count = dao.scNickCount(searchNick);
+				// 페이지 목록의 마지막 번호 저장하기
+				int lastNum = page.get(page.size()-1);
+				
+				//-- 목록에 출력할 공지사항 리스트
+				model.addAttribute("list", searchNickList);
+				//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
+				model.addAttribute("count", count);
+				//-- 출력해줄 페이지 목록
+				model.addAttribute("page", page);
+				//-- 현재 목록 기준 페이지
+				model.addAttribute("vNum", vNum);
+				//-- 현재 목록 기준 페이지 마지막 번호
+				model.addAttribute("lastNum", lastNum);
+			}
+		} catch (Exception e)
 		{
-			if(dao.searchNickList(searchNick,i).size() != 0)
-			{
-				page.add(i);
-			}
+			System.out.println(e.toString());
 		}
-		
-		// 기준 번호보다 1~2 작은 페이지에 값이 없을 경우
-		// 이후 페이지 번호를 가져와 리스트에 넣어주기
-		if(dao.searchNickList(searchNick,vNum-2).size() == 0)
-		{
-			
-			if(dao.searchNickList(searchNick,vNum-1).size() == 0)
-			{
-				if(dao.searchNickList(searchNick,vNum+3).size() != 0)
-					page.add(vNum+3);
-				if(dao.searchNickList(searchNick,vNum+4).size() != 0)
-					page.add(vNum+4);
-			}
-			else
-			{
-				if(dao.searchNickList(searchNick,vNum+3).size() != 0)
-					page.add(vNum+3);					
-			}
-		}
-		// 페이지 목록의 마지막 번호 저장하기
-		int lastNum = page.get(page.size()-1);
 		
 		String urlparam = "noticeboardsearchNick";
-		//-- 목록에 출력할 공지사항 리스트
-		model.addAttribute("list", searchNickList);
-		//-- 글 갯수가 9개 이하라면 페이징 출력 안할 count
-		model.addAttribute("count", count);
-		//-- 출력해줄 페이지 목록
-		model.addAttribute("page", page);
-		//-- 현재 목록 기준 페이지
-		model.addAttribute("vNum", vNum);
-		//-- 현재 목록 기준 페이지 마지막 번호
-		model.addAttribute("lastNum", lastNum);
-		
 		model.addAttribute("urlparam", urlparam);
 	
 		return "/WEB-INF/view/board/NoticeBoardList.jsp";	// 공지사항 게시판 호출
@@ -374,8 +410,14 @@ public class NoticeBoardController
 	public String boardViewInsert(NoticeBoardDTO nt)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
-
-		dao.noticeInsert(nt);
+		
+		try
+		{
+			dao.noticeInsert(nt);
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
 
 		return "redirect:noticeview.do?ntCode=" + nt.getNtCode();
 	}
@@ -384,7 +426,7 @@ public class NoticeBoardController
 	public String noticeViewModifyForm(ModelMap model, @RequestParam String ntCode)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
-
+		
 		ArrayList<NoticeBoardDTO> list = dao.noticeViewlist(ntCode);
 
 		model.addAttribute("list", list);
@@ -396,8 +438,14 @@ public class NoticeBoardController
 	public String boardViewModify(NoticeBoardDTO nt)
 	{
 		INoticeBoardDAO dao = sqlSession.getMapper(INoticeBoardDAO.class);
-
-		dao.noticeModify(nt);
+		
+		try
+		{
+			dao.noticeModify(nt);
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
 
 		return "redirect:noticeview.do?ntCode=" + nt.getNtCode();
 	}

@@ -129,7 +129,7 @@
 				</div>
 				</c:forEach>
 			<div class="button_box">
-				<button onclick="history.back()" class="btn">목록으로</button>
+				<button onclick="history.back()" class="btn">뒤로가기</button>
 			</div>
 			
 				

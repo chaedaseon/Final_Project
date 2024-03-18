@@ -559,5 +559,68 @@ public class BoardStudyGroupController
         
         return "/WEB-INF/view/group/GroupBoard_ajax.jsp";
     }
+	
+	@RequestMapping(value = "/groupopenupdateform.do", method = RequestMethod.GET) // 그룹 모집글 작성 폼 요청시
+    public String groupUpdateForm(ModelMap model, @RequestParam String grCode)
+    {
+		IBoardStudyGroupDAO dao = sqlSession.getMapper(IBoardStudyGroupDAO.class);
+		
+		ArrayList<BoardStudyGroupDTO> list = dao.selectGrcode(grCode);
+		model.addAttribute("list", list);
+		
+		ArrayList<BoardStudyGroupDTO> list1 = dao.lsList("1");
+		model.addAttribute("list1", list1);
+		
+		ArrayList<BoardStudyGroupDTO> list2 = dao.lsList("2");
+		model.addAttribute("list2", list2);
+		
+		ArrayList<BoardStudyGroupDTO> list3 = dao.lsList("3");
+		model.addAttribute("list3", list3);
+		
+		ArrayList<BoardStudyGroupDTO> list4 = dao.lsList("4");
+		model.addAttribute("list4", list4);
+		
+		ArrayList<BoardStudyGroupDTO> list5 = dao.lsList("5");
+		model.addAttribute("list5", list5);
+		
+		ArrayList<BoardStudyGroupDTO> list6 = dao.lsList("6");
+		model.addAttribute("list6", list6);
+		
+		ArrayList<BoardStudyGroupDTO> list7 = dao.lsList("7");
+		model.addAttribute("list7", list7);
+		
+		ArrayList<BoardStudyGroupDTO> list8 = dao.lsList("8");
+		model.addAttribute("list8", list8);
+		
+		ArrayList<BoardStudyGroupDTO> list9 = dao.lsList("9");
+		model.addAttribute("list9", list9);
+		
+		ArrayList<BoardStudyGroupDTO> list10 = dao.lsList("10");
+		model.addAttribute("list10", list10);
+		
+		ArrayList<BoardStudyGroupDTO> list11 = dao.lsList("11");
+		model.addAttribute("list11", list11);
+		
+		ArrayList<BoardStudyGroupDTO> list12 = dao.lsList("12");
+		model.addAttribute("list12", list12);
+		
+		ArrayList<BoardStudyGroupDTO> list13 = dao.lsList("13");
+		model.addAttribute("list13", list13);
+		
+		ArrayList<BoardStudyGroupDTO> list14 = dao.lsList("14");
+		model.addAttribute("list14", list14);
+		
+		ArrayList<BoardStudyGroupDTO> list15 = dao.lsList("15");
+		model.addAttribute("list15", list15);
+		
+		ArrayList<BoardStudyGroupDTO> list16 = dao.lsList("16");
+		model.addAttribute("list16", list16);
+		
+		ArrayList<BoardStudyGroupDTO> list17 = dao.lsList("17");
+		model.addAttribute("list17", list17);
+		
+		
+		return "/WEB-INF/view/group/GroupOpenModifyForm.jsp";
+    }
 }
 

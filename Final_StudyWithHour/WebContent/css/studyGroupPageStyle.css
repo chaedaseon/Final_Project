@@ -292,4 +292,9 @@ table.list_table tr:last-child
 	background-color: #f7f7f7;
 	width: 20%;
 }
+
+#regDelete
+{
+	margin-right: auto !important;
+}
  

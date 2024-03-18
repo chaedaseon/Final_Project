@@ -51,10 +51,6 @@
 				alert("로그인이 필요한 접근입니다.");
 				window.location.href = "loginform.do";
 		    }
-		    else if(grGuCode == ssessionGuCode)
-		    {
-		    	alert("본인이 작성한 모집글입니다.");
-		    }
 		    else if(dDay < 0)
 		    {
 		    	if(periodCode == 1)
@@ -71,6 +67,7 @@
 		    					$("#groupPassword").modal("hide");
 		    					$("#groupJoinModal").modal("show");
 						        $("input[name=grCode]").val(grCode);
+						        $("input[name=grGuCode]").val(grGuCode);
 						        $("input[name=grComment]").val(grComment);
 						        $("#grComment span").text(grComment);
 						        $("input[name=grLeader]").val(grLeader);
@@ -100,6 +97,7 @@
 		    		{
 		    			$("#groupJoinModal").modal("show");
 				        $("input[name=grCode]").val(grCode);
+				        $("input[name=grGuCode]").val(grGuCode);
 				        $("input[name=grComment]").val(grComment);
 				        $("#grComment span").text(grComment);
 				        $("input[name=grLeader]").val(grLeader);
@@ -142,6 +140,7 @@
 	    					$("#groupPassword").modal("hide");
 	    					$("#groupJoinModal").modal("show");
 					        $("input[name=grCode]").val(grCode);
+					        $("input[name=grGuCode]").val(grGuCode);
 					        $("input[name=grComment]").val(grComment);
 					        $("#grComment span").text(grComment);
 					        $("input[name=grLeader]").val(grLeader);
@@ -172,6 +171,7 @@
 		    	{
 		    		$("#groupJoinModal").modal("show");
 			        $("input[name=grCode]").val(grCode);
+			        $("input[name=grGuCode]").val(grGuCode);
 			        $("input[name=grComment]").val(grComment);
 			        $("#grComment span").text(grComment);
 			        $("input[name=grLeader]").val(grLeader);
@@ -198,7 +198,13 @@
 	{
 		$("#joinSubmit").click(function()
    		{
-			if(confirm("그룹에 가입하시겠습니까?"))
+			var ssessionGuCode = $("#ssessionGuCode").val();
+			var grGuCode = $("input[name=grGuCode]").val();
+			if(grGuCode == ssessionGuCode)
+		    {
+		    	alert("본인이 작성한 모집글입니다.");
+		    }
+			else if(confirm("그룹에 가입하시겠습니까?"))
 			{
 				var guCode = $("input[name=guCode]").val();
 				var grCode = $("input[name=grCode]").val();
@@ -222,6 +228,31 @@
 			}
    		});
 	});
+</script>
+<script type="text/javascript">
+
+	$(function()
+	{
+		$("#regModify").click(function()
+		{
+			var ssessionGuCode = $("#ssessionGuCode").val();
+			var grGuCode = $("input[name=grGuCode]").val();
+			var grCode = $("input[name=grCode]").val();
+			
+			if(grGuCode != ssessionGuCode)
+		    {
+		    	alert("본인이 작성한 모집글만 수정이 가능합니다.");
+		    }
+			else if(grGuCode == ssessionGuCode)
+			{
+				if(confirm("모집글 수정페이지로 이동하시겠습니까?"))
+				{
+					window.location.href = "groupopenupdateform.do?grCode=" + grCode;
+				}
+			}
+		});
+	});
+	
 </script>
 </head>
 <body>
@@ -441,6 +472,7 @@
 						       -->
 						      
 						      <input type="hidden" name="grCode">
+						      <input type="hidden" name="grGuCode">
 						      <input type="hidden" name="guCode" value="<%=guCode%>">
 						      <input type="hidden" name="grLeader" />
 						      <input type="hidden" name="age" />
@@ -451,6 +483,8 @@
 						      <input type="hidden" name="grComment" />
 						      </div>
 						      <div class="modal-footer">
+						      	<button type="button" class="btn btn-secondary" id="regModify">수정</button>
+								<button type="button" class="btn btn-secondary" id="regDelete">개설철회</button>		      
 						        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 						        <button type="button" class="btn" id="joinSubmit" style="background-color: #94be2c; color: #ffffff;">가입하기</button>
 						      </div>

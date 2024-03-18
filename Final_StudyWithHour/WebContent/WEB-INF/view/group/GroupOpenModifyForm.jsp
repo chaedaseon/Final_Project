@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GroupOpenInsertForm.jsp</title>
+<title>GroupOpenModifyForm.jsp</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
@@ -805,24 +805,26 @@
 				<div class="sub_title_div">
 					<div class="content_box">
 					<form id="regForm" action="boardgrouplist.do" method="post">
+					<c:forEach var="regList" items="${list }">
 						<div class="mb-3">
-							<input type="hidden" name="guCode" value="<%=guCode%>"/>
+							<input type="hidden" name="grCode" value="${regList.grCode }"/>
 							<label for="exampleFormControlInput1" class="form-label">카테고리</label>
 							<select name="category" class="category">
-								<option value="1">자격증</option>
-								<option value="2">취업</option>
-								<option value="3">외국어</option>
-								<option value="4">면접</option>
-								<option value="5">취미</option>
-								<option value="6">학업</option>
-								<option value="7">자기개발</option>
-								<option value="8">기타</option>
+								<option value="1" <c:if test="${regList.category == '자격증'}">selected</c:if>>자격증</option>
+								<option value="2" <c:if test="${regList.category== '취업'}">selected</c:if>>취업</option>
+								<option value="3" <c:if test="${regList.category == '외국어'}">selected</c:if>>외국어</option>
+								<option value="4" <c:if test="${regList.category == '면접'}">selected</c:if>>면접</option>
+								<option value="5" <c:if test="${regList.category == '취미'}">selected</c:if>>취미</option>
+								<option value="6" <c:if test="${regList.category == '학업'}">selected</c:if>>학업</option>
+								<option value="7" <c:if test="${regList.category == '자기개발'}">selected</c:if>>자기개발</option>
+								<option value="8" <c:if test="${regList.category == '기타'}">selected</c:if>>기타</option>
 							</select>
+					
 							<label for="exampleFormControlInput1" class="form-label">연령대</label>
 							<select name="age" class="category">
-								<option value="1">유사</option>
-								<option value="2">무관</option>
-								<option value="3">동일</option>
+								<option value="1" <c:if test="${regList.age == '유사'}">selected</c:if>>유사</option>
+								<option value="2" <c:if test="${regList.category != ''}">selected</c:if>>무관</option>
+								<option value="3" <c:if test="${regList.age == '동일'}">selected</c:if>>동일</option>
 							</select>
 							<label for="exampleFormControlInput1" class="form-label">성별</label>
 							<select name="gender" class="category">
@@ -839,6 +841,7 @@
 								<option value="8">8</option>
 							</select>
 						</div>
+					</c:forEach>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">지역</label>
 							<select class="category" id="lfList" name="lfList">
@@ -861,7 +864,6 @@
 								<option value="17">제주</option>
 							</select>
 							<label for="exampleFormControlInput1" class="form-label">지역 소분류</label>
-							
 							<select name="lsCode" class="category" id="lsList1" disabled="disabled">
 							<c:forEach var="lsList1" items="${list1 }">
 									<option value="${lsList1.lsCode }">${lsList1.lsList }</option>

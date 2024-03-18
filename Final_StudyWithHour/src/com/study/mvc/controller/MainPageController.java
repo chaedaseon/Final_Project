@@ -16,6 +16,8 @@ import com.study.mvc.model.CafeDTO;
 import com.study.mvc.model.GuestDAO;
 import com.study.mvc.model.HostDAO;
 import com.study.mvc.model.MainPageDAO;
+import com.study.mybatis.model.BoardStudyGroupDTO;
+import com.study.mybatis.model.CommunityBoardDTO;
 import com.study.mybatis.model.NoticeBoardDTO;
 
 public class MainPageController implements Controller
@@ -34,14 +36,17 @@ public class MainPageController implements Controller
 		ArrayList<NoticeBoardDTO> noticeList =  dao.latestNoticeList();
 		CafeDTO newCafe = dao.searchNewCafe();
 		ArrayList<CafeDTO> reserveTopCafe = new ArrayList<CafeDTO>();
-
+		ArrayList<BoardStudyGroupDTO> studyGroupList = dao.latestStudyGroupList();
+		ArrayList<CommunityBoardDTO> popBoardList = dao.popBoardList();
 		
 		
 		mav.addObject("reserveTopCafe", reserveTopCafe);
 		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
-			
+		mav.addObject("studyGroupList", studyGroupList);
+		mav.addObject("popBoardList", popBoardList);
+		
 		return mav;
 	}
 }
