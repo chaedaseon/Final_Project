@@ -25,7 +25,7 @@
 <link rel="stylesheet" type="text/css" href="css/postViewStyle.css">
 <script type="text/javascript">
 		
-    $(document).ready(function() {
+    $(document).ready(function() {	// 답글 버튼 클릭 시 댓글 입력창 보이기/숨기기
         
         $(".replyBtn").click(function()
         {
@@ -54,8 +54,8 @@
     	const urlParams = new URL(location.href).searchParams;
     	const boCode = urlParams.get('boCode');
     	
-        $("#modify_button").click(function()
-        {
+        $("#modify_button").click(function()	// 수정 버튼 클릭 시 해당 게시글의 작성자인지
+        {									    // 판단후 게시글 수정폼으로 이동
         	var boGuCode = $("#guCode").val();
         	
             if(guCode == boGuCode)
@@ -68,7 +68,7 @@
 	        }
         });
         
-        $("#delete_button").click(function()
+        $("#delete_button").click(function()	// 삭제버튼 클릭 시 해당 게시글의 작성자인지 판단 후 게시글 삭제처리
         {
         	var boGuCode = $("#guCode").val();
         	
@@ -111,14 +111,14 @@
         
         $(".rereplyModifyBtn").click(function()
         {
-        	// 수정 버튼이 속한 댓글 요소의 replyGuCode 값을 가져오기
+        	// 수정 버튼이 속한 대댓글 요소의 replyGuCode 값을 가져오기
             var rereplyGuCode = $(this).closest("li").find("#rereplyGuCode").val();
             var rreCode = $(this).closest("li").find("#rreCode").val();
             
             // 현재 사용자의 guCode 값 가져오기
             var guCode = $("#ssessionGuCode").val();
         	
-            if(guCode == rereplyGuCode)
+            if(guCode == rereplyGuCode)	// 세션 일치할 경우 대댓글 수정 폼 보이기/숨기기
 	        {
                 if($("#modifyrereply_" + rreCode).css("display")=="none")
     	        {
@@ -175,10 +175,10 @@
             // 현재 사용자의 guCode 값 가져오기
             var guCode = $("#ssessionGuCode").val();
         	
-            if(guCode == rereplyGuCode)
+            if(guCode == rereplyGuCode)	// 세션 일치할 경우 대댓글 삭제 모달창 호출
 	        {
             	$("#rereplyDelete").modal("show");
-            	$("input[name=rreCode]").val(rreCode);
+            	$("input[name=rreCode]").val(rreCode);	// 모달 내 인풋 태그에 밸류값 전달
 	        } 
 	        else
 	        {
@@ -188,6 +188,19 @@
         });
 	});
 </script>
+
+<!-- 각 댓글과 대댓글을 순서에 맞게 출력하기 위해 c:forEach문을 중첩해서 사용
+     두 테이블 간의 연결점은 rpCode(댓글 코드) 따라서 해당 게시글의 댓글을 우선적으로 나열한 후
+     각 댓글에 맞는 rpCode를 가진 대댓글을 나열함. 반복문으로 데이터를 가져오는 과정에서 
+     각 태그에 id에 각 댓글 및 대댓글의 고유 코드값을이용해 id=(id_ + 코드값) 이라는 id를 부여
+     이를 통해 각 댓글 및 대댓글을 클릭 시 같은 클래스로 지정해 놓았더라도 각 태그의 id마다 끝 숫자가
+     다르기 때문에 어느 댓글을 클릭하였는지 구분할 수 있음. 신고버튼도 마찬가지.
+     
+     각 댓글 및 대댓글 수정, 삭제 버튼마다 모달창을 할당하였음. 스크립트 함수도 각각의 버튼속성에 따라 할당
+     뒤로가기 버튼 목록에 중고책방이랑 전체목록이 따로 있는 이유는 두 게시판이 같은 뷰 페이지에서 출력되기
+     때문에 상세페이지로 접속하기 전 어떤 리스트에서 접속하였는지에 따라 돌아갈 리스트를 선택하게 할 의무가 있음 -->
+     
+
 </head>
 <body>
 	<header>
