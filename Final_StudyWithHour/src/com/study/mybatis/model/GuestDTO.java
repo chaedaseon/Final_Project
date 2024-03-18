@@ -2,7 +2,7 @@ package com.study.mybatis.model;
 
 public class GuestDTO
 {
-	private String guCode, guId, guPw, guNick, guDate, categoryCode, guName, guTel, guSsn, guEmail, guUn, guUndate, reasonCode, rtDate;
+	private String guCode, guId, guPw, guNick, guDate, categoryCode, guName, guTel, guSsn, guEmail, guUn, guUndate, reasonCode, rtDate, gjCode;
 	private int num;
 
 	public int getNum()
@@ -165,6 +165,16 @@ public class GuestDTO
 	public void setRtDate(String rtDate)
 	{
 		this.rtDate = rtDate;
+	}
+	
+	public String getGjCode()
+	{
+		return gjCode;
+	}
+
+	public void setGjCode(String gjCode)
+	{
+		this.gjCode = gjCode;
 	}
 
 	

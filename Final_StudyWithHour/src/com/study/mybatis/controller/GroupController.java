@@ -76,7 +76,7 @@ public class GroupController
 		ArrayList<String> memberNick = cdao.getMemberNick(gr_code);
 		
 		// 디데이 가능한 일정 가져오기
-		ArrayList<GroupCalendarDTO> ddayList = cdao.gschDdayList(gr_code);
+		//ArrayList<GroupCalendarDTO> ddayList = cdao.gschDdayList(gr_code);
 		
 		
 		
@@ -92,9 +92,9 @@ public class GroupController
 		model.addAttribute("recordList", recordList);
 		model.addAttribute("leaderNick", leaderNick);
 		model.addAttribute("memberNick", memberNick);
-		model.addAttribute("ddayList", ddayList);
+		//model.addAttribute("ddayList", ddayList);
 		
-		return "/WEB-INF/view/group/GroupPageMain.jsp";
+		return "/WEB-INF/view/group/GroupPageMain.jsp?gr_code="+gr_code+"&gu_code="+gu_code";
 	}
 	
 	// 그룹 탈퇴 연결

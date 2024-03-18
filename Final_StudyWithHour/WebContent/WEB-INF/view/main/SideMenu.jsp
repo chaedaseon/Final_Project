@@ -80,7 +80,7 @@
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="locaton.href='groupcalendarlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+        		 onclick="location.href='groupcalendarlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 캘린더</span>
         		</button>
       		</li><li class="mb-1">	

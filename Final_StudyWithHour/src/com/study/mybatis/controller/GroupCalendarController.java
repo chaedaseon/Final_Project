@@ -67,7 +67,7 @@ public class GroupCalendarController
 			model.addAttribute("gjCode", gjCode);
 			model.addAttribute("guCode", guCode);
 			model.addAttribute("grCode", gr_code);
-			return "/WEB-INF/view/group/GroupCalendar.jsp";	
+			return "/WEB-INF/view/group/GroupCalendar.jsp?gu_code="+guCode+"&gr_code="+gr_code";	
 		}
 		
 		
@@ -76,10 +76,10 @@ public class GroupCalendarController
 
 	// 그룹 일정 조회 (에이작스 처리)
 	@RequestMapping(value = "/groupschedulelist.do", method=RequestMethod.POST)
-	public String scheduleList(ModelMap model, String gr_code)
+	public String scheduleList(ModelMap model, String grCode)
 	{
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
-		ArrayList<GroupCalendarDTO> list = dao.groupScheduleList(gr_code);
+		ArrayList<GroupCalendarDTO> list = dao.groupScheduleList(grCode);
 		
 		model.addAttribute("list", list);
 		return "/WEB-INF/view/group/GroupCalendar_ajax.jsp";
@@ -121,14 +121,14 @@ public class GroupCalendarController
 
 	// 일정 추가 - 선택 가능한 그룹원(참석자) 목록 노출
 	@RequestMapping(value = "/groupselectattmember.do", method=RequestMethod.POST)
-	public String selectAttMember(ModelMap model, @RequestParam("grCode") String gr_code, @RequestParam("guCode") String guCode)
+	public String selectAttMember(ModelMap model, @RequestParam("grCode") String grCode, @RequestParam("guCode") String guCode)
 	{
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
 
 		
-		ArrayList<GuestDTO> memberList = dao.groupMemberSelect(gr_code);
+		ArrayList<GuestDTO> memberList = dao.groupMemberSelect(grCode);
 		
-		String leadMember = dao.leadMember(gr_code, guCode);
+		String leadMember = dao.leadMember(grCode, guCode);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("leadMember", leadMember);
 		
@@ -158,7 +158,7 @@ public class GroupCalendarController
 		dao.groupScheduleAdd(group);
 		
 		
-		return "redirect:groupcalendarlist.do?grCode="+grCode;
+		return "redirect:groupcalendarlist.do?gr_code="+grCode+"&gu_code="+guCode;
 	}
 	
 	// 그룹 모임 등록 수행
@@ -200,7 +200,7 @@ public class GroupCalendarController
 			
 		}
 		
-		return "redirect:groupcalendarlist.do?grCode="+grCode;
+		return "redirect:groupcalendarlist.do?gr_code="+grCode+"&gu_code="+guCode;
 	}
 	
 
@@ -226,7 +226,7 @@ public class GroupCalendarController
 		//일정 삭제
 		dao.gschDel(group.getGschCode());
 		
-		return "redirect:groupcalendarlist.do?grCode="+grCode;
+		return "redirect:groupcalendarlist.do?gr_code="+grCode+"&gu_code="+guCode;
 	}	
 	
 	/*	
