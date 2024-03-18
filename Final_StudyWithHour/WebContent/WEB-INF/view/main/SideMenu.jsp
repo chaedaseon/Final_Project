@@ -35,7 +35,7 @@
 					<img src="images/woman.png" class="image-file">
 				</div>
 				<div class="text-area">
-					<p><span class="name">그룹이지롱 님</span><br>
+					<p><span class="name"><%=guest.getGuName() %></span><br>
 					<span class="nickname"><%=guest.getGuNick() %></span></p>
 				</div>
 			</div>
@@ -133,10 +133,10 @@
           			<ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sub_title">
             			<li><a href="guestgroupactivelist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
             				<span class="subMenu_item">활동중인 그룹</span></a></li>
-            			<li><a href="guestgroupopenlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-            				<span class="subMenu_item">개설 내역</span></a></li>
             			<li><a href="guestgroupjoinlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
-            				<span class="subMenu_item">가입 내역</span></a></li>
+            				<span class="subMenu_item">가입 신청 내역</span></a></li>
+            			<%-- <li><a href="guestgroupopenlist.do?guCode=<%=guCode %>" class="link-body-emphasis d-inline-flex text-decoration-none rounded">
+            				<span class="subMenu_item">개설 내역</span></a></li> --%>
           			</ul>
         		</div>
       		</li>

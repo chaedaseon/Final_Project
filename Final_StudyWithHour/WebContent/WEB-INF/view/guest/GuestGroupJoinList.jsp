@@ -51,7 +51,7 @@
 							<option>탈퇴</option>
 						</select>
 						 -->
-						<table class="groupJoin_list">
+						<table class="groupJoin_list" style="margin-top: 90px;">
 							<tr>
 								<!-- <th>No</th> -->
 								<th>그룹명</th>
@@ -59,6 +59,7 @@
 								<th>상태</th>
 								<th>사유</th>
 								<th>가입 신청일자</th>
+								<th>그룹 개설일자</th>
 								<th>탈퇴 일자</th>
 							</tr>
 							<tr class="spacer"></tr>
@@ -74,10 +75,20 @@
 								<!-- <td>1</td> -->
 								<td>${groupJoinList.grName }</td>
 								<td>${groupJoinList.categoryList }</td>
-								<td>${groupJoinList.rsState }</td>
-								<td>그냥~</td>
+								<td>${groupJoinList.openState }</td>
+								<td>${groupJoinList.stateReason }</td>
 								<td>${groupJoinList.gjDate.substring(0,10) }</td>
-								<td>${groupJoinList.gunDate.substring(0,10) }</td>
+								<td>${groupJoinList.grDate.substring(0,10) }</td>
+								<td>
+								<c:choose>
+									<c:when test="${empty groupJoinList.gunDate }">
+										-
+									</c:when>	
+									<c:otherwise>
+										${groupJoinList.gunDate.substring(0,10) }
+									</c:otherwise>									
+								</c:choose>
+								</td>
 							</tr>
 							</c:forEach>
 							<tr class="spacer"></tr>

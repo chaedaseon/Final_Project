@@ -30,6 +30,8 @@ public class GuestGroupDTO
 	
 	private int grCount;
 	
+	private String openState, stateReason;
+	
 	// getter / setter 구성
 	public String getGrCode()
 	{
@@ -321,5 +323,25 @@ public class GuestGroupDTO
 		this.grCount = grCount;
 	}
 
+	public String getOpenState()
+	{
+		return openState;
+	}
+
+	public void setOpenState(String openState)
+	{
+		this.openState = openState;
+	}
+
+	public String getStateReason()
+	{
+		return stateReason;
+	}
+
+	public void setStateReason(String stateReason)
+	{
+		this.stateReason = stateReason;
+	}
+	
 	
 }
