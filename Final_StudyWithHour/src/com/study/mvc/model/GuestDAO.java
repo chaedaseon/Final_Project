@@ -360,6 +360,28 @@ public class GuestDAO
 		return result;
 	}
 	
+	// 이웃 관리 추가 수행
+	public int friendAdd(String guCode, String boWriter, String type) throws SQLException
+	{
+		int result = 0;
+		
+		// 찜 이웃 추가
+		String sql = "INSERT INTO FRIEND_MANAGE(FM_CODE, FM_DATE, GU_CODE, GU_FMCODE, FT_CODE)"
+	               + " VALUES(TO_CHAR(FRIEND_MANAGE_SEQ.NEXTVAL), SYSDATE, ?, ?, ?	)";
+
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, guCode);
+		pstmt.setString(2, boWriter);
+		pstmt.setString(3, type);
+		
+		result = pstmt.executeUpdate();
+		
+		pstmt.close();
+		return result;
+	}
+
+	
 	// 이웃 관리 삭제 수행
 	public int friendRemove(String guCode, String fmCode) throws SQLException
 	{

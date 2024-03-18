@@ -167,6 +167,10 @@ public class CafeDAO
 		return result;
 	}
 	
+	
+	
+		
+	
 	// 전체 스터디카페(검색기능) 개수 조회
 	public int cafeCount(String reserveDate, String reserveAddr1, String reserveAddr2, String reserveHour1, String reserveHour2, String reserveCount) throws SQLException
 	{

@@ -114,6 +114,9 @@
 	<!-- 이웃 삭제 수행 -->
 	<bean name="/frienddelete.do" class="com.study.mvc.controller.GuestFriendDeleteController"></bean>
 	
+	<!-- 이웃 추가 작업 수행 -->
+	<bean name="/friendinsert.do" class="com.study.mvc.controller.GuestFriendInsertController"></bean>
+	
 	<!-- 신고관리 메뉴 연결 -->
 	<bean name="/guestredlist.do" class="com.study.mvc.controller.GuestRedListController"></bean>
 	

@@ -149,7 +149,7 @@
 					                        		<c:if test="${usedBook.bsCode==5}">(삽니다)</c:if>
 					                        		<c:if test="${usedBook.bsCode==6}">(팝니다)</c:if>
 					                        		</span><br>
-					                        		<a class="boViewBtn" id="boViewUrl_${usedBook.boCode}" ><span>${usedBook.boTitle}</span></a>
+					                        		<a style="cursor: pointer;" class="boViewBtn" id="boViewUrl_${usedBook.boCode}" ><span>${usedBook.boTitle}</span></a>
 					                        		<input type="hidden" name="boCode" value="${usedBook.boCode}"/>
 					                        		<input type="hidden" name="boView" value="${usedBook.boView}"/>
 				                        		</div>

@@ -215,7 +215,15 @@
 						<span class="count" id="posting_number"> 게시글 고유번호 : ${view.boCode}</span>
 					</div>
 					<div id="post_info">
-						<a id="user_id">${view.boWriter}</a>
+						<div class="dropdown">
+						    <button class="friend_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+						    ${view.boWriter}
+						    </button>
+						    <ul class="dropdown-menu">
+							    <li><a class="dropdown-item" href="friendinsert.do?type=1&boCode=${view.boCode}&boWriter=${view.guCode}&guCode=<%=guCode%>">계정 찜</a></li>
+							    <li><a class="dropdown-item" href="friendinsert.do?type=2&boCode=${view.boCode}&boWriter=${view.guCode}&guCode=<%=guCode%>">계정 차단</a></li>
+						    </ul>
+					    </div>
 						<p id="posting_date">&nbsp;|&nbsp; ${view.boDate}</p>
 						<div class="detail_info">
 							<span class="count">
