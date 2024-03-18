@@ -74,7 +74,7 @@
 							<div class="card-header bg-transparent">${studyGroup.grLeader }<span class="d-day">D-${studyGroup.dDay }</span></div>
 		  					<div class="card-body">
 		    				<h5 class="card-title">${studyGroup.grName }</h5>
-		    					<p class="card-text">${studyGroup.grComment }</p>
+		    					<p class="card-text"><a href="boardgrouplist.do">${studyGroup.grComment }</a></p>
 		  					</div>
 		    				<div class="count"><img src="images/people.png">${studyGroup.gjCount } / ${studyGroup.grCount } 명</div>
 						</div>
@@ -134,125 +134,45 @@
 					<div class="col-4" style="padding: 40px;">
 						<div class="subject-title">🔥 최근 게시글</div>
 						<div class="list-div">
+							<c:forEach var="boardList" items="${BoardList }">
 							<ul class="list-item">
 								<li>
 									<div class="item-info">
 										<div class="board-category">
-											<span>✨공부팁</span>
+										<span>
+											<c:if test="${boardList.bsCode ==1 }">✨공부팁</c:if>
+								            <c:if test="${boardList.bsCode ==2 }">✨고민상담</c:if>
+								            <c:if test="${boardList.bsCode ==3 }">✨자유게시판</c:if>
+								            <c:if test="${boardList.bsCode ==4 }">✨질문</c:if>
+								            <c:if test="${boardList.bsCode ==5 }">✨삽니다</c:if>
+								            <c:if test="${boardList.bsCode ==6 }">✨팝니다</c:if>
+										</span>
 										</div>
 											<div class="reaction">
-												<span>⭐13</span>
+												<span>⭐${boardList.scrapCount }</span>
 												<span>
 													<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
 														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
 													  	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-													</svg> 9
+													</svg>
+													${boardList.replyCount }
 												</span>
 											</div>
 										</div>
 									<div class="item-title">
-										<a href="#">정보처리기사 필기 팁!</a>
+										<a href="boardview.do?boCode=${boardList.boCode }">${boardList.boTitle }</a>
 									</div>
 									<div class="write-info">
 										<div class="writer">
-											<span>동그리동동</span>
+											<span>${boardList.boWriter }</span>
 										</div>
 										<div class="write-date">
-											<span>2024.02.16</span>
+											<span>${boardList.boMoDate }</span>
 										</div>
 									</div>
 								</li>
 							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-info">
-										<div class="board-category">
-											<span>✨공부팁</span>
-										</div>
-											<div class="reaction">
-												<span>⭐13</span>
-												<span>
-													<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
-														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-													  	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-													</svg> 9
-												</span>
-											</div>
-										</div>
-									<div class="item-title">
-										<a href="#">정보처리기사 필기 팁!</a>
-									</div>
-									<div class="write-info">
-										<div class="writer">
-											<span>동그리동동</span>
-										</div>
-										<div class="write-date">
-											<span>2024.02.16</span>
-										</div>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-info">
-										<div class="board-category">
-											<span>✨공부팁</span>
-										</div>
-											<div class="reaction">
-												<span>⭐13</span>
-												<span>
-													<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
-														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-													  	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-													</svg> 9
-												</span>
-											</div>
-										</div>
-									<div class="item-title">
-										<a href="#">정보처리기사 필기 팁!</a>
-									</div>
-									<div class="write-info">
-										<div class="writer">
-											<span>동그리동동</span>
-										</div>
-										<div class="write-date">
-											<span>2024.02.16</span>
-										</div>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-info">
-										<div class="board-category">
-											<span>✨공부팁</span>
-										</div>
-											<div class="reaction">
-												<span>⭐13</span>
-												<span>
-													<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-chat-square-dots" viewBox="0 0 16 16">
-														<path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-													  	<path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-													</svg> 9
-												</span>
-											</div>
-										</div>
-									<div class="item-title">
-										<a href="#">정보처리기사 필기 팁!</a>
-									</div>
-									<div class="write-info">
-										<div class="writer">
-											<span>동그리동동</span>
-										</div>
-										<div class="write-date">
-											<span>2024.02.16</span>
-										</div>
-									</div>
-								</li>
-							</ul>						
+							</c:forEach>					
 						</div>
 					</div><!-- 최근 게시글 영역 end -->
 					

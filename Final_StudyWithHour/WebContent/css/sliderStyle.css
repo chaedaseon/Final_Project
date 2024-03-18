@@ -22,15 +22,15 @@
 }
 
 .slide:nth-child(1) {
-  background-image: url(../images/mini_banner2.png);
+  background-image: url(../images/sample_banner1.png);
   animation-delay: 0;
 }
 .slide:nth-child(2) {
-  background-image: url(../images/mini_banner3.png);
+  background-image: url(../images/sample_banner2.png);
   animation-delay: -5s;
 }
 .slide:nth-child(3) {
-  background-image: url(../images/mini_banner.png);
+  background-image: url(../images/sample_banner3.png);
   animation-delay: -10s;
 }
 

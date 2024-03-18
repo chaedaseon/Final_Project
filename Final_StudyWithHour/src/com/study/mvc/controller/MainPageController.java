@@ -39,14 +39,14 @@ public class MainPageController implements Controller
 		ArrayList<CafeDTO> reserveTopCafe = dao.reserveTopCafe();
 		ArrayList<BoardStudyGroupDTO> studyGroupList = dao.latestStudyGroupList();
 		ArrayList<CommunityBoardDTO> popBoardList = dao.popBoardList();
-		
+		ArrayList<CommunityBoardDTO> BoardList = dao.latestBoardList();
 		
 		mav.addObject("reserveTopCafe", reserveTopCafe);
 		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
 		mav.addObject("studyGroupList", studyGroupList);
 		mav.addObject("popBoardList", popBoardList);
-		
+		mav.addObject("BoardList", BoardList);
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
 		
 		dao.close();

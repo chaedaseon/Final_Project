@@ -108,7 +108,6 @@
 	            $("#errCode2").css("display","inline");
 	            return;                        //--submit 액션 처리 중단
 	        }
-	        alert($("select[name='bsCode']").val());
 	        if($("select[name='bsCode']").val()==null)
 	        {
 	            $("#errCode3").html("카테고리를 선택하세요!!");

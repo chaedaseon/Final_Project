@@ -227,7 +227,9 @@
 	            });
 			}
    		});
-	});
+   	});
+	
+	
 </script>
 <script type="text/javascript">
 
@@ -252,6 +254,42 @@
 			}
 		});
 	});
+	
+	$(function()
+	{
+		$("#regDelete").click(function()
+   		{
+			var ssessionGuCode = $("#ssessionGuCode").val();
+			var guCode = $("input[name=grGuCode]").val();
+			var grCode = $("input[name=grCode]").val();
+			if(guCode != ssessionGuCode)
+		    {
+		    	alert("본인이 작성한 모집글만 삭제가 가능합니다.");
+		    }
+			else if(confirm("모집요청을 철회하시겠습니까?"))
+			{
+				var guCode = $("input[name=guCode]").val();
+				var grCode = $("input[name=grCode]").val();
+	        	var data = {"P_GU_CODE": guCode, "P_GR_CODE": grCode}
+	            $.ajax({
+	                url: "groupregdelete.do",
+	                type: "POST",
+	                data: data,
+	                dataType: "json",
+	                success: function(response) {
+	                	var out = "";
+	                	out += response.msg;
+	                	
+	                	alert(out);
+	                	$("#groupJoinModal").modal("hide");
+	                },
+	                error: function(e) {
+	                	alert("잘못된 접근입니다.");
+					} 
+	            });
+			}
+   		});
+   	});
 	
 </script>
 </head>

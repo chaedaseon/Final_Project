@@ -768,7 +768,6 @@
 	                	out += response.msg;
 	                	
 	                	alert(out);
-	                	window.location.href = "boardgrouplist.do";
 	                },
 	                error: function(e) {
 	                	alert("잘못된 접근입니다.");

@@ -180,7 +180,7 @@ public class MainPageDAO
 			sql += ",T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT, T.SCRAPCOUNT";
 			sql += " FROM(SELECT B.BO_CODE AS BOCODE, TO_CHAR(B.BO_DATE) AS BODATE, B.BO_TITLE AS BOTITLE";
 			sql += " , B.BO_CONTENT AS BOCONTENT, B.BO_VIEW AS BOVIEW";
-			sql += " , TO_CHAR(B.BO_MODATE) AS BOMODATE, B.BO_FILE AS BOFILE, B.BS_CODE AS BSCODE";
+			sql += " , TO_CHAR(B.BO_MODATE, 'YYYY-MM-DD') AS BOMODATE, B.BO_FILE AS BOFILE, B.BS_CODE AS BSCODE";
 			sql += " , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)";
 			sql += "  AS BOWRITER";
 			sql += ", NVL((SELECT COUNT(*) FROM(SELECT RP_CODE, BO_CODE";
@@ -190,6 +190,57 @@ public class MainPageDAO
 			sql += " , NVL((SELECT COUNT(*) FROM SCRAP WHERE BO_CODE = B.BO_CODE),0) AS SCRAPCOUNT";
 			sql += " FROM BOARD B LEFT JOIN SCRAP S ON B.BO_CODE = S.BO_CODE";
 			sql += " ORDER BY SCRAPCOUNT)T";
+			sql += " WHERE (SELECT COUNT(*) FROM BOARD) >= ROWNUM ORDER BY ROWNUM DESC)X";
+			sql += " WHERE X.NO >= (SELECT COUNT(*) - 3 FROM BOARD)";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			while(rs.next())
+			{
+				CommunityBoardDTO dto = new CommunityBoardDTO();
+				
+				dto.setNo(rs.getInt("NO"));
+				dto.setBoCode(rs.getString("BOCODE"));
+				dto.setBoDate(rs.getString("BODATE"));
+				dto.setBoTitle(rs.getString("BOTITLE"));
+				dto.setBoMoDate(rs.getString("BOMODATE"));
+				dto.setBsCode(rs.getString("BSCODE"));
+				dto.setBoWriter(rs.getString("BOWRITER"));
+				dto.setReplyCount(rs.getInt("REPLYCOUNT"));
+				dto.setScrapCount(rs.getInt("SCRAPCOUNT"));
+				dto.setBoContent(rs.getString("BOCONTENT"));
+				result.add(dto);
+			}
+			
+			pstmt.close();
+			rs.close();
+			
+			return result;
+		}
+		
+		// 게시글 최신순 조회
+		public ArrayList<CommunityBoardDTO> latestBoardList() throws SQLException
+		{
+			ArrayList<CommunityBoardDTO> result = new ArrayList<CommunityBoardDTO>();
+			
+			String sql = "SELECT X.NO, X.BOCODE, X.BODATE, X.BOTITLE, X.BOCONTENT, X.BOVIEW, X.BOMODATE, X.BOFILE, X.BSCODE, X.BOWRITER, X.REPLYCOUNT, X.SCRAPCOUNT";
+			sql += " FROM(SELECT ROWNUM, ROW_NUMBER() OVER(ORDER BY ROWNUM) AS NO,T.BOCODE,T.BODATE,T.BOTITLE";
+			sql += ",T.BOCONTENT,T.BOVIEW,T.BOMODATE,T.BOFILE,T.BSCODE,T.BOWRITER,T.REPLYCOUNT, T.SCRAPCOUNT";
+			sql += " FROM(SELECT B.BO_CODE AS BOCODE, TO_CHAR(B.BO_DATE) AS BODATE, B.BO_TITLE AS BOTITLE";
+			sql += " , B.BO_CONTENT AS BOCONTENT, B.BO_VIEW AS BOVIEW";
+			sql += " , TO_CHAR(B.BO_MODATE, 'YYYY-MM-DD') AS BOMODATE, B.BO_FILE AS BOFILE, B.BS_CODE AS BSCODE";
+			sql += " , (SELECT GU_NICK FROM GUEST WHERE GU_CODE = B.GU_CODE)";
+			sql += "  AS BOWRITER";
+			sql += ", NVL((SELECT COUNT(*) FROM(SELECT RP_CODE, BO_CODE";
+			sql += " FROM REPLY UNION ALL SELECT RR.RP_CODE, RP.BO_CODE FROM REPLY RP";
+			sql += " RIGHT JOIN re_reply RR ON RP.RP_CODE = RR.RP_CODE)";
+			sql += " WHERE BO_CODE = B.BO_CODE),0) AS REPLYCOUNT";
+			sql += " , NVL((SELECT COUNT(*) FROM SCRAP WHERE BO_CODE = B.BO_CODE),0) AS SCRAPCOUNT";
+			sql += " FROM BOARD B LEFT JOIN SCRAP S ON B.BO_CODE = S.BO_CODE";
+			sql += " ORDER BY BOMODATE)T";
 			sql += " WHERE (SELECT COUNT(*) FROM BOARD) >= ROWNUM ORDER BY ROWNUM DESC)X";
 			sql += " WHERE X.NO >= (SELECT COUNT(*) - 3 FROM BOARD)";
 			

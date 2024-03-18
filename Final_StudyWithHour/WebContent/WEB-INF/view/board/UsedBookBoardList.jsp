@@ -65,8 +65,6 @@
 			    }
 			    else
 			    {
-			    	alert(boCode);
-			    	alert(boView);
 			    	window.location.href="boardview.do?boCode="+ boCode + "&boView=" + boView;
 			    }
 		    });

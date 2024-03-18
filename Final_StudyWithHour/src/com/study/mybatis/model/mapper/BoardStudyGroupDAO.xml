@@ -169,7 +169,7 @@
 		ORDER BY TO_NUMBER(LS_CODE)
 	</select>
 	
-	<insert id="callGroupRegistrationProcedure" parameterType="hashMap">
+	<insert id="callGroupRegistrationProcedure" parameterType="java.util.HashMap">
     {CALL PRC_GROUP_REGISTRATION_INSERT(
         #{P_GR_NAME, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
         #{P_GR_COUNT, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
@@ -184,7 +184,7 @@
         #{P_GP_PW, mode=IN, jdbcType=INTEGER, javaType=java.lang.String}
     )}
 	</insert>
-
+	
 	<select id="selectGrcode" resultType="com.study.mybatis.model.BoardStudyGroupDTO">
 		SELECT X.NO,X.GRCODE, X.GUCODE, X.GRDATE,X.GACODE, X.PERIODCODE, X.GRLEADER, X.GRNAME, X.GRCOUNT, X.GRSUBJECT, X.GRCOMMENT, X.AGE, X.GENDER, X.LSCODE, X.CATEGORY, X.GROPEN, X.GPPW
 		FROM
@@ -199,4 +199,26 @@
 		WHERE GRCODE = ${grCode}
 	</select>
 	
+	<update id="updateGroupRegistration" parameterType="java.util.HashMap">
+        {call PRC_GROUP_REGISTRATION_UPDATE(
+            #{P_GR_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_GR_NAME, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+            #{P_GR_COUNT, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_GR_SUBJECT, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+            #{P_GR_COMMENT, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+            #{P_AGE_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_GENDER_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_LS_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_CATEGORY_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_GO_CODE, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String},
+            #{P_GP_PW, mode=IN, jdbcType=VARCHAR, javaType=java.lang.String}
+        )}
+    </update>
+    
+    <insert id="groupUnregProcedure" parameterType="java.util.HashMap">
+        {call PRC_GROUP_UNREG(
+            #{P_GU_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String},
+            #{P_GR_CODE, mode=IN, jdbcType=INTEGER, javaType=java.lang.String}
+        )}
+    </insert>
 </mapper>

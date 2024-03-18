@@ -26,7 +26,7 @@
 
 	function fn_checkByte(obj)
 	{
-	    const maxByte = 250; //최대 500바이트
+	    const maxByte = 250; //최대 250바이트
 	    const text_val = obj.value; //입력한 문자
 	    const text_len = text_val.length; //입력한 문자수
 	    
@@ -739,10 +739,9 @@
 		$("#submitBtn").click(function()
 		{
 			// 넘기는 파라미터 값 확인하는 코드
-			
-			if(confirm("작성한 모집글을 등록하시겠습니까?"))
+			if(confirm("모집글을 수정하시겠습니까?"))
 	        {
-				var guCode = $("input[name=guCode]").val();
+				var grCode = $("input[name=grCode]").val();
 				var category = $("select[name=category]").val();
 				var age = $("select[name=age]").val();
 				var gender = $("select[name=gender]").val();
@@ -754,12 +753,12 @@
 				var grSubject = $("input[name=grSubject]").val();
 				var grComment = $("textarea[name=grComment]").val();
 
-	        	var data = {"P_GR_NAME": grName, "P_GR_COUNT": grCount, "P_GR_SUBJECT": grSubject,
-							"P_GR_COMMENT":grComment, "P_GU_CODE":guCode, "P_AGE_CODE":age,
+	        	var data = {"P_GR_CODE":grCode,"P_GR_NAME": grName, "P_GR_COUNT": grCount, "P_GR_SUBJECT": grSubject,
+							"P_GR_COMMENT":grComment, "P_AGE_CODE":age,
 							"P_GENDER_CODE":gender, "P_LS_CODE":lsCode, "P_CATEGORY_CODE":category,
 							"P_GO_CODE":goCode, "P_GP_PW":pw}
 	            $.ajax({
-	                url: "groupregistration.do",
+	                url: "groupregmodify.do",
 	                type: "POST",
 	                data: data,
 	                dataType: "json",
@@ -768,7 +767,6 @@
 	                	out += response.msg;
 	                	
 	                	alert(out);
-	                	window.location.href = "boardgrouplist.do";
 	                },
 	                error: function(e) {
 	                	alert("잘못된 접근입니다.");
@@ -800,7 +798,7 @@
 		<div id="content">
 			<div class="content_div">
 				<div id="form_title">
-					<span>그룹 <span style="color: #94be2c;">개설 요청서</span> 작성</span>
+					<span>그룹 <span style="color: #94be2c;">개설 요청서</span> 수정</span>
 				</div>
 				<div class="sub_title_div">
 					<div class="content_box">
@@ -822,23 +820,23 @@
 					
 							<label for="exampleFormControlInput1" class="form-label">연령대</label>
 							<select name="age" class="category">
-								<option value="1" <c:if test="${regList.age == '유사'}">selected</c:if>>유사</option>
-								<option value="2" <c:if test="${regList.category != ''}">selected</c:if>>무관</option>
+								<option value="1" <c:if test="${regList.age != ''}">selected</c:if>>유사</option>
+								<option value="2" <c:if test="${regList.age == '무관'}">selected</c:if>>무관</option>
 								<option value="3" <c:if test="${regList.age == '동일'}">selected</c:if>>동일</option>
 							</select>
 							<label for="exampleFormControlInput1" class="form-label">성별</label>
 							<select name="gender" class="category">
-								<option value="1">동일</option>
-								<option value="2">무관</option>
+								<option value="1" <c:if test="${regList.gender == '동일'}">selected</c:if>>동일</option>
+								<option value="2" <c:if test="${regList.gender == '무관'}">selected</c:if>>무관</option>
 							</select>
 							<label for="exampleFormControlInput1" class="form-label">모집인원수</label>
 							<select name="grCount" class="category">
-								<option value="3" selected="selected">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
+								<option value="3" <c:if test="${regList.grCount == 3}">selected</c:if>>3</option>
+								<option value="4" <c:if test="${regList.grCount == 4}">selected</c:if>>4</option>
+								<option value="5" <c:if test="${regList.grCount == 5}">selected</c:if>>5</option>
+								<option value="6" <c:if test="${regList.grCount == 6}">selected</c:if>>6</option>
+								<option value="7" <c:if test="${regList.grCount == 7}">selected</c:if>>7</option>
+								<option value="8" <c:if test="${regList.grCount == 8}">selected</c:if>>8</option>
 							</select>
 						</div>
 					</c:forEach>
@@ -950,32 +948,33 @@
 							</c:forEach>
 							</select>
 						</div>
+						<c:forEach var="regList" items="${list }">
 						<div class="mb-3">
 							<label class="form-check-label" for="flexSwitchCheckDefault">그룹 비밀번호 설정</label>
 							<select name="goCode" id="selectGoCode" class="category">
-								<option value="1">공개</option>
-								<option value="2">비공개</option>
+								<option value="1" <c:if test="${regList.grOpen == '공개'}">selected</c:if>>공개</option>
+								<option value="2" <c:if test="${regList.grOpen == '비공개'}">selected</c:if>>비공개</option>
 							</select>
-						  	<input type="text" id="toggle" name="pw" value="" placeholder="비밀번호 4자리" style="width: 120px;" disabled="disabled"/>
+						  	<input type="text" id="toggle" name="pw" value="${regList.gpPw }" placeholder="비밀번호 4자리" style="width: 120px;" disabled="disabled"/>
 						</div>
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">제목</label>
-								<input type="text" class="form-control" id="exampleFormControlInput1" name="grName">
+								<input type="text" class="form-control" id="exampleFormControlInput1" name="grName" value="${regList.grName }">
 						</div>
 						
 						<div class="mb-3">
 							<label for="exampleFormControlInput1" class="form-label">스터디 주제(간단하게 작성)</label>
-								<input type="text" class="form-control" id="exampleFormControlInput1" name="grSubject">
+								<input type="text" class="form-control" id="exampleFormControlInput1" name="grSubject" value="${regList.grSubject }">
 						</div>
 						
 						<div class="mb-3">
 							<div id="text_count"><label for="exampleFormControlTextarea1" class="form-label">내용</label><span><span id="nowByte">0</span>/250bytes</span></div>
-							<textarea class="form-control" id="exampleFormControlTextarea1"	name="grComment" rows="3" spellcheck="false" onkeyup="fn_checkByte(this)"></textarea>
+							<textarea class="form-control" id="exampleFormControlTextarea1"	name="grComment" rows="3" spellcheck="false" onkeyup="fn_checkByte(this)">${regList.grComment }</textarea>
 						</div>
-						
+						</c:forEach>
 						<div class="button_box">
 							<button type="button" class="btn" id="backBtn">취소</button>
-							<button type="button" class="btn" id="submitBtn">글올리기</button>
+							<button type="button" class="btn" id="submitBtn">수정하기</button>
 						</div>
 					</form>
 					</div>

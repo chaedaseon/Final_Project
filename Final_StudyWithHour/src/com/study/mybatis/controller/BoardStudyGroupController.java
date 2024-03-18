@@ -538,27 +538,25 @@ public class BoardStudyGroupController
     }
 	
 	@RequestMapping(value="/groupregistration.do", method = RequestMethod.POST)
-    public String groupReg(ModelMap model,  @RequestParam Map<String, Object> data)
-    {
+	public String groupReg(ModelMap model,  @RequestParam Map<String, Object> data)
+	{
 		IBoardStudyGroupDAO dao = sqlSession.getMapper(IBoardStudyGroupDAO.class);
 		
 		String response = "";
-		System.out.println(data);
-        try 
-        {
-            dao.callGroupRegistrationProcedure(data);
-            response = "모집글이 성공적으로 게시되었습니다.";
-        } catch (Exception e) 
-        {
-        	System.out.println(e.toString());
-        	response = "조건에 부합하지 않습니다. 모집글의 상세정보와 본인의 오늘 올린 모집글의 갯수가 3개 이상인지 확인하세요.";
-        }
-        
-        model.addAttribute("response", response);
-        System.out.println(response);
-        
-        return "/WEB-INF/view/group/GroupBoard_ajax.jsp";
-    }
+		try 
+		{
+			dao.callGroupRegistrationProcedure(data);
+			response = "모집글이 성공적으로 게시되었습니다.";
+		} catch (Exception e) 
+		{
+			System.out.println(e.toString());
+			response = "조건에 부합하지 않습니다. 모집글의 상세정보와 본인의 오늘 올린 모집글의 갯수가 3개 이상인지 확인하세요.";
+		}
+		
+		model.addAttribute("response", response);
+		
+		return "/WEB-INF/view/group/GroupBoard_ajax.jsp";
+	}
 	
 	@RequestMapping(value = "/groupopenupdateform.do", method = RequestMethod.GET) // 그룹 모집글 작성 폼 요청시
     public String groupUpdateForm(ModelMap model, @RequestParam String grCode)
@@ -622,5 +620,47 @@ public class BoardStudyGroupController
 		
 		return "/WEB-INF/view/group/GroupOpenModifyForm.jsp";
     }
+	
+	@RequestMapping(value="/groupregmodify.do", method = RequestMethod.POST)
+	public String groupRegModify(ModelMap model,  @RequestParam Map<String, Object> data)
+	{
+		IBoardStudyGroupDAO dao = sqlSession.getMapper(IBoardStudyGroupDAO.class);
+		
+		String response = "";
+		try 
+		{
+			dao.updateGroupRegistration(data);
+			response = "모집글이 성공적으로 수정되었습니다.";
+		} catch (Exception e) 
+		{
+			System.out.println(e.toString());
+			response = "모집중인 그룹에 가입요청이 존재합니다. 가입 인원이 존재할 경우 임의로 모집글 변경이 불가능합니다.";
+		}
+		
+		model.addAttribute("response", response);
+		
+		return "/WEB-INF/view/group/GroupBoard_ajax.jsp";
+	}
+	
+	@RequestMapping(value="/groupregdelete.do", method = RequestMethod.POST)
+	public String groupRegDelete(ModelMap model,  @RequestParam Map<String, Object> data)
+	{
+		IBoardStudyGroupDAO dao = sqlSession.getMapper(IBoardStudyGroupDAO.class);
+		
+		String response = "";
+		try 
+		{
+			dao.groupUnregProcedure(data);
+			response = "모집요청이 성공적으로 철회되었습니다.";
+		} catch (Exception e) 
+		{
+			System.out.println(e.toString());
+			response = "이미 개설된 그룹입니다. 그룹을 해체하려면 모든 인원이 탈퇴한 후 해체가 가능합니다.";
+		}
+		
+		model.addAttribute("response", response);
+		
+		return "/WEB-INF/view/group/GroupBoard_ajax.jsp";
+	}
 }
 
