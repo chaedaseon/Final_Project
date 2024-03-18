@@ -133,17 +133,18 @@ function search(currPageNo, range, pageSize, searchType)
 					<table class="list_table">
 						<tr class="spacer"></tr>
 						<tr>
-							<th>분류</th>
-							<th>신고글 번호</th>
-							<th>신고글 내용</th>
-							<th>그룹 이름</th>
-							<th>처리 상태</th>
-							<th>신고 일자</th>
+							<th style="width: 80px;">번호</th>
+							<th style="width: 100px;">분류</th>
+							<th style="width: 400px;">신고글 내용</th>
+							<th style="width: 250px;">그룹 이름</th>
+							<th style="width: 100px;">처리 상태</th>
+							<th style="width: 150px;">신고 일자</th>
 						</tr>
 						
 						<tr class="spacer"></tr>
 						<c:forEach var="report" items="${list }">
 						<tr>
+							<td>${report.num }</td>
 							<td>
 							<c:choose>
 								<c:when test="${report.rtype=='1' }">
@@ -154,7 +155,6 @@ function search(currPageNo, range, pageSize, searchType)
 								</c:when>
 							</c:choose>
 							</td>
-							<td>${report.code }</td>
 							<td><span class="d-inline-block text-truncate" style="max-width: 300px;">
 							<a href="adminreportgroupbbscontent.do?rtype=${report.rtype }&code=${report.code}&currPageNo=${pagination.currPageNo}&range=${pagination.range}&searchType=${pagination.searchType }&keyword=${pagination.keyword }">${report.content }</a>
 							

@@ -111,11 +111,11 @@ function search(currPageNo, range, pageSize, searchType)
 					<table class="list_table">
 						<tr class="spacer"></tr>
 						<tr>
-							<th>번호</th>
-							<th>제목</th>
-							<th>관리자</th>
-							<th>작성 일자</th>
-							<th>조회수</th>
+							<th style="width: 100px;">번호</th>
+							<th style="width: 600px;">제목</th>
+							<th style="width: 150px;">관리자</th>
+							<th style="width: 150px;">작성 일자</th>
+							<th style="width: 100px;" >조회수</th>
 						</tr>
 						<tr class="spacer"></tr>
 						<c:forEach var="notice" items="${list }">						

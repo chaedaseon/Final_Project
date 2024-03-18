@@ -6,6 +6,7 @@
 package com.study.mybatis.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.study.mybatis.model.GroupBoardDTO;
+import com.study.mybatis.model.GroupCalendarDTO;
 import com.study.mybatis.model.IGroupContentDAO;
 import com.study.mybatis.model.IGroupDAO;
 
@@ -69,11 +71,13 @@ public class GroupController
 		IGroupDAO dao = sqlSession.getMapper(IGroupDAO.class);
 		IGroupContentDAO cdao = sqlSession.getMapper(IGroupContentDAO.class);
 		
-		//그룹장 닉네임 가져오기
+		//그룹장, 그룹원 닉네임 가져오기
 		String leaderNick = cdao.getLeaderNick(gr_code);
 		ArrayList<String> memberNick = cdao.getMemberNick(gr_code);
 		
-		//그룹원 닉네임 가져오기
+		// 디데이 가능한 일정 가져오기
+		ArrayList<GroupCalendarDTO> ddayList = cdao.gschDdayList(gr_code);
+		
 		
 		
 		// 최근 게시물
@@ -88,8 +92,32 @@ public class GroupController
 		model.addAttribute("recordList", recordList);
 		model.addAttribute("leaderNick", leaderNick);
 		model.addAttribute("memberNick", memberNick);
+		model.addAttribute("ddayList", ddayList);
 		
 		return "/WEB-INF/view/group/GroupPageMain.jsp";
+	}
+	
+	// 그룹 탈퇴 연결
+	@RequestMapping(value="/groupunregprocess.do", method = RequestMethod.POST)
+	public String groupunreg(@RequestParam("guCode")String gu_code, @RequestParam("grCode")String gr_code, @RequestParam("reason")String reason, ModelMap model)
+	{
+		IGroupContentDAO cdao = sqlSession.getMapper(IGroupContentDAO.class);
+		//그룹 코드 가져오기
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("guCode",gu_code );
+		map.put("grCode",gr_code );
+		String gjCode = cdao.getGjCode(map);
+		
+		//그룹 탈퇴 테이블에 인서트
+		HashMap<String, String> unregMap = new HashMap<String, String>();
+		unregMap.put("reason", reason);
+		unregMap.put("gjCode", gjCode);
+		cdao.groupUnregInsert(unregMap);
+		
+		model.addAttribute("guCode", gu_code);
+		model.addAttribute("grCode", gr_code);
+		
+		return "redirect:studywithhour.do";
 	}
 	
 }

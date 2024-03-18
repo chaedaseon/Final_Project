@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.mybatis.model.IAdminReportGroupBBSDAO">
+<mapper namespace="com.test.mybatis.IAdminReportGroupBBSDAO">
 
 
 
 	<!-- 페이징 검색 게시글 수 -->
     
-    <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+    <select id="boardTotalCnt" parameterType="com.test.mybatis.PaginationDTO" resultType="int">
     	SELECT COUNT(*) AS COUNT
 		FROM 
 		(
@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
      <!-- 페이징 리스트 -->
   
-    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.ReportBBSDTO">
+    <select id="boardListPaging" parameterType="com.test.mybatis.PaginationDTO" resultType="com.test.mybatis.ReportBBSDTO">
   	select RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
 		from(
 		    select rownum as rnum, t.*
@@ -68,7 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 게시물 신고 리스트 조회 (게시물/댓글)-->
 	<!-- 뷰 생성 선행 -->
-	<select id="groupBBSlist" resultType="com.study.mybatis.model.ReportBBSDTO">
+	<select id="groupBBSlist" resultType="com.test.mybatis.ReportBBSDTO">
 	SELECT NUM, RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
 	FROM
 	(
@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 신고 내용 상세 조회(게시물/댓글/대댓글) -->
 
-	<select id="reportContent" resultType="com.study.mybatis.model.ReportBBSDTO" parameterType="HashMap">
+	<select id="reportContent" resultType="com.test.mybatis.ReportBBSDTO" parameterType="HashMap">
 		SELECT RPUSER, REPORTED, RPCODE, RPCONTENT, RPDATE, GRNAME, RPREASON, RDDATE, REDCODE
 		FROM 
 		(

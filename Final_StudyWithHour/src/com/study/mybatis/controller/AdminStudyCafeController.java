@@ -97,12 +97,6 @@ public class AdminStudyCafeController
 		
 		int totalCnt = dao.boardTotalCnt(pg);	
 		
-		System.out.println("1" + currPageNo);
-		System.out.println("2" + range);
-		System.out.println("3" + totalCnt);
-		System.out.println("4 검색타입" + pg.getSearchType());
-		System.out.println("5" + pg.getKeyword());
-		System.out.println("6 날것검색n" + searchType);
 		
 		pg.pageInfo(currPageNo, range, totalCnt);
 		
@@ -220,7 +214,6 @@ public class AdminStudyCafeController
 		url += "&searchType=" + searchType;
 		url += "&keyword=" + keyword;
 		
-		System.out.println(url);
 		
 		if(check.equals("1"))  // 승인, 승인날짜와 승인한 관리자 이름 추가
 		{

@@ -113,9 +113,9 @@ function search(currPageNo, range, pageSize, searchType)
 						<tr class="spacer"></tr>
 							<tr>
 							<th>번호</th>
-							<th>아이디</th>
-							<th>이메일</th>
-							<th>가입 일자</th>
+							<th style="width: 200px;">아이디</th>
+							<th style="width: 400px;">이메일</th>
+							<th style="width: 150px;">가입 일자</th>
 							<th>호스트 권한</th>
 							<th>회원 상태</th>
 						</tr>

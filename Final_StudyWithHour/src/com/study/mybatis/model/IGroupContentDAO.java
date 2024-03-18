@@ -23,4 +23,12 @@ public interface IGroupContentDAO
 	public String getLeaderNick(String grCode);
 	//그룹원 닉네임 가져오기
 	public ArrayList<String> getMemberNick(String grCode);
+	
+	//회원 그룹가입요청코드 가져오기
+	public String getGjCode(HashMap<String, String> map);
+	//회원  그룹탈퇴 처리
+	public void groupUnregInsert(HashMap<String, String> unregMap);
+	
+	// 디데이 불러올 일정 리스트
+	public ArrayList<GroupCalendarDTO> gschDdayList(String grCode);
 }

@@ -59,7 +59,7 @@
 	    for (i = 1; i <= lastDate.getDate(); i++) // 1일부터 마지막 일까지
 	    { 
 	        cell = row.insertCell();
-	        cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></button></div>";
+	        cell.innerHTML = "<div class='top-date' ><button class='dateBtn' onclick='datefn(this.id)' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></button></div>";
 	        cell.className = "div_date"
 	        cnt = cnt + 1;
 	        if (cnt % 7 == 1)		//일요일 계산 
@@ -83,6 +83,7 @@
 	    	, dataType :"json"
 	    	, success:function(jsonObj)
 	    	{
+	    		
 	    		for (var idx=0; idx<jsonObj.length; idx++)
 	    		{
 	    			// gschCode, gschName, gschDate, startHour , endHour , content, location, leadMember, attCk, gschType
@@ -155,10 +156,12 @@
 	    		
 	    		$("#resultMonth").html(String(today.getMonth()+1).padStart(2, '0'));
 				$("#resultDay").html(String(today.getDate()).padStart(2, '0'));
+	    		
 				
 	    	}
-	    	, error:function(e)
-	    	{
+	    	, error:function(request, status, error){
+
+	    		alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	    	}
 		}); 
 	}//-- build()
@@ -202,8 +205,6 @@
 						            	<div>
 							            	<span id="yearMonth"></span>
 							            </div>
-							            
-					            		
 					            	</div>
 					            </td>
 				        	</tr>
@@ -224,17 +225,23 @@
 									
 		  						</div>
 						</div>
-						<div class="col-4">
-							<div class="card" >
+						<div class="col-4" id="grmain-right">
+						<%-- 	<div class="card" >
 								<div class="card-header bg-transparent">D-DAY</div>
 				  					<div class="card-body">
 										일정 이름... <br>
+										<select id="dday">
+											<c:forEach var="dday" items="${ddayList }">
+											<option value="dday.gschCode"> 
+											
+											</c:forEach>
+										</select>
 										<div class="gsch-dday">
 											d-11
 										</div>
 									
 			  						</div>
-							</div>
+							</div> --%>
 							<div class="card" >
 								<div class="card-header bg-transparent">그룹원</div>
 				  					<div class="card-body">
@@ -247,26 +254,16 @@
 										</div>
 				  					</div>
 							</div>
-						</div>
-				
-				</div>
-				
-				<div class="col-12 " >
-					<div class="group-main ">
-						<div class="col-8 " >
-						
+							
 							<div class="card">
 								<div class="card-header bg-transparent">최근 게시물</div>
-				  					<div class="card-body">
-				    				<!-- <h5 class="card-title">Light card title</h5> -->
-				    				<c:forEach var="board" items="${boardList }">
-				    					<p class="card-text"><a href="#">${board.gbTitle }</a></p>
-				    				</c:forEach> 
-				  					</div>
+			  					<div class="card-body">
+			  					<c:forEach var="board" items="${boardList }">
+			    					<p class="card-text">${board.gbTitle }</p>
+			  						
+			  					</c:forEach>
+			  					</div>
 							</div>
-						</div>
-				
-						<div class="col-4 " >
 							
 							<div class="card">
 								<div class="card-header bg-transparent">알림</div>
@@ -277,7 +274,45 @@
 			  					</c:forEach>
 			  					</div>
 							</div>
+							
+						
 						</div>
+				
+				</div>
+		<%-- 		
+ 			 	<div class="col-12 " >
+					<div class="group-main ">
+						<div class="col-12 " >
+						
+							<div class="card">
+								<div class="card-header bg-transparent">최근 게시물</div>
+				  					<div class="card-body">
+				    				<!-- <h5 class="card-title">Light card title</h5> -->
+				    				<table>
+					    				<c:forEach var="board" items="${boardList }">
+					    				<tr>
+					    					<td><a href="#">${board.gbTitle }</a></td>
+					    					<td>${board.gbDate }</td>
+					    					<td>${board.gbWriter }</td>
+					    				</tr>
+					    				</c:forEach> 
+				    				</table>
+			  					</div>
+							</div>
+						</div> 
+			 --%>	
+					<%-- 	<div class="col-4 " >
+							
+							<div class="card">
+								<div class="card-header bg-transparent">알림</div>
+			  					<div class="card-body">
+			  					<c:forEach var="record" items="${recordList }">
+			    					<p class="card-text">(${record.RECORDDATE}) ${record.RECORD }</p>
+			  						
+			  					</c:forEach>
+			  					</div>
+							</div>--%>
+						</div> 
 				</div>
 				
 				<div class="col-12 " >
@@ -300,19 +335,28 @@
                           <h1 class="modal-title fs-5" id="staticBackdropLabel">그룹 탈퇴</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <form id="groupUnreg"  action="groupunregprocess.do" method="post">
                         <div class="modal-body">
                         
                     	정말 탈퇴하시겠습니까? <br> 탈퇴한 그룹은 다시 가입할 수 없습니다. 
+                    	<br><br>
+                    	탈퇴 사유 : 
+                    	<select id="reason" name="reason">
+                    		<option value="401">목적 달성</option>
+                    		<option value="402">생각했던 활동 내용과 다름</option>
+                    		<option value="403">개인사정</option>
+                    		<option value="405">다른 그룹을 가입하기 위해서</option>
+                    		<option value="406">그룹원과 맞지않음</option>
+                    	</select>
                           
                         </div>
                         <div class="modal-footer sorting_div">
-                        <form id="allBBSReportProcess"  action="adminreportallbbsprocess.do" method="post">
                           <button type="button" class="btn " data-bs-dismiss="modal">No</button>
-                          <input type="text" style="display: none;" id="code" name="code" value="${guCode }">
-
-                          <button type="button" class="btn notice_btn" id="processBtn" onclick="process()">Yes</button>
-                          </form>
+                          <input type="text" style="display: none;" id="guCode" name="guCode" value="${guCode }">
+                          <input type="text" style="display: none;" id="grCode" name="grCode" value="${grCode }">
+                          <button type="submit" class="btn notice_btn" id="processBtn">Yes</button>
                         </div>
+                          </form>
                       </div>
                     </div>
                   </div><!-- 그룹 탈퇴 모달 끝 -->							

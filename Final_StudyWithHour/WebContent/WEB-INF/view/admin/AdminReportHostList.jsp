@@ -110,26 +110,26 @@ function search(currPageNo, range, pageSize, searchType)
 				<div class="list">
 					<table class="list_table">
 						<tr class="spacer"></tr>
-						<tr>
-							<th>분류</th>
-							<th>번호</th>
-							<th>스터디 그룹</th>
-							<th>호스트</th>
-							<th>신고 일자</th>
-							<th>처리 상태</th>
+						<tr> 
+							<th style="width: 80px;">번호</th>
+							<th style="width: 100px;">분류</th>
+							<th style="width: 300px;">스터디 그룹</th>
+							<th style="width: 150px;">호스트</th>
+							<th style="width: 150px;">신고 일자</th>
+							<th style="width: 100px;">처리 상태</th>
 						</tr>
 						
 						<tr class="spacer"></tr>
 						<c:forEach var="report" items="${list }">
 						
 						<tr>
+							<td>${report.num }</td>
 							<td>
 								<c:choose>
 									<c:when test="${report.rtype=='306' }">리뷰</c:when>
 									<c:otherwise>이용</c:otherwise>
 								</c:choose>			
 							</td>
-							<td>${report.code }</td>
 							<td><a href="adminreporthostcontent.do?code=${report.code  }&rtype=${report.rtype}&currPageNo=${pagination.currPageNo}&range=${pagination.range}&searchType=${pagination.searchType }&keyword=${pagination.keyword }"> ${report.grname }</a></td>
 							
 							<td>${report.rpUser }</td>
