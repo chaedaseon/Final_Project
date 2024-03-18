@@ -48,24 +48,6 @@
           			<span class="menu_item">그룹 페이지</span>
         		</button>
       		</li> 
-      		<li class="mb-1">
-       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-       			 onclick="location.href='groupreservelist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
-         				<span class="menu_item">예약 내역</span>
-       			</button>
-      		</li>
-      		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='grouppenaltylist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
-          			<span class="menu_item">패널티 내역</span>
-        		</button>
-      		</li>
-      		<li class="mb-1">	
-        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='groupreservesearch.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
-          			<span class="menu_item">카페 예약</span>
-        		</button>
-      		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
         		 onclick="location.href='groupmemberlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
@@ -83,7 +65,26 @@
         		 onclick="location.href='groupcalendarlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 캘린더</span> 
         		</button>
-      		</li><li class="mb-1">	
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='groupreservesearch.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+          			<span class="menu_item">스터디카페 예약</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">
+       			<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+       			 onclick="location.href='groupreservelist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+         				<span class="menu_item">스터디카페 예약 내역</span>
+       			</button>
+      		</li>
+      		<li class="mb-1">	
+        		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
+        		 onclick="location.href='grouppenaltylist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+          			<span class="menu_item">패널티 내역</span>
+        		</button>
+      		</li>
+      		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
         		 onclick="locaton.href='groupboardlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 게시판</span>
