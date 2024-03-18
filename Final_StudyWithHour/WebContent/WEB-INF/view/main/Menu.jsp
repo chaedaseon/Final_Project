@@ -45,7 +45,7 @@
 		          			스터디카페
 		        		</a>
 		         		<ul class="dropdown-menu">
-		           			<li><a class="dropdown-item" href="#">스터디카페 둘러보기</a></li>
+		           			<li><a class="dropdown-item" href="reservesearch.do">스터디카페 둘러보기</a></li>
 		           			<li><a class="dropdown-item" href="mainreservesearch.do">예약하기</a></li>
 			            </ul>
 		      		</li>
