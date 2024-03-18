@@ -1,9 +1,12 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
 %>
 <!DOCTYPE html>
 <html>
@@ -45,7 +48,7 @@ table.groupProfile_list td
 			<c:import url="/WEB-INF/view/main/SideMenu.jsp"></c:import>
 			
 			<div class="rightContent_div">
-				<div style="margin: 0 auto; width: 800px;">
+				<div class="guestProfile_div" style="margin: 0 auto; width: 800px;">
 					<div style="width: 100%; height: 140px; background: #94be2424; margin-top: 10px;">
 						<div style="position: relative;">
 							<div style="display: flex; justify-content: center;">
@@ -60,7 +63,7 @@ table.groupProfile_list td
 								</div>
 								<div style="margin-left: 20px;">
 									<span style="border-radius: 30px; background: #94be247d; display: flex; justify-content: center;">
-										찜한 이웃 5
+										찜한 이웃 ${count }
 									</span>
 								</div>
 							</div>
@@ -79,7 +82,7 @@ table.groupProfile_list td
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" onclick="location.href='guest'">Yes</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='groupfriendinsert.do?guCode=<%=guest.getGuCode()%>&guFmCode=${member.guCode }&type=1&grCode=${grCode}'">Yes</button>
           </div>
         </div>
       </div>
@@ -98,7 +101,7 @@ table.groupProfile_list td
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" onclick="location.href=''">Yes</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='groupfriendinsert.do?guCode=<%=guest.getGuCode()%>&guFmCode=${member.guCode }&type=2&grCode=${grCode}'">Yes</button>
           </div>
         </div>
       </div>

@@ -240,6 +240,9 @@
    
    <!-- 프로필 카드 관련 Controller -->
    <bean name="/groupmemberprofile.do" class="com.study.mvc.controller.GuestProfileInfoController"></bean>
+   
+   <!-- 이웃 추가 작업 수행 -->
+	<bean name="/groupfriendinsert.do" class="com.study.mvc.controller.GroupFriendInsertController"></bean>
 	
 	
 	<!-- ─────────────────────────────────────────────────  -->

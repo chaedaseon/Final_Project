@@ -8,7 +8,7 @@ package com.study.mybatis.model;
 public class GroupDTO
 {
 	// 주요 속성 구성
-	String gr_code, gr_name, gj_code, gj_date, gu_id, gu_nick, category_code, gu_name, category_list, gender, ld_state;
+	String gr_code, gr_name, gj_code, gj_date, gu_id, gu_code, gu_nick, category_code, gu_name, category_list, gender, ld_state;
 	int age, rnum, gr_count;
 	
 	// getter / setter 구성
@@ -20,6 +20,16 @@ public class GroupDTO
 	public void setGr_code(String gr_code)
 	{
 		this.gr_code = gr_code;
+	}
+
+	public String getGu_code()
+	{
+		return gu_code;
+	}
+
+	public void setGu_code(String gu_code)
+	{
+		this.gu_code = gu_code;
 	}
 
 	public int getGr_count()

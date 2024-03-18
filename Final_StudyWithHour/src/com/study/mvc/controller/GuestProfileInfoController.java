@@ -44,6 +44,7 @@ public class GuestProfileInfoController implements Controller
 		
 		GuestDAO dao = new GuestDAO();
 		GuestDTO member = new GuestDTO();
+		int count = 0;
 		
 		try
 		{
@@ -52,9 +53,10 @@ public class GuestProfileInfoController implements Controller
 			String grCode = request.getParameter("gr_code");
 			String guCode = request.getParameter("gu_code");
 			member = dao.guestInfoList(guCode);
-			
+			count = dao.friendCount(guCode);
 			
 			mav.addObject("grCode", grCode);
+			mav.addObject("count", count);
 			mav.addObject("member", member);
 			mav.setViewName("/WEB-INF/view/guest/GuestProfileCard.jsp");
 			

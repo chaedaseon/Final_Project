@@ -367,7 +367,7 @@ public class GuestDAO
 		
 		// 찜 이웃 추가
 		String sql = "INSERT INTO FRIEND_MANAGE(FM_CODE, FM_DATE, GU_CODE, GU_FMCODE, FT_CODE)"
-	               + " VALUES(TO_CHAR(FRIEND_MANAGE_SEQ.NEXTVAL), SYSDATE, ?, ?, ?	)";
+	               + " VALUES(TO_CHAR(FRIEND_MANAGE_SEQ.NEXTVAL), SYSDATE, ?, ?, ?)";
 
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
@@ -446,6 +446,27 @@ public class GuestDAO
 		if(rs.next())
 		{
 			result = rs.getString("GU_CODE");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 찜한 이웃 개수 조회
+	public int friendCount(String guFmCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(*) AS COUNT FROM FRIEND_MANAGE WHERE GU_FMCODE = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guFmCode);
+		
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
 		}
 		
 		rs.close();
