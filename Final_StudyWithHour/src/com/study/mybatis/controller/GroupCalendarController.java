@@ -36,8 +36,8 @@ public class GroupCalendarController
 		
 		IGroupContentDAO dao = sqlsession.getMapper(IGroupContentDAO.class);
 		IGroupCalendarDAO calDao = sqlsession.getMapper(IGroupCalendarDAO.class);
-		
-		
+		 
+		  
 		HttpSession session =  request.getSession();
 		
 		String guCode = (String)session.getAttribute("guCode");

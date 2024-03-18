@@ -93,7 +93,7 @@ public class GroupController
 		model.addAttribute("leaderNick", leaderNick);
 		model.addAttribute("memberNick", memberNick);
 		//model.addAttribute("ddayList", ddayList);
-		
+		  
 		return "/WEB-INF/view/group/GroupPageMain.jsp?gr_code="+gr_code+"&gu_code="+gu_code";
 	}
 	

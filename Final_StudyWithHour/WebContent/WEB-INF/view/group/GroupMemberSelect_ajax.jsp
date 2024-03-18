@@ -22,7 +22,7 @@
 		sb.append(",\"guNick\":\"" + member.getGuNick() + "\"},");
 		
 		result += sb.toString();
-	}
+	} 
 		
 	// 마지막 컴마 제거
 	result = result.substring(0, result.length()-1);
