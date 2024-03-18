@@ -397,59 +397,22 @@
 					
 					<!-- 공지사항 영역 start -->
 					<div class="col-4" style="padding: 40px;">
-					<div class="subject-title">📢 공지사항<a href="PersonalPenaltyList.jsp" style="font-size: 16px;">더보기</a></div>
+					<div class="subject-title">📢 공지사항<a href="boardnoticelist.do" style="font-size: 16px;">더보기</a></div>
 						<div class="">
-							<ul class="list-item" style="border-top: 1px solid #e1e1e1;">
-								<li>
-									<div class="item-title">
-										<a href="#">패널티 관련 안내사항</a>
-									</div>
-									<div class="write-info">
-										<div class="write-date">
-											<span>2024.02.16</span>
+							<c:forEach var="notice" items="${noticeList }">
+								<ul class="list-item" style="border-top: 1px solid #e1e1e1;">
+									<li>
+										<div class="item-title text-truncate">
+											<a href="noticeview.do?ntCode=${notice.ntCode}">${notice.ntTitle }</a>
 										</div>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-title">
-										<a href="#">정책 변경 사항 공지</a>
-									</div>
-									<div class="write-info">
-										<div class="write-date">
-											<span>2024.02.16</span>
+										<div class="write-info">
+											<div class="write-date">
+												<span>${notice.ntDate }</span>
+											</div>
 										</div>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-title">
-										<a href="#">콘테스트 결과 발표! 1등은~</a>
-									</div>
-									<div class="write-info">
-										<div class="write-date">
-											<span>2024.02.16</span>
-										</div>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="item-title">
-										<a href="#">스터디그룹 콘테스트 개최!</a>
-									</div>
-									<div class="write-info">
-										<div class="write-date">
-											<span>2024.02.16</span>
-										</div>
-									</div>
-								</li>
-							</ul>						
+									</li>
+								</ul>
+							</c:forEach>
 						</div>
 					</div><!-- 공지사항 영역 end -->
 				</div>
