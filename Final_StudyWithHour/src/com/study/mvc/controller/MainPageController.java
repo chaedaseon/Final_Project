@@ -33,9 +33,11 @@ public class MainPageController implements Controller
 		
 		ArrayList<NoticeBoardDTO> noticeList =  dao.latestNoticeList();
 		CafeDTO newCafe = dao.searchNewCafe();
+		ArrayList<CafeDTO> reserveTopCafe = new ArrayList<CafeDTO>();
 
 		
 		
+		mav.addObject("reserveTopCafe", reserveTopCafe);
 		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");

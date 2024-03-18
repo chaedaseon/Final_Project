@@ -89,6 +89,33 @@ public class MainPageDAO
 			return result;
 		}
 		
+		// 예약 많은 스터디카페 1~3위 조회
+		public ArrayList<CafeDTO> reserveTopCafe() throws SQLException
+		{
+			ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
+			
+			String sql = "SELECT SC_CODE, SC_ADDR1, SC_ADDR2 FROM"
+					+ " (SELECT SC_CODE, COUNT(RE_CODE) AS COUNT FROM VIEW_RESERVE GROUP BY SC_CODE ORDER BY COUNT DESC)"
+					+ " WHERE ROWNUM <= 3";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next())
+			{
+				CafeDTO dto = new CafeDTO();
+				dto.setScCode(rs.getString("SC_CODE"));
+				dto.setScAddr1(rs.getString("SC_ADDR1"));
+				dto.setScAddr2(rs.getString("SC_ADDR2"));
+				
+				result.add(dto);
+			}
+			
+			rs.close();
+			pstmt.close();
+			
+			return result;
+		}
+		
 	
 		
 }
