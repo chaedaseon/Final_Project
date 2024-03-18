@@ -66,7 +66,7 @@
 				
 				
 				<!-- 그룹 모집글 영역 start -->
-				<div class="col-12" style="padding: 40px;">
+				<div class="group-list col-12" style="padding: 40px;">
 					<div class="col-12 subject-title"><a href="#">⏰ 모집중인 스터디그룹을 확인해보세요!</a><a href="#" style="font-size: 16px;">더보기</a></div>
 					<div class="latest-list">
 					<c:forEach var="studyGroup" items="${studyGroupList }">
@@ -83,7 +83,7 @@
 				</div><!-- 그룹 모집글 영역 end -->
 				
 				
-				<div class="col-12" style="display: flex; flex-direction: row; flex-wrap: wrap;">
+				<div class="best-list col-12" style="display: flex; flex-direction: row; flex-wrap: wrap;">
 					<!-- 인기글 영역 start -->
 					<div class="col-4" style="padding: 40px;">
 						<div class="subject-title">🔥 인기 있는 게시글</div>
@@ -131,7 +131,7 @@
 					</div><!-- 인기글 영역 end -->
 					
 					<!-- 최근 게시글 영역 start -->
-					<div class="col-4" style="padding: 40px;">
+					<div class="latest-list col-4" style="padding: 40px;">
 						<div class="subject-title">🔥 최근 게시글</div>
 						<div class="list-div">
 							<c:forEach var="boardList" items="${BoardList }">
@@ -177,7 +177,7 @@
 					</div><!-- 최근 게시글 영역 end -->
 					
 					<!-- 공지사항 영역 start -->
-					<div class="col-4" style="padding: 40px;">
+					<div class="notice-list col-4" style="padding: 40px;">
 					<div class="subject-title">📢 공지사항<a href="boardnoticelist.do" style="font-size: 16px;">더보기</a></div>
 						<div class="">
 							<c:forEach var="notice" items="${noticeList }">
@@ -203,7 +203,7 @@
 				<div class="col-12" style="display: flex; flex-direction: row; flex-wrap: wrap;">
 				
 					<!-- 예약 많은 스터디카페 start -->
-					<div class="col-4" style="padding: 40px;">
+					<div class="best-studycafe-list col-4" style="padding: 40px;">
 						<div class="subject-title">🏆 예약 많은 스터디카페</div>
 						<div>
 						<c:forEach var="top" items="${reserveTopCafe }" varStatus="cafe">
@@ -232,7 +232,7 @@
 				
 				
 					<!-- 새로 등록된 스터디카페 start -->
-					<div class="col-8" style="padding: 40px;">
+					<div class="latest-studycafe-list col-8" style="padding: 40px;">
 						<div class="subject-title">✨ 새로 등록된 스터디카페</div>
 						
 						<div class="" style="display: flex; width: 100%; border-radius: 15px; box-shadow: 5px 5px 5px #d3d3d3; height: 230px;">
