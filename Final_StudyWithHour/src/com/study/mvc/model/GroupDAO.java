@@ -402,160 +402,184 @@ public class GroupDAO
 		
 		
 		// 스터디카페 예약
-	      public int roomReserveAdd(GroupDTO dto) throws SQLException
-	      {
-	         int result = 0;
-	         
-	         String sql= "INSERT INTO RESERVATION(RE_CODE, RE_STARTDATE, RE_STARTHOUR, RE_ENDHOUR, RE_COUNT, RE_DATE, SR_CODE, GJ_CODE)"
-	               + " VALUES(TO_CHAR(RESERVATION_SEQ.NEXTVAL), ?, ?, ?, ?, SYSDATE, ?, ?)";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         
-	         pstmt.setString(1, dto.getReStartDate());
-	         pstmt.setString(2, dto.getReStartHour());
-	         pstmt.setString(3, dto.getReEndHour());
-	         pstmt.setInt(4, dto.getReCount());
-	         pstmt.setString(5, dto.getSrCode());
-	         pstmt.setString(6, dto.getGjCode());
-	         
-	         result = pstmt.executeUpdate();
-	         
-	         pstmt.close();
-	         
-	         return result;
-	      }
-	      
-	      // 모임내역 정보 불러오기
-	      public GroupDTO meetInfo(String gschCode) throws SQLException
-	      {
-	         GroupDTO result = new GroupDTO();
-	         
-	         String sql = "SELECT GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE , GU_ID, GU_NAME, MEET_STATE"
-	               + " FROM VIEW_GROUPSCH WHERE GSCH_CODE = ?";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, gschCode);
-	         ResultSet rs = pstmt.executeQuery();
-	         while (rs.next())
-	         {
-	            result.setGschCode(rs.getString("GSCH_CODE"));
-	            result.setGschDate(rs.getString("GSCH_DATE"));
-	            result.setGschName(rs.getString("GSCH_NAME"));
-	            result.setGschContent(rs.getString("GSCH_CONTENT"));
-	            result.setGschLocation(rs.getString("GSCH_LOCATION"));
-	            result.setGschStartHour(rs.getString("GSCH_STARTHOUR"));
-	            result.setGschEndHour(rs.getString("GSCH_ENDHOUR"));
-	            result.setGjCode(rs.getString("GJ_CODE"));
-	            result.setGuName(rs.getString("GU_NAME"));
-	            result.setGuId(rs.getString("GU_ID"));
-	            result.setMeetState(rs.getString("MEET_STATE"));
-	            
-	         }
-	         
-	         rs.close();
-	         pstmt.close();
-	         return result;
-	      }
-	      
-	      // 모임에 대한 불참자 조회
-	      public ArrayList<GroupDTO> meetMemberList(String gschCode) throws SQLException
-	      {
-	         ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
-	         
-	         String sql = "SELECT MEMBER, MEMBERCODE, ATTL_CODE FROM VIEW_ATT WHERE GSCH_CODE = ? AND UAT_STATE = '불참자'";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, gschCode);
-	         ResultSet rs = pstmt.executeQuery();
-	         while(rs.next())
-	         {
-	            GroupDTO dto = new GroupDTO();
-	            
-	            dto.setMember(rs.getString("MEMBER"));
-	            dto.setMembercode(rs.getString("MEMBERCODE"));
-	            dto.setAttlCode(rs.getString("ATTL_CODE"));
-	            
-	            result.add(dto);
-	         }
-	         
-	         rs.close();
-	         pstmt.close();
-	         return result;
-	      }
-	      
-	      // 모임에 대한 참석자 조회
-	      public ArrayList<GroupDTO> unattMemberList(String gschCode) throws SQLException
-	      {
-	         ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
-	         
-	         String sql = "SELECT MEMBER, MEMBERCODE, ATTL_CODE FROM VIEW_ATT WHERE GSCH_CODE = ? AND UAT_STATE = '참석자'";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, gschCode);
-	         ResultSet rs = pstmt.executeQuery();
-	         while(rs.next())
-	         {
-	            GroupDTO dto = new GroupDTO();
-	            
-	            dto.setMember(rs.getString("MEMBER"));
-	            dto.setMembercode(rs.getString("MEMBERCODE"));
-	            dto.setAttlCode(rs.getString("ATTL_CODE"));
-	            
-	            result.add(dto);
-	         }
-	         
-	         rs.close();
-	         pstmt.close();
-	         return result;
-	      }
-	      
-	      // 불참자 등록
-	      public int unattMemberAdd(String attlCode) throws SQLException
-	      {
-	         int result = 0;
-	         
-	         String sql = "INSERT INTO UNATTENDANCE(UNATT_CODE, ATTL_CODE) VALUES(TO_CHAR(UNATTENDANCE_SEQ.NEXTVAL), ?)";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, attlCode);
-	         
-	         result = pstmt.executeUpdate();
-	         
-	         pstmt.close();
-	         
-	         return result;
-	      }
-	      
-	      // 모임기록 등록
-	      public int meetAdd(String gschCode, String meetDetail) throws SQLException
-	      {
-	         int result = 0;
-	         
-	         String sql = "INSERT INTO GROUP_MEETLIST(GM_CODE, GM_CONTENT, GSCH_CODE) VALUES(TO_CHAR(GROUP_MEETLIST_SEQ.NEXTVAL), ?, ?)";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, meetDetail);
-	         pstmt.setString(2, gschCode);
-	         
-	         result = pstmt.executeUpdate();
-	         
-	         pstmt.close();
-	         
-	         return result;
-	      }
-	      
-	      // 모임 기록
-	      public String meetRecord(String gschCode) throws SQLException
-	      {
-	         String result = "";
-	         
-	         String sql = "SELECT GM_CONTENT FROM GROUP_MEETLIST WHERE GSCH_CODE = ?";
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         pstmt.setString(1, gschCode);
-	         ResultSet rs = pstmt.executeQuery();
-	         while(rs.next())
-	         {
-	            result = rs.getString("GM_CONTENT");
-	         }
-	         
-	         rs.close();
-	         pstmt.close();
-	         
-	         return result;
-	      }
+      public int roomReserveAdd(GroupDTO dto) throws SQLException
+      {
+         int result = 0;
+         
+         String sql= "INSERT INTO RESERVATION(RE_CODE, RE_STARTDATE, RE_STARTHOUR, RE_ENDHOUR, RE_COUNT, RE_DATE, SR_CODE, GJ_CODE)"
+               + " VALUES(TO_CHAR(RESERVATION_SEQ.NEXTVAL), ?, ?, ?, ?, SYSDATE, ?, ?)";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         
+         pstmt.setString(1, dto.getReStartDate());
+         pstmt.setString(2, dto.getReStartHour());
+         pstmt.setString(3, dto.getReEndHour());
+         pstmt.setInt(4, dto.getReCount());
+         pstmt.setString(5, dto.getSrCode());
+         pstmt.setString(6, dto.getGjCode());
+         
+         result = pstmt.executeUpdate();
+         
+         pstmt.close();
+         
+         return result;
+      }
+      
+      // 모임내역 정보 불러오기
+      public GroupDTO meetInfo(String gschCode) throws SQLException
+      {
+         GroupDTO result = new GroupDTO();
+         
+         String sql = "SELECT GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE , GU_ID, GU_NAME, MEET_STATE"
+               + " FROM VIEW_GROUPSCH WHERE GSCH_CODE = ?";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, gschCode);
+         ResultSet rs = pstmt.executeQuery();
+         while (rs.next())
+         {
+            result.setGschCode(rs.getString("GSCH_CODE"));
+            result.setGschDate(rs.getString("GSCH_DATE"));
+            result.setGschName(rs.getString("GSCH_NAME"));
+            result.setGschContent(rs.getString("GSCH_CONTENT"));
+            result.setGschLocation(rs.getString("GSCH_LOCATION"));
+            result.setGschStartHour(rs.getString("GSCH_STARTHOUR"));
+            result.setGschEndHour(rs.getString("GSCH_ENDHOUR"));
+            result.setGjCode(rs.getString("GJ_CODE"));
+            result.setGuName(rs.getString("GU_NAME"));
+            result.setGuId(rs.getString("GU_ID"));
+            result.setMeetState(rs.getString("MEET_STATE"));
+            
+         }
+         
+         rs.close();
+         pstmt.close();
+         return result;
+      }
+      
+      // 모임에 대한 불참자 조회
+      public ArrayList<GroupDTO> meetMemberList(String gschCode) throws SQLException
+      {
+         ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+         
+         String sql = "SELECT MEMBER, MEMBERCODE, ATTL_CODE FROM VIEW_ATT WHERE GSCH_CODE = ? AND UAT_STATE = '불참자'";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, gschCode);
+         ResultSet rs = pstmt.executeQuery();
+         while(rs.next())
+         {
+            GroupDTO dto = new GroupDTO();
+            
+            dto.setMember(rs.getString("MEMBER"));
+            dto.setMembercode(rs.getString("MEMBERCODE"));
+            dto.setAttlCode(rs.getString("ATTL_CODE"));
+            
+            result.add(dto);
+         }
+         
+         rs.close();
+         pstmt.close();
+         return result;
+      }
+      
+      // 모임에 대한 참석자 조회
+      public ArrayList<GroupDTO> unattMemberList(String gschCode) throws SQLException
+      {
+         ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+         
+         String sql = "SELECT MEMBER, MEMBERCODE, ATTL_CODE FROM VIEW_ATT WHERE GSCH_CODE = ? AND UAT_STATE = '참석자'";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, gschCode);
+         ResultSet rs = pstmt.executeQuery();
+         while(rs.next())
+         {
+            GroupDTO dto = new GroupDTO();
+            
+            dto.setMember(rs.getString("MEMBER"));
+            dto.setMembercode(rs.getString("MEMBERCODE"));
+            dto.setAttlCode(rs.getString("ATTL_CODE"));
+            
+            result.add(dto);
+         }
+         
+         rs.close();
+         pstmt.close();
+         return result;
+      }
+      
+      // 불참자 등록
+      public int unattMemberAdd(String attlCode) throws SQLException
+      {
+         int result = 0;
+         
+         String sql = "INSERT INTO UNATTENDANCE(UNATT_CODE, ATTL_CODE) VALUES(TO_CHAR(UNATTENDANCE_SEQ.NEXTVAL), ?)";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, attlCode);
+         
+         result = pstmt.executeUpdate();
+         
+         pstmt.close();
+         
+         return result;
+      }
+      
+      // 모임기록 등록
+      public int meetAdd(String gschCode, String meetDetail) throws SQLException
+      {
+         int result = 0;
+         
+         String sql = "INSERT INTO GROUP_MEETLIST(GM_CODE, GM_CONTENT, GSCH_CODE) VALUES(TO_CHAR(GROUP_MEETLIST_SEQ.NEXTVAL), ?, ?)";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, meetDetail);
+         pstmt.setString(2, gschCode);
+         
+         result = pstmt.executeUpdate();
+         
+         pstmt.close();
+         
+         return result;
+      }
+      
+      // 모임 기록
+      public String meetRecord(String gschCode) throws SQLException
+      {
+         String result = "";
+         
+         String sql = "SELECT GM_CONTENT FROM GROUP_MEETLIST WHERE GSCH_CODE = ?";
+         PreparedStatement pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, gschCode);
+         ResultSet rs = pstmt.executeQuery();
+         while(rs.next())
+         {
+            result = rs.getString("GM_CONTENT");
+         }
+         
+         rs.close();
+         pstmt.close();
+         
+         return result;
+      }
+      
+      // 게스트가 가입한 그룹내역 조회
+      public ArrayList<GroupDTO> guestGroup(String guCode) throws SQLException
+      {
+    	  ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+    	  
+    	  String sql = "SELECT GR_CODE, GR_NAME FROM VIEW_MEMBERINFO WHERE GU_CODE = ? AND GR_CODE NOT IN (SELECT GR_CODE FROM BREAK)";
+    	  PreparedStatement pstmt = conn.prepareStatement(sql);
+    	  pstmt.setString(1, guCode);
+    	  ResultSet rs = pstmt.executeQuery();
+    	  while(rs.next())
+    	  {
+    		  GroupDTO dto = new GroupDTO();
+    		  
+    		  dto.setGrCode(rs.getString("GR_CODE"));
+    		  dto.setGrName(rs.getString("GR_NAME"));
+    		  
+    		  result.add(dto);
+    	  }
+    	  
+    	  rs.close();
+    	  pstmt.close();
+    	  return result;
+      }
 		
 }

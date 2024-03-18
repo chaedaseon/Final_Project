@@ -177,7 +177,7 @@
 							<p>✨${fn:substring(room.scDate,0,11) } OPEN</p>
 							<p>${room.scName }입니다.</p>
 							<p>⏰${room.scOpenHour } ~ ${room.scCloseHour }</p>
-							<p>📞${room.scTel }</p>
+							<p>📞${fn:substring(room.scTel,0,3) }-${fn:substring(room.scTel,3,7) }-${fn:substring(room.scTel,7,11) }</p>
 						</div>
 					</div>
 				</div>
