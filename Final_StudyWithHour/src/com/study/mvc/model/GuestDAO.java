@@ -379,4 +379,57 @@ public class GuestDAO
 		return result; 
 	}
 	
+	// 멤버 정보 내역 
+	public GuestDTO guestInfoList(String guCode) throws SQLException
+	{
+		GuestDTO result = new GuestDTO();
+		
+		String sql = "SELECT GU_CODE, GU_ID, GU_NICK, GU_DATE, CATEGORY_CODE, GU_NAME, CATEGORY_LIST, GU_SSN, GENDER, AGE"
+				+ " FROM VIEW_GUESTINFO WHERE GU_CODE = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			result.setGuCode(rs.getString("GU_CODE"));
+			result.setGuId(rs.getString("GU_ID"));
+			result.setGuNick(rs.getString("GU_NICK"));
+			result.setGuDate(rs.getString("GU_DATE"));
+			result.setGuCategoryCode(rs.getString("CATEGORY_CODE"));
+			result.setGuName(rs.getString("GU_NAME"));
+			result.setGuCategoryList(rs.getString("CATEGORY_LIST"));
+			result.setGuSsn(rs.getString("GU_SSN"));
+			result.setGender(rs.getString("GENDER"));
+			result.setAge(rs.getInt("AGE"));
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
+	// 그룹코드에서 멤버코드 내역 확인
+	public String searchMember(String gjCode) throws SQLException
+	{
+		String result = "";
+		
+		String sql = "SELECT G.GU_CODE AS GU_CODE FROM GROUP_JOIN GJ, GUEST G"
+				+ " WHERE GJ.GU_CODE = G.GU_CODE AND GJ.GJ_CODE = ?";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, gjCode);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next())
+		{
+			result = rs.getString("GU_CODE");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
 }

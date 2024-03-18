@@ -7,7 +7,8 @@ public class GuestDTO
 	// 주요 속성 구성(Guest)
 	
 	// 회원&개인 정보 속성 구성
-	private String guCode, guId, guPw, guNick, guDate, guCategoryCode, guName, guTel, guSsn, guEmail;
+	private String guCode, guId, guPw, guNick, guDate, guCategoryCode, guName, guTel, guSsn, guEmail, gender, guCategoryList;
+	private int age;
 	
 	// 이웃관리 속성 구성
 	private String fmCode, fmDate, guFmNick, ftCode;
@@ -23,6 +24,36 @@ public class GuestDTO
 		this.guCode = guCode;
 	}
 	
+	public String getGuCategoryList()
+	{
+		return guCategoryList;
+	}
+
+	public void setGuCategoryList(String guCategoryList)
+	{
+		this.guCategoryList = guCategoryList;
+	}
+
+	public String getGender()
+	{
+		return gender;
+	}
+
+	public void setGender(String gender)
+	{
+		this.gender = gender;
+	}
+
+	public int getAge()
+	{
+		return age;
+	}
+
+	public void setAge(int age)
+	{
+		this.age = age;
+	}
+
 	public String getGuId()
 	{
 		return guId;

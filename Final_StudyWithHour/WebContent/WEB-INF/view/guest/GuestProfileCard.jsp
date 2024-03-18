@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -44,10 +45,6 @@ table.groupProfile_list td
 			<c:import url="/WEB-INF/view/main/SideMenu.jsp"></c:import>
 			
 			<div class="rightContent_div">
-				<!-- <div class="page_title">
-					<span><span>superman 님</span> 프로필</span>
-				</div> -->
-				
 				<div style="margin: 0 auto; width: 800px;">
 					<div style="width: 100%; height: 140px; background: #94be2424; margin-top: 10px;">
 						<div style="position: relative;">
@@ -55,8 +52,8 @@ table.groupProfile_list td
 								<img src="images/woman.png" class="image-file" style="width: 150px; height: 150px; border: 3px solid #94be2c; background: #fff; border-radius: 100px; margin: 60px 0 0 30px;">
 							</div>
 							<div style="display: flex; flex-direction: column; align-content: center; flex-wrap: wrap;">
-								<h3 style="margin: 10px 0 0 30px;">superman</h3>
-								<h5 style="margin: 5px 0 0 40px;">슈퍼맨이지롱</h5>
+								<h3 style="margin: 10px 0 0 30px;">${member.guId }</h3>
+								<h5 style="margin: 5px 0 0 40px;">${member.guNick }</h5>
 								<div style="display: flex; justify-content: flex-end;">
 									<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#friendAdd">찜❤️</button>
 									<button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#notfriendAdd" style="margin-left:5px;">차단🔕</button>
@@ -78,12 +75,11 @@ table.groupProfile_list td
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
-          <input type="hidden" name="deleteCode" value="${rm.srCode }">
-          	<span>superman 님 계정을 찜하시겠습니까?</span>
+          	<span>${member.guId } 님 계정을 찜하시겠습니까?</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" onclick="location.href='caferoomdelete.do?scCode=${cafe.scCode}&srCode=${rm.srCode }'">Yes</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='guest'">Yes</button>
           </div>
         </div>
       </div>
@@ -98,12 +94,11 @@ table.groupProfile_list td
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
-          <input type="hidden" name="deleteCode" value="${rm.srCode }">
-          	<span>superman 님 계정을 차단하시겠습니까?</span>
+          	<span>${member.guId } 님 계정을 차단하시겠습니까?</span>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" onclick="location.href='caferoomdelete.do?scCode=${cafe.scCode}&srCode=${rm.srCode }'">Yes</button>
+            <button type="button" class="btn btn-primary" onclick="location.href=''">Yes</button>
           </div>
         </div>
       </div>
@@ -112,22 +107,22 @@ table.groupProfile_list td
 						<hr>
 						
 						<div style="display: flex; justify-content: center;">
-							<table class="groupProfile_list"">
+							<table class="groupProfile_list">
 								<tr>
 									<td>가입일자</td>
-									<td>2024-01-14</td>
+									<td>${fn:substring(member.guDate,0,11) }</td>
 								</tr>	
 								<tr>
 									<td>카테고리</td>
-									<td>자격증</td>
+									<td>${member.guCategoryList }</td>
 								</tr>	
 								<tr>
 									<td>성별</td>
-									<td>여자</td>
+									<td>${member.gender }</td>
 								</tr>	
 								<tr>
 									<td>나이</td>
-									<td>23</td>
+									<td>${member.age }</td>
 								</tr>	
 							</table>
 						</div>

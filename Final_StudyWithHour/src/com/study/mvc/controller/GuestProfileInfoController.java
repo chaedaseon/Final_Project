@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.study.mvc.model.GuestDAO;
+import com.study.mvc.model.GuestDTO;
+
 // ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
 //    사용자 정의 컨트롤러 클래스를 구성한다.
 //    cf.Controller Annotation 활용
@@ -39,15 +42,22 @@ public class GuestProfileInfoController implements Controller
 		}
 		*/
 		
-		
+		GuestDAO dao = new GuestDAO();
+		GuestDTO member = new GuestDTO();
 		
 		try
 		{
+			dao.connection();
+			
+			String gjCode = request.getParameter("gj_code");
+			String guCode = dao.searchMember(gjCode);
+			member = dao.guestInfoList(guCode);
 			
 			
-			// 기존 폼으로 돌아가기
+			mav.addObject("member", member);
 			mav.setViewName("/WEB-INF/view/guest/GuestProfileCard.jsp");
 			
+			dao.close();
 			
 		} catch (Exception e)
 		{
