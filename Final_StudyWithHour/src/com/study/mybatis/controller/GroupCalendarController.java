@@ -67,7 +67,7 @@ public class GroupCalendarController
 			model.addAttribute("gjCode", gjCode);
 			model.addAttribute("guCode", guCode);
 			model.addAttribute("grCode", gr_code);
-			return "/WEB-INF/view/group/GroupCalendar.jsp?gu_code="+guCode+"&gr_code="+gr_code";	
+			return "/WEB-INF/view/group/GroupCalendar.jsp?gu_code="+guCode+"&gr_code="+gr_code;	
 		}
 		
 		
