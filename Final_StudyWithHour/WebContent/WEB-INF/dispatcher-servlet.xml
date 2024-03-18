@@ -217,7 +217,7 @@
    <!-- 스터디그룹 예약취소 관련 Controller -->
    <bean name="/groupreservedelete.do" class="com.study.mvc.controller.GroupReserveDeleteController"></bean>
    
-   <!-- 스터디그룹 검색 관련 Controller -->
+   <!-- 스터디그룹 예약 검색 관련 Controller -->
    <bean name="/groupreservesearch.do" class="com.study.mvc.controller.GroupReserveSearchFormController"></bean>
    
    <!-- 스터디그룹 지역리스트 조회 관련 Controller -->
@@ -226,7 +226,7 @@
    <!-- 스터디그룹 예약상세 관련 Controller -->
    <bean name="/grouproomreserveform.do" class="com.study.mvc.controller.GroupReserveFormController"></bean>
    
-   <!-- 스터디그룹 예약상세 관련 Controller -->
+   <!-- 스터디그룹 예약 관련 Controller -->
    <bean name="/groupreserveinsert.do" class="com.study.mvc.controller.GroupReserveInsertController"></bean>
 
    <!-- 모임 불참자 관련 Controller -->
