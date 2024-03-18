@@ -63,15 +63,6 @@ public class GroupReserveFormController implements Controller
 			
 			cafe = dao.roomInfoList(srCode);
 			
-			System.out.println(scCode);
-			System.out.println(srCode);
-			System.out.println(reserveDate);
-			System.out.println(reserveAddr1);
-			System.out.println(reserveAddr2);
-			System.out.println(reserveHour1);
-			System.out.println(reserveHour2);
-			System.out.println(reserveCount);
-			
 			mav.addObject("cafe", cafe);
 			mav.addObject("reserveDate", reserveDate);
 			mav.addObject("reserveAddr1", reserveAddr1);
@@ -80,7 +71,7 @@ public class GroupReserveFormController implements Controller
 			mav.addObject("reserveHour2", reserveHour2);
 			mav.addObject("reserveCount", reserveCount);
 			
-			mav.setViewName("/WEB-INF/view/group/ReservationInfo.jsp");
+			mav.setViewName("/WEB-INF/view/reservation/ReservationInfo.jsp");
 			
 			dao.close();
 			
