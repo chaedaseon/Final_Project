@@ -59,7 +59,7 @@
 					  	<div class="tab-pane fade show active" id="board-tab-pane" role="tabpanel" aria-labelledby="board-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th style="width: 10%;">No</th>
+									<!-- <th style="width: 10%;">No</th> -->
 									<th style="width: 15%;">게시판 분류</th>
 									<th style="width: 50%;">제목</th>
 									<th style="width: 15%;">작성 일자</th>
@@ -75,10 +75,10 @@
 								
 								<c:forEach var="boardList" items="${boardList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${boardList.bfList }</td>
 										
-										<td>
+										<td style="text-align: left;">
 										<c:set var="data" value="false"></c:set>
 											<c:forEach var="boardReplyCount" items="${boardReplyCount }">
 												<c:if test="${boardReplyCount.boCode eq boardList.boCode }">
@@ -104,7 +104,7 @@
 					  	<div class="tab-pane fade" id="groupBoard-tab-pane" role="tabpanel" aria-labelledby="groupBoard-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th style="width: 5%;">No</th>
+									<!-- <th style="width: 5%;">No</th> -->
 									<th style="width: 10%;">그룹명</th>
 									<th style="width: 15%;">제목</th>
 									<th style="width: 45%;">내용</th>
@@ -119,17 +119,17 @@
 								</c:if>
 								<c:forEach var="groupBoardList" items="${groupBoardList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${groupBoardList.grName }</td>
 										<td>${groupBoardList.gbTitle }</td>
 										
-										<td>
+										<td style="text-align: left;">
 											<c:forEach var="groupReplyCount" items="${groupReplyCount }">
 												<c:if test="${groupReplyCount.gbCode eq groupBoardList.gbCode }">
 													${groupBoardList.gbContent.substring(0,15) }... [${groupReplyCount.replyCount}]
 												</c:if>
 											</c:forEach>
-											${groupBoardList.gbContent }... [0]
+											${groupBoardList.gbContent } [0]
 										</td>
 										
 										<td>${groupBoardList.gbDate.substring(0,11) }</td>
@@ -142,27 +142,26 @@
 						<!-- 그룹게시글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 					</div>
 				</div>	
-				
+				<%-- 
 				<nav aria-label="Page navigation example" class="paging">
 				  	<ul class="pagination">
 					    <li class="page-item disabled">
 					    	<a class="page-link">◁</a>
 					    </li>
-				  		<%-- <c:if test="${dataCount != 0 }">
+				  		<c:if test="${dataCount != 0 }">
 				  			<li class="page-item">${pageIndexList }</li>
-				  		</c:if> --%>
+				  		</c:if>
 					    <li class="page-item">
 					    	<a class="page-link" href="#">▷</a>
 					    </li>
-				  	<!-- 
 					    <li class="page-item"><a class="page-link" href="#">1</a></li>
 					    <li class="page-item"><a class="page-link" href="#">2</a></li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
 					    <li class="page-item"><a class="page-link" href="#">4</a></li>
 					    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				  	 -->
 				  	</ul>
 				</nav>
+				 --%>
 			</div>
 		</div>
 		 

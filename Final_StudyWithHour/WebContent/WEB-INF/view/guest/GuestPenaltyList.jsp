@@ -45,11 +45,13 @@
 				
 				<div>
 					<div class="penalty_sorting">
+					<!-- 
 						<select class="sorting">
 							<option selected="selected">--유효 상태--</option>
 							<option>유효</option>
 							<option>무효</option>
 						</select>
+						 -->
 					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
@@ -70,7 +72,7 @@
 						<div class="tab-pane fade show active" id="boardpenalty-tab-pane" role="tabpanel" aria-labelledby="boardpenalty-tab" tabindex="0">
 							<table class="penalty_list">
 								<tr>
-									<th>No</th>	
+									<!-- <th>No</th>	 -->
 									<th>컨텐츠</th>
 									<th>사유</th>
 									<th>부여일자</th>
@@ -87,7 +89,7 @@
 								
 								<c:forEach var="penaltyList" items="${penaltyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${penaltyList.boTitle }</td>
 										<td>${penaltyList.reason }</td>
 										<td>${penaltyList.startDate.substring(0,10) }</td>
@@ -102,7 +104,7 @@
 						<div class="tab-pane fade" id="groupboardpenalty-tab-pane" role="tabpanel" aria-labelledby="groupboardpenalty-tab" tabindex="0">
 							<table class="penalty_list">
 								<tr>
-									<th>No</th>	
+									<!-- <th>No</th>	 -->
 									<th>그룹</th>
 									<th>컨텐츠</th>
 									<th>사유</th>
@@ -112,15 +114,15 @@
 								</tr>
 								<tr class="spacer"></tr>
 								
-								<c:if test="${empty penaltyList }">
+								<c:if test="${empty groupBoardPenaltyList }">
 									<tr>
-										<td colspan="6" style="text-align: center;">스크랩 내역이 존재하지 않습니다.</td>
+										<td colspan="6" style="text-align: center;">패널티 내역이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
 								
 								<c:forEach var="groupBoardPenaltyList" items="${groupBoardPenaltyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${groupBoardPenaltyList.grName }</td>
 										<td>${groupBoardPenaltyList.gbTitle }</td>
 										<td>${groupBoardPenaltyList.reason }</td>
@@ -138,7 +140,7 @@
 						<div class="tab-pane fade" id="grouppenalty-tab-pane" role="tabpanel" aria-labelledby="grouppenalty-tab" tabindex="0">
 							<table class="penalty_list">
 								<tr>
-									<th>No</th>	
+									<!-- <th>No</th>	 -->
 									<th>그룹</th>
 									<th>사유</th>
 									<th>부여일자</th>
@@ -155,7 +157,7 @@
 								
 								<c:forEach var="groupBreakPenaltyList" items="${groupBreakPenaltyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${groupBreakPenaltyList.grName }</td>
 										<td>${groupBreakPenaltyList.reason }</td>
 										<td>${groupBreakPenaltyList.startDate.substring(0,10) }</td>
@@ -169,7 +171,7 @@
 						
 						
 					</div>
-					
+				<%-- 	
 				<nav aria-label="Page navigation example paging" class="paging">
 					<ul class="pagination">
 						<c:if test="${dataCount != 0 }">
@@ -177,7 +179,7 @@
 						</c:if>						
 					</ul>
 				</nav>		
-				
+				 --%>
 			</div>
 		</div>
 		</div>

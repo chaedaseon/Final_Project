@@ -32,7 +32,8 @@ public class GuestBoardDAO
 		String sql = "SELECT B.BO_CODE AS BO_CODE, B.BO_DATE AS BO_DATE, B.BO_TITLE AS BO_TITLE, B.BO_CONTENT AS BO_CONTENT"
 				   + ", B.BO_VIEW AS BO_VIEW, B.BO_MODATE AS BO_MODATE, B.BO_FILE AS BO_FILE, BS.BS_LIST AS BS_LIST, BF.BF_LIST AS BF_LIST"
 				   + " FROM BOARD B JOIN BOARD_SECOND BS ON B.BS_CODE = BS.BS_CODE JOIN BOARD_FIRST BF ON BS.BF_CODE = BF.BF_CODE"
-				   + " WHERE B.GU_CODE=?";	
+				   + " WHERE B.GU_CODE=?"
+				   + " ORDER BY BO_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -91,7 +92,8 @@ public class GuestBoardDAO
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "SELECT RP_DATE, RP_CONTENT, BO_CODE, BO_TITLE, BS_LIST, BF_LIST FROM VIEW_REPLY_LIST WHERE GU_CODE = ?";
+		String sql = "SELECT RP_DATE, RP_CONTENT, BO_CODE, BO_TITLE, BS_LIST, BF_LIST FROM VIEW_REPLY_LIST WHERE GU_CODE = ?"
+				    + " ORDER BY RP_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -127,7 +129,8 @@ public class GuestBoardDAO
 				   + ", G.GU_ID AS GU_ID, B.BO_TITLE AS BO_TITLE, B.BO_CONTENT AS BO_CONTENT, B.BO_VIEW AS BO_VIEW, BS.BS_LIST AS BS_LIST, BF.BF_LIST AS BF_LIST"
 				   + " FROM SCRAP C JOIN BOARD B ON C.BO_CODE = B.BO_CODE JOIN BOARD_SECOND BS ON BS.BS_CODE = B.BS_CODE"
 				   + " JOIN BOARD_FIRST BF ON BF.BF_CODE = BS.BF_CODE JOIN GUEST G ON G.GU_CODE = B.GU_CODE"
-				   + " WHERE C.GU_CODE = ?";
+				   + " WHERE C.GU_CODE = ?"
+				   + " ORDER BY SCRAP_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -232,7 +235,8 @@ public class GuestBoardDAO
 				   + ", BR.BRD_CODE AS BRD_CODE, BR.BRD_DATE AS BRD_DATE, BR.RED_CODE AS RED_CODE, RS.REDSTATE AS REDSTATE"
 				   + " FROM BOARD_RED_LIST_VIEW BW, BOARD_REDDONE BR, REDSTATE RS, BOARD_SECOND BS, BOARD_FIRST BF"
 				   + " WHERE BW.BOR_CODE = BR.BOR_CODE AND BR.RED_CODE = RS.RED_CODE AND BW.BS_CODE = BS.BS_CODE"
-				   + " AND BS.BF_CODE = BF.BF_CODE AND BW.GU_CODE = ?";
+				   + " AND BS.BF_CODE = BF.BF_CODE AND BW.GU_CODE = ?"
+				   + " ORDER BY BOR_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -275,7 +279,8 @@ public class GuestBoardDAO
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "SELECT RP_CODE, RP_CONTENT, RR_CODE, RR_DATE, REASON, BS_LIST, BF_LIST, REDSTATE, RRD_DATE FROM REPLY_RED_LIST_VIEW WHERE GU_CODE = ?";
+		String sql = "SELECT RP_CODE, RP_CONTENT, RR_CODE, RR_DATE, REASON, BS_LIST, BF_LIST, REDSTATE, RRD_DATE FROM REPLY_RED_LIST_VIEW WHERE GU_CODE = ?"
+				   + " ORDER BY RR_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
@@ -310,7 +315,9 @@ public class GuestBoardDAO
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "SELECT PBO_CODE, PBO_DATE AS START_DATE, PBO_DATE+90 AS END_DATE, BRD_CODE, REASON, GU_CODE, BO_CODE, BO_TITLE FROM VIEW_BOARD_PENALTY WHERE GU_CODE= ?";
+		String sql = "SELECT PBO_CODE, PBO_DATE AS START_DATE, PBO_DATE+90 AS END_DATE, BRD_CODE, REASON, GU_CODE, BO_CODE"
+				   + ", BO_TITLE FROM VIEW_BOARD_PENALTY WHERE GU_CODE= ?"
+				   + " ORDER BY START_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);

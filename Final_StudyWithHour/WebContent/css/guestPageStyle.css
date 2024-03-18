@@ -621,13 +621,15 @@ table.board_list th
 	font-size: 20px;
  	border-top: 3px solid #93BE2C;
 	border-bottom: 3px solid #93BE2C; 
+	text-align: center;
 }
 
 table.board_list td
 {
 	font-size: 16px;
+	text-align: center;
 }
-
+	
 table.board_list th, td
 {
 	height: 45px;

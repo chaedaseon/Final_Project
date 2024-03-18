@@ -38,18 +38,24 @@
 	function beforeMonth() 
 	{ 
 	    today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-	    build(); //만들기
+	    createCalendar(); //만들기
+	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
+		$("#resultDiv").html("");
 	}
 
 	//다음 달을 today에 저장
 	function nextMonth()  
 	{
 	    today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-	    build();
+	    createCalendar();
+	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
+		$("#resultDiv").html("");
 	}
 	
 	// 달력 생성 함수 (페이지 로드되면 실행)
-	function build()
+	function createCalendar()
 	{
 	    var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); 					// 현재 달의 첫째 날
 	    var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 				// 현재 달의 마지막 날
@@ -153,7 +159,7 @@
 	    		$("#resultDiv").html("등록된 일정이 없습니다.");
 	    	}
     	});
-	}
+	};
 	
 	
 	// 날짜 선택 시, 해당하는 일정 출력
@@ -162,6 +168,9 @@
 		var year = today.getFullYear();
 		var month = String(today.getMonth()+1).padStart(2, '0');
 		var day = buttonId.substring(5,7);
+		
+		$("#resultMonth").html(month);
+		$("#resultDay").html(day);
 		
 		var info = "gu_code=<%=guest.getGuCode()%>&sch_date="+year+"-"+month+"-"+day;
 	    $.ajax(
@@ -173,6 +182,7 @@
 	    	, success:function(jsonObj)
 	    	{
     			var out = "";
+    			
 	    		for (var idx=0; idx<jsonObj.length; idx++)
 	    		{
 	    			var sch_code = jsonObj[idx].sch_code;
@@ -193,9 +203,6 @@
     				}
 					
 					$("#resultDiv").html(out);
-					
-					$("#resultMonth").html(month);
-					$("#resultDay").html(day);
 					
 					$("#schCodeHidden").val(sch_code);
 					
@@ -249,7 +256,7 @@
 </script>
 </head>
 
-<body onload="build();">
+<body onload="createCalendar();">
 
 <header>
 	<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>

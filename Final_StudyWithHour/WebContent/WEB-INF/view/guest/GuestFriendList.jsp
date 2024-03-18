@@ -1,6 +1,7 @@
 <%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -48,19 +49,19 @@
 					<div class="like_list">
 						<table>
 							<tr>
-								<th>번호</th>
+								<!-- <th>번호</th> -->
 								<th>닉네임</th>
-								<th>날짜</th>
-								<th>관리</th>
+								<th>찜한 일자</th>
+								<th>이웃 삭제</th>
 							</tr>
 							<c:forEach var="friendList" items="${friendList}">
 								<c:if test="${friendList.ftCode eq 1 }">
-									<tr>
-										<td>1</td>
-										<td>${friendList.guFmNick }</td>
-										<td>${friendList.fmDate.substring(0, 11) }</td>
-										<td><a href="frienddelete.do?guCode=<%=guest.getGuCode() %>&fmCode=${friendList.fmCode }">X</a></td>
-									</tr>
+								<tr>
+									<%-- <td>${i}</td> --%>
+									<td>${friendList.guFmNick }</td>
+									<td>${friendList.fmDate.substring(0, 11) }</td>
+									<td><a href="frienddelete.do?guCode=<%=guest.getGuCode() %>&fmCode=${friendList.fmCode }">X</a></td>
+								</tr>
 								</c:if>
 							</c:forEach>
 						</table>			
@@ -74,15 +75,15 @@
 					<div class="block_list">
 						<table>
 							<tr>
-								<th>번호</th>
+								<!-- <th>번호</th> -->
 								<th>닉네임</th>
-								<th>날짜</th>
-								<th>관리</th>
+								<th>찜한 일자</th>
+								<th>이웃 삭제</th>
 							</tr>
 							<c:forEach var="friendList" items="${friendList}">
 								<c:if test="${friendList.ftCode eq 2 }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${friendList.guFmNick }</td>
 										<td>${friendList.fmDate.substring(0, 11) }</td>
 										<td><a href="frienddelete.do?guCode=<%=guest.getGuCode() %>&fmCode=${friendList.fmCode }">X</a></td>
