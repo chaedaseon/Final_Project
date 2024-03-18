@@ -70,10 +70,10 @@
 					<div class="col-12 subject-title"><a href="#">⏰ 모집중인 스터디그룹을 확인해보세요!</a><a href="#" style="font-size: 16px;">더보기</a></div>
 					<div class="latest-list">
 					<c:forEach var="studyGroup" items="${studyGroupList }">
-						<div class="card" style="width: 30%;">
-							<div class="card-header bg-transparent">${studyGroup.grLeader }<span class="d-day">D-${studyGroup.dDay }</span></div>
+						<div class="card col-4">
+							<div class="card-header bg-transparent">${studyGroup.grName }<span class="d-day">D-${studyGroup.dDay }</span></div>
 		  					<div class="card-body">
-		    				<h5 class="card-title">${studyGroup.grName }</h5>
+		    				<%-- <h5 class="card-title">${studyGroup.grName }</h5> --%>
 		    					<p class="card-text"><a href="boardgrouplist.do">${studyGroup.grComment }</a></p>
 		  					</div>
 		    				<div class="count"><img src="images/people.png">${studyGroup.gjCount } / ${studyGroup.grCount } 명</div>

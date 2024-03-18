@@ -42,12 +42,12 @@
 				
 				<div>
 					<div class="red_list">
-						<select class="sorting">
+						<!-- <select class="sorting">
 							<option selected="selected">--처리 상태--</option>
 							<option>승인</option>
 							<option>반려</option>
 							<option>처리 중</option>
-						</select>
+						</select> -->
 					</div>
 					<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-top: 50px; font-size: 18px;">
 						<li class="nav-item" role="presentation">
@@ -71,7 +71,7 @@
 					  	<div class="tab-pane fade show active" id="boardred-tab-pane" role="tabpanel" aria-labelledby="boardred-tab" tabindex="0">
 							<table class="red_list">
 								<tr>
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>게시판</th>
 									<th>게시글 내용</th>
 									<th>신고 사유</th>
@@ -88,9 +88,9 @@
 								
 								<c:forEach var="redBoardList" items="${redBoardList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${redBoardList.bfList }</td>
-										<td>
+										<td style=" text-align: left;">
 											[${redBoardList.bsList }]
 											<c:choose>
 												<c:when test="${fn:length(redBoardList.boContent) > 15 }">
@@ -115,7 +115,7 @@
 					  	<div class="tab-pane fade" id="replyred-tab-pane" role="tabpanel" aria-labelledby="replyred-tab" tabindex="0">
 					  		<table class="red_list">
 								<tr>
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>게시판</th>
 									<th>댓글 내용</th>
 									<th>신고 사유</th>
@@ -126,15 +126,15 @@
 								<tr class="spacer"></tr>
 								<c:if test="${empty redReplyList }">
 									<tr>
-										<td colspan="7">댓글 신고 내역이 존재하지 않습니다.</td>
+										<td colspan="7" style="text-align: center;">댓글 신고 내역이 존재하지 않습니다.</td>
 									</tr>
 								</c:if>
 								
 								<c:forEach var="redReplyList" items="${redReplyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${redReplyList.bfList }</td>
-										<td>[${redReplyList.bsList }] 
+										<td style="text-align: left;">[${redReplyList.bsList }] 
 											<c:choose>
 												<c:when test="${fn:length(redReplyList.rpContent) > 15 }">
 													${redReplyList.rpContent.substring(0,14) }...
@@ -174,7 +174,7 @@
 					  	<div class="tab-pane fade" id="groupboardred-tab-pane" role="tabpanel" aria-labelledby="groupboardred-tab" tabindex="0">
 							<table class="red_list">
 								<tr>
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>그룹명</th>
 									<th>게시글 내용</th>
 									<th>신고 사유</th>
@@ -191,7 +191,7 @@
 								
 								<c:forEach var="redGroupBoardList" items="${redGroupBoardList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${redGroupBoardList.grName }</td>
 										<td>
 											<c:choose>
@@ -235,7 +235,7 @@
 					  	<div class="tab-pane fade" id="groupreplyred-tab-pane" role="tabpanel" aria-labelledby="groupreplyred-tab" tabindex="0">
 					  		<table class="red_list">
 								<tr>
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>그룹명</th>
 									<th>댓글 내용</th>
 									<th>신고 사유</th>
@@ -252,7 +252,7 @@
 								
 								<c:forEach var="redGroupReplyList" items="${redGroupReplyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${redGroupReplyList.grName }</td>
 										<td> 
 											<c:choose>
@@ -295,27 +295,26 @@
 					  	</div>
 					</div>
 				</div>	
-				
+				<%-- 
 				<nav aria-label="Page navigation example" class="paging">
 				  	<ul class="pagination">
 					    <li class="page-item disabled">
 					    	<a class="page-link">◁</a>
 					    </li>
-				  		<%-- <c:if test="${dataCount != 0 }">
+				  		<c:if test="${dataCount != 0 }">
 				  			<li class="page-item">${pageIndexList }</li>
-				  		</c:if> --%>
+				  		</c:if>
 					    <li class="page-item">
 					    	<a class="page-link" href="#">▷</a>
 					    </li>
-				  	<!-- 
 					    <li class="page-item"><a class="page-link" href="#">1</a></li>
 					    <li class="page-item"><a class="page-link" href="#">2</a></li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
 					    <li class="page-item"><a class="page-link" href="#">4</a></li>
 					    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				  	 -->
 				  	</ul>
 				</nav>
+				 --%>
 			</div>
 		</div>
 		 

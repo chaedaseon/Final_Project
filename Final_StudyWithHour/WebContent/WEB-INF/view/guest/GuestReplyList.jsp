@@ -59,7 +59,7 @@
 					  	<div class="tab-pane fade show active" id="reply-tab-pane" role="tabpanel" aria-labelledby="reply-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th style="width: 5%;">No</th>
+									<!-- <th style="width: 5%;">No</th> -->
 									<th style="width: 10%;">게시판</th>
 									<th style="width: 30%;">본문 제목</th>
 									<th style="width: 40%;">댓글 내용</th>
@@ -74,7 +74,7 @@
 								
 								<c:forEach var="replyList" items="${replyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${replyList.bfList }</td>
 										<td><a href="boardview.do?boCode=${replyList.boCode }">[${replyList.bsList }] ${replyList.boTitle }</a></td>
 										<td>${replyList.rpContent }</td>										
@@ -90,7 +90,7 @@
 					  	<div class="tab-pane fade" id="groupReply-tab-pane" role="tabpanel" aria-labelledby="groupReply-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th>No</th>
+									<!-- <th>No</th> -->
 									<th>그룹명</th>
 									<th>본문 제목</th>
 									<th>댓글 내용</th>
@@ -104,7 +104,7 @@
 								</c:if>
 								<c:forEach var="groupReplyList" items="${groupReplyList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${groupReplyList.grName }</td>
 										<td>${groupReplyList.gbTitle }</td>
 										<td>${groupReplyList.greContent }</td>
@@ -117,27 +117,26 @@
 						<!-- 그룹 댓글 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 					</div>
 				</div>	
-				
+				<%-- 
 				<nav aria-label="Page navigation example" class="paging">
 				  	<ul class="pagination">
 					    <li class="page-item disabled">
 					    	<a class="page-link">◁</a>
 					    </li>
-				  		<%-- <c:if test="${dataCount != 0 }">
+				  		<c:if test="${dataCount != 0 }">
 				  			<li class="page-item">${pageIndexList }</li>
-				  		</c:if> --%>
+				  		</c:if>
 					    <li class="page-item">
 					    	<a class="page-link" href="#">▷</a>
 					    </li>
-				  	<!-- 
 					    <li class="page-item"><a class="page-link" href="#">1</a></li>
 					    <li class="page-item"><a class="page-link" href="#">2</a></li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
 					    <li class="page-item"><a class="page-link" href="#">4</a></li>
 					    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				  	 -->
 				  	</ul>
 				</nav>
+				 --%>
 			</div>
 		</div>
 		 

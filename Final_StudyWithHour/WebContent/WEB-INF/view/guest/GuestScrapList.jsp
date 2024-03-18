@@ -62,9 +62,10 @@
 					  	<div class="tab-pane fade show active" id="scrap-tab-pane" role="tabpanel" aria-labelledby="scrap-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th style="width: 5%;">No</th>
-									<th style="width: 15%;">게시판</th>
-									<th style="width: 50%;">제목</th>
+									<!-- <th style="width: 5%;">No</th> -->
+									<th style="width: 10%;">게시판</th>
+									<th style="width: 20%;">제목</th>
+									<th style="width: 40%;">내용</th>
 									<th style="width: 15%;">작성자</th>
 									<th style="width: 10%;">스크랩 일자</th>
 									<th style="width: 5%;">취소</th>
@@ -79,10 +80,11 @@
 								
 								<c:forEach var="scrapList" items="${scrapList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${scrapList.bfList }</td>
 										<td><a href="boardview.do?boCode=${scrapList.boCode }">[${scrapList.bsList}]  ${scrapList.boTitle }</a></td>
-										<td>${scrapList.guNick } (${scrapList.guId })</td>
+										<td>${scrapList.boContent }</td>
+										<td>${scrapList.guNick }</td>
 										<td>${scrapList.scrapDate.substring(0,10) }</td>
 										<td><a href="boardscrapdelete.do?boCode=${scrapList.boCode }&guCode=<%=guest.getGuCode()%>">취소</a></td>
 									</tr>
@@ -96,11 +98,13 @@
 					  	<div class="tab-pane fade" id="groupScrap-tab-pane" role="tabpanel" aria-labelledby="groupScrap-tab" tabindex="0">
 							<table class="board_list">
 								<tr>
-									<th>No</th>
-									<th>그룹명</th>
-									<th>제목</th>
-									<th>작성자</th>
-									<th>스크랩 일자</th>
+									<!-- <th>No</th> -->
+									<th style="width: 10%;">그룹명</th>
+									<th style="width: 20%;">제목</th>
+									<th style="width: 40%;">내용</th>
+									<th style="width: 15%;">작성자</th>
+									<th style="width: 10%;">스크랩 일자</th>
+									<th style="width: 5%;">취소</th>
 								</tr>
 								<tr class="spacer"></tr>
 								
@@ -112,11 +116,13 @@
 								
 								<c:forEach var="groupScrapList" items="${groupScrapList }">
 									<tr>
-										<td>1</td>
+										<!-- <td>1</td> -->
 										<td>${groupScrapList.grName }</td>
 										<td>${groupScrapList.gbTitle }</td>
-										<td>${groupScrapList.guNick }  (${groupScrapList.guId })</td>
+										<td>${groupScrapList.gbContent }</td>
+										<td>${groupScrapList.guNick }</td>
 										<td>${groupScrapList.gbsDate.substring(0,10) }</td>
+										<td><a href="#">취소</a></td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>
@@ -125,27 +131,27 @@
 						<!-- 그룹스크랩 탭 눌렀을 때 나타나는 영역 end --------------------------------------------------------->
 					</div>
 				</div>	
-				
+				<%-- 
 				<nav aria-label="Page navigation example" class="paging">
 				  	<ul class="pagination">
 					    <li class="page-item disabled">
 					    	<a class="page-link">◁</a>
 					    </li>
-				  		<%-- <c:if test="${dataCount != 0 }">
+				  		<c:if test="${dataCount != 0 }">
 				  			<li class="page-item">${pageIndexList }</li>
-				  		</c:if> --%>
+				  		</c:if>
 					    <li class="page-item">
 					    	<a class="page-link" href="#">▷</a>
 					    </li>
-				  	<!-- 
+				
 					    <li class="page-item"><a class="page-link" href="#">1</a></li>
 					    <li class="page-item"><a class="page-link" href="#">2</a></li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
 					    <li class="page-item"><a class="page-link" href="#">4</a></li>
 					    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				  	 -->
 				  	</ul>
 				</nav>
+				 --%>
 			</div>
 		</div>
 		 

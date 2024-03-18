@@ -42,6 +42,7 @@
 				
 				<div>
 					<div class="groupJoin_list">
+					<!-- 
 						<select class="sorting">
 							<option selected="selected">--활동 상태--</option>
 							<option>개설</option>
@@ -49,10 +50,10 @@
 							<option>미개설</option>
 							<option>탈퇴</option>
 						</select>
-						
+						 -->
 						<table class="groupJoin_list">
 							<tr>
-								<th>No</th>
+								<!-- <th>No</th> -->
 								<th>그룹명</th>
 								<th>카테고리</th>
 								<th>상태</th>
@@ -70,7 +71,7 @@
 							
 							<c:forEach var="groupJoinList" items="${groupJoinList }">
 							<tr>
-								<td>1</td>
+								<!-- <td>1</td> -->
 								<td>${groupJoinList.grName }</td>
 								<td>${groupJoinList.categoryList }</td>
 								<td>${groupJoinList.rsState }</td>
@@ -83,27 +84,26 @@
 						</table>
 					</div>
 				</div>	
-				
+				<%-- 
 				<nav aria-label="Page navigation example" class="paging">
 				  	<ul class="pagination">
 					    <li class="page-item disabled">
 					    	<a class="page-link">◁</a>
 					    </li>
-				  		<%-- <c:if test="${dataCount != 0 }">
+				  		<c:if test="${dataCount != 0 }">
 				  			<li class="page-item">${pageIndexList }</li>
-				  		</c:if> --%>
+				  		</c:if>
 					    <li class="page-item">
 					    	<a class="page-link" href="#">▷</a>
 					    </li>
-				  	<!-- 
 					    <li class="page-item"><a class="page-link" href="#">1</a></li>
 					    <li class="page-item"><a class="page-link" href="#">2</a></li>
 					    <li class="page-item"><a class="page-link" href="#">3</a></li>
 					    <li class="page-item"><a class="page-link" href="#">4</a></li>
 					    <li class="page-item"><a class="page-link" href="#">5</a></li>
-				  	 -->
 				  	</ul>
 				</nav>
+				 --%>
 			</div>
 		</div>
 		 
