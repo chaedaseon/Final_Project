@@ -56,6 +56,7 @@ public class LocationListController implements Controller
 			//-- 지역 이름, 그룹코드
 			String lfList = request.getParameter("lfList");
 			String grCode = request.getParameter("grCode");
+			String guCode = request.getParameter("guCode");
 			
 			// 지역이름으로 지역코드 조회
 			lfCode = dao.searchLf(lfList);
@@ -63,7 +64,7 @@ public class LocationListController implements Controller
 			lsName = dao.lsList(lfCode);
 			
 			mav.addObject("lsName", lsName);
-			mav.setViewName("groupreservesearch.do?grCode=" + grCode + "&lfCode=" + lfCode);
+			mav.setViewName("groupreservesearch.do?guCode=" +guCode+ "&grCode=" + grCode + "&lfCode=" + lfCode);
 			
 			dao.close();
 			

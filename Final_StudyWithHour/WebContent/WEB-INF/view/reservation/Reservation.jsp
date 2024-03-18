@@ -1,8 +1,14 @@
+<%@page import="com.study.mybatis.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)request.getAttribute("guest");
+	String guCode = (String)session.getAttribute("guCode");
+	
+	String grCode = (String)session.getAttribute("grCode");
 %>
 
 <!DOCTYPE html>
@@ -72,9 +78,9 @@
 				<c:choose>
 				<c:when test="${empty reserveDate || empty reserveAddr1 || empty reserveAddr2}">
 				<div class="select_div" id="reserveSearch">
-				<form action="groupreservesearch.do?gjCode=1" method="post">
+				<form action="groupreservesearch.do?gu_code=<%=guCode %>&gr_code=${grCode }" method="post">
 					<%-- 지역1을 선택 후 지역2 select에 데이터 출력 --%>
-					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?lfList=' +this.value+ '&grCode=1'">
+					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?gu_code=<%=guCode %>&lfList=' +this.value+ '&gr_code=${grCode }'">
 						<c:choose>
 							<%-- 만약 선택한 지역1 코드가 null 이면 --%>
 							<c:when test="${lfCode == null}">
@@ -171,7 +177,7 @@
 					<input type="text" value="${reserveDate }" class="select_bar" readonly="readonly">
 					<input type="text" value="${reserveHour1 }~${reserveHour2 }" class="select_bar" readonly="readonly">
 					<input type="text" value="${reserveCount }명" class="select_bar" readonly="readonly">
-					<button type="button" class="selectBtn" id="againSearch" onclick="location.href='groupreservesearch.do?gjCode=1'">다시 검색</button>
+					<button type="button" class="selectBtn" id="againSearch" onclick="location.href='groupreservesearch.do?&gu_code=<%=guCode %>&gr_code=${grCode }'">다시 검색</button>
 				</div>
 				</c:when>
 				</c:choose>
@@ -202,7 +208,7 @@
 							<img class="img" src="images/studycafe.jpg" style="width: 100%;">
 							</span>
 						</div>
-					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gjCode=1" method="post" id="reserveForm${cafe.srCode }">
+					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gu_code=<%=guCode %>&gr_code=${grCode }" method="post" id="reserveForm${cafe.srCode }">
 						<div class="info_area type_border" style="height: 180px; display: inline-grid; align-content: space-between;">
 						<h3 class="tit_space">${cafe.scName }_${cafe.srName }</h3>
 					<input type="hidden" name="scCode" value="${cafe.scCode}">

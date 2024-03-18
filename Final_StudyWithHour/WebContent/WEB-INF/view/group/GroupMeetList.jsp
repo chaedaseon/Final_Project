@@ -1,9 +1,12 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
 %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +53,7 @@
 				
 			<!-- 검색창 영역 ------------------------------------------------------------>
 			<div class="select_div">
-			<form action="groupmeetlist.do?grCode=1" method="post" name="searchForm">
+			<form action="groupmeetlist.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode}" method="post" name="searchForm">
 			<select name="searchDate" class="select_bar">
 				<c:choose>
 					<c:when test="${searchDate eq 'nearDate' }">
@@ -110,12 +113,12 @@
 					<td>${m.guName }</td>
 					<td>
 						<c:choose>
-						<c:when test="${m.meetState eq '없음' }">
-							<button type="button" onclick="location.href='groupmeetform.do?gjCode=1&gschCode=${m.gschCode}'">기록작성</button>
-						</c:when>
-						<c:when test="${m.meetState eq '있음' }">
-							<button type="button" onclick="location.href='groupmeetform.do?gjCode=1&gschCode=${m.gschCode}'">기록확인</button>
-						</c:when>
+							<c:when test="${m.meetState eq '없음' }">
+								<button type="button" onclick="location.href='groupmeetform.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode}&gschCode=${m.gschCode}'">기록작성</button>
+							</c:when>
+							<c:when test="${m.meetState eq '있음' }">
+								<button type="button" onclick="location.href='groupmeetform.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode}&gschCode=${m.gschCode}'">기록확인</button>
+							</c:when>
 						</c:choose>
 					</td>
 				</tr>

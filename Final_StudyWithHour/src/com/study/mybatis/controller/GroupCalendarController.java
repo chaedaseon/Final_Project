@@ -84,7 +84,7 @@ public class GroupCalendarController
 		ArrayList<GroupCalendarDTO> list = dao.groupScheduleList(grCode);
 		
 		model.addAttribute("list", list);
-		return "/WEB-INF/view/guest/GuestCalendar_ajax.jsp";
+		return "/WEB-INF/view/group/GroupCalendar_ajax.jsp";
 	}
 
 
@@ -92,7 +92,7 @@ public class GroupCalendarController
 	// 개인 일정 조회 (에이작스 처리)
 	@RequestMapping(value = "/groupsearchschedule.do", method=RequestMethod.POST)
 	public String searchSchedule(ModelMap model,@RequestParam("grCode") String grCode,@RequestParam("gschDate") String gschDate)
-	{
+	{	
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
 		//HashMap<String, Object> map = new HashMap<String, Object>();
 		//map.put("grCode", grCode);

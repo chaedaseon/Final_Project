@@ -1,9 +1,12 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
 %>
 <!DOCTYPE html>
 <html>
@@ -48,7 +51,7 @@
 					</div>
 				
 					<div class="select_div">
-					<form action="grouppenaltylist.do?grCode=1" method="post" name="searchForm">
+					<form action="grouppenaltylist.do?gr_code=${grCode }&gu_code=<%=guest.getGuCode() %>" method="post" name="searchForm">
 					<select class="select_bar" name="pgState">
 					<c:choose>
 					<c:when test="${pgState eq 'yet' }">

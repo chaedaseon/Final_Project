@@ -55,7 +55,7 @@
 				<div class="col-3" style="margin: 0 35px"> 
 					<div style="border: 3px solid #94be2c85; border-radius: 10px; text-align: center; margin-bottom: 20px;">
 					<%-- 그룹원정보 클릭 시 해당 그룹원 프로필카드로 이동 --%>
-					<a href="groupmemberprofile.do?gu_code=<%=guest.getGuCode()%>&gj_code=${member.gj_code }">
+					<a href="groupmemberprofile.do?gu_code=<%=guest.getGuCode()%>&gr_code=${member.gr_code}">
 					<div style="display: grid; justify-items: center;">
 						<div class="image-area">
 							<img src="images/woman.png" class="image-file" style="width: 150px; height: 150px;">

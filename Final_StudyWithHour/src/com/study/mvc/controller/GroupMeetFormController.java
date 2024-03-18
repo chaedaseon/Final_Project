@@ -54,7 +54,8 @@ public class GroupMeetFormController implements Controller
 		try
 		{
 			String gschCode = request.getParameter("gschCode");
-			String gjCode = request.getParameter("gjCode");
+			String grCode = request.getParameter("gr_code");
+			String guCode = request.getParameter("gu_code");
 			
 			dao.connection();
 			
@@ -62,6 +63,8 @@ public class GroupMeetFormController implements Controller
 			attMem = dao.meetMemberList(gschCode);
 			meetContent = dao.meetRecord(gschCode);
 			unattMem = dao.unattMemberList(gschCode);
+			
+			String gjCode = dao.searchGjcode(guCode, grCode);
 			
 			mav.addObject("gjCode", gjCode);
 			mav.addObject("meet", meet);

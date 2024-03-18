@@ -62,25 +62,25 @@
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='groupmemberlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+        		 onclick="location.href='groupreservesearch.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">카페 예약</span>
         		</button>
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.hreg='groupmeetlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+        		 onclick="location.href='groupmemberlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹원 관리</span>
         		</button>
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="location.href='#'">
+        		 onclick="location.href='groupmeetlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">모임 관리</span>
         		</button>
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="locaton.href='#'">
+        		 onclick="locaton.href='groupcalendarlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 캘린더</span>
         		</button>
       		</li><li class="mb-1">	

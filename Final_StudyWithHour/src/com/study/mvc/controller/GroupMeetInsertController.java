@@ -48,10 +48,12 @@ public class GroupMeetInsertController implements Controller
 			dao.connection();
 			String gschCode = request.getParameter("gschCode");
 			String meetDetail = request.getParameter("meetDetail");
+			String grCode = request.getParameter("gr_code");
+			String guCode = request.getParameter("gu_code");
 			
 			dao.meetAdd(gschCode, meetDetail);
 			
-			mav.setViewName("redirect:groupmeetlist.do?grCode=1");
+			mav.setViewName("redirect:groupmeetlist.do?gr_code="+grCode+"&gu_code="+guCode);
 			
 			dao.close();
 			

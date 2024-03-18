@@ -581,5 +581,26 @@ public class GroupDAO
     	  pstmt.close();
     	  return result;
       }
+      
+      // 게스트코드와 그룹코드로 게스트 가입요청 코드 조회
+      public String searchGjcode(String guCode, String grCode) throws SQLException
+      {
+    	  String result = "";
+    	  
+    	  String sql = "SELECT GJ_CODE FROM VIEW_MEMBERINFO WHERE GU_CODE = ? AND GR_CODE = ?";
+    	  PreparedStatement pstmt = conn.prepareStatement(sql);
+    	  pstmt.setString(1, guCode);
+    	  pstmt.setString(2, grCode);
+    	  ResultSet rs = pstmt.executeQuery();
+    	  if(rs.next())
+    	  {
+    		  result = rs.getString("GJ_CODE");
+    	  }
+    	  
+    	  rs.close();
+    	  pstmt.close();
+    	  
+    	  return result;
+      }
 		
 }

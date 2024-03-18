@@ -53,7 +53,7 @@ public class GroupReserveListController implements Controller
 		{
 			dao.connection();
 			
-			String grCode = request.getParameter("grCode");
+			String grCode = request.getParameter("gr_code");
 			String searchKey = request.getParameter("searchKey");
 			String searchValue = request.getParameter("searchValue");
 			String fbState = request.getParameter("fbState");
@@ -111,6 +111,7 @@ public class GroupReserveListController implements Controller
 			
 			group = dao.groupReserveList(grCode, searchKey, searchValue, fbState, reState, start, end);
 			
+			mav.addObject("grCode", grCode);
 			mav.addObject("group", group);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("pageIndexList", pageIndexList);

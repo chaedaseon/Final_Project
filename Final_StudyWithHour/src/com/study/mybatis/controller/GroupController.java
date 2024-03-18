@@ -45,7 +45,7 @@ public class GroupController
 			System.out.println(e.toString());
 		}
 		
-		return "/WEB-INF/view/group/GroupReservationList.jsp";
+		return "/WEB-INF/view/group/GroupMemberList.jsp";
 	}
 	
 	@RequestMapping(value="/groupmemberinsert.do", method=RequestMethod.POST)

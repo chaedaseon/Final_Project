@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.mybatis.IAdminNoticeDAO">
+<mapper namespace="com.study.mybatis.model.IAdminNoticeDAO">
 
 
     <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
     	SELECT COUNT(*) AS COUNT
 		FROM NOTICE
-    	where 1=1
+    	WHERE 1=1
 		<choose>
 			<when test="searchType=='num'">
 				AND NT_CODE = #{keyword}
@@ -57,22 +57,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			)
 		where rnum <![CDATA[>=]]> #{startList}
     </select>
-
-
-		
-		
-	<!-- 공지사항 갯수 확인 -->
-	<select id="count" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM NOTICE
-	</select>
-	
-		<!-- 공지사항 갯수 확인 -->
-	<select id="searchCount" parameterType="hashmap" resultType="java.lang.Integer">
-		SELECT COUNT(*) AS COUNT
-		FROM NOTICE
-		<include refid="where"></include>
-	</select>
 	
 	<!-- 관리자 화면에서 공지사항 작성 -->
 	<insert id="add">

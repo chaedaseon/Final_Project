@@ -49,9 +49,8 @@ public class GroupReserveFormController implements Controller
 		
 		try
 		{
-			String grCode = request.getParameter("grCode");
+			String grCode = request.getParameter("gr_code");
 			String srCode = request.getParameter("srCode");
-			String scCode = request.getParameter("scCode");
 			String reserveDate = request.getParameter("reserveDate");
 			String reserveAddr1 = request.getParameter("reserveAddr1");
 			String reserveAddr2 = request.getParameter("reserveAddr2");
@@ -63,6 +62,7 @@ public class GroupReserveFormController implements Controller
 			
 			cafe = dao.roomInfoList(srCode);
 			
+			mav.addObject("grCode", grCode);
 			mav.addObject("cafe", cafe);
 			mav.addObject("reserveDate", reserveDate);
 			mav.addObject("reserveAddr1", reserveAddr1);

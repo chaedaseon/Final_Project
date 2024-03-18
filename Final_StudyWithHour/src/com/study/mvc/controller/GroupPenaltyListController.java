@@ -50,7 +50,7 @@ public class GroupPenaltyListController implements Controller
 		{
 			dao.connection();
 			
-			String grCode = request.getParameter("grCode");
+			String grCode = request.getParameter("gr_code");
 			String searchKey = request.getParameter("searchKey");
 			String searchValue = request.getParameter("searchValue");
 			String pgState = request.getParameter("pgState");
@@ -111,8 +111,9 @@ public class GroupPenaltyListController implements Controller
 			mav.addObject("searchKey", searchKey);
 			mav.addObject("searchValue", searchValue);
 			mav.addObject("pgState", pgState);
+			mav.addObject("grCode", grCode);
 			
-			mav.setViewName("/WEB-INF/view/host/GroupPenaltyList.jsp");
+			mav.setViewName("/WEB-INF/view/group/GroupPenaltyList.jsp");
 			
 			dao.close();
 			

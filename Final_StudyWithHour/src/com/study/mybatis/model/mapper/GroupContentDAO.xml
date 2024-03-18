@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.mybatis.IGroupContentDAO">
+<mapper namespace="com.study.mybatis.model.IGroupContentDAO">
 
 	<!-- 해당 회원이 가입한 그룹이 맞는지 확인 -->
 	<select id="joinGroupCK" resultType="int">
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 휴공티켓 사용 게시판 - 페이징 검색 게시글 수 -->
     
-    <select id="ticketBoardTotalCnt" parameterType="com.test.mybatis.PaginationDTO" resultType="int">
+    <select id="ticketBoardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
     	SELECT COUNT(*)
 		FROM 
 		(
@@ -31,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
      <!-- 휴공티켓 사용 게시판 - 페이징 리스트 -->
   
-    <select id="ticketBoardListPaging" parameterType="com.test.mybatis.PaginationDTO" resultType="com.test.mybatis.GuestDTO">
+    <select id="ticketBoardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.GuestDTO">
    	      	select GUNICK, RTDATE
 		from(
 		    select rownum as rnum, t.*

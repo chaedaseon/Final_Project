@@ -1,9 +1,12 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 %>
 <!DOCTYPE html>
 <html>
@@ -89,7 +92,7 @@
 					<div style="margin-left: 100px;">
 					<c:choose>
 					<c:when test="${reserveDate != null && reserveAddr1 != null && reserveAddr2 != null && reserveHour1 != null && reserveHour2 != null}">
-					<form action="groupreserveinsert.do?gjCode=1&srCode=${room.srCode }" method="post" id="addReserveForm">
+					<form action="groupreserveinsert.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }&srCode=${room.srCode }" method="post" id="addReserveForm">
 						<table class="register_table" style="width: 450px; text-align: center;">
 						<tr>
 							<td colspan="2">
@@ -137,7 +140,7 @@
 							</tr>
 							<tr>
 								<td>
-									<a href="groupreservesearch.do?grCode=1">다시검색</a>
+									<a href="groupreservesearch.do?&gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }">다시검색</a>
 								</td>
 							</tr>
 						</table>

@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.test.mybatis.IAdminReportHostDAO">
+<mapper namespace="com.study.mybatis.model.IAdminReportHostDAO">
 
 
 	<!-- 페이징 검색 게시글 수 -->
     
-    <select id="boardTotalCnt" parameterType="com.test.mybatis.PaginationDTO" resultType="int">
+    <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
     	SELECT COUNT(*) AS COUNT
 		FROM 
 		(
@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    
      <!-- 페이징 리스트 -->
   
-    <select id="boardListPaging" parameterType="com.test.mybatis.PaginationDTO" resultType="com.test.mybatis.ReportBBSDTO">
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.ReportBBSDTO">
   	select RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
 		from(
 		    select rownum as rnum, t.*
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 호스트 신고 리스트 조회 (리뷰&이용내역)-->
 	<!-- 뷰 생성 선행 -->
-	<select id="reportHostlist" resultType="com.test.mybatis.ReportBBSDTO">
+	<select id="reportHostlist" resultType="com.study.mybatis.model.ReportBBSDTO">
 	SELECT NUM, RTYPE, CODE, GRNAME, RPUSER, REDCODE, RDATE
 	FROM
 	(
@@ -79,7 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- 신고 내용 상세 조회(예약내역) -->
-	<select id="reportContentReview" resultType="com.test.mybatis.ReportBBSDTO" >
+	<select id="reportContentReview" resultType="com.study.mybatis.model.ReportBBSDTO" >
 
 	SELECT HO.HO_CODE AS RPUSER, RE.RE_CODE AS RPCODE , GJ.GJ_CODE AS REPORTED, TO_CHAR(HR.HR_DATE ,'YYYY-MM-DD') AS RPDATE, HR.REASON_CODE AS RPREASON, TO_CHAR(HRD.HRD_DATE,'YYYY-MM-DD') AS RDDATE , HRD.RED_CODE AS REDCODE
 	FROM HOST_RED HR JOIN FEEDBACK FB 
@@ -105,7 +105,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 신고 내용 상세 조회(이용내역) -->
-	<select id="reportContentUse" resultType="com.test.mybatis.ReportBBSDTO" >
+	<select id="reportContentUse" resultType="com.study.mybatis.model.ReportBBSDTO" >
 		SELECT HO.HO_CODE AS RPUSER, RE.RE_CODE AS RPCODE, GR.GR_CODE AS REPORTED, TO_CHAR(HR.HR_DATE,'YYYY-MM-DD') AS RPDATE, HR.REASON_CODE AS RPREASON, TO_CHAR(HRD.HRD_DATE,'YYYY-MM-DD') AS RDDATE , HRD.RED_CODE AS REDCODE
 	FROM HOST_RED HR JOIN FEEDBACK FB 
 	  ON HR.FB_CODE = FB.FB_CODE

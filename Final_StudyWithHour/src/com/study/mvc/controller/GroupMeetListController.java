@@ -53,7 +53,7 @@ public class GroupMeetListController implements Controller
 		{
 			dao.connection();
 			
-			String grCode = request.getParameter("grCode");
+			String grCode = request.getParameter("gr_code");
 			String searchKey = request.getParameter("searchKey");
 			String searchValue = request.getParameter("searchValue");
 			String searchDate = request.getParameter("searchDate");
@@ -118,6 +118,7 @@ public class GroupMeetListController implements Controller
 			mav.addObject("pageIndexList", pageIndexList);
 			mav.addObject("dataCount", dataCount);
 			mav.addObject("searchDate", searchDate);
+			mav.addObject("grCode", grCode);
 			
 			mav.setViewName("/WEB-INF/view/group/GroupMeetList.jsp");
 			

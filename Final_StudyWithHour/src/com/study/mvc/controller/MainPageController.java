@@ -43,10 +43,12 @@ public class MainPageController implements Controller
 		mav.addObject("reserveTopCafe", reserveTopCafe);
 		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
-		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
 		mav.addObject("studyGroupList", studyGroupList);
 		mav.addObject("popBoardList", popBoardList);
 		
+		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
+		
+		dao.close();
 		return mav;
 	}
 }

@@ -47,13 +47,16 @@ public class GroupReserveInsertController implements Controller
 		
 		try
 		{
-			String gjCode = request.getParameter("gjCode");
+			String grCode = request.getParameter("gr_code");
+			String guCode = request.getParameter("gu_code");
 			String srCode = request.getParameter("srCode");
 			String reserveDate = request.getParameter("reserveDate");
 			String reserveHour1 = request.getParameter("reserveHour1");
 			String reserveHour2 = request.getParameter("reserveHour2");
 			String reserveCount = request.getParameter("reserveCount");
 			dao.connection();
+			
+			String gjCode = dao.searchGjcode(guCode, grCode);
 			
 			dto.setReStartDate(reserveDate);
 			dto.setReStartHour(reserveHour1);
@@ -64,7 +67,7 @@ public class GroupReserveInsertController implements Controller
 			
 			dao.roomReserveAdd(dto);
 			
-			mav.setViewName("redirect:groupreservesearch.do?&gjCode="+gjCode);
+			mav.setViewName("redirect:groupreservelist.do?gu_code=" + guCode + "&gr_code=" + grCode);
 			
 			dao.close();
 			

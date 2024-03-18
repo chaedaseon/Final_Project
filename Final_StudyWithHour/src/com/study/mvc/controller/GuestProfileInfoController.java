@@ -49,11 +49,12 @@ public class GuestProfileInfoController implements Controller
 		{
 			dao.connection();
 			
-			String gjCode = request.getParameter("gj_code");
-			String guCode = dao.searchMember(gjCode);
+			String grCode = request.getParameter("gr_code");
+			String guCode = request.getParameter("gu_code");
 			member = dao.guestInfoList(guCode);
 			
 			
+			mav.addObject("grCode", grCode);
 			mav.addObject("member", member);
 			mav.setViewName("/WEB-INF/view/guest/GuestProfileCard.jsp");
 			

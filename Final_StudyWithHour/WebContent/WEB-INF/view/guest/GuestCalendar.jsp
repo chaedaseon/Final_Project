@@ -49,7 +49,7 @@
 	}
 	
 	// 달력 생성 함수 (페이지 로드되면 실행)
-	function createCalendar()
+	function build()
 	{
 	    var nMonth = new Date(today.getFullYear(), today.getMonth(), 1); 					// 현재 달의 첫째 날
 	    var lastDate = new Date(today.getFullYear(), today.getMonth() + 1, 0); 				// 현재 달의 마지막 날
@@ -249,7 +249,7 @@
 </script>
 </head>
 
-<body onload="createCalendar();">
+<body onload="build();">
 
 <header>
 	<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>

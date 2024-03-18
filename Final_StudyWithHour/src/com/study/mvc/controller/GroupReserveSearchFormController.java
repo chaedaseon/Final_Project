@@ -64,6 +64,8 @@ public class GroupReserveSearchFormController implements Controller
 			String reserveHour2 = request.getParameter("reserveHour2");
 			String reserveCount = request.getParameter("reserveCount");
 			String lfCode = request.getParameter("lfCode");
+			String guCode = request.getParameter("gu_code");
+			String grCode = request.getParameter("gr_code");
 			
 			// 검색에 따른 스터디룸 내역 조회
 			lists = dao.searchLists(reserveDate, reserveAddr1, reserveAddr2, reserveHour1, reserveHour2, reserveCount);
@@ -80,6 +82,7 @@ public class GroupReserveSearchFormController implements Controller
 			mav.addObject("reserveHour1", reserveHour1);
 			mav.addObject("reserveHour2", reserveHour2);
 			mav.addObject("reserveCount", reserveCount);
+			mav.addObject("grCode", grCode);
 			mav.addObject("count", count);
 			mav.addObject("lists", lists);
 			mav.addObject("lfList", lfList);
