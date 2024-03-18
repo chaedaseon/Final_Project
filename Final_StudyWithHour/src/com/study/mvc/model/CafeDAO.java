@@ -1518,32 +1518,7 @@ public class CafeDAO
 		return result;
 	}
 	
-	// 최신 등록된 스터디카페 조회
-	public CafeDTO searchNewCafe() throws SQLException
-	{
-		CafeDTO result = new CafeDTO();
-		
-		String sql = "SELECT SC_CODE, SC_NAME, SC_ADDR1, SC_ADDR2, SC_TEL, SC_OPENHOUR, SC_CLOSEHOUR, SC_CONVENIENT"
-				+ " FROM STUDYCAFE WHERE SC_DATE IN (SELECT MAX(SC_DATE) FROM STUDYCAFE)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		if(rs.next())
-		{
-			result.setScCode(rs.getString("SC_CODE"));
-			result.setScName(rs.getString("SC_NAME"));
-			result.setScAddr1(rs.getString("SC_ADDR1"));
-			result.setScAddr2(rs.getString("SC_ADDR2"));
-			result.setScTel(rs.getString("SC_TEL"));
-			result.setScOpenHour(rs.getString("SC_OPENHOUR"));
-			result.setScCloseHour(rs.getString("SC_CLOSEHOUR"));
-			result.setScConvenient(rs.getString("SC_CONVENIENT"));
-		}
-		
-		rs.close();
-		pstmt.close();
-		
-		return result;
-	}
+	
 
 		
 }

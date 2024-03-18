@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
@@ -473,11 +474,11 @@
 							</div>
 							<div style="width: 60%; height:100%; display: flex; align-items: center; justify-content: center; border-bottom-right-radius: 10px; border-top-right-radius: 10px;">
 								<div>
-									<span style="font-size: 24px;">미바라운지 스터디카페</span><br>
-									📍인천 연수구 송도과학로27번길 15 아메리칸타운 아이파크 2층<br>
-									📞 010-1111-1111<br>
-									⏰ 00:00  ~ 24:00 (24시간)<br>
-									✔️ 지하철역 5분
+									<span style="font-size: 24px;">${newCafe.scName }</span><br>
+									📍${newCafe.scAddr1 },${newCafe.scAddr2 }<br>
+									📞 ${fn:substring(newCafe.scTel,0,3) }-${fn:substring(newCafe.scTel,3,7) }-${fn:substring(newCafe.scTel,7,11) }<br>
+									⏰ ${newCafe.scOpenHour } ~  ${newCafe.scCloseHour }<br>
+									✔️ ${newCafe.scConvenient }
 								</div>
 							</div>
 						

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.study.mvc.model.CafeDTO;
 import com.study.mvc.model.GuestDAO;
 import com.study.mvc.model.HostDAO;
 import com.study.mvc.model.MainPageDAO;
@@ -31,9 +32,11 @@ public class MainPageController implements Controller
 		dao.connection();
 		
 		ArrayList<NoticeBoardDTO> noticeList =  dao.latestNoticeList();
+		CafeDTO newCafe = dao.searchNewCafe();
 
 		
 		
+		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
 			
