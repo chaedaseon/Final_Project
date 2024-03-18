@@ -96,9 +96,7 @@ public class MainPageDAO
 		{
 			ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
 			
-			String sql = "SELECT SC_CODE, SC_ADDR1, SC_ADDR2 FROM"
-					+ " (SELECT SC_CODE, COUNT(RE_CODE) AS COUNT FROM VIEW_RESERVE GROUP BY SC_CODE ORDER BY COUNT DESC)"
-					+ " WHERE ROWNUM <= 3";
+			String sql = "SELECT SC_CODE, SC_ADDR1, SC_ADDR2, SC_NAME FROM STUDYCAFE WHERE SC_CODE IN (SELECT SC_CODE FROM VIEW_TOP3CAFE)";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
@@ -106,6 +104,7 @@ public class MainPageDAO
 			{
 				CafeDTO dto = new CafeDTO();
 				dto.setScCode(rs.getString("SC_CODE"));
+				dto.setScName(rs.getString("SC_NAME"));
 				dto.setScAddr1(rs.getString("SC_ADDR1"));
 				dto.setScAddr2(rs.getString("SC_ADDR2"));
 				

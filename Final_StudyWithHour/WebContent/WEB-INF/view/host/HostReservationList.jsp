@@ -30,7 +30,11 @@
 
 	function redInsert(form)
 	{
-		//alert("확인");
+		form.submit();
+	}
+	
+	function feedInsert(form)
+	{
 		form.submit();
 	}
 	
@@ -41,17 +45,6 @@
 		f.submit();		
 	}
 
- 	/*
-	function fbChange(fbForm)
-	{
-		fbForm.submit();
-	}
-	
-	function reChange(reForm)
-	{
-		reForm.submit();
-	}
-	*/
 
 </script>
 </head>
@@ -102,7 +95,6 @@
 						</c:otherwise>
 						</c:choose>
 					</select>
-					<%-- <form action="cafereservelist.do?hoCode=<%=host.getHoCode()%>" method="post" id="reStateForm"> --%>
 					<select class="select_bar" name="reState">
 					<c:choose>
 					<c:when test="${reState eq 'access' }">
@@ -217,14 +209,19 @@
             <h1 class="modal-title fs-5" id="staticBackdropLabel">피드백 입력</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+          <form action="hostfeedbackinsert.do?hoCode=<%=host.getHoCode() %>&reCode=${reserve.reCode }" method="post">
           <div class="modal-body" style="text-align: center;">
-            <span>이용내역에 대한 피드백을 선택해주세요.</span>
-            <input type="hidden" id="reCode" value="${reserve.reCode }">
+            <span>이용내역에 대한 피드백을 선택해주세요.</span><br>
+            <select id="feed" name="feed">
+            	<option value="1">노쇼</optioin>
+            	<option value="2">이용완료</optioin>
+            </select>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="location.href='hostfeedbackinsert.do?hoCode=<%=host.getHoCode() %>&feed=2&reCode=${reserve.reCode }'">이용완료</button>
-            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="location.href='hostfeedbackinsert.do?hoCode=<%=host.getHoCode() %>&feed=1&reCode=${reserve.reCode }'">노쇼</button>
+            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="feedInsert(this.form)">제출</button>
+            <button type="button" class="btn btn-feedback" aria-label="Close" data-bs-dismiss="modal" style="background-color: #94be2c; color: #ffffff;">취소</button>
           </div>
+          </form>
         </div>
       </div>
     </div>

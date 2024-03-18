@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
+import com.study.mvc.model.CafeDAO;
 import com.study.mvc.model.CafeDTO;
 import com.study.mvc.model.GuestDAO;
 import com.study.mvc.model.HostDAO;
@@ -35,7 +36,7 @@ public class MainPageController implements Controller
 		
 		ArrayList<NoticeBoardDTO> noticeList =  dao.latestNoticeList();
 		CafeDTO newCafe = dao.searchNewCafe();
-		ArrayList<CafeDTO> reserveTopCafe = new ArrayList<CafeDTO>();
+		ArrayList<CafeDTO> reserveTopCafe = dao.reserveTopCafe();
 		ArrayList<BoardStudyGroupDTO> studyGroupList = dao.latestStudyGroupList();
 		ArrayList<CommunityBoardDTO> popBoardList = dao.popBoardList();
 		
@@ -49,6 +50,7 @@ public class MainPageController implements Controller
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
 		
 		dao.close();
+		
 		return mav;
 	}
 }

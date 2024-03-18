@@ -286,39 +286,27 @@
 					<div class="col-4" style="padding: 40px;">
 						<div class="subject-title">🏆 예약 많은 스터디카페</div>
 						<div>
+						<c:forEach var="top" items="${reserveTopCafe }" varStatus="cafe">
 							<ul class="list-item">
 								<li>
 									<div class="cafe-title">
-										<span style="font-size: 30px;">🥇</span><a href="#">할거하마 워크 & 스터디 홍대점</a>
+									<c:if test="${cafe.index eq 0 }">
+										<span style="font-size: 30px;">🥇</span>
+									</c:if>
+									<c:if test="${cafe.index eq 1 }">
+										<span style="font-size: 30px;">🥈</span>
+									</c:if>
+									<c:if test="${cafe.index eq 2 }">
+										<span style="font-size: 30px;">🥉</span>
+									</c:if>
+										<a href="#">${top.scName }</a>
 									</div>
 									<div class="cafe-addr">
-										<span>서울 마포구 동교로 185 4층</span>
+										<span>${top.scAddr1 },${top.scAddr2 }</span>
 									</div>
 								</li>
 							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="cafe-title">
-										<span style="font-size: 30px;">🥈</span><a href="#">토즈 홍대점</a>
-									</div>
-									<div class="cafe-addr">
-										<span>서울 마포구 연남로 13 영상빌딩 3층</span>
-									</div>
-								</li>
-							</ul>
-							
-							<ul class="list-item">
-								<li>
-									<div class="cafe-title">
-										<span style="font-size: 30px;">🥉</span><a href="#">플랜트스터디카페 송도지식정보단지역</a>
-									</div>
-									<div class="cafe-addr">
-										<span>인천 연수구 인천타워대로54번길 15-3 3층</span>
-									</div>
-								</li>
-							</ul>
-							
+							</c:forEach>
 						</div>
 					</div>
 				
