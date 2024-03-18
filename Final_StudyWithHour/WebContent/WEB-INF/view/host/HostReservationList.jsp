@@ -122,7 +122,6 @@
 					</c:otherwise>
 					</c:choose>
 					</select>
-					<%-- <form action="cafereservelist.do?hoCode=<%=host.getHoCode()%>" method="post" name="searchForm"> --%>
 					<select name="searchKey" class="select_bar">
 						<c:choose>
 							<c:when test="${searchKey eq 'cafe' }">

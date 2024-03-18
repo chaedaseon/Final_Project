@@ -28,8 +28,7 @@ public class GroupCalendarController
 
 	// 페이지 요청
 	@RequestMapping(value = "/groupcalendarlist.do", method=RequestMethod.GET)
-	public String calendarList(ModelMap model, HttpServletRequest request //, String grCode
-			)
+	public String calendarList(ModelMap model, HttpServletRequest request , String gr_code)
 	{
 
 		// 그룹코드는 그룹진입때부터 계속 주소창에서 갖고있는 것으로 상정
@@ -38,14 +37,13 @@ public class GroupCalendarController
 		IGroupContentDAO dao = sqlsession.getMapper(IGroupContentDAO.class);
 		IGroupCalendarDAO calDao = sqlsession.getMapper(IGroupCalendarDAO.class);
 		
-		String grCode = "1";
 		
 		HttpSession session =  request.getSession();
 		
 		String guCode = (String)session.getAttribute("guCode");
 		
 		HashMap<String, String> ckMap = new HashMap<String, String>();
-		ckMap.put("grCode", grCode);
+		ckMap.put("grCode", gr_code);
 		ckMap.put("guCode", guCode);
 		
 		int joinGroupCk = dao.joinGroupCK(ckMap);
@@ -64,11 +62,11 @@ public class GroupCalendarController
 		}
 		else
 		{
-			String gjCode = calDao.leadMember(grCode, guCode);
+			String gjCode = calDao.leadMember(gr_code, guCode);
 			
 			model.addAttribute("gjCode", gjCode);
 			model.addAttribute("guCode", guCode);
-			model.addAttribute("grCode", grCode);
+			model.addAttribute("grCode", gr_code);
 			return "/WEB-INF/view/group/GroupCalendar.jsp";	
 		}
 		
@@ -78,10 +76,10 @@ public class GroupCalendarController
 
 	// 그룹 일정 조회 (에이작스 처리)
 	@RequestMapping(value = "/groupschedulelist.do", method=RequestMethod.POST)
-	public String scheduleList(ModelMap model, String grCode)
+	public String scheduleList(ModelMap model, String gr_code)
 	{
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
-		ArrayList<GroupCalendarDTO> list = dao.groupScheduleList(grCode);
+		ArrayList<GroupCalendarDTO> list = dao.groupScheduleList(gr_code);
 		
 		model.addAttribute("list", list);
 		return "/WEB-INF/view/group/GroupCalendar_ajax.jsp";
@@ -91,14 +89,14 @@ public class GroupCalendarController
 
 	// 개인 일정 조회 (에이작스 처리)
 	@RequestMapping(value = "/groupsearchschedule.do", method=RequestMethod.POST)
-	public String searchSchedule(ModelMap model,@RequestParam("grCode") String grCode,@RequestParam("gschDate") String gschDate)
+	public String searchSchedule(ModelMap model,@RequestParam("grCode") String gr_code,@RequestParam("gschDate") String gschDate)
 	{	
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
 		//HashMap<String, Object> map = new HashMap<String, Object>();
 		//map.put("grCode", grCode);
 		//map.put("gschDate", gschDate);
 		
-		ArrayList<GroupCalendarDTO> schedulelist = dao.groupSearchSchedule(grCode, gschDate);
+		ArrayList<GroupCalendarDTO> schedulelist = dao.groupSearchSchedule(gr_code, gschDate);
 		
 		for (int i = 0; i < schedulelist.size(); i++)
 		{
@@ -123,14 +121,14 @@ public class GroupCalendarController
 
 	// 일정 추가 - 선택 가능한 그룹원(참석자) 목록 노출
 	@RequestMapping(value = "/groupselectattmember.do", method=RequestMethod.POST)
-	public String selectAttMember(ModelMap model, @RequestParam("grCode") String grCode, @RequestParam("guCode") String guCode)
+	public String selectAttMember(ModelMap model, @RequestParam("grCode") String gr_code, @RequestParam("guCode") String guCode)
 	{
 		IGroupCalendarDAO dao = sqlsession.getMapper(IGroupCalendarDAO.class);
 
 		
-		ArrayList<GuestDTO> memberList = dao.groupMemberSelect(grCode);
+		ArrayList<GuestDTO> memberList = dao.groupMemberSelect(gr_code);
 		
-		String leadMember = dao.leadMember(grCode, guCode);
+		String leadMember = dao.leadMember(gr_code, guCode);
 		model.addAttribute("memberList", memberList);
 		model.addAttribute("leadMember", leadMember);
 		

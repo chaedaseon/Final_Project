@@ -754,7 +754,7 @@
 				var grSubject = $("input[name=grSubject]").val();
 				var grComment = $("textarea[name=grComment]").val();
 
-	        	var data = {"P_GR_NAME": guCode, "P_GR_COUNT": grCount, "P_GR_SUBJECT": grSubject,
+	        	var data = {"P_GR_NAME": grName, "P_GR_COUNT": grCount, "P_GR_SUBJECT": grSubject,
 							"P_GR_COMMENT":grComment, "P_GU_CODE":guCode, "P_AGE_CODE":age,
 							"P_GENDER_CODE":gender, "P_LS_CODE":lsCode, "P_CATEGORY_CODE":category,
 							"P_GO_CODE":goCode, "P_GP_PW":pw}

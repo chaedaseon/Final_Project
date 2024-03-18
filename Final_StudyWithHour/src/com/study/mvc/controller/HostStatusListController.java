@@ -105,8 +105,8 @@ public class HostStatusListController implements Controller
 			mav.addObject("cafe", cafe);
 			mav.addObject("scCode", scCode);
 			
-			mav.setViewName("StatisticsList.jsp");
-			//mav.setViewName("/WEB-INF/view/StatisticsList.jsp");
+			//mav.setViewName("StatisticsList.jsp");
+			mav.setViewName("/WEB-INF/view/host/StatisticsList.jsp");
 			
 			dao.close();
 			
