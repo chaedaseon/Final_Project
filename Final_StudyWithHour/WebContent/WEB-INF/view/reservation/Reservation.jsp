@@ -69,6 +69,8 @@
 				</div>
 				
 				<!-- 검색창 영역 -------------------------------------------------------------------->
+				<c:choose>
+				<c:when test="${empty reserveDate || empty reserveAddr1 || empty reserveAddr2}">
 				<div class="select_div" id="reserveSearch">
 				<form action="groupreservesearch.do?gjCode=1" method="post">
 					<%-- 지역1을 선택 후 지역2 select에 데이터 출력 --%>
@@ -161,10 +163,18 @@
 					<button type="button" class="selectBtn" id="search" onclick="sendIt(this.form)">Search</button>
 					</form>
 				</div>
-				<div class="select_div" id="listSearch" style="display: none;">
-					<button type="button" class="selectBtn" id="againSearch">다시 검색</button>
+				</c:when>
+				<c:when test="${not empty reserveDate && not empty reserveAddr1 && not empty reserveAddr2}">
+				<div class="select_div" id="listSearch">
+					검색정보 : 
+					<input type="text" value="${reserveAddr1 },${reserveAddr2 }" class="select_bar" readonly="readonly">
+					<input type="text" value="${reserveDate }" class="select_bar" readonly="readonly">
+					<input type="text" value="${reserveHour1 }~${reserveHour2 }" class="select_bar" readonly="readonly">
+					<input type="text" value="${reserveCount }명" class="select_bar" readonly="readonly">
+					<button type="button" class="selectBtn" id="againSearch" onclick="location.href='groupreservesearch.do?gjCode=1'">다시 검색</button>
 				</div>
-				
+				</c:when>
+				</c:choose>
 				<div style="margin-bottom: 15px;">
 					<span id="count" style="font-weight: bold;">검색결과(${count })</span>
 				</div>
