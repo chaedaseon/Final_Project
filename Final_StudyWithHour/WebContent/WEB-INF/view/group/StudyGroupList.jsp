@@ -133,7 +133,7 @@
 	    			$("#groupPassword").modal("show");
 	    			$("#InsertPassword").val("");
 	    			
-	    			$("#insertSubmit").click(function()
+	    			$("#insertSubmit").unbind("click").click(function()
 					{
 	    				if($("#InsertPassword").unbind("click").val() == gpPw)
 	    				{
