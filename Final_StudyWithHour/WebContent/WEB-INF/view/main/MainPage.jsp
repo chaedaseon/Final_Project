@@ -76,7 +76,7 @@
 		    				<%-- <h5 class="card-title">${studyGroup.grName }</h5> --%>
 		    					<p class="card-text"><a href="boardgrouplist.do">${studyGroup.grComment }</a></p>
 		  					</div>
-		    				<div class="count"><img src="images/people.png">${studyGroup.gjCount } / ${studyGroup.grCount } 명</div>
+		    				<div class="count"><img src="images/people.png">${studyGroup.gjCount+1 } / ${studyGroup.grCount } 명</div>
 						</div>
 					</c:forEach>
 					</div>
