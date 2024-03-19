@@ -63,8 +63,8 @@
 							<table class="board_list">
 								<tr>
 									<!-- <th style="width: 5%;">No</th> -->
-									<th style="width: 10%;">게시판</th>
-									<th style="width: 20%;">제목</th>
+									<th style="width: 8%;">게시판</th>
+									<th style="width: 22%;">제목</th>
 									<th style="width: 40%;">내용</th>
 									<th style="width: 15%;">작성자</th>
 									<th style="width: 10%;">스크랩 일자</th>
