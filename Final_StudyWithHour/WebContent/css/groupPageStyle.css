@@ -139,12 +139,12 @@ nav
 }
 
 
-.category_search > select, input, .search_btn
+.category_search > select, .category_search > input, .search_btn
 {
 	height: 26px;
 }
 
-.category_search > input, input:focus
+.category_search > input, .category_search > input:focus
 {
 	width: 180px;
 	margin-left: 5px;

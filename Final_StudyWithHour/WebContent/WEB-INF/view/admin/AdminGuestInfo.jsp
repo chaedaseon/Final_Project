@@ -49,7 +49,7 @@ function list(currPageNo, range, searchType, keyword)
 				</div>
 					
 				<div class="info_div">
-					<table class="info_table"  >
+					<table class="table"  >
 						<tbody>
 							<tr>
 								<th >아이디</th>
@@ -82,7 +82,7 @@ function list(currPageNo, range, searchType, keyword)
 						</tbody>
 					</table>
 				 
-					<table class="info_table ">
+					<table class="table ">
 						<tbody>
 							<tr>
 								<th rowspan="5" style="text-align: center;">가입한 스터디그룹 목록</th>
@@ -94,7 +94,7 @@ function list(currPageNo, range, searchType, keyword)
 								</c:forEach>
 						</tbody>
 					</table>
-					<table class="info_table ">
+					<table class="table ">
 						<tbody>
 							<tr>
 								<th >탈퇴 일자</th>

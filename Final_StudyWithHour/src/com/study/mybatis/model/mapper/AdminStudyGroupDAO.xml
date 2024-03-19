@@ -30,12 +30,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      <!-- 페이징 리스트 -->
   
     <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.StudyGroupDTO">
-  		select  GRCODE, GCDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
+  		select  GRCODE, GRDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
 		from(
 		    select rownum as rnum, t.*
 		    from
 		    (
-		       	SELECT  GRCODE, GCDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
+		       	SELECT  GRCODE, GCDATE AS GRDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
 				FROM
 				(
                     SELECT * 

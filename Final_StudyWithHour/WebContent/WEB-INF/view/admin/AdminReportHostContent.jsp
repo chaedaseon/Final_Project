@@ -135,7 +135,7 @@
 										
 										<tr>
 											<th>스터디카페 이름</th>
-											<td>${studycafeName } / 이후 스터디카페 게시판과 연결(스터디카페 코드 : ${studycafeCode })</td>
+											<td>${studycafeName } </td>
 										</tr>
 										<tr>
 											<th>스터디그룹 이름 </th>
@@ -144,7 +144,7 @@
 		
 										<tr>
 											<th>파일 첨부 </th>
-											<td><a href="#">파일 위치 href 로 연결 혹은 표시... 현재 거의 null : ${file }</a></td>
+											<td><a href="#">-</a></td>
 										</tr>
 									</tbody>
 								</table>

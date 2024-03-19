@@ -30,5 +30,7 @@ public interface IGroupContentDAO
 	public void groupUnregInsert(HashMap<String, String> unregMap);
 	
 	// 디데이 불러올 일정 리스트
-	public ArrayList<GroupCalendarDTO> gschDdayList(String grCode);
+	//public ArrayList<GroupCalendarDTO> gschDdayList(String grCode);
+	// 그룹 이름 가져오기
+	public String getGroupName(String grCode);
 }

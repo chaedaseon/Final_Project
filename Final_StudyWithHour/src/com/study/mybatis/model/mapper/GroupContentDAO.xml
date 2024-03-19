@@ -177,6 +177,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  AND TO_DATE(GSCHDATE, 'YYYY-MM-DD') >= TO_DATE(SYSDATE, 'YYYY-MM-DD')
 	ORDER BY GSCHDATE DESC
 	</select>
-	    
-    
+	
+ 	<!-- 그룹 이름 출력 -->
+    <select id="getGroupName" resultType="String">
+    SELECT GR_NAME
+	FROM GROUP_REGISTRATION
+	WHERE GR_CODE = #{grCode}
+    </select>
+     
 </mapper>

@@ -182,7 +182,7 @@
 				<div class="content_div">
 				
 					<div class="page_title">
-					<span><span>그룹 메인</span> 페이지</span>
+					<span><span>${groupName }</span> 페이지</span>
 					</div>
 				
 					<div class="sorting_div">

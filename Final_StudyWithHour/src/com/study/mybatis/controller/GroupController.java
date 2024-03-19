@@ -78,6 +78,9 @@ public class GroupController
 		// 디데이 가능한 일정 가져오기
 		//ArrayList<GroupCalendarDTO> ddayList = cdao.gschDdayList(gr_code);
 		
+		//그룹 이름 가져오기
+		String groupName = cdao.getGroupName(gr_code);
+		
 		
 		
 		// 최근 게시물
