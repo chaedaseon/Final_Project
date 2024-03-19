@@ -291,13 +291,13 @@ public class GroupDAO
 
 			searchValue = "%" + searchValue + "%";	
 			
-			String sql = "SELECT RNUM, GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE, GU_CODE, GU_ID, GU_NAME, ATT_STATE, GSCH_REGDATE";
+			String sql = "SELECT RNUM, GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE, GU_CODE, GU_ID, GU_NAME, ATT_STATE, GSCH_REGDATE, MEET_STATE";
 			sql += " FROM";
 			sql += "(";
 			sql += "	SELECT ROWNUM RNUM, DATA.*";
 			sql += "	 FROM";
 			sql += "    (";
-			sql += "    	SELECT GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE, GU_CODE, GU_ID, GU_NAME, ATT_STATE, GSCH_REGDATE";
+			sql += "    	SELECT GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE, GU_CODE, GU_ID, GU_NAME, ATT_STATE, GSCH_REGDATE, MEET_STATE";
 			sql += "    	 FROM VIEW_GROUPSCH WHERE GR_CODE = ? AND " + searchKey +" LIKE ? AND ATT_STATE = '무' ORDER BY " + searchDate + " DESC";
 			sql += "    ) DATA";
 			sql += ")";
@@ -325,6 +325,7 @@ public class GroupDAO
 				dto.setGuId(rs.getString("GU_ID"));
 				dto.setGuName(rs.getString("GU_NAME"));
 				dto.setAttState(rs.getString("ATT_STATE"));
+				dto.setMeetState(rs.getString("MEET_STATE"));
 				
 				result.add(dto);
 			}
