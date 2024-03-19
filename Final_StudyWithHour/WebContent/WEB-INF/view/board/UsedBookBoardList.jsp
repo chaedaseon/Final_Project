@@ -140,7 +140,7 @@
 				                <div class="card border-hover-primary hover-scale">
 				                    <div class="card-body">
 				                        <div class="text-primary mb-5">
-				                        	<img src="../images/the_little_prince.jpg" class="book_icon">  
+				                        	<img src="<%=cp %>/images/the_little_prince.jpg" class="book_icon">  
 				                        	<div class="detail_1">
 				                        		<div id="post_title">
 					                        		<span>
