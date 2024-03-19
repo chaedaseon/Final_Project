@@ -84,7 +84,8 @@ public class GuestGroupDAO
 				   + " WHERE GJ_CODE IN (SELECT GJ.GJ_CODE"
 		           + " FROM GUEST G"
 				   + " LEFT JOIN GROUP_JOIN GJ ON GJ.GU_CODE = G.GU_CODE"
-		           + " WHERE GJ.GU_CODE = ?)";		
+		           + " WHERE GJ.GU_CODE = ?)"
+				   + " ORDER BY GJ_DATE DESC";		
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, guCode);
