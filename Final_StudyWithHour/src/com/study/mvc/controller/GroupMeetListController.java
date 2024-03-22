@@ -55,13 +55,15 @@ public class GroupMeetListController implements Controller
 			int currentPage = 1;
 			if (pageNum != null)
 				currentPage = Integer.parseInt(pageNum);
-
+			
+			// 검색어가 없을 때 기본 값 설정
 			if (searchKey==null)
 			{
 				searchKey = "attDate";
 				searchValue = "";		
 			}
 			
+			// 검색어가 없을 때 기본 값 설정
 			if (searchDate==null)
 			{
 				searchDate = "regDate";
