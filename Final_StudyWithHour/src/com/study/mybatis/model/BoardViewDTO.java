@@ -25,6 +25,7 @@ public class BoardViewDTO
 	private String rpCode, rpDate, rpContent, rpModate, rpWriter, guCode;		   // 댓글 정보
 	private String rreCode, rreDate, rreContent, rreModate, rreWriter;			   // 대댓글 정보
 	private int no, boView, replyCount;											   // 게시글 순번, 조회수, 전체 댓글 수
+	private String redGuCode, reasonCode;
 	
 	public String getBoFile()
 	{
@@ -205,4 +206,21 @@ public class BoardViewDTO
 	{
 		this.boView = boView;
 	}
+	public String getRedGuCode()
+	{
+		return redGuCode;
+	}
+	public void setRedGuCode(String redGuCode)
+	{
+		this.redGuCode = redGuCode;
+	}
+	public String getReasonCode()
+	{
+		return reasonCode;
+	}
+	public void setReasonCode(String reasonCode)
+	{
+		this.reasonCode = reasonCode;
+	}
+	
 }

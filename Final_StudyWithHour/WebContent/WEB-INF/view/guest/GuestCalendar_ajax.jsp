@@ -3,6 +3,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+
+	// 페이지 로드될 때, 실행되는 에이작스 (DB에 있는 일정의 날짜와 달력에 그려진 날짜가 동일하면 일정 제목 출력하기)
+	
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 
@@ -12,6 +15,7 @@
 
 	String result = "";
 	
+	// 제이슨 형태로 구성 (일정 코드, 일정 제목, 일정 내용, 일정 날짜로 구성)
 	for (GuestCalendarDTO schedule : scheduleList) 
 	{
 		StringBuffer sb = new StringBuffer();

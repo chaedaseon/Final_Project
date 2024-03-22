@@ -10,10 +10,6 @@
 	GuestDTO guest = (GuestDTO) session.getAttribute("guest");
 	
 %>
-<%-- 
-<jsp:useBean id="now" class="java.util.Date"/>
-<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
- --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +34,8 @@
 	function beforeMonth() 
 	{ 
 	    today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-	    createCalendar(); //만들기
+	    createCalendar(); // 달력 만들기
+	    // 이전 달 클릭 시, 오른 쪽 날짜는 당일 날짜로 셋팅 & 일정은 공백으로 셋팅
 	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
 		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
 		$("#resultDiv").html("");
@@ -49,6 +46,7 @@
 	{
 	    today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
 	    createCalendar();
+	 	// 다음 달 클릭 시, 오른 쪽 날짜는 당일 날짜로 셋팅 & 일정은 공백으로 셋팅
 	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
 		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
 		$("#resultDiv").html("");
@@ -91,15 +89,16 @@
 	        	cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #ff8282' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
 	            cell.className = "div_date"
 	        }
-	        if (cnt % 7 == 0) 		// 1주일이 7일 이므로 토요일 계산
+	        if (cnt % 7 == 0) 		// 토요일 계산
 	        { 
 	            cell.innerHTML = "<div class='top-date'><button class='dateBtn' onclick='datefn(this.id)' style='color: #62b0ff' id='date_" + String(i).padStart(2,'0') + "'><div class='i'>" + i + "</div></a></div>";
 	            cell.className = "div_date"
 	            	
-	            row = calendar.insertRow();// 줄 추가
+	            row = calendar.insertRow();	// 줄 추가
 	        }
 	    }
-
+		
+	    // 에이작스 info로 guestCode 넘김
 		var info = "gu_code=<%=guest.getGuCode()%>";
 	    $.ajax(
 	    {
@@ -121,6 +120,7 @@
 	    				var month = String(today.getMonth()+1).padStart(2, '0');
 	    				var day = String(i).padStart(2,'0');
 	    				
+	    				// 년도, 월, 일자가 같을 경우
 	    				if(year==sch_date.substring(0,4) && month==sch_date.substring(5,7) && day==sch_date.substring(8,10))
 	    				{
 	    					var cell = document.getElementById("date_" + sch_date.substring(8, 10)); // 각 날짜에 해당하는 셀 가져오기
@@ -220,12 +220,12 @@
 		
 	}
 	
-	// 일정 추가 모달에 사용되는 datepicker
+	// 일정 추가 모달에 사용되는 datepicker1
 	$(function()
 	{
         $('#datepicker1').datepicker();
      });
-	
+	// 일정 추가 모달에 사용되는 datepicker2
 	$(function()
 	{
         $('#datepicker2').datepicker();

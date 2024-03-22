@@ -71,7 +71,7 @@
 					  	<div class="tab-pane fade show active" id="boardred-tab-pane" role="tabpanel" aria-labelledby="boardred-tab" tabindex="0">
 							<table class="red_list">
 								<tr>
-									<!-- <th>No</th> -->
+									<th>No</th>
 									<th>게시판</th>
 									<th>게시글 내용</th>
 									<th>신고 사유</th>
@@ -88,7 +88,7 @@
 								
 								<c:forEach var="redBoardList" items="${redBoardList }">
 									<tr>
-										<!-- <td>1</td> -->
+										<td>1</td>
 										<td>${redBoardList.bfList }</td>
 										<td style=" text-align: left;">
 											[${redBoardList.bsList }]
@@ -103,8 +103,26 @@
 										</td> 
 										<td>${redBoardList.reason }</td>
 										<td>${redBoardList.borDate.substring(0,11) }</td>
-										<td>${redBoardList.redstate }</td>
-										<td>${redBoardList.brdDate.substring(0,11) }</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redBoardList.redstate }">
+													처리 중
+												</c:when>
+												<c:otherwise>
+													${redBoardList.redstate }
+												</c:otherwise>
+											</c:choose>
+										</td>
+										<td>
+											<c:choose>
+												<c:when test="${empty redBoardList.brdDate.substring(0,11) }">
+													-
+												</c:when>
+												<c:otherwise>
+													${redBoardList.brdDate.substring(0,11) }
+												</c:otherwise>
+											</c:choose>
+										</td>
 									</tr>
 								</c:forEach>
 								<tr class="spacer"></tr>

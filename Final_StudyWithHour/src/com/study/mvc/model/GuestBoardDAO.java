@@ -229,13 +229,8 @@ public class GuestBoardDAO
 	{
 		ArrayList<GuestBoardDTO> result = new ArrayList<GuestBoardDTO>();
 		
-		String sql = "SELECT BW.BO_CODE AS BO_CODE, BW.BO_DATE AS BO_DATE, BW.BO_TITLE AS BO_TITLE, BW.BO_CONTENT AS BO_CONTENT, BW.BO_VIEW AS BO_VIEW"
-				   + ", BW.BO_MODATE AS BO_MODATE, BW.BO_FILE AS BO_FILE, BS.BS_LIST AS BS_LIST, BF.BF_LIST AS BF_LIST"
-				   + ", BW.GU_CODE AS GU_CODE, BW.BOR_CODE AS BOR_CODE, BW.BOR_DATE AS BOR_DATE, BW.REASON AS REASON"
-				   + ", BR.BRD_CODE AS BRD_CODE, BR.BRD_DATE AS BRD_DATE, BR.RED_CODE AS RED_CODE, RS.REDSTATE AS REDSTATE"
-				   + " FROM BOARD_RED_LIST_VIEW BW, BOARD_REDDONE BR, REDSTATE RS, BOARD_SECOND BS, BOARD_FIRST BF"
-				   + " WHERE BW.BOR_CODE = BR.BOR_CODE AND BR.RED_CODE = RS.RED_CODE AND BW.BS_CODE = BS.BS_CODE"
-				   + " AND BS.BF_CODE = BF.BF_CODE AND BW.GU_CODE = ?"
+		String sql = "SELECT BO_CODE, BO_TITLE, BO_CONTENT, BF_LIST, BS_LIST, BOR_CODE, REASON, BOR_DATE, GU_CODE, REDSTATE, BRD_DATE"
+				   + " FROM BOARD_RED_LIST_VIEW WHERE GU_CODE = ?"
 				   + " ORDER BY BOR_DATE DESC";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -247,22 +242,16 @@ public class GuestBoardDAO
 			GuestBoardDTO dto = new GuestBoardDTO();
 			
 			dto.setBoCode(rs.getString("BO_CODE"));
-			dto.setBoDate(rs.getString("BO_DATE"));
 			dto.setBoTitle(rs.getString("BO_TITLE"));
 			dto.setBoContent(rs.getString("BO_CONTENT"));
-			dto.setBoView(rs.getInt("BO_VIEW"));
-			dto.setBoModate(rs.getString("BO_MODATE"));
-			dto.setBoFile(rs.getString("BO_FILE"));
-			dto.setBsList(rs.getString("BS_LIST"));
 			dto.setBfList(rs.getString("BF_LIST"));
-			dto.setGuCode(rs.getString("GU_CODE"));
+			dto.setBsList(rs.getString("BS_LIST"));
 			dto.setBorCode(rs.getString("BOR_CODE"));
-			dto.setBorDate(rs.getString("BOR_DATE"));
 			dto.setReason(rs.getString("REASON"));
-			dto.setBrdCode(rs.getString("BRD_CODE"));
-			dto.setBrdDate(rs.getString("BRD_DATE"));
-			dto.setRedCode(rs.getString("RED_CODE"));
+			dto.setBorDate(rs.getString("BOR_DATE"));
+			dto.setGuCode(rs.getString("GU_CODE"));
 			dto.setRedstate(rs.getString("REDSTATE"));
+			dto.setBrdDate(rs.getString("BRD_DATE"));
 			
 			result.add(dto);
 		}
