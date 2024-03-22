@@ -5,10 +5,8 @@
 	String cp = request.getContextPath();
 %>
 
-<div>
-  <footer class="py-3">
+  <div class="py-3">
     <div class="border-bottom"></div>
     <p class="text-center text-body-secondary">© Study With Hour</p>
-  </footer>
-</div>
+  </div>
 

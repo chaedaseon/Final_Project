@@ -34,7 +34,7 @@ header
 	margin-left: 80px;
 	margin-top: 60px;
 	width: calc(1400px - 260px);
-	height: 800px;
+	height: 100%;
 }
 
 .content_div      /* 마이메뉴 없을 때 */
@@ -60,16 +60,23 @@ body
 
 section 
 {
-	flex: 1;
+/*	flex: 1;
+ 	height: auto; */
+	padding-bottom: 75px;
+	position : relative;
 }
 
 footer
 {
-    left: 0;
     bottom: 0;
+    position : relative;
+    transform : translateY(-100%);
+    /* left: 0;
     width: 100%;
     background-color: #fff;
     color: white;
     text-align: center;
+    height: 75px;
+   */
     
 }
