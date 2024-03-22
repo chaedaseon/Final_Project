@@ -35,7 +35,7 @@
 			<c:import url="/WEB-INF/view/main/SideMenu.jsp"></c:import>
 
 			<div class="rightContent_div">
-				<div class="regInfo_div">
+				<div class="content_div">
 				<div class="page_title">
 					<span><span>상세정보</span></span>
 				</div>
