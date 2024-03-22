@@ -1155,7 +1155,7 @@ public class CafeDAO
 		ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
 		
 		String sql = "SELECT SC_CODE, SC_NAME, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE, ROWNUM RNUM, SC_ADDR1"
-				+ ", SC_ADDR2, SC_TEL, SC_OPENHOUR, SC_CLOSEHOUR, SC_CONVENIENT, SC_SURROUND, SC_CAUTION, SC_DETAIL, SC_DATE"
+				+ ", SC_ADDR2, SC_TEL, SC_OPENHOUR, SC_CLOSEHOUR, SC_CONVENIENT, SC_SURROUND, SC_CAUTION, SC_DETAIL, SC_DATE, ROOM_RESTATE"
 				+ " FROM VIEW_ROOMINFO WHERE SC_CODE = ? AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG) ORDER BY SR_CODE";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -1182,6 +1182,7 @@ public class CafeDAO
 			dto.setScCaution(rs.getString("SC_CAUTION"));
 			dto.setScDetail(rs.getString("SC_DETAIL"));
 			dto.setScDate(rs.getString("SC_DATE"));
+			dto.setRoomReState(rs.getString("ROOM_RESTATE"));
 			
 			result.add(dto);
 		}

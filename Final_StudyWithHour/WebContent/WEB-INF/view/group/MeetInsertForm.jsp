@@ -103,7 +103,7 @@
 									<span>내용</span>
 								</td> 
 								<td class="register_input" colspan="2">
-									<span>${meet.gschContent }</span>
+									<span style="white-space: pre-line;">${meet.gschContent }</span>
 								</td>
 							</tr>
 							<tr>
@@ -142,7 +142,7 @@
 					<button type="reset" class="signUp signUp-del" onclick="location.href='groupmeetlist.do?gu_code=<%=guest.getGuCode()%>&gr_code=${grCode }'">목 록</button>
 					</c:when>
 					<c:otherwise>
-					<form action="groupmeetinsert.do?gschCode=${meet.gschCode }" method="post" id="meetAddForm">
+					<form action="groupmeetinsert.do?gschCode=${meet.gschCode }&gu_code=<%=guest.getGuCode()%>&gr_code=${grCode }" method="post" id="meetAddForm">
 						<table class="meetRegister">
 							<tr>
 								<td class="register_title">

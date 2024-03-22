@@ -15,9 +15,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.study.mvc.model.CafeDAO;
 import com.study.mvc.model.CafeDTO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class CafeRoomInsertController implements Controller
 {
 	@Override
@@ -44,26 +41,26 @@ public class CafeRoomInsertController implements Controller
 		try
 		{
 			dao.connection();
+			// 이전 페이지로부터 넘어온 데이터 수신
 			String scCode = request.getParameter("scCode");
 			String srName = request.getParameter("roomName");
 			String srCount = request.getParameter("srCount");
 			String srPrice = request.getParameter("price");
-			
-			System.out.print(scCode);
-			System.out.print(srName);
-			System.out.print(srCount);
-			System.out.print(srPrice);
-			
+
+			// 스터디룸 등록 정보 
 			dto.setScCode(scCode);
 			dto.setSrName(srName);
 			dto.setSrCount(Integer.parseInt(srCount));
 			dto.setSrPrice(Integer.parseInt(srPrice));
 			
+			// 스터디룸 등록
 			result = dao.addRoom(dto);
 			
+			// 스터디룸 등록이 되지않았을 경우 돌아가기
 			if (result <= 0)
 				mav.setViewName("redirect:cafedetail.do");
 			
+			// 카페 정보 페이지로 이동
 			mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
 			
 			dao.close();

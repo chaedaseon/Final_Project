@@ -6,7 +6,7 @@
 %>
 
 <div>
-  <footer class="py-3 my-4">
+  <footer class="py-3">
     <div class="border-bottom"></div>
     <p class="text-center text-body-secondary">© Study With Hour</p>
   </footer>

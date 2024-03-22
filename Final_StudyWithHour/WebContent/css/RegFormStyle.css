@@ -111,6 +111,14 @@ td > button[type="submit"]
     font-weight: bold;
 }
 
+button.unableBtn
+{
+	border: 1px solid #5b5b5b;
+	border-radius: 5px;
+	width: 80px;
+	color: #5b5b5b;
+}
+
 button.tableBtn
 {
 	border: 1px solid #93bc32;

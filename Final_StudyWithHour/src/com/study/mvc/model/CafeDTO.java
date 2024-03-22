@@ -16,7 +16,7 @@ public class CafeDTO
 		, scSurround, scCaution, scDetail, scResnumber, scDate, scFile, adPerDate, hoCode, adCode, adChCode;						
 	
 	// 스터디카페 예약 관련 속성 → Reservation 테이블
-	private String reCode, reStartDate, reStartHour, reEndHour, reState;
+	private String reCode, reStartDate, reStartHour, reEndHour, reState, roomReState;
 	int reCount;
 	
 	// 예약자 관련 속성 
@@ -48,6 +48,16 @@ public class CafeDTO
 	public void setScCode(String scCode)
 	{
 		this.scCode = scCode;
+	}
+
+	public String getRoomReState()
+	{
+		return roomReState;
+	}
+
+	public void setRoomReState(String roomReState)
+	{
+		this.roomReState = roomReState;
 	}
 
 	public int getReCount()

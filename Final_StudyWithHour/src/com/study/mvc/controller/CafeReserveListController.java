@@ -54,37 +54,45 @@ public class CafeReserveListController implements Controller
 			String fbState = request.getParameter("fbState");
 			String reState = request.getParameter("reState");
 			
+			// 이전 페이지로부터 넘어온 페이지 번호 수신
 			String pageNum = request.getParameter("pageNum");
+			// 현재 페이지를 1로 지정
+			// 만약 페이지번호가 있을 경우 현재 페이지는 페이지번호로 지정
 			int currentPage = 1;
 			if (pageNum != null)
 				currentPage = Integer.parseInt(pageNum);
 			
+			// 이용상태/예약상태 검색이 없는 경우 기본 설정
 			if (fbState == null)
 				fbState = "fbAll";
 			if (reState == null)
 				reState = "reAll";
-				
 			
+			// 검색어가 없는 경우 기본 설정
 			if (searchKey==null)
 			{
 				searchKey = "resDate";
 				searchValue = "";		
 			}
 			
+			// 호스트의 스터디카페 개수 조회
 			int dataCount = dao.getDataCount(hoCode, searchKey, searchValue, fbState, reState);
-			int numPerPage = 10;										//-- 한 페이지에 표시할 데이터 갯수
+			// 한 페이지에 표시할 데이터 갯수
+			int numPerPage = 10;		
+			// numPerPage, dataCount 로 전체 페이지 갯수 조회//-- 한 페이지에 표시할 데이터 갯수
 			int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 			
-			
-			
+			// 전체 페이지 수가 현재 페이지 수보다 작을 경우
 			if (currentPage > totalPage)
 				currentPage = totalPage;
 			
+			// 현재 페이지와 표시할 데이터 갯수에 따른 시작값과 끝값 구하기
 			int start = (currentPage-1) * numPerPage + 1;
 			int end = currentPage * numPerPage;
-
+			
 			String param = "";
 			
+			// 검색어가 있으면 param 에 검색어와 검색분류 데이터 보관
 			if (!searchValue.equals(""))
 			{
 				param += "&searchKey=" + searchKey;
@@ -95,7 +103,7 @@ public class CafeReserveListController implements Controller
 			
 			String pageIndexList = myUtil.pageIndexList(currentPage, totalPage, listUrl);
 			
-			
+			// 페이지 번호가 있는 경우 현재페이지 번호를 함께 전달
 			String articleUrl = "cafereservedetail.do";
 			
 			if (param.equals(""))
@@ -106,9 +114,12 @@ public class CafeReserveListController implements Controller
 			{
 				articleUrl = articleUrl + "?pageNum=" + currentPage + param;
 			}
-					
+			
+			// 검색어에 따른 예약 내역 조회
 			reserve = dao.ReserveSearchLists(hoCode, start, end, searchKey, searchValue, fbState, reState);
+			// 예약 취소 개수 조회
 			countCancel = dao.countCancel(hoCode);
+			// 사유 내역 조회
 			reason = dao.reasonLists();
 			
 			mav.addObject("reserve", reserve);
@@ -122,6 +133,7 @@ public class CafeReserveListController implements Controller
 			mav.addObject("fbState", fbState);	
 			mav.addObject("reState", reState);	
 			
+			// 호스트 예약 내역 페이지로 이동
 			mav.setViewName("/WEB-INF/view/host/HostReservationList.jsp");
 			
 			dao.close();

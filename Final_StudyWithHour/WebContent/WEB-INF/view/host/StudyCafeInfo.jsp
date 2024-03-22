@@ -8,6 +8,7 @@
 	
 	// 호스트 세션 받아오기
 	HostDTO host = (HostDTO) session.getAttribute("host");
+	String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -23,7 +24,6 @@
 <link rel="stylesheet" type="text/css" href="css/RegFormStyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-
 </head>
 <body>
 	<header>
@@ -127,15 +127,15 @@
 					</table>
 					<div style="display: flex; justify-content: flex-end;">
 						<button type="button" class="signUp" onclick="location.href='cafeupdateform.do?scCode=${cafe.scCode}'">수정</button>
-						<!-- 버튼 눌러서 모달창 띄우기 -->
+						<%-- 버튼 눌러서 카페 비활성화 모달창 띄우기 --%>
 				        <button type="button" class="signUp signUp-del" id="cafeDelete" value="${cafe.scCode }" 
 				        data-bs-toggle="modal" data-bs-target="#staticBackdrop">비활성화</button>												
 					</div>
-					<!---------------------- 스터디카페 내역 end ---------------------->
+					<%---------------------- 스터디카페 내역 end ----------------------%>
 					
-					<!---------------------- 스터디룸 내역 start ---------------------->
-					<div style="display: flex; align-items: center; margin-top: 50px;">
-						<h4>스터디룸내역</h4>
+					<%---------------------- 스터디룸 내역 start ----------------------%>
+					<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 50px;">
+						<h4>스터디룸내역</h4><h6>예약내역이 존재할 경우 수정/비활성화 불가</h6>
 					</div>
 					<div class="overflow">	
 					<form action="caferoominsert.do?scCode=${cafe.scCode }" method="post" >
@@ -155,15 +155,28 @@
 							<td>${rm.srName }</td>
 							<td>${rm.srCount }명</td>
 							<td>${rm.srPrice }원</td>
-							<td>
-								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}" value="${rm.srCode }">수정</button>
-							</td>
-							<td>
-								<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#deleteRoom${r.index}" value="${rm.srCode }">비활성화</button>
-							</td>
+							<!-- 예약내역이 존재하는 스터디룸일 경우 수정/비활성화 불가 -->
+							<c:choose>
+							<c:when test="${rm.roomReState eq '예약있음' }">
+								<td>
+									<button type="button" class="unableBtn" disabled="disabled">수정</button>
+								</td>
+								<td>
+									<button type="button" class="unableBtn" disabled="disabled">비활성화</button>
+								</td>
+							</c:when>
+							<c:when test="${rm.roomReState eq '예약없음' }">
+								<td>
+									<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#updateRoom${r.index}" value="${rm.srCode }">수정</button>
+								</td>
+								<td>
+									<button type="button" class="tableBtn" data-bs-toggle="modal" data-bs-target="#deleteRoom${r.index}" value="${rm.srCode }">비활성화</button>
+								</td>
+							</c:when>
+							</c:choose>
 						</tr>
 						
-		<!-- 스터디룸 수정 모달 영역 ------------------------------------------------------------------------->
+		<%-- 스터디룸 수정 모달 영역 -------------------------------------------------------------------------%>
         <div class="modal fade" id="updateRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRoomLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
 	       <form action="caferoomupdate.do?scCode=${cafe.scCode}" method="post">
@@ -187,7 +200,7 @@
 		                </c:choose>
 	                </c:forEach>
 				</select>
-				<input type="text" class="regInput" name="updatePrice" value="${rm.srPrice }원">
+				<input type="text" class="regInput" name="updatePrice" value="${rm.srPrice }">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -221,7 +234,7 @@
 						<tr>
 							<td>추가등록</td>
 							<td>
-								<input type="text" class="regInput" name="roomName">
+								<input type="text" class="regInput" name="roomName" id="roomName">
 							</td>
 							<td>
 								<select name="srCount" class="regInput">
@@ -237,10 +250,10 @@
 								</select>
 							</td>
 							<td>
-								<input type="text" class="regInput" name="price">원
+								<input type="text" class="regInput" name="price" id="price">원
 							</td>
 							<td colspan="2" style="text-align: center;">
-								<button type="submit" class="tableBtn" style="height: 30px;">등록</button>
+								<button type="submit" class="tableBtn" id="registerRoom" style="height: 30px;">등록</button>
 							</td>
 						</tr>
 						<tr class="spacer"></tr>

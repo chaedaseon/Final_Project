@@ -56,11 +56,15 @@ public class CafeReviewListController implements Controller
 			String searchValue = request.getParameter("searchValue");
 			String scState = request.getParameter("scState");
 			
+			// 이전 페이지로부터 넘어온 페이지 번호 수신
 			String pageNum = request.getParameter("pageNum");
+			// 현재 페이지를 1로 지정
+						// 만약 페이지번호가 있을 경우 현재 페이지는 페이지번호로 지정
 			int currentPage = 1;
 			if (pageNum != null)
 				currentPage = Integer.parseInt(pageNum);
 			
+			// 검색이 없는 경우 기본 설정(최초 요청일 경우)
 			if (scState == null)
 				scState = "scAll";
 			
@@ -70,22 +74,26 @@ public class CafeReviewListController implements Controller
 				searchValue = "";
 			}
 			
+			// 검색이 호스트 전체 보유카페인지 특정카페인지에 따른 분기
 			if (scCode != null)
 				dataCount = dao.cafeReviewCount(scCode, searchKey, searchValue);
 			else	
 				dataCount = dao.hostReviewCount(hoCode, searchKey, searchValue);
 			
-			int numPerPage = 10;										//-- 한 페이지에 표시할 데이터 갯수
+			//-- 한 페이지에 표시할 데이터 갯수
+			int numPerPage = 10;	
+			// numPerPage, dataCount 로 전체 페이지 갯수 조회//-- 한 페이지에 표시할 데이터 갯수
 			int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 			
+			// 전체 페이지 수가 현재 페이지 수보다 작을 경우
 			if (currentPage > totalPage)
 				currentPage = totalPage;
 			
+			// 현재 페이지와 표시할 데이터 갯수에 따른 시작값과 끝값 구하기
 			int start = (currentPage-1) * numPerPage + 1;
 			int end = currentPage * numPerPage;
 			
 			String listUrl = "";
-			
 			
 			if (scCode != null)		// 스터디카페코드가 있는 경우
 			{
@@ -99,7 +107,9 @@ public class CafeReviewListController implements Controller
 			}
 			
 			String pageIndexList = myUtil.pageIndexList(currentPage, totalPage, listUrl);
+			// 사유 내역 조회
 			reason = dao.reasonLists();
+			// 호스트 전체 카페 내역 조회 
 			cafe = dao.lists(hoCode, start, end);
 			
 			mav.addObject("cafe", cafe);
@@ -110,6 +120,7 @@ public class CafeReviewListController implements Controller
 			mav.addObject("searchKey", searchKey);
 			mav.addObject("searchValue", searchValue);
 			
+			// 스터디카페 리뷰 확인 페이지로 이동
 			mav.setViewName("/WEB-INF/view/host/StudyCafeReview.jsp");
 			
 			dao.close();
