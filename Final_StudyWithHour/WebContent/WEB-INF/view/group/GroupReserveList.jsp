@@ -171,10 +171,9 @@
             <h1 class="modal-title fs-5" id="reviewStaticLabel">[리뷰 작성] ${list.scName } ${list.srName }</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <form action="groupreviewinsert.do?grCode=${list.grCode }" method="post" id="reviewForm">
+          <form action="groupreviewinsert.do?gr_code=${grCode }&gu_code=<%=guest.getGuCode() %>&fb_code=${list.fbCode}" method="post" id="reviewForm">
           <div class="modal-body" style="text-align: center; line-height: normal; display: flex; justify-content: space-evenly; align-items: center;">
             <span>리뷰</span>
-            <input type="hidden" value="${list.fbCode }" name="fbCode" />
             <textarea cols="30" name="rvContent"></textarea>
           </div>
           <div class="modal-footer">
@@ -212,11 +211,10 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body" style="text-align: center; line-height: normal; display: flex; justify-content: space-evenly; align-items: center;">
-            <input type="hidden" name="grCode" value="${list.grCode }"/>
             <span>${list.scName } ${list.srName }<br>예약을 정말 취소하시겠습니까?</span>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="location.href='groupreservedelete.do?reCode=${list.reCode}'">Yes</button>
+            <button type="button" class="btn btn-feedback" style="background-color: #94be2c; color: #ffffff;" onclick="location.href='groupreservedelete.do?gr_code=${grCode }&gu_code=<%=guest.getGuCode() %>&reCode=${list.reCode}'">Yes</button>
             <button type="button" class="btn btn-feedback" aria-label="Close" data-bs-dismiss="modal" style="background-color: #94be2c; color: #ffffff;">No</button>
           </div>
         </div>

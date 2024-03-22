@@ -75,11 +75,11 @@ public class CafeReserveListController implements Controller
 				searchValue = "";		
 			}
 			
-			// 호스트의 스터디카페 개수 조회
+			// 출력할 데이터 개수 조회
 			int dataCount = dao.getDataCount(hoCode, searchKey, searchValue, fbState, reState);
 			// 한 페이지에 표시할 데이터 갯수
 			int numPerPage = 10;		
-			// numPerPage, dataCount 로 전체 페이지 갯수 조회//-- 한 페이지에 표시할 데이터 갯수
+			// numPerPage, dataCount 로 전체 페이지 갯수 조회
 			int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 			
 			// 전체 페이지 수가 현재 페이지 수보다 작을 경우

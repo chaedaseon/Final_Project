@@ -59,7 +59,7 @@ public class CafeReviewListController implements Controller
 			// 이전 페이지로부터 넘어온 페이지 번호 수신
 			String pageNum = request.getParameter("pageNum");
 			// 현재 페이지를 1로 지정
-						// 만약 페이지번호가 있을 경우 현재 페이지는 페이지번호로 지정
+			// 만약 페이지번호가 있을 경우 현재 페이지는 페이지번호로 지정
 			int currentPage = 1;
 			if (pageNum != null)
 				currentPage = Integer.parseInt(pageNum);
@@ -74,7 +74,7 @@ public class CafeReviewListController implements Controller
 				searchValue = "";
 			}
 			
-			// 검색이 호스트 전체 보유카페인지 특정카페인지에 따른 분기
+			// 검색이 호스트 전체 보유카페인지 특정카페인지에 따른 출력데이터 개수 조회
 			if (scCode != null)
 				dataCount = dao.cafeReviewCount(scCode, searchKey, searchValue);
 			else	
@@ -82,7 +82,7 @@ public class CafeReviewListController implements Controller
 			
 			//-- 한 페이지에 표시할 데이터 갯수
 			int numPerPage = 10;	
-			// numPerPage, dataCount 로 전체 페이지 갯수 조회//-- 한 페이지에 표시할 데이터 갯수
+			// numPerPage, dataCount 로 전체 페이지 갯수 조회
 			int totalPage = myUtil.getPageCount(numPerPage, dataCount);
 			
 			// 전체 페이지 수가 현재 페이지 수보다 작을 경우

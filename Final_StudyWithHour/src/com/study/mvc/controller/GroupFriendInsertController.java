@@ -31,6 +31,7 @@ public class GroupFriendInsertController implements Controller
 			return mav;
 		}
 		
+		// 이전 페이지(GuestProfileCard.jsp)로부터 넘어온 데이터 수신
 		String guCode = request.getParameter("guCode");
 		String guFmCode = request.getParameter("guFmCode");
 		String type = request.getParameter("type");
@@ -41,8 +42,10 @@ public class GroupFriendInsertController implements Controller
 		{	
 			dao.connection();
 			
+			// 유형에 따른 이웃 추가
 			dao.friendAdd(guCode, guFmCode, type);
 			
+			// 그룹원 리스트 페이지로 이동
 			mav.setViewName("redirect:groupmemberlist.do?gu_code=" + guCode + "&gr_code="+ grCode);
 		}
 		catch (Exception e) 

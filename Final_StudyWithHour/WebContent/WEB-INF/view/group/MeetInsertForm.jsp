@@ -216,7 +216,7 @@
          <h1 class="modal-title fs-5" id="meetInsertLabel">불참자 등록</h1>
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
-       	<form action="groupunattmemberinsert.do?grCode=${grCode }&gschCode=${meet.gschCode }" method="post">
+       	<form action="groupunattmemberinsert.do?gu_code=<%=guest.getGuCode()%>&gr_code=${grCode }&gschCode=${meet.gschCode }" method="post">
           <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
             <select name="attlCode" class="regInput">
             	<c:forEach var="mem" items="${preattMem }">
