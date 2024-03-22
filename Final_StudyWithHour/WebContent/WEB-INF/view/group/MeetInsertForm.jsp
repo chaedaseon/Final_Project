@@ -1,9 +1,12 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
 %>
 
 
@@ -136,7 +139,7 @@
 				
 					<div class="underline"></div>
 					
-					<button type="reset" class="signUp signUp-del" onclick="location.href='groupmeetlist.do?grCode=1'">목 록</button>
+					<button type="reset" class="signUp signUp-del" onclick="location.href='groupmeetlist.do?gu_code=<%=guest.getGuCode()%>&gr_code=${grCode }'">목 록</button>
 					</c:when>
 					<c:otherwise>
 					<form action="groupmeetinsert.do?gschCode=${meet.gschCode }" method="post" id="meetAddForm">
@@ -198,7 +201,7 @@
 				
 					<div class="underline"></div>
 					
-					<button type="reset" class="signUp signUp-del" onclick="location.href='groupmeetlist.do?grCode=1'">취 소</button>
+					<button type="reset" class="signUp signUp-del" onclick="location.href='groupmeetlist.do?gu_code=<%=guest.getGuCode()%>&gr_code=${grCode }'">취 소</button>
 					<button type="button" class="signUp" onclick="sendMeet(form)">등 록</button>
 				</form>
 					</c:otherwise>
@@ -213,14 +216,13 @@
          <h1 class="modal-title fs-5" id="meetInsertLabel">불참자 등록</h1>
          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
        </div>
-       	<form action="groupunattmemberinsert.do?grCode=1" method="post">
+       	<form action="groupunattmemberinsert.do?grCode=${grCode }&gschCode=${meet.gschCode }" method="post">
           <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
             <select name="attlCode" class="regInput">
-            	<c:forEach var="mem" items="${attMem }">
+            	<c:forEach var="mem" items="${preattMem }">
             		<option value="${mem.attlCode }">${mem.member }</option>
             	</c:forEach>
 			</select>
-			<input type="hidden" name="gschCode" value="${meet.gschCode }">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>

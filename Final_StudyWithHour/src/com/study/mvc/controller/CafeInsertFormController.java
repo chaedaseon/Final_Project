@@ -12,9 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class CafeInsertFormController implements Controller
 {
 	@Override
@@ -36,6 +33,7 @@ public class CafeInsertFormController implements Controller
 		
 		try
 		{
+			// 스터디카페 입력 폼으로 이동
 			mav.setViewName("/WEB-INF/view/host/StudyCafeRegForm.jsp");
 			
 		} catch (Exception e)

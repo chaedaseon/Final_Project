@@ -60,7 +60,7 @@
 						</tr>
 						<tr class="spacer"></tr>
 						<tr>
-							<td>상호명</td>
+							<td>카페명</td>
 							<td>${cafe.scName }</td>
 						</tr>
 						<tr>
@@ -173,7 +173,7 @@
 	            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	          </div>
               <div class="modal-body" style="text-align: center; display: flex; justify-content: space-evenly;">
-                <input type="text" class="regInput" name="updateName"placeholder="${rm.srName }">
+                <input type="text" class="regInput" name="updateName" value="${rm.srName }">
                 <input type="hidden" name="updateCode" value="${rm.srCode }">
                 <select name="updateCount" class="regInput">
                		<c:forEach var="c" begin="2" end="10" step="1">
@@ -187,7 +187,7 @@
 		                </c:choose>
 	                </c:forEach>
 				</select>
-				<input type="text" class="regInput" name="updatePrice" placeholder="${rm.srPrice }원">
+				<input type="text" class="regInput" name="updatePrice" value="${rm.srPrice }원">
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>

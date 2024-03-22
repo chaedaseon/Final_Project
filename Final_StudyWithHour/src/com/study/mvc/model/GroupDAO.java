@@ -298,7 +298,7 @@ public class GroupDAO
 			sql += "	 FROM";
 			sql += "    (";
 			sql += "    	SELECT GSCH_CODE, GSCH_DATE, GSCH_NAME, GSCH_CONTENT, GSCH_LOCATION, GSCH_STARTHOUR, GSCH_ENDHOUR, GJ_CODE, GU_CODE, GU_ID, GU_NAME, ATT_STATE, GSCH_REGDATE, MEET_STATE";
-			sql += "    	 FROM VIEW_GROUPSCH WHERE GR_CODE = ? AND " + searchKey +" LIKE ? AND ATT_STATE = '무' ORDER BY " + searchDate + " DESC";
+			sql += "    	 FROM VIEW_GROUPSCH WHERE GR_CODE = ? AND " + searchKey +" LIKE ? AND ATT_STATE = '유' ORDER BY " + searchDate + " DESC";
 			sql += "    ) DATA";
 			sql += ")";
 			sql += " WHERE RNUM>=? AND RNUM<=?";
@@ -457,7 +457,7 @@ public class GroupDAO
       }
       
       // 모임에 대한 불참자 조회
-      public ArrayList<GroupDTO> meetMemberList(String gschCode) throws SQLException
+      public ArrayList<GroupDTO> unAttMemberList(String gschCode) throws SQLException
       {
          ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
          
@@ -482,7 +482,7 @@ public class GroupDAO
       }
       
       // 모임에 대한 참석자 조회
-      public ArrayList<GroupDTO> unattMemberList(String gschCode) throws SQLException
+      public ArrayList<GroupDTO> attMemberList(String gschCode) throws SQLException
       {
          ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
          
@@ -504,6 +504,31 @@ public class GroupDAO
          rs.close();
          pstmt.close();
          return result;
+      }
+      
+      // 모임에 대한 참석예정자 조회
+      public ArrayList<GroupDTO> PreAttMemberList(String gschCode) throws SQLException
+      {
+    	  ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+    	  
+    	  String sql = "SELECT MEMBER, MEMBERCODE, ATTL_CODE FROM VIEW_ATT WHERE GSCH_CODE = ? AND UAT_STATE = '참석예정자'";
+    	  PreparedStatement pstmt = conn.prepareStatement(sql);
+    	  pstmt.setString(1, gschCode);
+    	  ResultSet rs = pstmt.executeQuery();
+    	  while(rs.next())
+    	  {
+    		  GroupDTO dto = new GroupDTO();
+    		  
+    		  dto.setMember(rs.getString("MEMBER"));
+    		  dto.setMembercode(rs.getString("MEMBERCODE"));
+    		  dto.setAttlCode(rs.getString("ATTL_CODE"));
+    		  
+    		  result.add(dto);
+    	  }
+    	  
+    	  rs.close();
+    	  pstmt.close();
+    	  return result;
       }
       
       // 불참자 등록

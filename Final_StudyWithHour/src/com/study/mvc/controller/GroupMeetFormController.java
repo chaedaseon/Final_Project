@@ -49,6 +49,7 @@ public class GroupMeetFormController implements Controller
 		GroupDTO meet = new GroupDTO();
 		ArrayList<GroupDTO> attMem = new ArrayList<GroupDTO>();
 		ArrayList<GroupDTO> unattMem = new ArrayList<GroupDTO>();
+		ArrayList<GroupDTO> preattMem = new ArrayList<GroupDTO>();
 		String meetContent = "";
 		
 		try
@@ -60,16 +61,16 @@ public class GroupMeetFormController implements Controller
 			dao.connection();
 			
 			meet = dao.meetInfo(gschCode);
-			attMem = dao.meetMemberList(gschCode);
+			unattMem = dao.unAttMemberList(gschCode);
 			meetContent = dao.meetRecord(gschCode);
-			unattMem = dao.unattMemberList(gschCode);
+			attMem = dao.attMemberList(gschCode);
+			preattMem = dao.PreAttMemberList(gschCode);
 			
-			String gjCode = dao.searchGjcode(guCode, grCode);
-			
-			mav.addObject("gjCode", gjCode);
+			mav.addObject("grCode", grCode);
 			mav.addObject("meet", meet);
 			mav.addObject("attMem", attMem);
 			mav.addObject("unattMem", unattMem);
+			mav.addObject("preattMem", preattMem);
 			mav.addObject("meetContent", meetContent);
 			
 			// 모임기록 작성폼으로 이동

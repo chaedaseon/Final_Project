@@ -15,9 +15,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.study.mvc.model.CafeDAO;
 import com.study.mvc.model.CafeDTO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class CafeInsertController implements Controller
 {
 	@Override
@@ -55,9 +52,10 @@ public class CafeInsertController implements Controller
 		String scFile = request.getParameter("fileRoute");
 		String hoCode = request.getParameter("hoCode");
 		
+		// 수신한 전화번호 데이터 문자열 병합
 		String scTel = tel1 + tel2 + tel3;
 		
-		String scSurround = "";
+		// 편의시설 데이터 ',' 를 기준으로 잘라서 배열에 넣기
 		String scConvenient = "";
 		
 		if (ConvenientList != null)
@@ -66,6 +64,9 @@ public class CafeInsertController implements Controller
 				scConvenient += ConvenientList[i] + ",";
 		}
 		scConvenient = scConvenient.substring(0, scConvenient.length()-1);
+		
+		// 주변시설 데이터 ',' 를 기준으로 잘라서 배열에 넣기
+		String scSurround = "";
 		
 		if (SurroundList != null)
 		{
@@ -81,6 +82,7 @@ public class CafeInsertController implements Controller
 			CafeDTO cafe = new CafeDTO();
 			dao.connection(); 
 			
+			// 수신한 데이터 CafeDTO 에 넣기
 			cafe.setScName(scName);
 			cafe.setScTel(scTel);
 			cafe.setScResnumber(scResnumber);
@@ -95,9 +97,10 @@ public class CafeInsertController implements Controller
 			cafe.setScFile(scFile);
 			cafe.setHoCode(hoCode);
 			
-			
+			// 받아온 데이터로 스터디카페 정보 등록
 			dao.add(cafe);
 			
+			// 호스트 스터디카페 목록으로 이동
 			mav.setViewName("redirect:cafelist.do?hoCode="+ hoCode);
 			
 			dao.close();

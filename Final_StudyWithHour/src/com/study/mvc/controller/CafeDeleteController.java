@@ -14,9 +14,6 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.study.mvc.model.CafeDAO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class CafeDeleteController implements Controller
 {
 	@Override
@@ -44,15 +41,22 @@ public class CafeDeleteController implements Controller
 			// scCode, hoCode
 			String scCode = request.getParameter("scCode");
 			String hoCode = request.getParameter("hoCode");
+
 			dao.connection();
+			
+			// 수신한 데이터로 스터디카페 비활성화
 			int result = dao.remove(scCode, hoCode);
 			
+			// 카페 비활성화가 안될 경우 스터디카페 상세정보로 다시 돌아감
 			if (result <= 0)
 			{
 				mav.setViewName("redirect:cafedetail.do?scCode=" + scCode);
 			}
 			
+			// 카페 비활성화가 되는 경우 스터디카페 목록으로 돌아감
 			mav.setViewName("redirect:cafelist.do");
+			
+			dao.close();
 			
 		} catch (Exception e)
 		{

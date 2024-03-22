@@ -36,6 +36,7 @@
 
 			<div class="rightContent_div">
 				<div class="content_div">
+				<%-- 호스트 보유 스터디카페 내역 출력 --%>
 					<div class="page_title">
 						<span><span><%=host.getHoName() %></span>님 보유스터디카페 내역</span>
 					</div>
