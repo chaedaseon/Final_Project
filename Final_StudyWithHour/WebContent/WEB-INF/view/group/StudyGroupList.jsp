@@ -322,6 +322,7 @@
 						</c:when>
 						<c:when test="${urlparam == 'boardstudygroupadd' }">
 							<c:forEach var="group" items="${list }">
+							<c:if test="${group.gjCount <= group.grCount}">
 							<ul>
 								<li id="addRegList">
 								<div class="col my-4" id="groupReg_one">
@@ -377,13 +378,19 @@
 					    					<p class="card-text"><a type="button" class="groupJoin_button" data-bs-target="#groupJoinModal">${group.grComment }</a></p>
 					  					</div>
 					    				<div class="card-bottom">
+					    					<c:if test="${group.gjCount != 0}">
+					    					<span id="count"><img src="images/people.png">${group.gjCount} / ${group.grCount } 명</span>
+					    					</c:if>
+					    					<c:if test="${group.gjCount == 0 }">
 					    					<span id="count"><img src="images/people.png">${group.gjCount+1} / ${group.grCount } 명</span>
+					    					</c:if>
 					    					<span id="grNum">No. ${group.no}</span>
 					    				</div>
 									</div>
 								</div>
 								</li>
-							</ul>	
+							</ul>
+							</c:if>	
 							</c:forEach>
 						</c:when>
 						<c:otherwise>

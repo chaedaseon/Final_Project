@@ -50,7 +50,6 @@ public class MainPageDAO
 			while(rs.next())
 			{
 				NoticeBoardDTO dto = new NoticeBoardDTO();
-				System.out.println(rs.getString("NTCODE"));
 				
 				dto.setNtCode(rs.getString("NTCODE"));
 				dto.setNtTitle(rs.getString("NTTITLE"));

@@ -22,6 +22,21 @@
 <link rel="stylesheet" type="text/css" href="css/postViewStyle.css">
 <script type="text/javascript">
 
+	$(function()
+	{
+		var ssessionAdCode = $("#ssessionAdCode").val();
+		var adCode = $("#adCode").val();
+		
+		if(adCode == ssessionAdCode)
+		{
+			$("#modify_button").css("display","inline");
+			$("#delete_button").css("display","inline");
+		}
+	})
+
+</script>
+<script type="text/javascript">
+
 	$(document).ready(function() 
 	{
 		$("#delete_button").click(function()
@@ -103,10 +118,10 @@
 				<div class="content_main" id="content_main">
 					<p style="white-space: pre-line;">${view.ntContent }</p>
 				<div class="board_btn">
-					<button type="submit" class="btn" id="modify_button">수정</button>
+					<button type="submit" class="btn" id="modify_button" style="display: none;">수정</button>
 					<!-- 버튼 눌러서 모달창 띄우기 -->
 					<input type="hidden" name="adCode" id="adCode" value="${view.adCode }"/>
-					<button type="button" class="btn" id="delete_button">삭제</button>
+					<button type="button" class="btn" id="delete_button" style="display: none;">삭제</button>
 			
 					<!-- 모달 영역 -->
 					<form action="noticedelete.do" method="get">
