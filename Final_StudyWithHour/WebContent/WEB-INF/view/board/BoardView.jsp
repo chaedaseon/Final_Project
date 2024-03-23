@@ -348,7 +348,7 @@
 												<input type="radio" class="btn-check" name="reason_code" id="option8" value="208" autocomplete="off">
 												<label class="btn" for="option8">카테고리와 맞지 않는 게시물입니다.</label>
 												<input type="radio" class="btn-check" name="reason_code" id="option9" value="209" autocomplete="off">
-												<label class="btn" for="option9">만남 유도성 개시물입니다.</label>
+												<label class="btn" for="option9">만남 유도성 게시물입니다.</label>
 												
 												<div style="    margin-top: 30px; display: flex; justify-content: center;">
 													<button type="button" class="btn btn-secondary" id="backBtn" data-bs-dismiss="modal">취소</button>
