@@ -27,8 +27,6 @@
 	
 	function initialize()
 	{
-	   	//var addr = document.getElementById("addr").innerText;
-	   	
 	   	container = document.getElementById("map");
 	   	mapCenter = new kakao.maps.LatLng(37.5565401,126.9194871);
 		options =
@@ -70,97 +68,57 @@
 	</header>
 	
 	<section>
-		<div id="content">
-			<c:import url="/WEB-INF/view/main/SideMenu.jsp"></c:import>
+		<div id="content" style="width: 70%;">
 
-			<div class="rightContent_div">
+			<div class="content_div">
+			<div style="margin-top: 20px;"></div>
 				<div class="page_title">
-					<span><span>예약확인</span></span>
+					<span><span>${cafe.scName }</span> 정보</span>
 				</div>
 				<div class="sorting_div"></div>
-				
-				<c:forEach var="room" items="${cafe }">
-				<div style="margin-bottom: 30px;">
-					<h2>${room.scName } ${room.srName }</h2>
-					<h4 id="addr">${room.scAddr1 }, ${room.scAddr2 }</h4>
-				</div>
 				
 				<div style="display: flex; align-items: center;">
 					<div>
 						<img src="images/studycafe.jpg" style="width: 500px; height: 400px;">
 					</div>
 					<div style="margin-left: 100px;">
-					<c:choose>
-					<c:when test="${reserveDate != null && reserveAddr1 != null && reserveAddr2 != null && reserveHour1 != null && reserveHour2 != null}">
-					<form action="groupreserveinsert.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }&srCode=${room.srCode }" method="post" id="addReserveForm">
-						<table class="register_table" style="width: 450px; text-align: center;">
+					
+					<table class="register_table" style="text-align: center; width: 600px;">
+						<tr>
+							<td colspan="4">보유 스터디룸 정보</td>
+						</tr>
+						<tr>
+							<td>스터디룸명</td>
+							<td>최대인원</td>
+							<td style="width: 10px;"></td>
+							<td>가격</td>
+						</tr>
+						<c:choose>
+						<c:when test="${count <= 0}">
+							<tr>
+								<td colspan="4">보유 스터디룸 정보가 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+						<c:forEach var="room" items="${room }">
+							<tr>
+								<td>${room.srName }</td>
+								<td>최대${room.srCount }명</td>
+								<td style="width: 10px;"></td>
+								<td>시간/${room.srPrice }원</td>
+							</tr>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
+					</table>
+					<table class="register_table" style="text-align: center;">
 						<tr>
 							<td colspan="2">
-								<h5>예약확인 후 바로 예약확정</h5>
-								<h6>빠르고 확실한 예약을 위해<br>
-								<span style="font-weight: bold; color: #94bc3e;">STUDY WITH HOUR</span> 에서 예약을 진행하세요 :)</h6>
+								<a href="reservesearch.do">목록</a>
 							</td>
 						</tr>
-						<tr class="spacer"></tr>
-						<tr>
-							<td>예약일자</td>
-							<td>
-								${reserveDate }
-								<input type="hidden" name="reserveDate" value="${reserveDate }">
-							</td>
-						</tr>
-						<tr>
-							<td>이용시간</td>
-							<td>
-								${reserveHour1 }
-								<input type="hidden" name="reserveHour1" value="${reserveHour1 }">
-							</td>
-						</tr>
-						<tr>
-							<td>이용시간</td>
-							<td>
-								${reserveHour2 }
-								<input type="hidden" name="reserveHour2" value="${reserveHour2 }">
-							</td>
-						</tr>
-						<tr>
-							<td>인원수</td>
-							<td>
-								${reserveCount }명
-								<input type="hidden" name="reserveCount" value="${reserveCount }">
-							</td>
-						</tr>
-						<tr class="spacer"></tr>
-						</table>
-						<table class="register_table" style="text-align: center;">
-							<tr>
-								<td>
-									<a href="javascript:sendIt()">바로예약</a>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<a href="groupreservesearch.do?&gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }">다시검색</a>
-								</td>
-							</tr>
-						</table>
-					</form>
-					</c:when>
-					<c:when test="${reserveDate == null}">
-						<table class="register_table" style="text-align: center;">
-							<tr>
-								<td colspan="2">
-									예약 정보를 입력해주세요.
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<a href="groupreservesearch.do?gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }">검색으로</a>
-								</td>
-							</tr>
-						</table>
-					</c:when>
-					</c:choose>
+					</table>
+					
 					</div>
 				</div>
 				<div class="sorting_div"></div>
@@ -177,10 +135,10 @@
 						<div style="margin-top: 10px;">
 							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">상세정보</span>
 							<br><br>
-							<p>✨${fn:substring(room.scDate,0,11) } OPEN</p>
-							<p>${room.scName }입니다.</p>
-							<p>⏰${room.scOpenHour } ~ ${room.scCloseHour }</p>
-							<p>📞${fn:substring(room.scTel,0,3) }-${fn:substring(room.scTel,3,7) }-${fn:substring(room.scTel,7,11) }</p>
+							<p>✨${fn:substring(cafe.scDate,0,11) } OPEN</p>
+							<p>${cafe.scName }입니다.</p>
+							<p>⏰${cafe.scOpenHour } ~ ${cafe.scCloseHour }</p>
+							<p>📞${fn:substring(cafe.scTel,0,3) }-${fn:substring(cafe.scTel,3,7) }-${fn:substring(cafe.scTel,7,11) }</p>
 						</div>
 					</div>
 				</div>
@@ -210,7 +168,7 @@
 						<div style="margin-top: 10px;">
 							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">편의시설안내</span>
 							<br><br>
-							<p>${room.scConvenient }</p>
+							<p>${cafe.scConvenient }</p>
 						</div>
 					</div>
 					
@@ -218,7 +176,7 @@
 				  		<div style="margin-top: 10px;">
 							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">주변시설안내</span>
 							<br><br>
-							<p>${room.scSurround }</p>
+							<p>${cafe.scSurround }</p>
 						</div>
 				  	</div>
 				  	
@@ -226,7 +184,7 @@
 				  		<div style="margin-top: 10px;">
 							<span style="border-bottom: 3px solid #94bc3e; font-size: 20px;">유의사항</span>
 							<br><br>
-							<p>${room.scCaution }</p>
+							<p>${cafe.scCaution }</p>
 						</div>
 				  	</div>
 				  	
@@ -256,8 +214,6 @@
 						<div id="map" style="width: 100%; height: 350px;"></div>
 					</div>
 				</div>
-
-				</c:forEach>
  			</div>
  		</div>
 

@@ -1,14 +1,12 @@
-<%@page import="com.study.mybatis.model.GuestDTO"%>
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
 	
-	GuestDTO guest = (GuestDTO)request.getAttribute("guest");
-	String guCode = (String)session.getAttribute("guCode");
-	
-	String grCode = (String)session.getAttribute("grCode");
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
+	String gr_code = request.getParameter("gr_code");
 %>
 
 <!DOCTYPE html>
@@ -78,9 +76,9 @@
 				<c:choose>
 				<c:when test="${empty reserveDate || empty reserveAddr1 || empty reserveAddr2}">
 				<div class="select_div" id="reserveSearch">
-				<form action="groupreservesearch.do?gu_code=<%=guCode %>&gr_code=${grCode }" method="post">
+				<form action="groupreservesearch.do?gu_code=<%=guest.getGuCode() %>&gr_code=<%=gr_code%>" method="post">
 					<%-- 지역1을 선택 후 지역2 select에 데이터 출력 --%>
-					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?gu_code=<%=guCode %>&lfList=' +this.value+ '&gr_code=${grCode }'">
+					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?gu_code=<%=guest.getGuCode() %>&lfList=' +this.value+ '&gr_code=<%=gr_code%>'">
 						<c:choose>
 							<%-- 만약 선택한 지역1 코드가 null 이면 --%>
 							<c:when test="${lfCode == null}">
@@ -177,7 +175,7 @@
 					<input type="text" value="${reserveDate }" class="select_bar" readonly="readonly">
 					<input type="text" value="${reserveHour1 }~${reserveHour2 }" class="select_bar" readonly="readonly">
 					<input type="text" value="${reserveCount }명" class="select_bar" readonly="readonly">
-					<button type="button" class="selectBtn" id="againSearch" onclick="location.href='groupreservesearch.do?&gu_code=<%=guCode %>&gr_code=${grCode }'">다시 검색</button>
+					<button type="button" class="selectBtn" id="againSearch" onclick="location.href='groupreservesearch.do?&gu_code=<%=guest.getGuCode() %>&gr_code=${grCode }'">다시 검색</button>
 				</div>
 				</c:when>
 				</c:choose>
@@ -208,7 +206,7 @@
 							<img class="img" src="images/studycafe.jpg" style="width: 100%;">
 							</span>
 						</div>
-					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gu_code=<%=guCode %>&gr_code=${grCode }" method="post" id="reserveForm${cafe.srCode }">
+					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gu_code=<%=guest.getGuCode() %>&gr_code=<%=gr_code%>" method="post" id="reserveForm${cafe.srCode }">
 						<div class="info_area type_border" style="height: 180px; display: inline-grid; align-content: space-between;">
 						<h3 class="tit_space">${cafe.scName }_${cafe.srName }</h3>
 					<input type="hidden" name="scCode" value="${cafe.scCode}">
@@ -229,23 +227,26 @@
 						</div>
 							<div class="infoTxt">
 							<div class="info_price_hour">
-							<strong class="price">${cafe.srPrice }</strong> 
-							<span class="txt_unit">원/시간</span></div> 
+								<span class="price">${cafe.srPrice }</span> 
+								<span class="txt_unit">원/시간</span></div> 
+							
 							<div class="info_number_love">
-							<span class="txt_number_maxUser">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-							  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-							</svg><em>최대 ${cafe.srCount }인</em></span> 
-							<span class="txt_number_review">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
-							  <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-							  <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
-							</svg><em>27</em></span> 
-							<span class="txt_number_love">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-							  <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-							  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-							</svg><em>109</em></span>
+								<span class="txt_number_maxUser">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+								  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+								</svg><em>최대 ${cafe.srCount }인</em></span> 
+								
+								<span class="txt_number_review">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+								  <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+								  <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"/>
+								</svg><em>27</em></span> 
+								
+								<span class="txt_number_love">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+								  <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+								  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+								</svg><em>109</em></span>
 							</div>
 							</div>
 						</div>

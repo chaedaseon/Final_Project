@@ -23,7 +23,6 @@ public class GroupReserveFormController implements Controller
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		// 액션 코드
-		
 		ModelAndView mav = new ModelAndView();
 		
 		// session 설정

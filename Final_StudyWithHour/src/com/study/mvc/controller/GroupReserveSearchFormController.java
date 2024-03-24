@@ -18,9 +18,6 @@ import com.study.mvc.model.CafeDAO;
 import com.study.mvc.model.CafeDTO;
 import com.study.mvc.model.GroupDTO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class GroupReserveSearchFormController implements Controller
 {
 	@Override

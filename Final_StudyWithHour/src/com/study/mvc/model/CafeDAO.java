@@ -89,7 +89,7 @@ public class CafeDAO
 			
 			String sql = "SELECT SC_NAME, SC_CODE, SC_ADDR1, SC_ADDR2, SC_OPENHOUR, SC_CLOSEHOUR, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE"
 					+ " FROM VIEW_CAFEROOM"
-					+ " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+					+ " WHERE SR_CODE NOT IN (SELECT SR_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
 					+ " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
@@ -130,7 +130,7 @@ public class CafeDAO
 			String sql = "SELECT SC_NAME, SC_CODE, SC_ADDR1, SC_ADDR2, SC_OPENHOUR, SC_CLOSEHOUR, SR_CODE, SR_NAME, SR_COUNT, SR_PRICE"
 					  + " FROM VIEW_CAFEROOM"
 					  + " WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?"
-					  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					  + " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
 					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
@@ -184,7 +184,7 @@ public class CafeDAO
 			
 			String sql = "SELECT COUNT(*) AS COUNT"
 					+ " FROM VIEW_CAFEROOM"
-					+ " WHERE SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+					+ " WHERE SR_CODE NOT IN (SELECT SR_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					+ " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
 					+ " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
@@ -211,7 +211,7 @@ public class CafeDAO
 			
 			String sql = "SELECT COUNT(*) AS COUNT"
 					  + " FROM VIEW_CAFEROOM WHERE SR_COUNT = ? AND SC_ADDR1 LIKE ? AND SC_ADDR1 LIKE ?"
-					  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
+					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM VIEW_RESERVE WHERE RE_STARTDATE = TO_DATE(?,'YYYY-MM-DD')"
 					  + " AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR) AND (? BETWEEN RE_STARTHOUR AND RE_ENDHOUR))"
 					  + " AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG)";
 			
@@ -1193,6 +1193,27 @@ public class CafeDAO
 		return result;
 	}
 	
+	// 스터디카페의 스터디룸 개수 조회
+	public int roomCount(String scCode) throws SQLException
+	{
+		int result = 0;
+		
+		String sql = "SELECT COUNT(SR_CODE) AS COUNT FROM VIEW_ROOMINFO WHERE SC_CODE = ? AND SR_CODE NOT IN (SELECT SR_CODE FROM ROOMUNREG) ORDER BY SR_CODE";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, scCode);
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
+	
 	// 스터디룸 조회
 	public ArrayList<CafeDTO> roomInfoList(String srCode) throws SQLException
 	{
@@ -1371,7 +1392,7 @@ public class CafeDAO
 		return result;
 	}
 	
-	// 지역 분류 검색 
+	// 지역 대분류 검색 
 	public String searchLf(String lfList) throws SQLException
 	{
 		String result = "";
@@ -1421,7 +1442,7 @@ public class CafeDAO
 		return result;
 	}
 	
-	// 지역 분류 검색 
+	// 지역 중분류 검색 
 	public String searchLs(String lsList) throws SQLException
 	{
 		String result = "";
@@ -1517,6 +1538,76 @@ public class CafeDAO
 		pstmt.close();
 		
 		return result;
+	}
+	
+	// 지역별 스터디룸 조회
+	public ArrayList<CafeDTO> lfSearchLists(String reserveAddr) throws SQLException, ClassNotFoundException
+	{
+		ArrayList<CafeDTO> result = new ArrayList<CafeDTO>();
+		
+		if (reserveAddr == null)
+			reserveAddr = "%%";
+		
+		reserveAddr = "%" + reserveAddr + "%";
+			
+		String sql = "SELECT SC_NAME, SC_CODE, SC_ADDR1, SC_ADDR2, SC_OPENHOUR, SC_CLOSEHOUR, SC_TEL, SC_CONVENIENT, SC_SURROUND"
+				  + " FROM STUDYCAFE WHERE SC_ADDR1 LIKE ?"
+				  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM CAFEUNREG)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, reserveAddr);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next())
+		{
+			CafeDTO dto = new CafeDTO();
+			
+			dto.setScCode(rs.getString("SC_CODE"));
+			dto.setScName(rs.getString("SC_NAME"));
+			dto.setScAddr1(rs.getString("SC_ADDR1"));
+			dto.setScAddr2(rs.getString("SC_ADDR2"));
+			dto.setScOpenHour(rs.getString("SC_OPENHOUR"));
+			dto.setScCloseHour(rs.getString("SC_CLOSEHOUR"));
+			dto.setScTel(rs.getString("SC_TEL"));
+			dto.setScConvenient(rs.getString("SC_CONVENIENT"));
+			dto.setScSurround(rs.getString("SC_SURROUND"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+
+	}
+	
+	// 지역별 스터디룸 개수 조회
+	public int lfSearchCount(String reserveAddr) throws SQLException, ClassNotFoundException
+	{
+		int result = 0;
+		
+		if (reserveAddr == null)
+			reserveAddr = "%%";
+		
+		reserveAddr = "%" + reserveAddr + "%";
+			
+		String sql = "SELECT COUNT(*) AS COUNT"
+				  + " FROM STUDYCAFE WHERE SC_ADDR1 LIKE ?"
+				  + " AND SC_CODE NOT IN (SELECT SC_CODE FROM CAFEUNREG)";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, reserveAddr);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			result = rs.getInt("COUNT");
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+
 	}
 	
 	
