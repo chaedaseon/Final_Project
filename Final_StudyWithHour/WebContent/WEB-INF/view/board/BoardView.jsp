@@ -187,6 +187,34 @@
 	        }
         });
 	});
+	
+	/* 페이지가 로드되면서 신고가 반려된 게시글은 신고하기 버튼 block 후 분쟁 처리 완료 표시 출력 */
+	function checkRed()
+	{
+		const boCode = urlParams.get('boCode');
+		var info = "boCode="+ boCode;
+		
+		$.ajax(
+		{
+			type:"GET"
+			, url:"boardviewcheckred.do"
+			, data:info
+			, success:function(args)
+			{
+				var result = $.trim(args);
+				
+				if(result == "1")
+				{
+					$("#redCount").css("display","none");
+					$("#redDisable").css("display", "block");
+				}
+			}
+			, error:function(e)
+			{
+				alert(e.responseText);
+			}
+		});
+	}
 </script>
 
 <!-- 각 댓글과 대댓글을 순서에 맞게 출력하기 위해 c:forEach문을 중첩해서 사용
@@ -202,7 +230,7 @@
      
 
 </head>
-<body>
+<body onload="checkRed();">
 	<header>
 		<c:import url="/WEB-INF/view/main/Menu.jsp"></c:import>
 	</header>
@@ -258,10 +286,14 @@
 									<!-- <img src="images/scrap.png" class="count_icon"> --> ⭐ 스크랩
 								</a>
 							</span>
-							<span class="count">
+							<span class="count" id="redCount">
 								<a href="#" class="report_button" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
 									<!-- <img src="images/siren.png" class="count_icon"> --> 🚨 신고하기
 								</a>
+							</span>
+							<!-- 신고처리 반려 상태인 게시물에서는 신고하기 버튼 보이지 않고 해당 안내 출력 -->
+							<span class="count" id="redDisable" style="display: none;">
+								&nbsp;&nbsp;✔분쟁 해결
 							</span>
 						</div>
 					</div>

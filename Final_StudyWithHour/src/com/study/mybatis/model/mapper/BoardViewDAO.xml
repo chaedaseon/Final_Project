@@ -101,4 +101,13 @@
 		FROM RE_REPLY
 		WHERE RRE_CODE = ${rreCode}
 	</delete>
+	
+	<select id="boardViewCheckRed" resultType="String">
+		SELECT COUNT(*) AS COUNT
+		FROM BOARD BO
+		JOIN BOARD_RED BOR ON BO.BO_CODE = BOR.BO_CODE
+		JOIN BOARD_REDDONE BRD ON BRD.BOR_CODE = BOR.BOR_CODE
+		WHERE BRD.RED_CODE = '2'
+		AND BO.BO_CODE = ${boCode}
+	</select>
 </mapper>

@@ -205,4 +205,15 @@ public class BoardViewController
 	 * 
 	 * return response; }
 	 */
+	
+	@RequestMapping(value="/boardviewcheckred.do", method=RequestMethod.GET)
+	public String boardViewCheckRed(String boCode)
+	{
+		IBoardViewDAO dao = sqlSession.getMapper(IBoardViewDAO.class);
+
+		String checkRed = dao.boardViewCheckRed(boCode);
+		
+		return "/WEB-INF/view/board/BoardViewCheckRed_ajax.jsp?checkRed="+checkRed;
+	}
+	
 }

@@ -25,4 +25,5 @@ public interface IBoardViewDAO
 	public int boardViewModifyRereply(BoardViewDTO board);
 	public int boardViewDeleteReply(String rpCode);
 	public int boardViewDeleteRereply(String rreCode);
+	public String boardViewCheckRed(String boCode);		// 신고 반려 여부 확인
 }
