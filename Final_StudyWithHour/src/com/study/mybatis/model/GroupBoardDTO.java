@@ -19,11 +19,19 @@ CREATE TABLE GROUP_BOARD
 
 public class GroupBoardDTO
 {
-	private String guCode, gbCode, gbDate, gbTitle, gbContent, gbMoDate, gbFile, bsCode, gbWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
+	private String guCode, guNick, gbCode, gbDate, gbTitle, gbContent, gbMoDate, gbFile, bsCode, gbWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
 	private int no, gbView, replyCount;
 	
 	
 	
+	public String getGuNick()
+	{
+		return guNick;
+	}
+	public void setGuNick(String guNick)
+	{
+		this.guNick = guNick;
+	}
 	public String getGuCode()
 	{
 		return guCode;

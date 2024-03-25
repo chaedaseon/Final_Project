@@ -1,6 +1,6 @@
 /*========================================
-	AdminNoticeController.java
-	- 관리자 화면에서 공지사항 컨트롤
+	AdminGuestController.java
+	- 관리자 화면에서 일반회원 관련 컨트롤
 ========================================*/
 
 
@@ -60,6 +60,7 @@ public class AdminGuestController
 		int currPageNo = 0;
 		int range = 0;
 		
+		// 현재 페이지 번호, 페이지 범위 가져오기 (없을 경우 둘다 1로)
 		try {			
 			currPageNo = Integer.parseInt(tmpcurrPageNo);
 			range = Integer.parseInt(tmprange);
@@ -69,11 +70,14 @@ public class AdminGuestController
 			range = 1;			
 		}
 		
+		
 		ArrayList<GuestDTO> list = null;
 		
+		// 검색 타입과 검색어 설정
 		String searchType = "";
 		String keyword = request.getParameter("keyword");
 		
+		// 만약 검색타입이 없을 경우 공백
 		try {			
 			searchType = tmpsearchType;
 			
@@ -81,26 +85,29 @@ public class AdminGuestController
 			searchType = "";		
 		}
 		
-		
+		// 검색어 공백 처리
 		if(keyword == null || "".equals(keyword) || keyword.trim().isEmpty() ) {
 			keyword = "";
 		}	   	
 		
+		// 검색을 위해 검색타입-검색어 HashMap으로 지정
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("searchType", searchType);
 		paraMap.put("keyword", keyword);		
 		
+		// dto에 검색타입/검색어 저장
 		PaginationDTO pg = new PaginationDTO();
 		pg.setSearchType(searchType);
 		pg.setKeyword(keyword);
 		
-		
+		// 게시물의 총 갯수 가져오기
 		int totalCnt = dao.boardTotalCnt(pg);	
 
+		// dto 내부의 pageInfo로 값 세팅
 		pg.pageInfo(currPageNo, range, totalCnt);
 		
 		
-		
+		// 세팅한 dto로 페이지네이션 리스트 출력
 		list = dao.boardListPaging(pg);
 		
 		
@@ -108,6 +115,7 @@ public class AdminGuestController
 			mav.addObject("paraMap", paraMap);
 		}
 		
+		// 페이지에 페이지처리한 리스트와 페이지네이션 보내기 
 		mav.addObject("pagination", pg);
 		mav.addObject("list", list);
 		mav.setViewName("/WEB-INF/view/admin/AdminGuestList.jsp");
@@ -126,8 +134,10 @@ public class AdminGuestController
 		
 		HttpSession session =  request.getSession();
 		
+		//세션에서 adCode 가져오기
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 관리자 로그인상태 아닐 경우 로그인폼으로		
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
@@ -135,14 +145,21 @@ public class AdminGuestController
 		
 		
 		IAdminGuestDAO dao = sqlSession.getMapper(IAdminGuestDAO.class);
-				
+		
+		// guCode 에 맞는 회원 정보 가져오기
 		GuestDTO guest = dao.guestInfo(guCode);
+		
+		//해당 회원이 활동중인 스터디그룹 리스트 가져오기
 		ArrayList<StudyGroupDTO> groupList = dao.runGroup(guCode);
+		
+		// 해당 회원의 유효 패널티 갯수 가져오기
 		int penaltyCount = dao.penaltyCount(guCode);
 		
+		// 해당 회원이 입력한 카테고리코드 가져오기
 		String categoryCode = guest.getCategoryCode();
 		String category = "";
 		
+		//카테고리 코드로 카테고리 이름 입력
 		switch (categoryCode)
 		{
 		case "1": category = "자격증";
@@ -166,7 +183,7 @@ public class AdminGuestController
 		String unregDate = " - ";
 		String reason=" - ";
 		
-		
+		// 비활성화 계정일 경우 탈퇴 일자와 탈퇴 사유를 가져오기
 		if (dao.guestUnregCk(guCode)==1)
 		{
 			GuestDTO unReg = dao.guestUnreg(guCode);
@@ -192,34 +209,27 @@ public class AdminGuestController
 			
 		}
 		
+		
+		//이전 페이지 페이지, 페이지길이, 검색타입, 검색어 가져오기
 		String currPageNo = request.getParameter("currPageNo");
 		String range = request.getParameter("range");
 		String searchType = request.getParameter("searchType");
 		String keyword = request.getParameter("keyword");
+
 		
-		//String currPageNo = (String)session.getAttribute("currPageNo");
-		//String range = (String)session.getAttribute("range");
-		//String searchType = (String)session.getAttribute("searchType");
-		//String keyword = (String)session.getAttribute("keyword");
-		
+		//이전 페이지 페이지, 페이지길이, 검색타입, 검색어 전달하기
 		model.addAttribute("currPageNo", currPageNo);
 		model.addAttribute("range", range);
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
 		
-		
-		System.out.println("정보값 넘어가는 테스트 "+ currPageNo);
-		System.out.println(range);
-		System.out.println(searchType);
-		System.out.println(keyword);
-		
-		
-		
+		//게스트 정보, 활동중인 스터디그룹 정보, 카테고리이름, 패널티 갯수 등 전달하기
 		model.addAttribute("guest", guest);
 		model.addAttribute("groupList", groupList);	
 		model.addAttribute("category", category);	
 		model.addAttribute("penaltyCount", penaltyCount);
 		
+		//비활성화 정보 전달하기
 		model.addAttribute("unregDate", unregDate);
 		model.addAttribute("reason", reason);
 		

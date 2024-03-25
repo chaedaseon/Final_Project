@@ -1,3 +1,7 @@
+/*=============================
+	- AdminAdminController.java
+	: 관리자 페이지에서 관리자 계정 관련 페이지 컨트롤러
+=============================*/
 package com.study.mybatis.controller;
 
 import java.util.ArrayList;
@@ -28,26 +32,36 @@ public class AdminAdminController
 		
 		HttpSession session =  request.getSession();
 		
+		// 세션에서 adCode 가져오기
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 만약 세션에서 가져오는 adCode 가 없을 경우 관리자 로그인 상태가 아니므로 로그인폼으로
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
 		}
 		
+		// 만약 현재 페이지 정보가 없을 경우, 첫 진입이므로 페이지 1번
 		if(vNum == null)
 		{
 			vNum = 1;
 		}
 		
+		
 		IAdminAdminDAO dao = sqlSession.getMapper(IAdminAdminDAO.class);
 		
+		// 현재 페이지 번호에 출력할 게시물 리스트 가져오기
 		ArrayList<AdminDTO> list = dao.adminList(vNum);
+		
+		// 리스트만들 관리자 계정 총 갯수
 		int count = dao.count();
 		
+		// 계정 생성시 다음 차례 생성될 아이디 
 		String nextId = "ADMIN" + String.format("%03d", count+1);
 		
-		// 페이지 목록 만들 ArrayList
+		
+		
+		// 페이지 목록 만들 ArrayList 
 		ArrayList<Integer> page = new ArrayList<Integer>();
 		
 		
@@ -76,7 +90,8 @@ public class AdminAdminController
 			}
 
 		}
-
+		
+		// 현재 페이지를 기준으로 -2 부터 +2까지의 숫자를 page(ArrayList)에 담기
 		for (int i = n-2; i <= n+2; i++)
 		{
 			if(dao.adminList(i).size() != 0)
@@ -112,7 +127,7 @@ public class AdminAdminController
 			
 		
 	
-
+		// 페이지에 값 전달
 		model.addAttribute("list", list);
 		model.addAttribute("count", count);
 		model.addAttribute("nextId", nextId);
@@ -123,6 +138,8 @@ public class AdminAdminController
 		return "/WEB-INF/view/admin/AdminAdminList.jsp";
 	}
 	
+	
+	
 	// 관리자 계정 생성
 	@RequestMapping(value="adminadmininsert.do", method=RequestMethod.POST)
 	public String adminInsert(Model model, String adPw, HttpServletRequest request)
@@ -131,6 +148,7 @@ public class AdminAdminController
 		
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 만약 세션에서 가져오는 adCode 가 없을 경우 관리자 로그인 상태가 아니므로 로그인폼으로	
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
@@ -138,10 +156,12 @@ public class AdminAdminController
 		
 		IAdminAdminDAO dao = sqlSession.getMapper(IAdminAdminDAO.class);
 		
+		//관리자 계정 생성 dao 실행
 		dao.adminInsert(adPw);
 		
 		return "redirect:adminadminlist.do";
 	}
+	
 	
 	// 관리자 계정 비활성화 
 	@RequestMapping(value="adminadminstate.do", method=RequestMethod.GET)
@@ -151,6 +171,7 @@ public class AdminAdminController
 		
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 만약 세션에서 가져오는 adCode 가 없을 경우 관리자 로그인 상태가 아니므로 로그인폼으로			
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
@@ -158,6 +179,7 @@ public class AdminAdminController
 		
 		IAdminAdminDAO dao = sqlSession.getMapper(IAdminAdminDAO.class);
 		
+		//관리자 계정 비활성화 dao 실행		
 		 dao.adminState(adCodeUnreg);
 		
 		return "redirect:adminadminlist.do?vNum=1";

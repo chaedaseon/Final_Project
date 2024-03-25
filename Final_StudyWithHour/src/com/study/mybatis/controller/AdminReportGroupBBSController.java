@@ -147,8 +147,7 @@ public class AdminReportGroupBBSController
 			model.addAttribute("boardCode", boardCode);
 			model.addAttribute("boardTitle", boardTitle);
 		}
-		System.out.println(boardCode);
-		System.out.println(boardTitle);
+
 		
 		String currPageNo = request.getParameter("currPageNo");
 		String range = request.getParameter("range");
@@ -253,7 +252,6 @@ public class AdminReportGroupBBSController
 						
 						// 가입코드로 해당 그룹의 그룹장 확인
 						leaderCode = dao.searchLeaderCode(gjCode);
-						System.out.println("그룹장 :" + leaderCode);
 						// 해당 가입코드로 예약되어 있는지 갯수 체크
 						int reservationCount = dao.reservationCk(gjCode);
 						
@@ -294,7 +292,6 @@ public class AdminReportGroupBBSController
 								{
 									HashMap<String, Object> rsMap = new HashMap<String, Object>();
 									
-									System.out.println("그룹장2 :" + leaderCode);
 									rsMap.put("leaderCode", leaderCode);
 									rsMap.put("reCode", reservationList.get(j));
 									dao.updateReservation(rsMap);

@@ -88,7 +88,7 @@ public class GroupController
 		// 최근 그룹 이력
 		ArrayList<Map<String, Object>> recordList = cdao.lastestGroupRecord(gr_code);
 		
-		
+		model.addAttribute("groupName", groupName);			
 		model.addAttribute("guCode", gu_code);
 		model.addAttribute("grCode", gr_code);
 		model.addAttribute("boardList", boardList);

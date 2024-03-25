@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IGroupBoardDAO">
+
+<!-- 페이징 검색 게시글 수 -->
+   
+  <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+  	SELECT COUNT(*) AS COUNT
+	FROM 
+	(
+	          SELECT GB.GB_CODE AS GBCODE, GB.GB_DATE AS GBDATE, GB_TITLE AS GBTITLE, GB_VIEW AS GB_VIEW, GJ.GU_CODE AS GUCODE, GB.GB_CONTENT AS GBCONTENT
+	          FROM GROUP_BOARD GB JOIN GROUP_JOIN GJ
+	            ON GB.GJ_CODE = GJ.GJ_CODE
+	            JOIN GROUP_REGISTRATION GR
+	            ON GJ.GR_CODE = GR.GR_CODE
+              WHERE GR.GR_CODE = #{grCode}
+	)
+	  	where 1=1
+	      <choose>
+	          <when test="searchType=='title'">
+	               AND GBTITLE   LIKE '%' || #{keyword} || '%'
+	         </when>
+	          <when test="searchType=='content'">
+	         AND GBCONTENT  LIKE '%' || #{keyword} || '%'
+	         </when>
+	      </choose>
+  </select>
+
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.GroupBoardDTO">
+  	select no, GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  no , GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+				FROM
+				(
+                     SELECT rownum as no, GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+						FROM
+						(
+						
+                        SELECT GB.GB_CODE AS GBCODE, TO_CHAR(GB.GB_DATE, 'YYYY-MM-DD') AS GBDATE, GB_TITLE AS GBTITLE, GB_VIEW AS GBVIEW, GJ.GU_CODE AS GUCODE, GU.GU_NICK AS GUNICK, GB.GB_CONTENT AS GBCONTENT
+                        FROM GROUP_BOARD GB JOIN GROUP_JOIN GJ
+                          ON GB.GJ_CODE = GJ.GJ_CODE
+                          JOIN GROUP_REGISTRATION GR
+                          ON GJ.GR_CODE = GR.GR_CODE
+                          JOIN GUEST GU 
+                          ON GJ.GU_CODE = GU.GU_CODE
+                        WHERE GR.GR_CODE =#{grCode}
+						ORDER BY GB.GB_DATE
+						)
+                
+		        )
+		        where 1=1
+	      <choose>
+	          <when test="searchType=='title'">
+	               AND GBTITLE  LIKE '%' || #{keyword} || '%'
+	         </when>
+	          <when test="searchType=='content'">
+	         AND GBCONTENT  LIKE '%' || #{keyword} || '%'
+	         </when>
+	      </choose>
+			order by no desc    
+		    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+
+</mapper>

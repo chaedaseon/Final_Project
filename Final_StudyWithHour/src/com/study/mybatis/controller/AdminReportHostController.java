@@ -1,3 +1,9 @@
+/*========================================
+	AdminReportHostController.java
+	- 관리자 화면에서 호스트 회원이 한 신고에 대한 처리
+========================================*/
+
+
 package com.study.mybatis.controller;
 
 import java.util.ArrayList;
@@ -51,7 +57,7 @@ public class AdminReportHostController
 		
 		int currPageNo = 0;
 		int range = 0;
-		
+		// 현재 페이지 번호, 페이지 범위 가져오기 (없을 경우 둘다 1로)		
 		try {			
 			currPageNo = Integer.parseInt(tmpcurrPageNo);
 			range = Integer.parseInt(tmprange);
@@ -62,10 +68,10 @@ public class AdminReportHostController
 		}
 		
 		ArrayList<ReportBBSDTO> list = null;
-		
+		// 검색 타입과 검색어 설정			
 		String searchType = "";
 		String keyword = request.getParameter("keyword");
-		
+		// 만약 검색타입이 없을 경우 공백		
 		try {			
 			searchType = tmpsearchType;
 			
@@ -74,6 +80,7 @@ public class AdminReportHostController
 		}
 		
 		
+		// 검색어 공백 처리	
 		if(keyword == null || "".equals(keyword) || keyword.trim().isEmpty() ) {
 			keyword = "";
 		}	   	
@@ -81,21 +88,23 @@ public class AdminReportHostController
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put("searchType", searchType);
 		paraMap.put("keyword", keyword);		
-		
+		// dto에 검색타입/검색어 저장			
 		PaginationDTO pg = new PaginationDTO();
 		pg.setSearchType(searchType);
 		pg.setKeyword(keyword);
 		
 		
+		// 게시물의 총 갯수 가져오기			
 		int totalCnt = dao.boardTotalCnt(pg);	
-		
+		// dto 내부의 pageInfo로 값 세팅		
 		pg.pageInfo(currPageNo, range, totalCnt);
 		
 		
-		
+		// 세팅한 dto로 페이지네이션 리스트 출력		
 		list = dao.boardListPaging(pg);
 		
 		
+		// 페이지에 페이지처리한 리스트와 페이지네이션 보내기 	
 		if(!"".equals(searchType) && !"".equals(keyword)) {
 			mav.addObject("paraMap", paraMap);
 		}
@@ -119,21 +128,15 @@ public class AdminReportHostController
 		
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 세션에서 가져온 adCode 없을 경우 로그인창으로		
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
 		}
 		
 		IAdminReportHostDAO dao = sqlSession.getMapper(IAdminReportHostDAO.class);
-		
-
-		
-		//ReportBBSDTO report = dao.reportContent(code);
-
-		//String reportUser = dao.userId(report.getRpUser());
-		//String reportedUser = dao.userId(report.getReported());
-
-		
+	
+		//이전 페이지 페이지, 페이지길이, 검색타입, 검색어 가져온 후 전달
 		String currPageNo = request.getParameter("currPageNo");
 		String range = request.getParameter("range");
 		String searchType = request.getParameter("searchType");
@@ -145,12 +148,24 @@ public class AdminReportHostController
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
 		
+		ReportBBSDTO report = new ReportBBSDTO();
 		
-		
-		ReportBBSDTO report = dao.reportContentUse(code);
+		// 신고코드로 신고정보 가져오기
+		if (rtype.contentEquals("306"))
+		{
+			 report = dao.reportContentReview(code);
+		}
+		else
+		{
+			 report = dao.reportContentUse(code);
+		}
+		// 신고한 스터디카페 코드
 		String studycafeCode = dao.getScCode(report.getRpCode());
+		// 신고한 스터디카페 이름
 		String studycafeName = dao.getScName(studycafeCode);		
+		// 신고한 호스트 아이디
 		String hostUser = dao.hostId(report.getRpUser());
+		// 신고당한 그룹 이름
 		String groupName = dao.groupName(report.getReported());
 
 		
@@ -163,7 +178,8 @@ public class AdminReportHostController
 		model.addAttribute("code", code);
 		model.addAttribute("rtype", rtype);
 
-
+		// 리뷰 신고일 경우 리뷰내용 추가 전달
+		// 이용내역일 경우 해당 첨부파일 전달
 		if (rtype.equals("306"))				//-- 리뷰
 		{
 		
@@ -197,6 +213,7 @@ public class AdminReportHostController
 		
 		String adCode = (String)session.getAttribute("adCode");
 		
+		// 관리자 로그인 상태가 아닐 경우 로그인폼으로 
 		if(adCode==null)
 		{
 			return "redirect:loginform.do";
@@ -208,8 +225,11 @@ public class AdminReportHostController
 		
 		map.put("hrCode",hrCode);
 		map.put("redCode", redCode);
+		
+		//신고당한 그룹 코드 가져오기
 		String grCode = dao.getGrCode(hrCode);
 		
+		// 신고코드와 신고승인/미승인 여부 처리
 		dao.reportHostProcess(map);
 		
 		
@@ -279,7 +299,6 @@ public class AdminReportHostController
 							
 							// 가입코드로 해당 그룹의 그룹장 확인
 							leaderCode = dao.searchLeaderCode(allGjCode);
-							System.out.println("그룹장 :" + leaderCode);
 							// 해당 가입코드로 예약되어 있는지 갯수 체크
 							int reservationCount = dao.reservationCk(allGjCode);
 							
@@ -320,7 +339,6 @@ public class AdminReportHostController
 									{
 										HashMap<String, Object> rsMap = new HashMap<String, Object>();
 										
-										System.out.println("그룹장2 :" + leaderCode);
 										rsMap.put("leaderCode", leaderCode);
 										rsMap.put("reCode", reservationList.get(j));
 										dao.updateReservation(rsMap);

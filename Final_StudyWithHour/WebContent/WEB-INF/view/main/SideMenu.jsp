@@ -86,7 +86,7 @@
       		</li>
       		<li class="mb-1">	
         		<button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed btn_menu"
-        		 onclick="locaton.href='groupboardlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
+        		 onclick="location.href='groupboardlist.do?gu_code=<%=guCode%>&gr_code=<%=grCode%>'">
           			<span class="menu_item">그룹 게시판</span>
         		</button>
       		</li>
