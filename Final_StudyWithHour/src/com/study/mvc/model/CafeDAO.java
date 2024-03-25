@@ -1610,6 +1610,32 @@ public class CafeDAO
 
 	}
 	
+	// 게스트의 활동중이 그룹 정보 조회
+	public ArrayList<GroupDTO> searchGroup(String guCode) throws SQLException
+	{
+		ArrayList<GroupDTO> result = new ArrayList<GroupDTO>();
+		
+		String sql = "SELECT GR_CODE, GR_NAME, GJ_CODE, GU_CODE FROM VIEW_SEARCHGROUP WHERE GU_CODE = ?";
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, guCode);
+		ResultSet rs = pstmt.executeQuery();
+		while(rs.next())
+		{
+			GroupDTO dto = new GroupDTO();
+			
+			dto.setGrCode(rs.getString("GR_CODE"));
+			dto.setGrName(rs.getString("GR_NAME"));
+			dto.setGjCode(rs.getString("GJ_CODE"));
+			dto.setGuCode(rs.getString("GU_CODE"));
+			
+			result.add(dto);
+		}
+		
+		rs.close();
+		pstmt.close();
+		
+		return result;
+	}
 	
 
 		

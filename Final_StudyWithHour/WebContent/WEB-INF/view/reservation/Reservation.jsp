@@ -38,20 +38,6 @@
 		form.submit();
 	}
 	
-	$(function ()
-	{
-		$('button[id="search"]').on('load', function()
-		{
-			$("#reserveSearch").css("display", "none");
-			$("#listSearch").css("display", "flex");
-		});
-		
-		$('button[id="againSearch"]').on('click', function()
-		{
-			$("#listSearch").css("display", "none");
-			$("#reserveSearch").css("display", "flex");
-		});
-	});
 	
 </script>
 

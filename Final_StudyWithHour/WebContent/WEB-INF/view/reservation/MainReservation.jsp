@@ -1,15 +1,19 @@
+<%@page import="com.study.mvc.model.GuestDTO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	String cp = request.getContextPath();
+	
+	GuestDTO guest = (GuestDTO)session.getAttribute("guest");
+	String gr_code = request.getParameter("gr_code");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Reservation.jsp</title>
+<title>MainReservation.jsp</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -48,6 +52,7 @@
 		<div id="content">
 			
 			<div class="content_div">
+				<div style="margin-top: 20px;"></div>
 					
 				<div class="page_title">
 					<span><span>스터디카페</span> 예약</span>
@@ -57,9 +62,9 @@
 				<c:choose>
 				<c:when test="${empty reserveDate || empty reserveAddr1 || empty reserveAddr2}">
 				<div class="select_div" id="reserveSearch">
-				<form action="groupreservesearch.do?gjCode=1" method="post">
+				<form action="mainreservesearch.do?gu_code=<%=guest.getGuCode() %>" method="post">
 					<%-- 지역1을 선택 후 지역2 select에 데이터 출력 --%>
-					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlist.do?lfList=' +this.value+ '&grCode=1'">
+					<select	class="selectCafe_bar" name="reserveAddr1" onchange="location.href='locationlistmain.do?lfList=' +this.value+ '&gu_code=<%=guest.getGuCode()%>'">
 						<c:choose>
 							<%-- 만약 선택한 지역1 코드가 null 이면 --%>
 							<c:when test="${lfCode == null}">
@@ -145,11 +150,6 @@
 						<option value="9">9명</option>										
 						<option value="10">10명</option>										
 					</select>
-					<select class="selectCafe_bar">
-						<c:forEach var="group" items="${group }">
-							<option value="${group.grCode }">${group.grName }</option>
-						</c:forEach>
-					</select>
 					<button type="button" class="selectBtn" id="search" onclick="sendIt(this.form)">Search</button>
 					</form>
 				</div>
@@ -192,7 +192,7 @@
 							<img class="img" src="images/studycafe.jpg" style="width: 100%;">
 							</span>
 						</div>
-					<form action="grouproomreserveform.do?srCode=${cafe.srCode }&gjCode=1" method="post" id="reserveForm${cafe.srCode }">
+					<form action="mainroomreserveform.do?srCode=${cafe.srCode }" method="post" id="reserveForm${cafe.srCode }">
 						<div class="info_area type_border" style="width: 440px; height: 180px; display: inline-grid; align-content: space-between;">
 						<h3 class="tit_space">${cafe.scName }_${cafe.srName }</h3>
 					<input type="hidden" name="scCode" value="${cafe.scCode}">
