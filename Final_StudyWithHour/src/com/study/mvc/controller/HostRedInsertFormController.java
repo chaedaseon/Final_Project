@@ -45,11 +45,15 @@ public class HostRedInsertFormController implements Controller
 		{
 			String reCode = request.getParameter("reCode");
 			dao.connection();
+			// 예약 내역 조회
 			reserve = dao.ReserveInfoLists(reCode);
+			// 사유 조회
 			reason = dao.reasonLists();
 			
 			mav.addObject("reserve", reserve);
 			mav.addObject("reason", reason);
+			
+			// 신고요청 폼으로 이동
 			mav.setViewName("/WEB-INF/view/host/HostRedForm.jsp");
 			dao.close();
 			

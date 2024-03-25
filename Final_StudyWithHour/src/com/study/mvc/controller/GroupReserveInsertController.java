@@ -71,6 +71,7 @@ public class GroupReserveInsertController implements Controller
 		} catch (Exception e)
 		{
 			System.out.println(e.toString());
+			mav.addObject("msg", "<script language='javascript' type='text/javascript'> alert('잘못된 접근입니다.');</script>");
 		}
 				
 		

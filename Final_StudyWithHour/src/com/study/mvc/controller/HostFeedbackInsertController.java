@@ -14,9 +14,6 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.study.mvc.model.CafeDAO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class HostFeedbackInsertController implements Controller
 {
 	@Override
@@ -46,6 +43,8 @@ public class HostFeedbackInsertController implements Controller
 			String feed = request.getParameter("feed");
 			
 			dao.connection();
+			
+			// 피드백 등록
 			result = dao.feedbackAdd(feed, reCode);
 			
 			if (result < 1)
@@ -53,6 +52,7 @@ public class HostFeedbackInsertController implements Controller
 				mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			}
 			
+			// 카페 예약 내역 페이지로 이동
 			mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			
 			dao.close();

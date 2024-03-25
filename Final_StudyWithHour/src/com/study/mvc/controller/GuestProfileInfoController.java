@@ -7,6 +7,7 @@ package com.study.mvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -14,9 +15,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.study.mvc.model.GuestDAO;
 import com.study.mvc.model.GuestDTO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class GuestProfileInfoController implements Controller
 {
 	@Override
@@ -27,20 +25,16 @@ public class GuestProfileInfoController implements Controller
 		ModelAndView mav = new ModelAndView();
 		
 		// session 설정
-		/*
+		// 세션 처리
+		// 게스트 코드가 있는 경우에만 접근 가능
 		HttpSession session = request.getSession();
 		
-		if (session.getAttribute("name")==null)
+		if (session.getAttribute("guCode")==null)
 		{
-			mav.setViewName("redirect:loginform.action");
+			// 게스트 코드가 없는 경우 로그인 폼으로 이동
+			mav.setViewName("redirect:loginform.do");
 			return mav;
 		}
-		else if (session.getAttribute("admin")==null)
-		{
-			mav.setViewName("redirect:logout.action");
-			return mav;
-		}
-		*/
 		
 		GuestDAO dao = new GuestDAO();
 		GuestDTO member = new GuestDTO();
@@ -52,12 +46,17 @@ public class GuestProfileInfoController implements Controller
 			
 			String grCode = request.getParameter("gr_code");
 			String guCode = request.getParameter("gu_code");
+			
+			// 게스트 정보 내역 조회
 			member = dao.guestInfoList(guCode);
+			// 해당 게스트를 찜한 이웃 수 조회
 			count = dao.friendCount(guCode);
 			
 			mav.addObject("grCode", grCode);
 			mav.addObject("count", count);
 			mav.addObject("member", member);
+			
+			// 게스트 프로필 카드 페이지로 이동
 			mav.setViewName("/WEB-INF/view/guest/GuestProfileCard.jsp");
 			
 			dao.close();

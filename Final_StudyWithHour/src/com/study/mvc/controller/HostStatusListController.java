@@ -17,9 +17,6 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.study.mvc.model.CafeDAO;
 import com.study.mvc.model.CafeDTO;
 
-// ※ Spring 의 『Controller』 인터페이스를 구현하는 방법을 통해
-//    사용자 정의 컨트롤러 클래스를 구성한다.
-//    cf.Controller Annotation 활용
 public class HostStatusListController implements Controller
 {
 	@Override
@@ -105,7 +102,7 @@ public class HostStatusListController implements Controller
 			mav.addObject("cafe", cafe);
 			mav.addObject("scCode", scCode);
 			
-			//mav.setViewName("StatisticsList.jsp");
+			// 호스트 통계내역 페이지로 이동
 			mav.setViewName("/WEB-INF/view/host/StatisticsList.jsp");
 			
 			dao.close();

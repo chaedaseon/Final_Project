@@ -44,8 +44,10 @@ public class GroupReviewInsertController implements Controller
 			String rvContent = request.getParameter("rvContent");
 			dao.connection();
 			
+			// 리뷰 등록
 			dao.reviewAdd(fbCode, rvContent);
 			
+			// 그룹 예약내역 페이지로 이동
 			mav.setViewName("redirect:groupreservelist.do?gr_code=" + grCode + "&gu_code=" + guCode);
 			
 			dao.close();

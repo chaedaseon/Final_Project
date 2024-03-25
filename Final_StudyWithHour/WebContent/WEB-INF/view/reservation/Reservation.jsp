@@ -37,6 +37,11 @@
 		var form = document.getElementById("reserveForm" + srCode);
 		form.submit();
 	}
+ 	
+	$(document).ready(function() 
+	{
+		$( "#datepicker" ).datepicker({ minDate: 0});
+	});
 	
 	
 </script>
@@ -101,7 +106,7 @@
 						</c:forEach>
 					</select>
 					<label>
-						<input type="date" id="datePicker" class="select_bar" name="reserveDate" id="reserveDate">
+						<input type="date" id="datePicker" class="select_bar" name="reserveDate">
 					</label>
 					<select	class="selectCafe_bar" id="startHour" name="reserveHour1">
 						<option>00:00</option>

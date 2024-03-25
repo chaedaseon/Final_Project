@@ -53,6 +53,7 @@ public class GroupReserveListController implements Controller
 			String fbState = request.getParameter("fbState");
 			String reState = request.getParameter("reState");
 			
+			// 페이징 처리
 			String pageNum = request.getParameter("pageNum");
 			int currentPage = 1;
 			if (pageNum != null)
@@ -103,6 +104,7 @@ public class GroupReserveListController implements Controller
 				articleUrl = articleUrl + "?pageNum=" + currentPage + param;
 			}
 			
+			// 그룹 예약 내역 조회
 			group = dao.groupReserveList(grCode, searchKey, searchValue, fbState, reState, start, end);
 			
 			mav.addObject("grCode", grCode);
@@ -114,6 +116,7 @@ public class GroupReserveListController implements Controller
 			mav.addObject("fbState", fbState);
 			mav.addObject("reState", reState);
 			
+			// 그룹 예약 내역 페이지로 이동
 			mav.setViewName("/WEB-INF/view/group/GroupReserveList.jsp");
 			
 			dao.close();

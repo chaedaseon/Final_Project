@@ -44,6 +44,8 @@ public class HostRedInsertController implements Controller
 			String file = request.getParameter("file");
 			
 			dao.connection();
+			
+			// 신고 요청 등록
 			result = dao.addHostRed(fbCode, reasonCode, file);
 			
 			if (result < 1)
@@ -51,6 +53,7 @@ public class HostRedInsertController implements Controller
 				mav.setViewName("redirect:cafereservelist.do?hoCode=" + hoCode);
 			}
 			
+			// 신고 내역 페이지로 이동
 			mav.setViewName("redirect:hostredlist.do?hoCode=" + hoCode);
 			
 			dao.close();

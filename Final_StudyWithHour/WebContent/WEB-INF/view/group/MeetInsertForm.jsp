@@ -192,8 +192,8 @@
 									<label><input type="radio" name="att" id="unAtt">있음</label>
 									<label><input type="radio" name="att">없음</label>
 								</td>
-								<td class="register_input" colspan="2" id="regUnatt" style="display: none;">
-									<button type="button" class="signUp" data-bs-toggle="modal" data-bs-target="#meetInsert">불참자 등록</button>
+								<td class="register_input" colspan="2" id="regUnatt" style="display: none; align-items: center; ">
+									<button type="button" style="width: 100px;" data-bs-toggle="modal" data-bs-target="#meetInsert">불참자 등록</button>
 								</td>
 							</tr>
 						</table>

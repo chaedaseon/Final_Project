@@ -107,7 +107,7 @@
 				<c:forEach var="m" items="${meet }">
 				<tr>
 					<td>${m.rNum }</td>
-					<td><a href="#">${m.gschName }</a></td> <!-- 일정명 클릭시 해당 캘린더로 이동 -->
+					<td>${m.gschName }</td> 
 					<td>${fn:substring(m.gschDate,0,11) }</td>
 					<td>${m.gschStartHour } ~ ${m.gschEndHour }</td>
 					<td>${m.guName }</td>

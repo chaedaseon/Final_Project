@@ -51,6 +51,7 @@ public class HostRedListController implements Controller
 			String hrState = request.getParameter("hrState");
 			String adState = request.getParameter("adState");
 			
+			// 페이징 처리
 			String pageNum = request.getParameter("pageNum");
 			int currentPage = 1;
 			if (pageNum != null)
@@ -90,7 +91,7 @@ public class HostRedListController implements Controller
 			
 			String pageIndexList = myUtil.pageIndexList(currentPage, totalPage, listUrl);
 			
-			
+			// 호스트 신고 내역 조회
 			red = dao.hostRedLists(hoCode, start, end, searchKey, searchValue, hrState, adState);
 			
 			mav.addObject("red", red);
@@ -101,6 +102,7 @@ public class HostRedListController implements Controller
 			mav.addObject("hrState", hrState);	
 			mav.addObject("adState", adState);	
 			
+			// 호스트 신고내역 페이지로 이동
 			mav.setViewName("/WEB-INF/view/host/HostRedList.jsp");
 			
 			dao.close();
