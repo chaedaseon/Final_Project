@@ -219,7 +219,7 @@
 									<c:if test="${cafe.index eq 2 }">
 										<span style="font-size: 30px;">🥉</span>
 									</c:if>
-										<a href="#">${top.scName }</a>
+										<a href="cafesearchform.do?scCode=${top.scCode }">${top.scName }</a>
 									</div>
 									<div class="cafe-addr">
 										<span>${top.scAddr1 },${top.scAddr2 }</span>
@@ -233,11 +233,10 @@
 				
 					<!-- 새로 등록된 스터디카페 start -->
 					<div class="col-8" style="padding: 40px;">
+					<a href="cafesearchform.do?scCode=${newCafe.scCode }">
 						<div class="subject-title">✨ 새로 등록된 스터디카페</div>
-						
 						<div class="" style="display: flex; width: 100%; border-radius: 15px; box-shadow: 5px 5px 5px #d3d3d3; height: 230px;">
 							<div style="width: 40%; border-right: 1px solid #e1e1e1; display: flex; align-items: center; justify-content: center">
-								<!-- <span style="font-size: 30px; text-align: center;">미바라운지 스터디카페</span> -->
 								<img alt="" src="images/studycafe.jpg" style="width: 341.33px; height: 230px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;">
 							</div>
 							<div style="width: 60%; height:100%; display: flex; align-items: center; justify-content: center; border-bottom-right-radius: 10px; border-top-right-radius: 10px;">
@@ -249,8 +248,8 @@
 									✔️ ${newCafe.scConvenient }
 								</div>
 							</div>
-						
 						</div>
+					</a>
 					</div><!-- 새로 등록된 스터디카페 end-->
 					
 				</div>
