@@ -187,24 +187,6 @@ public class BoardViewController
 
 		return "redirect:boardview.do?boCode=" + board.getBoCode();
 	}
-	/*
-	 * @RequestMapping(value="/boardviewscrap.do", method = RequestMethod.POST)
-	 * public Map<String, Object> handleScrapRequest(@RequestParam("boCode") String
-	 * boCode, @RequestParam("guCode") String guCode) { Map<String, Object> response
-	 * = new HashMap<String, Object>();
-	 * 
-	 * // 여기에서 중복 확인 등의 로직 수행
-	 * 
-	 * boolean isDuplicate = true; // 중복되었다고 가정
-	 * 
-	 * if (isDuplicate) { response.put("success", false); response.put("message",
-	 * "이미 스크랩한 게시물입니다."); } else { // 중복되지 않은 경우에는 스크랩을 처리하고 성공 메시지를 반환 // 여기에서 스크랩
-	 * 처리 로직 수행
-	 * 
-	 * response.put("success", true); response.put("message", "스크랩이 완료되었습니다."); }
-	 * 
-	 * return response; }
-	 */
 	
 	@RequestMapping(value="/boardviewcheckred.do", method=RequestMethod.GET)
 	public String boardViewCheckRed(String boCode)

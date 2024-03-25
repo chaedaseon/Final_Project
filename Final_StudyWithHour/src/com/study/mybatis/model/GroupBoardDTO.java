@@ -19,10 +19,12 @@ CREATE TABLE GROUP_BOARD
 
 public class GroupBoardDTO
 {
-	private String guCode, guNick, gbCode, gbDate, gbTitle, gbContent, gbMoDate, gbFile, bsCode, gbWriter, searchNum, searchTitle, searchNick; // 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
+	// 게시글 코드, 작성날짜, 제목, 내용, 마지막수정일, 업로드파일경로, 분류코드, 게스트코드
+	private String guCode, guNick, gbCode, gbDate, gbTitle, gbContent, gbMoDate, gbFile, bsCode, gbWriter, searchNum, searchTitle, searchNick; 
 	private int no, gbView, replyCount;
 	
-	
+	// 댓글 코드, 작성날짜, 댓글 내용, 마지막수정일, 그룹 가입 코드, 작성자 닉네임, 댓글 작성자 닉네임
+	private String greCode, greDate, greContent, greMoDate, gjCode, bgWriter, greWriter;
 	
 	public String getGuNick()
 	{
@@ -151,5 +153,61 @@ public class GroupBoardDTO
 	public void setReplyCount(int replyCount)
 	{
 		this.replyCount = replyCount;
+	}
+	public String getGreCode()
+	{
+		return greCode;
+	}
+	public void setGreCode(String greCode)
+	{
+		this.greCode = greCode;
+	}
+	public String getGreDate()
+	{
+		return greDate;
+	}
+	public void setGreDate(String greDate)
+	{
+		this.greDate = greDate;
+	}
+	public String getGreContent()
+	{
+		return greContent;
+	}
+	public void setGreContent(String greContent)
+	{
+		this.greContent = greContent;
+	}
+	public String getGreMoDate()
+	{
+		return greMoDate;
+	}
+	public void setGreMoDate(String greMoDate)
+	{
+		this.greMoDate = greMoDate;
+	}
+	public String getGjCode()
+	{
+		return gjCode;
+	}
+	public void setGjCode(String gjCode)
+	{
+		this.gjCode = gjCode;
+	}
+	public String getBgWriter()
+	{
+		return bgWriter;
+	}
+	public void setBgWriter(String bgWriter)
+	{
+		this.bgWriter = bgWriter;
+	}
+	public String getGreWriter()
+	{
+		return greWriter;
+	}
+	public void setGreWriter(String greWriter)
+	{
+		this.greWriter = greWriter;
 	}
 }

@@ -10,24 +10,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.study.mvc.model.BoardDTO;
 import com.study.mybatis.model.GroupBoardDTO;
 import com.study.mybatis.model.IGroupBoardDAO;
 import com.study.mybatis.model.PaginationDTO;
-import com.study.mybatis.model.ReportBBSDTO;
 
 @Controller
 public class GroupBoardController
@@ -130,7 +129,76 @@ public class GroupBoardController
 		}
 	}
 
+	@RequestMapping(value = "/groupboardcontent.do", method = RequestMethod.GET)	// 그룹 게시글 상세보기 페이지
+	public String groupBoardView(ModelMap model, @RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code 
+			, HttpServletRequest request, HttpServletResponse response)
+	{
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
 
+		int gbView = dao.boardView(gbCode);
+
+		// 쿠키 생성을 위한 변수 선언
+		boolean alreadyViewed = false;
+
+		// 게시글이 이미 조회되었는지 확인
+		try
+		{
+			Cookie[] cookies = request.getCookies(); // 쿠키 생성
+			if (cookies != null) // 쿠키가 존재할 경우
+			{
+				for (Cookie cookie : cookies) // 쿠키의 목록중에서
+				{
+					if (cookie.getName().equals("Gbviewed_" + gbCode)) // viewed_ + boCode 의 이름을 가진 쿠키가 있다면
+					{
+						alreadyViewed = true; // 이미 조회된 게시물
+						break;
+					}
+				}
+			}
+
+			// 이미 조회된 경우 쿠키 생성하지 않고 조회수 증가하지 않음
+			if (!alreadyViewed)
+			{ // 조회되지 않았다면
+				// 쿠키 생성
+				Cookie viewedCookie = new Cookie("Gbviewed_" + gbCode, "true"); // viewed_ + boCode 의 이름을 가진 쿠키 생성
+				viewedCookie.setMaxAge(24 * 60 * 60); // 쿠키 유효기간 설정 (1일)
+				response.addCookie(viewedCookie); // 쿠키 추가
+
+				// 조회수 증가
+				dao.increaseBoardView(gbCode, gbView); // 조회수 증가 쿼리문 실행
+			}
+
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
+
+		// 게시물 내용 및 관련 정보 가져오기
+		ArrayList<GroupBoardDTO> list = dao.groupBoardViewList(gbCode); // 게시물 뷰 페이지에 출력할 내용 리스트
+		ArrayList<GroupBoardDTO> replyList = dao.replyList(gbCode); // 게시물 뷰 페이지에 출력할 댓글 리스트
+		int allReplyCount = dao.replyCount(gbCode);
+		String gjCode = dao.selectGjCode(gu_code, gr_code);
 		
+		// 모델에 데이터 추가
+		model.addAttribute("list", list);
+		model.addAttribute("replyList", replyList);
+		model.addAttribute("allReplyCount", allReplyCount);
+		model.addAttribute("gjCode", gjCode);
+
+		// 상세 페이지 호출
+		return "/WEB-INF/view/group/GroupBoardView.jsp"; // 게시물 상세페이지 호출
+	}	
 	
+	
+	@RequestMapping(value = "/groupboardreplyinsert.do", method = RequestMethod.POST) // 게시글 댓글 입력
+	public String groupBoardInsertReply(GroupBoardDTO dto, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.addReply(dto);
+	  
+		return "redirect:groupboardcontent.do?gbCode=" + dto.getGbCode() + "&gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
+	 
 }

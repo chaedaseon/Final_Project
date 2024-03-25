@@ -71,5 +71,61 @@
 		where rnum <![CDATA[>=]]> #{startList}
 		
     </select>
-
+	
+	<select id="groupBoardViewList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GB.GB_CODE AS GBCODE, GB.GB_DATE AS GBDATE, GB.GB_TITLE AS GBTITLE, GB.GB_CONTENT AS GBCONTENT, GB.GB_VIEW AS GBVIEW
+		, GB.GB_MODATE AS GBMODATE, GB.GB_FILE AS GBFILE, GB.GJ_CODE AS GJCODE, GJ.GU_CODE AS GUCODE, GJ.GR_CODE AS GRCODE
+		,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = GJ.GU_CODE)|| '(' ||
+		 (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		  FROM GUEST
+		  WHERE GU_CODE = GJ.GU_CODE)AS GBWRITER , GJ.GU_CODE AS GUCODE
+		FROM GROUP_BOARD GB
+		LEFT JOIN GROUP_JOIN GJ
+		ON GB.GJ_CODE = GJ.GJ_CODE
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<update id="increaseBoardView"> 
+		UPDATE GROUP_BOARD
+		SET GB_VIEW = #{param2} + 1
+		WHERE GB_CODE = ${param1}
+	</update>
+	
+	<select id="boardView" resultType="int">
+		SELECT GB_VIEW AS GBVIEW
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${param1}
+	</select>
+	
+	<select id="replyList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GR.GRE_CODE AS GRECODE, GR.GRE_DATE AS GREDATE, GR.GRE_CONTENT AS GRECONTENT, GR.GRE_MODATE AS GREMODATE, GR.GB_CODE AS GBCODE, GR.GJ_CODE AS GJCODE
+		,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = GJ.GU_CODE)|| '(' ||
+		 (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		  FROM GUEST
+		  WHERE GU_CODE = GJ.GU_CODE)AS GREWRITER , GJ.GU_CODE AS GUCODE
+		FROM GROUP_REPLY GR
+		LEFT JOIN GROUP_JOIN GJ
+		ON GR.GJ_CODE = GJ.GJ_CODE
+		WHERE GB_CODE = ${gbCode}
+		ORDER BY TO_NUMBER(GRECODE)
+	</select>
+	
+	<select id="replyCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM GROUP_REPLY
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<insert id="addReply">
+		INSERT INTO GROUP_REPLY(GRE_CODE, GRE_DATE, GRE_CONTENT, GRE_MODATE, GB_CODE, GJ_CODE)
+		VALUES(TO_CHAR(GROUP_REPLY_SEQ.NEXTVAL), DEFAULT, #{greContent}, DEFAULT, #{gbCode}, #{gjCode})
+	</insert>
+	
+	<select id="selectGjCode" resultType="java.lang.String">
+		SELECT GJ_CODE AS GJCODE
+		FROM GROUP_JOIN
+		WHERE GR_CODE = ${param2}
+		AND GU_CODE = ${param1}
+	</select>
+	
 </mapper>

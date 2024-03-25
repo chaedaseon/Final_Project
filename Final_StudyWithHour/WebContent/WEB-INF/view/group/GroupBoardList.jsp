@@ -129,9 +129,8 @@ function search(currPageNo, range, pageSize, searchType,  keyword, grCode, guCod
 						<c:forEach var="board" items="${list }">
 						<tr>
 							<td>${board.no }</td>
-							</td>
 							<td><span class="d-inline-block text-truncate" style="max-width: 400px;">
-							<a href="groupboardcontent.do?gbCode=${board.gbCode }&currPageNo=${pagination.currPageNo}&range=${pagination.range}&searchType=${pagination.searchType }&keyword=${pagination.keyword }">${board.gbTitle }</a>
+							<a href="groupboardcontent.do?gbCode=${board.gbCode }&gu_code=${param.gu_code}&gr_code=${param.gr_code}">${board.gbTitle }</a>
 							<!-- 그룹 게시물 주소로 수정 -->
 							</span></td>
 							<td>${board.gbDate}</td>
