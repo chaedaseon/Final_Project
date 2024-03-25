@@ -42,7 +42,7 @@ public class GuestScrapInsertController implements Controller
 			guest.connection();
 			
 			// 전체(모두 접근 가능한) 게시글 스크랩 인서트 실행
-			guest.scrapAdd(guCode, boCode);
+			guest.scrapAdd(boCode, guCode);
 			
 			mav.setViewName("redirect:boardview.do?boCode="+boCode);
 

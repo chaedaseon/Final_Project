@@ -164,17 +164,19 @@ public class GuestBoardDAO
 	{
 		int result = 0;
 		
-		String sql = "INSERT INTO SCRAP(SCRAP_CODE, SCRAP_DATE, GU_CODE, BO_CODE)"
+		String sql = "INSERT INTO SCRAP(SCRAP_CODE, SCRAP_DATE, BO_CODE, GU_CODE)"
 				   + " VALUES (TO_CHAR(SCRAP_SEQ.NEXTVAL), SYSDATE, ?, ?)";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, guCode);
-		pstmt.setString(2, boCode);
+		pstmt.setString(1, boCode);
+		pstmt.setString(2, guCode);
+		
+		System.out.println("게시물 코드는 "+boCode);
+		System.out.println("게스트 코드는 "+guCode);
 		
 		result = pstmt.executeUpdate();
 		
 		pstmt.close();
-		
 		
 		return result;
 	}
