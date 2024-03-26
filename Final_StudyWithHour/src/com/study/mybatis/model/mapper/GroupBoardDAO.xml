@@ -128,4 +128,39 @@
 		AND GU_CODE = ${param1}
 	</select>
 	
+	<insert id="groupBoardInsert">
+		INSERT INTO GROUP_BOARD(GB_CODE, GB_DATE, GB_TITLE, GB_CONTENT, GB_VIEW, GB_MODATE, GB_FILE, GJ_CODE)
+		VALUES(TO_CHAR(GROUP_BOARD_SEQ.NEXTVAL), DEFAULT, #{gbTitle}, #{gbContent}, DEFAULT, DEFAULT, null, #{gjCode})
+	</insert>
+	
+	<update id="modifyReply">
+		UPDATE GROUP_REPLY
+		SET GRE_CONTENT = '${greContent}', GRE_MODATE = DEFAULT
+		WHERE GRE_CODE = ${greCode}
+	</update>
+	
+	<delete id="deleteReply">
+		DELETE
+		FROM GROUP_REPLY
+		WHERE GRE_CODE = ${greCode}
+	</delete>
+	
+	<select id="updateFormList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GB_TITLE AS GBTITLE, GB_CONTENT AS GBCONTENT
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<update id="modifyGroupBoard">
+		UPDATE GROUP_BOARD
+		SET GB_TITLE = #{gbTitle},GB_CONTENT = #{gbContent}, GB_MODATE = SYSDATE
+		WHERE GB_CODE = #{gbCode}
+	</update>
+	
+	<delete id="deleteGroupBoard">
+		DELETE
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${gbCode}
+	</delete>
+	
 </mapper>

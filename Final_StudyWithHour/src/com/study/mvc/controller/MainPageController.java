@@ -37,16 +37,50 @@ public class MainPageController implements Controller
 		ArrayList<NoticeBoardDTO> noticeList =  dao.latestNoticeList();
 		CafeDTO newCafe = dao.searchNewCafe();
 		ArrayList<CafeDTO> reserveTopCafe = dao.reserveTopCafe();
-		ArrayList<BoardStudyGroupDTO> studyGroupList = dao.latestStudyGroupList();
-		ArrayList<CommunityBoardDTO> popBoardList = dao.popBoardList();
-		ArrayList<CommunityBoardDTO> BoardList = dao.latestBoardList();
+
+		try
+		{
+			ArrayList<CommunityBoardDTO> popBoardList = dao.popBoardList();
+			ArrayList<CommunityBoardDTO> BoardList = dao.latestBoardList();
+			ArrayList<BoardStudyGroupDTO> studyGroupList = dao.latestStudyGroupList();
+			if (popBoardList == null)
+			{
+				String nulllist1 = "null";
+				mav.addObject("popBoardList", nulllist1);
+			}
+			else
+			{
+				mav.addObject("popBoardList", popBoardList);
+			}
+			
+			if (popBoardList == null)
+			{
+				String nulllist2 = "null";
+				mav.addObject("BoardList", nulllist2);
+			}
+			else
+			{
+				mav.addObject("BoardList", BoardList);
+			}
+			
+			if (studyGroupList == null)
+			{
+				String nulllist3 = "null";
+				mav.addObject("studyGroupList", nulllist3);
+			}
+			else
+			{
+				mav.addObject("studyGroupList", studyGroupList);
+			}
+			
+		} catch (Exception e)
+		{
+			System.out.println(e.toString());
+		}
 		
 		mav.addObject("reserveTopCafe", reserveTopCafe);
 		mav.addObject("newCafe", newCafe);
 		mav.addObject("noticeList", noticeList);
-		mav.addObject("studyGroupList", studyGroupList);
-		mav.addObject("popBoardList", popBoardList);
-		mav.addObject("BoardList", BoardList);
 		mav.setViewName("/WEB-INF/view/main/MainPage.jsp");
 		
 		dao.close();

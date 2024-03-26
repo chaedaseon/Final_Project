@@ -190,6 +190,62 @@ public class GroupBoardController
 		return "/WEB-INF/view/group/GroupBoardView.jsp"; // 게시물 상세페이지 호출
 	}	
 	
+	@RequestMapping(value = "/groupboardinsertform.do", method = RequestMethod.GET) // 게시글 작성 페이지 호출
+	public String groupBoardInsertForm(ModelMap model, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		String gjCode = dao.selectGjCode(gu_code, gr_code);
+		
+		model.addAttribute("gjCode", gjCode);
+	  
+		return "/WEB-INF/view/group/GroupBoardInsertForm.jsp"; 
+	}
+	
+	@RequestMapping(value = "/groupboardinsert.do", method = RequestMethod.POST) // 게시글 입력
+	public String groupBoardInsert(GroupBoardDTO dto, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.groupBoardInsert(dto);
+	  
+		return "redirect:groupboardlist.do?gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
+
+	@RequestMapping(value = "/groupboardmodifyform.do", method = RequestMethod.GET) // 게시글 작성 페이지 호출
+	public String groupBoardUpdateForm(ModelMap model, @RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		ArrayList<GroupBoardDTO> list = dao.updateFormList(gbCode);
+		
+		model.addAttribute("list", list);
+	  
+		return "/WEB-INF/view/group/GroupBoardUpdateForm.jsp"; 
+	}
+	
+	@RequestMapping(value = "/groupboardmodify.do", method = RequestMethod.POST) // 게시글 작성 페이지 호출
+	public String groupBoardUpdate(GroupBoardDTO dto, @RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.modifyGroupBoard(dto);
+	  
+		return "redirect:groupboardcontent.do?gbCode=" + gbCode + "&gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
+	
+	@RequestMapping(value = "/groupboarddelete.do", method = RequestMethod.POST) // 게시글 작성 페이지 호출
+	public String groupBoardDelete(@RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.deleteGroupBoard(gbCode);
+	  
+		return "redirect:groupboardlist.do?gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
 	
 	@RequestMapping(value = "/groupboardreplyinsert.do", method = RequestMethod.POST) // 게시글 댓글 입력
 	public String groupBoardInsertReply(GroupBoardDTO dto, @RequestParam String gu_code, @RequestParam String gr_code)
@@ -200,5 +256,26 @@ public class GroupBoardController
 	  
 		return "redirect:groupboardcontent.do?gbCode=" + dto.getGbCode() + "&gu_code=" + gu_code + "&gr_code=" + gr_code; 
 	}
-	 
+	
+	@RequestMapping(value = "/groupboardreplymodify.do", method = RequestMethod.POST) // 게시글 댓글 수정
+	public String groupBoardModifyReply(GroupBoardDTO dto, @RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.modifyReply(dto);
+	  
+		return "redirect:groupboardcontent.do?gbCode=" + gbCode + "&gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
+	
+	@RequestMapping(value = "/groupboardreplydelete.do", method = RequestMethod.POST) // 게시글 댓글 삭제
+	public String groupBoardDeleteReply(GroupBoardDTO dto, @RequestParam String gbCode
+			, @RequestParam String gu_code, @RequestParam String gr_code)
+	{ 
+		IGroupBoardDAO dao = sqlSession.getMapper(IGroupBoardDAO.class);
+	  
+		dao.deleteReply(dto);
+	  
+		return "redirect:groupboardcontent.do?gbCode=" + gbCode + "&gu_code=" + gu_code + "&gr_code=" + gr_code; 
+	}
 }

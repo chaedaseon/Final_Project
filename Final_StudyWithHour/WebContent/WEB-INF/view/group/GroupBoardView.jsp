@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>그룹 게시판 - 그룹 게시판 목록</title>
+<title>그룹 게시판 - 그룹 게시판 상세페이지</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/mainStyle.css">
@@ -23,10 +23,10 @@
 <link rel="stylesheet" type="text/css" href="css/postViewStyle.css">
 <script type="text/javascript">
 
-	$(function()
+	$(function()	// 수정, 삭제 작성자 한테만 보이게 하는 함수
 	{
 		var ssessionGuCode = $("#ssessionGuCode").val();
-		var adCode = $("#guCode").val();
+		var guCode = $("#guCode").val();
 		
 		if(guCode == ssessionGuCode)
 		{
@@ -43,14 +43,15 @@
 		var guCode = $("#ssessionGuCode").val();
     	const urlParams = new URL(location.href).searchParams;
     	const gbCode = urlParams.get('gbCode');
-    	
+    	const gu_code = urlParams.get('gu_code');
+    	const gr_code = urlParams.get('gr_code');
         $("#modify_button").click(function()	// 수정 버튼 클릭 시 해당 게시글의 작성자인지
         {									    // 판단후 게시글 수정폼으로 이동
         	var gbGuCode = $("#guCode").val();
         	
             if(guCode == gbGuCode)
 	        {
-            	$(location).attr("href","groupboardviewmodifyform.do?gbCode=" + gbCode);
+            	$(location).attr("href","groupboardmodifyform.do?gbCode=" + gbCode + "&gu_code=" + gu_code + "&gr_code=" + gr_code);
 	        } 
 	        else
 	        {
@@ -203,11 +204,6 @@
 								</svg>
 							${view.gbView }
 							</span>
-							<span class="count"> 
-								<a href="#" class="scrap_button" data-bs-toggle="modal" data-bs-target="#boardViewScrap">
-									<!-- <img src="images/scrap.png" class="count_icon"> --> ⭐ 스크랩
-								</a>
-							</span>
 							<span class="count" id="redCount">
 								<a href="#" class="report_button" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
 									<!-- <img src="images/siren.png" class="count_icon"> --> 🚨 신고하기
@@ -227,28 +223,7 @@
 						<!-- 버튼 눌러서 모달창 띄우기 -->
 						<button type="button" class="btn" id="delete_button" style="display: none">삭제</button>
 						
-						<form action="boardviewscrap.do" method="post">
-						<div class="modal fade" id="boardViewScrap" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-dialog-centered">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						      </div>
-						      <div class="modal-body">
-						      <input type="hidden" name="gbCode" value="${param.gbCode }">
-						      <input type="hidden" name="guCode" value="<%=guCode%>">
-						        이 글을 스크랩 하시겠습니까?
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
-						        <button type="submit" class="btn btn-primary" id="scrapSubmit" >스크랩</button>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-						</form>
-						
-						<form action="groupboardviewdelete.do" method="post">
+						<form action="groupboarddelete.do?gu_code=${param.gu_code}&gr_code=${param.gr_code}" method="post">
 						<div class="modal fade" id="boardViewDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered">
 						    <div class="modal-content">
@@ -268,6 +243,9 @@
 						</div>
 						</form>
 						
+						<%-- guCode는 세션으로 가져오는 것 동일
+						     gjCode는 el로 받을 수 있음, gbCode는 url에서 따오기
+						     redirect 하거나 주소 새로 요청할 때 gu_code랑 gr_code 유지시키기 --%>
 						<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered">
 						    <div class="modal-content">
@@ -347,7 +325,7 @@
 						<input type="text" id="greCode" value="${reply.greCode }" style="display: none;"/>
 						<br>
 						<!-- 모달 영역 -->
-						<form action="groupboardviewreplydelete.do" method="post">
+						<form action="groupboardreplydelete.do?gbCode=${param.gbCode}&gu_code=${param.gu_code}&gr_code=${param.gr_code}" method="post">
 						<div class="modal fade" id="replyDelete" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered">
 						    <div class="modal-content">
@@ -356,7 +334,6 @@
 						      </div>
 						      <div class="modal-body">
 						      <input type="hidden" name="greCode">
-						      <input type="hidden" name="gbCode" value="${param.gbCode }">
 						        정말로 삭제하시겠습니까?
 						      </div>
 						      <div class="modal-footer">
@@ -369,11 +346,10 @@
 						</form>
 						</li>
 						<div class="modify_comment" id="modifyComment_${reply.greCode }" style="display: none;">
-							<form action="groupboardreplymodify.do" method="post">
+							<form action="groupboardreplymodify.do?gbCode=${param.gbCode}&gu_code=${param.gu_code}&gr_code=${param.gr_code}" method="post">
 								<table class="table">
 									<tr>
 										<td style="display: none;">
-											<input type="text" id="replyView" name="gbCode" value="${param.gbCode }"/>
 											<input type="text" id="replyCode" name="greCode" value="${reply.greCode }"/>
 										</td>
 										<td id="comment_input"><textarea name="greContent" id="comment_text" ></textarea></td>

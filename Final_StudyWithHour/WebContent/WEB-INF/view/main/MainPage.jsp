@@ -69,6 +69,11 @@
 				<div class="col-12" style="padding: 40px;">
 					<div class="col-12 subject-title"><a href="#">⏰ 모집중인 스터디그룹을 확인해보세요!</a><a href="#" style="font-size: 16px;">더보기</a></div>
 					<div class="latest-list">
+					<c:choose>
+					<c:when test="${studyGroupList == null}">
+						<div id="null_text"><span>모집중인 그룹이 존재하지 않습니다.</span></div>
+					</c:when>
+					<c:otherwise>
 					<c:forEach var="studyGroup" items="${studyGroupList }">
 						<div class="card col-4">
 							<div class="card-header bg-transparent">${studyGroup.grName }<span class="d-day">D-${studyGroup.dDay }</span></div>
@@ -79,6 +84,8 @@
 		    				<div class="count"><img src="images/people.png">${studyGroup.gjCount+1 } / ${studyGroup.grCount } 명</div>
 						</div>
 					</c:forEach>
+					</c:otherwise>
+					</c:choose>
 					</div>
 				</div><!-- 그룹 모집글 영역 end -->
 				
@@ -88,6 +95,11 @@
 					<div class="col-4" style="padding: 40px;">
 						<div class="subject-title">🔥 인기 있는 게시글</div>
 						<div class="list-div">
+							<c:choose>
+							<c:when test="${popBoardList == 'null'}">
+								<div id="null_text"><span>인기글이 존재하지 않습니다.</span></div>
+							</c:when>
+							<c:otherwise>
 							<c:forEach var="popList" items="${popBoardList }">
 							<ul class="list-item">
 								<li>
@@ -127,6 +139,8 @@
 								</li>
 							</ul>
 							</c:forEach>
+							</c:otherwise>
+							</c:choose>
 						</div>
 					</div><!-- 인기글 영역 end -->
 					
@@ -134,6 +148,11 @@
 					<div class="col-4" style="padding: 40px;">
 						<div class="subject-title">🔥 최근 게시글</div>
 						<div class="list-div">
+						<c:choose>
+							<c:when test="${BoardList == 'null'}">
+								<div id="null_text"><span>최근 게시글이 존재하지 않습니다.</span></div>
+							</c:when>
+							<c:otherwise>
 							<c:forEach var="boardList" items="${BoardList }">
 							<ul class="list-item">
 								<li>
@@ -172,7 +191,9 @@
 									</div>
 								</li>
 							</ul>
-							</c:forEach>					
+							</c:forEach>
+							</c:otherwise>
+						</c:choose>					
 						</div>
 					</div><!-- 최근 게시글 영역 end -->
 					

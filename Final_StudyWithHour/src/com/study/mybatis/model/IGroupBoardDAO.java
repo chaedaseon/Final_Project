@@ -18,4 +18,10 @@ public interface IGroupBoardDAO
 	public ArrayList<GroupBoardDTO> replyList(String gbCode);
 	public String selectGjCode(String gu_code, String gr_code);
 	public int addReply(GroupBoardDTO dto);
+	public int groupBoardInsert(GroupBoardDTO dto);
+	public int modifyReply(GroupBoardDTO dto);
+	public int deleteReply(GroupBoardDTO dto);
+	public ArrayList<GroupBoardDTO> updateFormList(String gbCode);
+	public int modifyGroupBoard(GroupBoardDTO dto);
+	public int deleteGroupBoard(String gbCode);
 }
