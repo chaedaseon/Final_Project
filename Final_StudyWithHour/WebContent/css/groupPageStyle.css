@@ -1,0 +1,380 @@
+@charset "UTF-8";
+
+/* 페이지 기본 css */
+
+/* 페이지 설명 */
+.page_title > span
+{
+	color: #5b5b5b;
+	font-size: 30px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #93BE2C;
+}
+
+span > span
+{
+	color: #94bc32;
+}
+
+/* 페이지 설명 end */
+
+/* 셀렉트 박스 */
+.sorting_div
+{
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px 0;
+}
+
+.notice_btn
+{
+	border: 2px solid #94be2c;
+	background-color: #94be2c;
+	color: #ffffff;
+	border-radius: 3px;
+	font-size: 16px;
+	height: 30px;
+}
+
+/* 셀렉트 박스 end */
+
+/* 리스트 테이블 */
+.list
+{
+	height: 520px;
+}
+
+table
+{
+	width: 100%;
+}
+
+.list_table tr > th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+.list_table td
+{
+	font-size: 18px;
+}
+
+.list_table tr > th, td
+{
+	height: 45px;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+a
+{
+	color: #212529;
+	text-decoration: none;
+}
+
+table.list_table tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+/* 리스트 테이블 end */
+
+
+
+/* 상세정보 div */
+.info_list th
+{
+	font-size: 16px;
+	color: #5b5b5b;
+}
+
+.info_box
+{
+	border-radius: 5px;
+	box-shadow: 5px 5px 5px #d3d3d3;
+}
+
+/* 페이징 처리 버튼 */
+nav
+{
+	display: flex;
+	justify-content: center;
+}
+
+.paging
+{
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.page-link
+{
+	color: #212529;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #93bc32;
+	font-weight: bold;
+	background: none;
+	text-decoration: none;
+}
+
+
+
+/* 검색 영역 */
+
+.category_search
+{
+	margin-top: 5px;
+	display: flex;
+    justify-content: flex-end;
+}
+
+
+.category_search > select, .category_search > input, .search_btn
+{
+	height: 26px;
+}
+
+.category_search > input, .category_search > input:focus
+{
+	width: 180px;
+	margin-left: 5px;
+	outline-color: #94be2c;
+}
+
+.category_search > .search_btn
+{
+	border: none;
+	background-color: #ffffff;
+	font-size: 16px;
+	color: #212529;
+	margin-left: 5px;
+}
+
+.category_search > .search_btn:active 
+{
+	color : #94be2c;;
+	font-weight: bold;
+}
+
+
+/* 메인 영역 ---------------------------------- */
+
+.group-main
+{
+	display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    padding-left: 0px;
+}
+
+
+.group-main>div
+{
+	margin-right: 10px;
+}
+
+.gsch-dday
+{
+	font-weight: bold;
+	color:#94be2c;
+	font-size: xx-large ;
+	
+}
+
+#grmain-right > div
+{
+	margin-bottom: 10px;
+}
+
+/* ---------------------------------- 메인 영역 */
+/* 그룹 캘린더--------------------------------------------- */
+
+
+/* 
+table#calendar
+{
+	border: 1px solid gray;
+}
+ */
+table#calendar tr:nth-child(n+2)  /* , table#calendar tr:nth-child(n+2) > td */
+{
+	border: 1px solid #e1e1e1;
+}
+
+table#calendar th
+{
+	text-align: center;
+	width: 99px;
+}
+
+table#calendar tr
+{
+	height: 77px;
+}
+
+table#calendar tr:nth-child(2)
+{
+	height: 28px;
+}
+
+table#calendar tr:nth-child(1)
+{
+	height:60px; 
+	font-size: 30px;
+}
+
+.div_date
+{
+	position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.dateBtn
+{
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.top-date
+{
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 90%;
+    text-align: center;
+}
+
+.top-date > a
+{
+	color: #62b0ff;
+}
+
+.i
+{
+	text-align: center;
+	/* padding-right: 5px; */
+}
+
+.sch_name
+{
+	font-size: 12px;
+	background: #94be2c;
+	color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding-left: 5px;
+    text-align: left;
+}
+
+.calBtn, .addBtn
+{
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+.calBtn
+{
+	color: #94be2c;
+	font-size: 24px;
+}
+
+.addBtn_div
+{
+	float: right; 
+	position: absolute; 
+	right: 0;
+}
+
+.schedule_modifyBtn
+{
+	width: 100%;
+    border: none;
+    background: none;
+}
+
+#schmodify_modal_body
+{
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.guestSchedule_div
+{
+	margin-top: 35px;
+	display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.guestSchedule_div > span
+{
+	font-size: 30px; 
+	display: flex; 
+	justify-content: center; 
+	margin-bottom: 20px;
+}
+
+#resultMonth, #resultDay
+{
+	width: 40px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.guestSchedule
+{
+	border-left: 3px solid #94be2c; 
+	margin-bottom: 30px; 
+	width: 300px; 
+	height: 55px;
+}
+
+.schName
+{
+	font-size: 20px; 
+	text-align: left;
+}
+
+.schName > span
+{
+	margin-left: 10px;
+}
+
+.schContent
+{
+	margin-top: 5px;
+	font-size: 14px;
+	margin-left: 10px;
+	text-align: left;
+	color: #5b5b5b;
+}
+
+/* --------------------------------------------- 그룹 캘린더*/
+
+.attMember
+{
+	display: none;
+}
+ 
+
+.contentDiv>.content
+{
+	width: 100%;
+	
+}
+

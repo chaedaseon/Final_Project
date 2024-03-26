@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IAdminStudyGroupDAO">
+
+
+	<!-- 페이징 검색 게시글 수 -->
+    
+    <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+    	SELECT COUNT(*) AS COUNT
+		FROM 
+		(
+			SELECT * 
+			FROM VIEW_ADMIN_GROUPLIST
+		)
+    	where 1=1
+		<choose>
+			<when test="searchType=='num'">
+				AND GRCODE = #{keyword}
+			</when>
+			<when test="searchType=='grname'">
+			AND GRNAME  LIKE '%' || #{keyword} || '%'
+			</when>
+		</choose>
+    </select>
+ 
+ 
+   
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.StudyGroupDTO">
+  		select  GRCODE, GRDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  GRCODE, GCDATE AS GRDATE, GRNAME, CATEGORYCODE, BRDATE, RUN
+				FROM
+				(
+                    SELECT * 
+                    FROM VIEW_ADMIN_GROUPLIST
+                    ORDER BY TO_NUMBER(GRCODE) DESC
+		        )
+		        where 1=1
+                <choose>
+                    <when test="searchType=='num'">
+                        AND GRCODE = '1'
+                    </when>
+                    <when test="searchType=='grname'">
+                   AND GRNAME  LIKE '%' || '합격' || '%'
+                    </when>
+                </choose>
+
+			    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+	
+	
+	<!-- 관리자 화면에서 스터디그룹 상세 조회 -->
+	<select id="studyGroupInfo" resultType="com.study.mybatis.model.StudyGroupDTO">
+	SELECT  GR.GR_CODE AS GRCODE, GR.GR_NAME AS GRNAME , TO_CHAR(GR.GR_DATE+7, 'YYYY-MM-DD') AS GRDATE, GR.GR_COUNT AS GRCOUNT
+	, GR.GR_SUBJECT AS GRSUBJECT, GR.GR_COMMENT AS GRCOMMENT
+    , GR.AGE_CODE AS AGECODE, GR.GENDER_CODE AS GENDERCODE, GR.LS_CODE AS LSCODE, LS.LF_CODE AS LFCODE
+    , GR.CATEGORY_CODE AS CATEGORYCODE, GR.GO_CODE AS GOCODE
+	FROM GROUP_REGISTRATION GR JOIN LOCATION_SECOND LS
+	  ON GR.LS_CODE = LS.LS_CODE 
+	 WHERE GR.GR_CODE = #{GRCODE}
+	</select>
+	
+	
+	<!-- 관리자 화면에서 스터디그룹의 유효 패널티 조회 / 뷰 생성 선행-->
+	<select  id="groupPenaltyCount" resultType="java.lang.Integer">
+	SELECT COUNT(*)
+	FROM VIEW_GROUP_PENALTY
+	 WHERE PDATE+90 > SYSDATE
+      AND GR_CODE = #{GRCODE}
+	</select>
+	
+	
+	<!-- 그룹장 코드 뽑기 -->
+	<select id="leaderCode" resultType="java.lang.String">
+    SELECT GUCODE 
+    FROM 
+    (
+      SELECT GJ.GU_CODE AS GUCODE
+      FROM LEADER_CHANGE LC JOIN GROUP_JOIN GJ
+        ON LC.GJ_CODE = GJ.GJ_CODE
+      WHERE GJ.GR_CODE = #{GRCODE}
+      ORDER BY LC.LC_DATE DESC
+    )
+    WHERE ROWNUM = 1
+   </select>
+
+	<!-- 그룹장 코드로 그룹장 아이디 가져오기-->
+	<select id="leaderId" resultType="java.lang.String">
+	SELECT GU_ID
+	FROM GUEST 
+	WHERE GU_CODE = #{leaderCode}
+	</select>
+	
+	<!-- 지역 대분류 값 가져오기 -->
+	<select id="locationFirst" resultType="java.lang.String">
+	SELECT LF_LIST
+	FROM LOCATION_FIRST
+	WHERE LF_CODE = #{LFCODE}
+	</select>
+	
+	<!-- 지역 소분류 값 가져오기 -->
+	<select id="locationSecond" resultType="java.lang.String">
+	SELECT LS_LIST 
+	FROM LOCATION_SECOND
+	WHERE LS_CODE = #{LSCODE}
+	</select>
+	
+	<!-- 특정 그룹의 현재 활동중인 그룹원 목록 -->
+	<select id="groupMember" resultType="com.study.mybatis.model.GuestDTO">
+	SELECT GJ.GU_CODE AS GUCODE, G.GU_ID AS GUID
+	FROM GROUP_JOIN GJ JOIN GUEST G
+	   ON GJ.GU_CODE = G.GU_CODE
+	WHERE GJ.GR_CODE = #{GRCODE}
+	  AND GJ.GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!-- 특정 그룹의 현재 인원 -->
+	<select id="groupCount" resultType="java.lang.Integer">
+	SELECT COUNT(GU_CODE)
+	FROM GROUP_JOIN
+	WHERE GR_CODE=#{GRCODE}
+	  AND GJ_CODE NOT IN
+	(SELECT GJ_CODE FROM GROUP_UNREG)
+	</select>
+	
+	<!--  그룹 해체 데이터-->
+	<select id="groupUnreg" resultType="com.study.mybatis.model.StudyGroupDTO">
+	SELECT TO_CHAR(BR_DATE, 'YYYY-MM-DD') AS BRDATE, REASON_CODE AS REASONCODE
+	FROM break B JOIN GROUP_CONFIRM GC
+  	ON B.GC_CODE = GC.GC_CODE
+  	WHERE GR_CODE =#{GRCODE}
+	</select>
+	
+	<!-- 그룹 이력 가져오기 -->
+	<select id="groupRecord"	resultType="map">
+	SELECT TO_CHAR(RECORDDATE, 'YYYY-MM-DD') AS RECORDDATE, RECORD
+	FROM 
+	(
+	SELECT GR.GR_DATE + 7 AS RECORDDATE, ''''||GR.GR_NAME||''' 그룹 생성' AS RECORD, GR.GR_CODE AS GRCODE
+	FROM GROUP_CONFIRM GC JOIN GROUP_REGISTRATION GR
+	 ON GC.GR_CODE = GR.GR_CODE
+	WHERE RS_CODE = '1'
+	UNION
+	SELECT BR.BR_DATE AS RECORDDATE, ''''||GR.GR_NAME||''' 그룹 폐쇄' AS RECORD, GR.GR_CODE AS GRCODE
+	FROM BREAK BR JOIN GROUP_CONFIRM GC
+	  ON BR.GC_CODE = GC.GC_CODE
+	  JOIN GROUP_REGISTRATION GR
+	   ON GC.GR_CODE = GR.GR_CODE
+	UNION
+	SELECT GJ.GJ_DATE AS RECORDDATE, GU.GU_NICK||'님 가입' AS RECORD, GJ.GR_CODE AS GRCODE
+	FROM GROUP_JOIN GJ JOIN GUEST GU
+	  ON GJ.GU_CODE = GU.GU_CODE
+	UNION
+	SELECT GUN.GUN_DATE AS RECORDDATE, GU.GU_NICK||'님 탈퇴' AS RECORD, GJ.GR_CODE AS GRCODE
+	FROM GROUP_UNREG GUN JOIN GROUP_JOIN GJ
+	  ON GUN.GJ_CODE = GJ.GJ_CODE
+	  JOIN GUEST GU
+	  ON GJ.GU_CODE = GU.GU_CODE
+	UNION
+	SELECT LC_DATE AS RECORDDATE, FNC_RECORD_JOIN(GJ.GJ_CODE, '1') AS RECORD, GJ.GR_CODE AS GRCODE
+	FROM LEADER_CHANGE LC JOIN GROUP_JOIN GJ
+	  ON LC.GJ_CODE = GJ.GJ_CODE
+	  JOIN GUEST GU
+	  ON GJ.GU_CODE = GU.GU_CODE
+	  )
+	WHERE GRCODE = #{grCode}
+	ORDER BY RECORDDATE DESC
+	</select>
+	
+	
+	
+</mapper>

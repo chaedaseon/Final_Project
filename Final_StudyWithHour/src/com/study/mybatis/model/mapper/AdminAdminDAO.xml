@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IAdminAdminDAO">
+
+	<!-- 관리자 화면에서 관리자 리스트 조회 -->
+	<select id="adminList" resultType="com.study.mybatis.model.AdminDTO">
+	SELECT NUM, ADCODE, ADNICK, ADDATE, ADUNDATE
+	FROM 
+	(
+	SELECT  ROW_NUMBER() OVER(ORDER BY AD_DATE DESC ) AS NUM,A.AD_CODE AS ADCODE, AD_NICK AS ADNICK, TO_CHAR(AD_DATE, 'YYYY-MM-DD') AS ADDATE , (TO_CHAR(AD_STATEDATE, 'YYYY-MM-DD')) AS ADUNDATE
+	FROM ADMIN A LEFT JOIN ADMIN_STATE S
+	  ON A.AD_CODE = S.AD_CODE
+	ORDER BY AD_DATE DESC
+	)
+	WHERE NUM BETWEEN 1+((#{vNum}-1)*10) AND (#{vNum}*10)
+	</select>
+	
+	<!-- 관리자 수 확인 -->
+	<select id="count" resultType="java.lang.Integer">
+	SELECT COUNT(AD_CODE) 
+	FROM ADMIN
+	</select>
+	
+	<!-- 관리자 계정 생성 -->
+	<insert id="adminInsert">
+	INSERT INTO ADMIN(AD_CODE, AD_PW, AD_NICK, AD_DATE)
+	VALUES(('ADMIN'||LPAD(TO_CHAR(ADMIN_SEQ.NEXTVAL), 3, '0')), #{adPw} , '관리자'||TO_CHAR(ADMIN_SEQ.NEXTVAL), SYSDATE)
+	</insert>
+	
+	<!-- 관리자 비활성화 -->
+	<insert id="adminState">
+	INSERT INTO ADMIN_STATE(AD_STATEDATE, AD_CODE)
+	VALUES(SYSDATE, #{adCode})
+	</insert>
+	
+</mapper>

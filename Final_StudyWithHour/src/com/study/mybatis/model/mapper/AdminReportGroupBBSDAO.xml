@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IAdminReportGroupBBSDAO">
+
+
+
+	<!-- 페이징 검색 게시글 수 -->
+    
+    <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+    	SELECT COUNT(*) AS COUNT
+		FROM 
+		(
+            select * 
+            FROM VIEW_REPORT_GROUPBBS
+		)
+    	where 1=1
+        <choose>
+            <when test="searchType=='rtype'">
+                AND RTYPE = #{keyword}
+           </when>
+            <when test="searchType=='content'">
+           AND CONTENT  LIKE '%' || #{keyword} || '%'
+           </when>
+        </choose>
+    </select>
+ 
+ 
+   
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.ReportBBSDTO">
+  	select num, RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  num, RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
+				FROM
+				(
+                     SELECT rownum as num, RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
+						FROM
+						(
+						SELECT   RTYPE, CODE, CONTENT, REDCODE, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE, GRNAME
+						FROM VIEW_REPORT_GROUPBBS
+						ORDER BY RDATE
+						)
+                
+		        )
+		        where 1=1
+                <choose>
+                    <when test="searchType=='rtype'">
+                        AND RTYPE = #{keyword}
+                   </when>
+                    <when test="searchType=='content'">
+                   AND CONTENT  LIKE '%' || #{keyword} || '%'
+                   </when>
+                </choose>
+				order by num desc    
+			    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+	
+	
+	
+	<!-- 게시물 신고 리스트 조회 (게시물/댓글)-->
+	<!-- 뷰 생성 선행 -->
+	<select id="groupBBSlist" resultType="com.study.mybatis.model.ReportBBSDTO">
+	SELECT NUM, RTYPE, CODE, CONTENT, REDCODE, RDATE, GRNAME
+	FROM
+	(
+	SELECT ROW_NUMBER() OVER(ORDER BY RDATE DESC ) AS NUM, RTYPE, CODE, CONTENT, REDCODE, TO_CHAR(RDATE,'YYYY-MM-DD') AS RDATE, GRNAME
+	FROM VIEW_REPORT_GROUPBBS
+	ORDER BY RDATE DESC
+	)
+	WHERE NUM BETWEEN 1+((#{vNum}-1)*10) AND (#{vNum}*10)
+	</select>
+	
+	
+	<!-- 신고 내용 상세 조회(게시물/댓글/대댓글) -->
+
+	<select id="reportContent" resultType="com.study.mybatis.model.ReportBBSDTO" parameterType="HashMap">
+		SELECT RPUSER, REPORTED, RPCODE, RPCONTENT, RPDATE, GRNAME, RPREASON, RDDATE, REDCODE
+		FROM 
+		(
+	<choose>
+		<when test="rtype=='1'.toString()">
+		SELECT GBR.GBR_CODE AS CODE, GBR.GJ_CODE AS RPUSER, GB.GJ_CODE AS REPORTED, GB.GB_CODE AS RPCODE, GB.GB_TITLE AS RPCONTENT
+		    , TO_CHAR(GBR.GBR_DATE, 'YYYY-MM-DD') AS RPDATE, GR.GR_NAME AS GRNAME, GBR.REASON_CODE AS RPREASON, TO_CHAR(GBRD.GBRD_DATE, 'YYYY-MM-DD') AS RDDATE, GBRD.RED_CODE AS REDCODE
+		FROM GROUP_BOARDRED GBR JOIN GROUP_BOARD GB
+		  ON GBR.GB_CODE = GB.GB_CODE
+		  LEFT JOIN GROUP_BOARDREDDONE GBRD
+		  ON GBR.GBR_CODE = GBRD.GBR_CODE
+		  JOIN GROUP_JOIN GJ 
+		  ON GB.GJ_CODE = GJ.GJ_CODE
+		  JOIN GROUP_REGISTRATION GR
+		  ON GJ.GR_CODE = GR.GR_CODE
+		</when>
+		<otherwise>
+		SELECT GRR.GRR_CODE AS CODE, GRR.GJ_CODE AS RPUSER, GRE.GJ_CODE AS REPORTED, GRE.GRE_CODE AS RPCODE, GRE.GRE_CONTENT AS RPCONTENT, TO_CHAR(GRR.GRR_DATE, 'YYYY-MM-DD') AS RPDATE, GR.GR_NAME AS GRNAME, GRR.REASON_CODE AS RPREASON
+	    , TO_CHAR(GRRD.GRRD_DATE, 'YYYY-MM-DD') AS RDDATE, GRRD.RED_CODE AS REDCODE
+		FROM GROUP_REPLYRED GRR JOIN GROUP_REPLY GRE
+		  ON GRR.GRE_CODE = GRE.GRE_CODE
+		  LEFT JOIN GROUP_REPLYREDDONE GRRD 
+		  ON GRR.GRR_CODE = GRRD.GRR_CODE
+		  JOIN GROUP_JOIN GJ
+		  ON GRE.GJ_CODE = GJ.GJ_CODE
+		  JOIN GROUP_REGISTRATION GR
+		  ON GJ.GR_CODE = GR.GR_CODE
+		</otherwise>	
+	</choose>
+		)
+		WHERE CODE = #{code}
+
+	</select>
+
+	<!-- 그룹 코드로 아이디 출력 -->
+	<select id="userId" resultType="java.lang.String">
+	SELECT GU_ID 
+	FROM GROUP_JOIN GJ JOIN GUEST G
+	 ON GJ.GU_CODE = G.GU_CODE
+	WHERE GJ_CODE = #{GJCODE}
+	
+	</select>
+
+	<!-- 그룹 코드로 회원 코드 출력 -->
+	<select id="userGucode" resultType="java.lang.String">
+	SELECT G.GU_CODE 
+	FROM GROUP_JOIN GJ JOIN GUEST G
+	 ON GJ.GU_CODE = G.GU_CODE
+	WHERE GJ_CODE = #{GJCODE}
+	</select>
+	
+	<!-- 신고당한 덧글 코드로 그룹 게시물 코드 가져오기 -->
+	<select id="replyBoardCode" resultType="java.lang.String">
+	SELECT GB.GB_CODE
+	FROM GROUP_REPLY GRE JOIN GROUP_BOARD GB
+	 ON GRE.GB_CODE = GB.GB_CODE
+	WHERE GRE.GRE_CODE = #{GRECODE}
+	</select>
+	
+	
+	
+	<!-- 게시물 코드로 게시물 제목 조회  -->
+	<select id="boardTitle" resultType="java.lang.String">
+	SELECT GB_TITLE 
+	FROM GROUP_BOARD
+	WHERE GB_CODE = #{GBCODE}
+	</select>
+	
+	<!-- 신고 요청 처리 (승인/반려 인서트)-->
+	<insert id="groupBBSReportProcess" parameterType="HashMap">
+	
+	<choose>
+		<when test="rtype=='1'.toString()">
+			INSERT INTO GROUP_BOARDREDDONE(GBRD_CODE, GBRD_DATE, RED_CODE, GBR_CODE)
+			VALUES(TO_CHAR(GROUP_BOARDREDDONE_SEQ.NEXTVAL), SYSDATE, #{redCode}, #{code})
+		</when>
+		<otherwise>
+			INSERT INTO GROUP_REPLYREDDONE(GRRD_CODE, GRRD_DATE, RED_CODE, GRR_CODE)
+			VALUES(TO_CHAR(GROUP_REPLYREDDONE_SEQ.NEXTVAL), SYSDATE, #{redCode}, #{code})
+		</otherwise>
+	</choose>
+	</insert>
+	
+	
+	
+	
+	<!-- 특정 회원의 유효한 패널티 갯수 조회 -->
+	<select id="penaltyCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) AS COUNT
+	FROM VIEW_ALL_PN
+	WHERE PDATE+90>SYSDATE
+	AND GUCODE = #{GUCODE}
+	</select>
+	
+	
+	
+	
+	<!-- 특정 회원이 가입한 스터디그룹 갯수 확인 -->
+	<select id="joinGroupCount" resultType="int">
+	SELECT COUNT(*)
+	FROM GROUP_JOIN
+	WHERE GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	 AND GU_CODE = #{guCode}
+	</select>
+	
+	<!-- 특정 회원이 가입한 스터디그룹의 그룹가입요청코드 확인 -->
+	<select id="joinGroupList" resultType="String">
+	SELECT GJ_CODE
+	FROM GROUP_JOIN
+	WHERE GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+	 AND GU_CODE = #{guCode}
+	</select>
+	
+	<!-- 가입요청코드로 해당 그룹의 그룹장 가입요청코드 출력 -->
+	<select id="searchLeaderCode" resultType="String">
+	SELECT GJ_CODE
+		FROM 
+		(
+		SELECT  GR.GR_CODE, GJ.GJ_CODE, LC.LC_DATE
+		FROM LEADER_CHANGE LC JOIN GROUP_JOIN GJ
+		 ON LC.GJ_CODE = GJ.GJ_CODE
+		 JOIN GROUP_REGISTRATION GR 
+		 ON GJ.GR_CODE = GR.GR_CODE
+		WHERE GR.GR_CODE = (SELECT GR_CODE
+		       FROM GROUP_JOIN
+		        WHERE GJ_CODE = #{gjCode})
+		ORDER BY LC_DATE DESC
+		)
+	WHERE ROWNUM = 1
+	</select>
+	
+	
+	<!-- 해당 회원을 제외한 그룹회원 중 가장 먼저 가입한 사람의 그룹가입요청코드 출력 -->
+	<select id="searchJoinDate" resultType="String">
+	SELECT GJ_CODE 
+		FROM 
+		(
+		SELECT * 
+		FROM GROUP_JOIN
+		WHERE GR_CODE = (SELECT GR_CODE
+		       FROM GROUP_JOIN
+		        WHERE GJ_CODE = #{gjCode})
+		  AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
+		  AND GJ_CODE != #{gjCode}
+		ORDER BY GJ_DATE
+		)
+	WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 그룹장 변경 -->
+	<insert id="changeLeader">
+	INSERT INTO LEADER_CHANGE(LC_CODE, LC_DATE, GJ_CODE)
+	VALUES(TO_CHAR(LEADER_CHANGE_SEQ.NEXTVAL), SYSDATE, #{updateLeaderCode})
+	</insert>
+	
+	<!-- 특정 회원이 예약한(차단 시점 이후 이용 예정인) 예약 내역 유무여부 조회 -->
+	<select id="reservationCk" resultType="int">
+		SELECT COUNT(*)
+		FROM RESERVATION
+		WHERE GJ_CODE = #{gjCode}
+		 AND RE_STARTDATE > SYSDATE
+	</select>
+	
+	<!-- 특정 회원이 예약한(차단 시점 이후 이용 예정인) 예약 내역 조회 -->
+	<select id="reservationList" resultType="String">
+		SELECT RE_CODE
+		FROM RESERVATION
+		WHERE GJ_CODE = #{gjCode}
+		AND RE_STARTDATE > SYSDATE
+	</select>
+
+	<!-- 차단 회원 대신 그룹장으로 예약 내역 변경  -->
+	<update id="updateReservation" parameterType="HashMap" >
+	UPDATE RESERVATION
+	SET GJ_CODE = #{leaderCode}
+	WHERE RE_CODE = #{reCode}
+	</update>
+	
+	<!-- 해당 그룹가입요청코드 탈퇴 처리  -->
+	<insert id="unregMember">
+	INSERT INTO GROUP_UNREG(GUN_CODE, GUN_DATE, REASON_CODE, GJ_CODE)
+	VALUES(TO_CHAR(GROUP_UNREG_SEQ.NEXTVAL), SYSDATE, '404', #{GJCODE})
+	</insert>
+	
+	
+	<!-- 해당 회원 비활성화 처리  -->
+	<insert id="unregGuest">
+	INSERT INTO GUEST_UNREG(GU_UNCODE, GU_CODE, REASON_CODE) 
+	VALUES(GUEST_UNREG_SEQ.NEXTVAL, #{guCode}, '106')
+	</insert>
+		
+	
+	
+</mapper>

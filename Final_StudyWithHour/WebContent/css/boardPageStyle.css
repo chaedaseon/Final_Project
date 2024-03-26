@@ -1,0 +1,216 @@
+@charset "UTF-8";
+
+/* 페이지 기본 css */
+
+/* 페이지 설명 */
+.board_title > span
+{
+	color: #94bc32;
+	font-size: 30px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #93BE2C;
+}
+
+
+/* 페이지 설명 옆 메뉴 */
+.board_title
+{
+	display: flex;
+	margin-top: 20px;
+}
+/* 페이지 설명 옆 메뉴 end */
+
+/* 페이지 설명 end */
+
+/* 셀렉트 박스 */
+.sorting_div
+{
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px 0;
+}
+
+.notice_btn
+{
+	border: 2px solid #94be2c;
+	background-color: #94be2c;
+	color: #ffffff;
+	border-radius: 3px;
+	font-size: 16px;
+	height: 30px;
+}
+
+/* 셀렉트 박스 end */
+
+/* 리스트 테이블 */
+.list
+{
+	height: 600px;
+}
+
+table
+{
+	width: 100%;
+}
+
+.list_table tr > th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C;
+	 
+}
+
+.list_table td
+{
+	font-size: 18px;
+}
+
+.list_table tr > th, td
+{
+	height: 45px;
+	text-align: center;
+}
+
+.list_table tr > th
+{
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+a
+{
+	color: #212529;
+	text-decoration: none;
+}
+
+table.list_table tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+/* 리스트 테이블 end */
+
+
+
+/* 상세정보 div */
+.info_list th
+{
+	font-size: 16px;
+	color: #5b5b5b;
+}
+
+.info_box
+{
+	border-radius: 5px;
+	box-shadow: 5px 5px 5px #d3d3d3;
+}
+
+/* 페이징 처리 버튼 */
+.paging
+{
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+	color: #212529;
+}
+
+.page-link
+{
+	color: #212529;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #93bc32;
+	background: none;
+	outline-color: #93bc32;
+}
+
+
+/* 검색 영역 */
+
+
+.category_search
+{
+	margin-top: 5px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.category_search > select, .category_search>input, .search_btn
+{
+	height: 26px;
+}
+
+.category_search > .search_input, .search_input:focus
+{
+	width: 180px;
+	margin-left: 5px;
+	outline-color: #94be2c;
+}
+
+
+.category_search > .search_btn
+{
+	border: none;
+	background-color: #ffffff;
+	font-size: 16px;
+	color: #212529;
+	margin-left: 5px;
+}
+
+.category_search > .search_btn:active 
+{
+	color : #94be2c;;
+	font-weight: bold;
+}
+
+#write_button
+{
+	float: right;
+	margin-left: auto !important;
+}
+
+.mb-5
+{
+	display: flex;
+	margin-bottom: 15px !important;
+}
+
+.detail_1
+{
+	margin-left: auto;
+	margin-right: auto;
+	justify-content: center;
+}
+
+#post_title
+{
+	font-size: 16pt;
+}
+
+.book_icon
+{
+	width: 120px;
+	height: 160px;
+}
+#post_info
+{
+	display: flex;
+}
+
+#postnum_box
+{
+	margin-left: auto;
+}
+
+#reply_count
+{
+	color: gray !important;
+}

@@ -1,0 +1,214 @@
+@charset "UTF-8";
+
+/* 페이지 기본 css */
+
+/* 페이지 설명 */
+.page_title > span
+{
+	color: #5b5b5b;
+	font-size: 30px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #93BE2C;
+}
+
+span > span
+{
+	color: #94bc32;
+}
+
+/* 페이지 설명 end */
+
+/* 셀렉트 박스 */
+.sorting_div
+{
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px 0;
+}
+
+.notice_btn
+{
+	background-color: #94be2c;
+	color: #ffffff;
+}
+
+/* 셀렉트 박스 end */
+
+
+/* 모달 관련 css */
+.sorting_div > button
+{
+	border: none;
+	background: none;
+}
+
+.sorting_div > button:hover
+{
+	color: #94be2c;
+}
+
+
+input.modal_input
+{
+	border: none;
+    border-bottom: 2px solid #e1e1e1;
+}
+
+input.modal_input:focus
+{
+	outline-color: #94be2c;
+}
+
+
+/* 리스트 테이블 */
+.list
+{
+	height: 520px;
+}
+
+table
+{
+	width: 100%;
+}
+
+.list_table tr > th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+.list_table td
+{
+	font-size: 18px;
+}
+
+.list_table tr > th, td
+{
+	height: 45px;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+a
+{
+	color: #212529;
+	text-decoration: none;
+}
+
+table.list_table tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+/* 리스트 테이블 end */
+
+/* 페이징 처리 버튼 */
+nav
+{
+	display: flex;
+	justify-content: center;
+}
+
+.paging
+{
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.page-link
+{
+	color: #212529;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #93bc32;
+	background: none;
+	outline-color: #93bc32;
+}
+
+
+/* 검색 영역 */
+
+.category_search
+{
+	margin-top: 5px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+
+.category_search > select, input, .search_btn
+{
+	height: 26px;
+}
+
+.category_search > .search_input, .search_input:focus
+{
+	width: 180px;
+	margin-left: 5px;
+	outline-color: #94be2c;
+}
+
+.category_search > .search_btn
+{
+	border: none;
+	background-color: #ffffff;
+	font-size: 16px;
+	color: #212529;
+	margin-left: 5px;
+}
+
+.category_search > .search_btn:active 
+{
+	color : #94be2c;;
+	font-weight: bold;
+}
+
+.err
+{
+	font-size: red;
+	color: red;
+}
+
+
+/* info 부분 css */
+.info_div
+{
+	margin-top: 64px;
+} 
+
+.info_table
+{
+	margin-top: 20px;
+	margin-bottom: 50px;
+	border: 1px solid #e1e1e1;
+}
+
+.info_table th
+{
+	width: 15%;
+	background-color: #f7fced;
+	padding-left: 10px;
+	border-right: 1px solid #e1e1e1;
+	border-left: 1px solid #e1e1e1;
+	height: 45px;
+}
+
+.info_table td
+{
+	width: 35%;
+	padding-left: 10px;
+}
+
+.info_table tr
+{
+	border-bottom: 1px solid #e1e1e1;
+}
+

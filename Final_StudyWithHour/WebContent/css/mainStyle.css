@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* 전체 레이아웃 css */
 @font-face 
 {
     font-family: 'NanumSquareNeo-Variable';
@@ -29,11 +30,11 @@ header
 
 .rightContent_div         /* 로그인 후 마이메뉴에서 사이드바 제외한 영역 */
 {
-	margin-left: 260px;
+	/* margin-left: 260px; */
+	margin-left: 80px;
 	margin-top: 60px;
 	width: calc(1400px - 260px);
-	/* border: 1px solid gray; */
-	height: 800px;
+	height: 100%;
 }
 
 .content_div      /* 마이메뉴 없을 때 */
@@ -41,7 +42,10 @@ header
 	width: 100%;
 }
 
+/* end 전체 레이아웃 css */
 
+
+/* footer 고정을 위함 */
 html,
 body 
 {
@@ -56,5 +60,23 @@ body
 
 section 
 {
-	flex: 1;
+/*	flex: 1;
+ 	height: auto; */
+	padding-bottom: 75px;
+	position : relative;
+}
+
+footer
+{
+    bottom: 0;
+    position : relative;
+    transform : translateY(-100%);
+    /* left: 0;
+    width: 100%;
+    background-color: #fff;
+    color: white;
+    text-align: center;
+    height: 75px;
+   */
+    
 }

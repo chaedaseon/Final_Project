@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IGroupBoardDAO">
+
+<!-- 페이징 검색 게시글 수 -->
+   
+  <select id="boardTotalCnt" parameterType="com.study.mybatis.model.PaginationDTO" resultType="int">
+  	SELECT COUNT(*) AS COUNT
+	FROM 
+	(
+	          SELECT GB.GB_CODE AS GBCODE, GB.GB_DATE AS GBDATE, GB_TITLE AS GBTITLE, GB_VIEW AS GB_VIEW, GJ.GU_CODE AS GUCODE, GB.GB_CONTENT AS GBCONTENT
+	          FROM GROUP_BOARD GB JOIN GROUP_JOIN GJ
+	            ON GB.GJ_CODE = GJ.GJ_CODE
+	            JOIN GROUP_REGISTRATION GR
+	            ON GJ.GR_CODE = GR.GR_CODE
+              WHERE GR.GR_CODE = #{grCode}
+	)
+	  	where 1=1
+	      <choose>
+	          <when test="searchType=='title'">
+	               AND GBTITLE   LIKE '%' || #{keyword} || '%'
+	         </when>
+	          <when test="searchType=='content'">
+	         AND GBCONTENT  LIKE '%' || #{keyword} || '%'
+	         </when>
+	      </choose>
+  </select>
+
+     <!-- 페이징 리스트 -->
+  
+    <select id="boardListPaging" parameterType="com.study.mybatis.model.PaginationDTO" resultType="com.study.mybatis.model.GroupBoardDTO">
+  	select no, GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+		from(
+		    select rownum as rnum, t.*
+		    from
+		    (
+		       	SELECT  no , GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+				FROM
+				(
+                     SELECT rownum as no, GBCODE, GBDATE, GBTITLE, GBVIEW, GUCODE, GUNICK, GBCONTENT
+						FROM
+						(
+						
+                        SELECT GB.GB_CODE AS GBCODE, TO_CHAR(GB.GB_DATE, 'YYYY-MM-DD') AS GBDATE, GB_TITLE AS GBTITLE, GB_VIEW AS GBVIEW, GJ.GU_CODE AS GUCODE, GU.GU_NICK AS GUNICK, GB.GB_CONTENT AS GBCONTENT
+                        FROM GROUP_BOARD GB JOIN GROUP_JOIN GJ
+                          ON GB.GJ_CODE = GJ.GJ_CODE
+                          JOIN GROUP_REGISTRATION GR
+                          ON GJ.GR_CODE = GR.GR_CODE
+                          JOIN GUEST GU 
+                          ON GJ.GU_CODE = GU.GU_CODE
+                        WHERE GR.GR_CODE =#{grCode}
+						ORDER BY GB.GB_DATE
+						)
+                
+		        )
+		        where 1=1
+	      <choose>
+	          <when test="searchType=='title'">
+	               AND GBTITLE  LIKE '%' || #{keyword} || '%'
+	         </when>
+	          <when test="searchType=='content'">
+	         AND GBCONTENT  LIKE '%' || #{keyword} || '%'
+	         </when>
+	      </choose>
+			order by no desc    
+		    ) t
+			    where rownum <![CDATA[<=]]> #{startList}+#{sizePerPage}-1
+			)
+		where rnum <![CDATA[>=]]> #{startList}
+		
+    </select>
+	
+	<select id="groupBoardViewList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GB.GB_CODE AS GBCODE, GB.GB_DATE AS GBDATE, GB.GB_TITLE AS GBTITLE, GB.GB_CONTENT AS GBCONTENT, GB.GB_VIEW AS GBVIEW
+		, GB.GB_MODATE AS GBMODATE, GB.GB_FILE AS GBFILE, GB.GJ_CODE AS GJCODE, GJ.GU_CODE AS GUCODE, GJ.GR_CODE AS GRCODE
+		,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = GJ.GU_CODE)|| '(' ||
+		 (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		  FROM GUEST
+		  WHERE GU_CODE = GJ.GU_CODE)AS GBWRITER , GJ.GU_CODE AS GUCODE
+		FROM GROUP_BOARD GB
+		LEFT JOIN GROUP_JOIN GJ
+		ON GB.GJ_CODE = GJ.GJ_CODE
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<update id="increaseBoardView"> 
+		UPDATE GROUP_BOARD
+		SET GB_VIEW = #{param2} + 1
+		WHERE GB_CODE = ${param1}
+	</update>
+	
+	<select id="boardView" resultType="int">
+		SELECT GB_VIEW AS GBVIEW
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${param1}
+	</select>
+	
+	<select id="replyList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GR.GRE_CODE AS GRECODE, GR.GRE_DATE AS GREDATE, GR.GRE_CONTENT AS GRECONTENT, GR.GRE_MODATE AS GREMODATE, GR.GB_CODE AS GBCODE, GR.GJ_CODE AS GJCODE
+		,(SELECT GU_NICK FROM GUEST WHERE GU_CODE = GJ.GU_CODE)|| '(' ||
+		 (SELECT RPAD(SUBSTR(GU_ID, 1,4),8,'*') || ')'
+		  FROM GUEST
+		  WHERE GU_CODE = GJ.GU_CODE)AS GREWRITER , GJ.GU_CODE AS GUCODE
+		FROM GROUP_REPLY GR
+		LEFT JOIN GROUP_JOIN GJ
+		ON GR.GJ_CODE = GJ.GJ_CODE
+		WHERE GB_CODE = ${gbCode}
+		ORDER BY TO_NUMBER(GRECODE)
+	</select>
+	
+	<select id="replyCount" resultType="java.lang.Integer">
+		SELECT COUNT(*)
+		FROM GROUP_REPLY
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<insert id="addReply">
+		INSERT INTO GROUP_REPLY(GRE_CODE, GRE_DATE, GRE_CONTENT, GRE_MODATE, GB_CODE, GJ_CODE)
+		VALUES(TO_CHAR(GROUP_REPLY_SEQ.NEXTVAL), DEFAULT, #{greContent}, DEFAULT, #{gbCode}, #{gjCode})
+	</insert>
+	
+	<select id="selectGjCode" resultType="java.lang.String">
+		SELECT GJ_CODE AS GJCODE
+		FROM GROUP_JOIN
+		WHERE GR_CODE = ${param2}
+		AND GU_CODE = ${param1}
+	</select>
+	
+	<insert id="groupBoardInsert">
+		INSERT INTO GROUP_BOARD(GB_CODE, GB_DATE, GB_TITLE, GB_CONTENT, GB_VIEW, GB_MODATE, GB_FILE, GJ_CODE)
+		VALUES(TO_CHAR(GROUP_BOARD_SEQ.NEXTVAL), DEFAULT, #{gbTitle}, #{gbContent}, DEFAULT, DEFAULT, null, #{gjCode})
+	</insert>
+	
+	<update id="modifyReply">
+		UPDATE GROUP_REPLY
+		SET GRE_CONTENT = '${greContent}', GRE_MODATE = DEFAULT
+		WHERE GRE_CODE = ${greCode}
+	</update>
+	
+	<delete id="deleteReply">
+		DELETE
+		FROM GROUP_REPLY
+		WHERE GRE_CODE = ${greCode}
+	</delete>
+	
+	<select id="updateFormList" resultType="com.study.mybatis.model.GroupBoardDTO">
+		SELECT GB_TITLE AS GBTITLE, GB_CONTENT AS GBCONTENT
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${gbCode}
+	</select>
+	
+	<update id="modifyGroupBoard">
+		UPDATE GROUP_BOARD
+		SET GB_TITLE = #{gbTitle},GB_CONTENT = #{gbContent}, GB_MODATE = SYSDATE
+		WHERE GB_CODE = #{gbCode}
+	</update>
+	
+	<delete id="deleteGroupBoard">
+		DELETE
+		FROM GROUP_BOARD
+		WHERE GB_CODE = ${gbCode}
+	</delete>
+	
+</mapper>

@@ -31,12 +31,14 @@ a
 	border-radius: 15px;
 	box-shadow: 5px 5px 5px #d3d3d3;
 	margin-bottom: 30px ;
+	height: 200px;
 }
 
 .card-header
 {
 	display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .d-day
@@ -53,6 +55,7 @@ a
 {
 	display: flex;
 	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 .count > img

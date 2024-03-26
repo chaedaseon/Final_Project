@@ -1,0 +1,464 @@
+@charset "UTF-8";
+
+.register_div
+{
+	width: 60%;
+	margin: 0 auto;
+}
+
+.regInfo_div
+{
+	width: 80%;
+	margin: 0 auto;
+}
+
+.underline
+{
+	border-bottom: 2px solid #93be2c;
+}
+
+.register_description
+{
+	margin: 50px 0 20px 0;
+}
+
+.register_form
+{
+	margin: 30px 0;
+}
+
+tr
+{
+	height: 40px;
+}
+
+.register_title
+{
+	width: 200px;
+}
+
+.postBtn
+{
+    text-align: center;
+    border-color: #e2e2e2;
+    border-radius: 5px;
+}
+
+.register_input
+{
+	width: 260px;
+}
+
+.register_text:focus
+{
+	outline-color: #93bc32;
+	outline: none;
+	box-shadow: 0 0 5px #94be2c;
+}
+
+.register_text, .register-select
+{
+	width: 250px;
+	border-radius: 5px;
+	border: 1px solid #bfbfbf;
+	height: 32px;
+}
+
+.regform-control
+{
+	width: 250px;
+	border-radius: 5px;
+	border: 1px solid #bfbfbf;
+	height: 100px;
+}
+
+input::placeholder
+{
+	color: #bfbfbf;
+}
+
+.register_check
+{
+	margin: 2px;
+}
+
+td > button
+{
+	border-radius: 5px;
+	/* border: 1px solid #93bc32; */
+	border: none;
+	color: #93bc32;
+    background: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    height: 28px;
+    width: 80px;
+}
+
+td > button:active, button:hover, button:focus
+{
+	background: #93bc32;
+	/* border: 2px solid #93bc32; */.
+	border: none;
+	color: #ffffff;
+}
+
+td > button[type="submit"]
+{
+    width: 100px;
+    height: 38px;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+button.unableBtn
+{
+	border: 1px solid #5b5b5b;
+	border-radius: 5px;
+	width: 80px;
+	color: #5b5b5b;
+}
+
+button.tableBtn
+{
+	border: 1px solid #93bc32;
+	border-radius: 5px;
+	width: 80px;
+	color: #5b5b5b;
+}
+
+button.listBtn
+{
+	border-radius: 5px;
+    width: 100px;
+    height: 38px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #93bc32;
+    background: #ffffff;
+    border: 2px solid #93bc32;
+}
+
+button.listBtn:active, .listBtn:hover 
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
+
+button.redBtn
+{
+	border-radius: 5px;
+    width: 60px;
+    height: 38px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #93bc32;
+    background: #ffffff;
+}
+
+button.redDoneBtn
+{
+	border-radius: 5px;
+    width: 60px;
+    height: 38px;
+    font-size: 30px;
+    font-weight: bold;
+    background: #5b5b5b;
+}
+
+button.redBtn:active, .redBtn:hover 
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
+
+
+
+button.signUp
+{
+	float: right;
+	border-radius: 5px;
+	margin-top: 20px;
+    width: 150px;
+    height: 38px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #93bc32;
+    background: #ffffff;
+    border: 2px solid #93bc32;
+}
+
+button.signUp:active, .signUp:hover 
+{
+	background: #93bc32;
+	border: 2px solid #93bc32;
+	color: #ffffff;
+}
+
+button.signUp-del
+{
+	margin-left: 10px;	
+}
+
+button.signUp-done
+{
+	float: right;
+	border-radius: 5px;
+	margin-top: 20px;
+    width: 150px;
+    height: 38px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #5b5b5b;
+    background: #e1e1e1;
+    border: 2px solid #e1e1e1;
+}
+
+.empty
+{
+	margin: 10px 0;
+}
+
+/* 리스트 테이블 */
+.register
+{
+	height: 520px;
+}
+
+table
+{
+	width: 100%;
+}
+
+.register_table tr > th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+.register_table td
+{
+	font-size: 18px;
+}
+
+.register_table tr > th, td
+{
+	height: 45px;
+}
+
+.overflow
+{
+	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+	overflow: auto;
+	height: 250px;
+}
+
+.overflow_table tr > th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+.overflow_table td
+{
+	font-size: 18px;
+}
+
+.overflow_table tr > th, td
+{
+	height: 45px;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+.per
+{
+	font-size: small;
+}
+
+a
+{
+	color: #212529;
+	text-decoration: none;
+}
+
+table.register_table td:first-child
+{
+	width: 200px;
+}
+
+table.register_table tr:first-child
+{
+	border-bottom: 3px solid #94BE2C;
+}
+ 
+table.register_table tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+/* 리스트 테이블 end */
+
+.select_div
+{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	background-color: rgb(125 125 125 / 3%);
+	border-radius: 10px;
+    margin-top: 30px;
+    margin-bottom: 25px;
+    box-shadow: rgb(0 0 0 / 9%) 0px 3px 9px 3px;
+}
+
+.select_bar
+{
+	width: 200px;
+	height: 30px;
+	text-align: center;
+	border-radius: 5px;
+	/* margin: 0 0 20px 0; */
+	margin: 20px 5px;
+}
+
+.select_line
+{
+	width: 200px;
+	height: 30px;
+	text-align: center;
+	border-radius: 5px;
+	margin: 20px 0 0 0;
+}
+
+.selectInput
+{
+	border-radius: 5px;
+	border: 1px solid gray;
+    height: 30px;
+    width: 200px;
+}
+
+.selectCafe_bar
+{
+	width: 100px;
+	height: 30px;
+	text-align: center;
+	border-radius: 5px;
+	/* margin: 0 0 20px 0; */
+	margin: 20px 5px;
+}
+
+
+
+.regInput
+{
+	outline: none;
+	border: none;
+	border-bottom: 1px solid gray;
+    width: 120px;
+}
+
+.selectBtn
+{
+	border-radius: 5px;
+	border: 1px solid gray;
+	height: 30px;
+	width: 90px;
+}
+
+
+/* 차트 */
+.chart-area 
+{
+  display: flex; 
+}
+.chart-area > div 
+{
+  width: 50%;
+}
+.chart-info 
+{
+  padding:0 0 0 45px;
+}
+
+.chart-area 
+{
+  display: block;
+}
+.chart-area > div 
+{
+  width: auto;
+}
+
+
+/* 스터디카페 예약 */
+.space_list 
+{
+	margin:  0 -13px;
+	margin-bottom: 20px;
+}
+
+.box
+{
+	margin: 0 15px;
+}
+
+.space_div
+{
+	display: inline-flex;
+	flex-wrap: wrap;
+	margin-bottom: 20px;
+}
+
+ .info_area, .imgBox
+{
+    height: 100%;
+    width: 350px;
+}
+
+.infoTxt
+{
+	display: flex;
+	justify-content: space-between;
+}
+
+.info_area, .inner 
+{
+    border-bottom: 1px solid #ebebeb;
+}
+
+.info_area.type_border 
+{
+    border-top: 1px solid #ebebeb;
+    border-left: 1px solid #ebebeb;
+    border-right: 1px solid #ebebeb;
+}
+.info_area 
+{
+    padding: 13px 15px 11px;
+    background-color: #fff;
+}
+
+.price
+{
+	color: #94BE2C;
+}
+
+figure.box img
+{
+	transform: scale(1);
+	transition: .5s ease-in-out;
+}
+figure.box:hover img
+{
+	transform: scale(1.3);
+}

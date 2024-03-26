@@ -1,0 +1,731 @@
+@charset "UTF-8";
+
+/* 공통 적용 */
+section
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; 
+    flex-direction: column;
+}
+ 
+.page_title > span
+{
+	color: #5b5b5b;
+	font-size: 30px;
+	padding-bottom: 5px;
+	border-bottom: 3px solid #94BE2C;
+}
+
+span > span
+{
+	color: #94BE2C;
+}
+
+
+.sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+.paging
+{
+	display: flex;
+	justify-content: center;
+}
+
+.page-link
+{
+	color: #5b5b5b;
+	border: none;
+}
+
+.page-link:hover, .page-link:focus 
+{
+	color: #93bc32;
+	background: none;
+	outline-color: #93bc32;
+}
+
+.paging
+{
+	margin-top: 50px;
+}
+
+/*-----------------------마이 캘린더-------------------------*/
+table#calendar tr:nth-child(n+2)  /* , table#calendar tr:nth-child(n+2) > td */
+{
+	border: 1px solid #e1e1e1;
+}
+
+table#calendar th
+{
+	text-align: center;
+	width: 99px;
+}
+
+table#calendar tr
+{
+	height: 77px;
+}
+
+table#calendar tr:nth-child(2)
+{
+	height: 28px;
+}
+
+table#calendar tr:nth-child(1)
+{
+	height:60px; 
+	font-size: 30px;
+}
+
+.div_date
+{
+	position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.dateBtn
+{
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.top-date
+{
+	position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 90%;
+    text-align: center;
+}
+
+.top-date > a
+{
+	color: #62b0ff;
+}
+
+.i
+{
+	text-align: center;
+}
+
+.sch_name
+{
+	font-size: 12px;
+	background: #94be2c;
+	color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    padding-left: 5px;
+    text-align: left;
+}
+
+.calBtn, .addBtn
+{
+    border: none;
+    background: none;
+    font-size: 16px;
+}
+
+.calBtn
+{
+	color: #94be2c;
+	font-size: 24px;
+}
+
+.addBtn_div
+{
+	float: right; 
+	position: absolute; 
+	right: 0;
+}
+
+.schedule_modifyBtn
+{
+	width: 100%;
+    border: none;
+    background: none;
+}
+
+#schmodify_modal_body
+{
+	height: 120px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.guestSchedule_div
+{
+	margin-top: 35px;
+	display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.guestSchedule_div > span
+{
+	font-size: 30px; 
+	display: flex; 
+	justify-content: center; 
+	margin-bottom: 20px;
+}
+
+#resultMonth, #resultDay
+{
+	width: 40px;
+	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.guestSchedule
+{
+	border-left: 3px solid #94be2c; 
+	margin-bottom: 30px; 
+	width: 300px; 
+	height: 55px;
+}
+
+.schName
+{
+	font-size: 20px; 
+	text-align: left;
+}
+
+.schName > span
+{
+	margin-left: 10px;
+}
+
+.schContent
+{
+	margin-top: 5px;
+	font-size: 14px;
+	margin-left: 10px;
+	text-align: left;
+	color: #5b5b5b;
+}
+
+
+/*--------- 마이페이지 ---------*/
+.guMypage_div
+{
+	display: flex; 
+	flex-direction: row; 
+	justify-content: space-between;
+}
+
+.guMypage_div > div
+{
+	width: 100%; 
+	margin-top: 50px; 
+	border-bottom: 2px solid #94be24;
+	
+}
+
+.guInfo
+{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #94be2424;
+    padding: 30px;
+    border-radius: 30px;x-direction: column;
+    font-size: 40px;
+}
+
+.modifyIcon
+{
+	display: flex; 
+	justify-content: flex-end;
+}
+
+#guInfo_list, #guInfo_modify
+{
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+
+.guInfo_list1
+{
+	width: 30%;
+	height: 100%;
+	font-size: 16px; 
+	margin-left: 15px;
+}
+
+.guInfo_list2
+{
+	height: 100%;
+	font-size: 16px; 
+	margin-left: 15px;
+}
+
+.joinGroupInfo
+{
+	margin-top: 50px; 
+	display: flex; 
+	justify-content: space-between;
+}
+
+.joinGroupInfo > div
+{
+	width: 30%; 
+	border-radius: 10px; 
+	height: 200px; 
+	box-shadow: 5px 5px 5px #d3d3d3;
+	border: 1px solid rgba(0, 0, 0, 0.175); 
+	font-size: 28px;
+}
+
+.groupInfo_title
+{
+	margin-left: 20px; 
+	margin-top: 20px;
+}
+
+.groupInfo_title > span
+{
+	color: #94BE2C;
+}
+
+.groupCount
+{
+	text-align: right; 
+	margin-right: 10%;
+}
+
+.groupCount > span
+{
+	color: #94BE2C; 
+	font-size: 40px; 
+	font-weight: bold;
+}
+
+.modify_text
+{
+	border: none;
+	border-bottom: 2px solid #dfdfdf;
+	width: 180px;
+	height: 30px;
+	margin-bottom: 15px;
+}
+
+.modify_text:focus
+{
+ 	outline: none; 
+}
+
+.modifyIcon
+{
+	cursor: pointer;
+	height: 24px;
+	border: none;
+	background: none;
+}
+
+#checkIcon, #closeIcon
+{
+	display: flex;
+    align-items: center;
+}
+
+td > button
+{
+	border: none;
+	background: none;
+}
+
+.unregBtn
+{
+	float: right;
+    border: none;
+    background: none;
+    color: #5b5b5b;
+}
+
+
+.groupInfo
+{
+	cursor: pointer;
+	
+}
+
+/* ----------------------이웃 관리---------------------- */
+
+.friend_list
+{
+	display: flex; 
+	justify-content: space-between; 
+	margin-top: 60px;
+}
+
+.like_list
+{
+	width: 100%; 
+	height: 400px; 
+	overflow: auto; 
+	overflow-x: hidden;
+}
+
+.like_list > table
+{
+	width: 100%;
+	margin: 10px;
+}
+
+.block_list
+{
+	width: 100%; 
+	height: 400px; 
+	overflow: auto; 
+	overflow-x: hidden;
+}
+
+.block_list > table
+{
+	width: 100%;
+	margin: 10px;
+}
+
+/*-----------------------스터디그룹 관리-------------------------*/
+
+/* 활동 중인 그룹 리스트 */
+.group_list
+{
+	width: 80%; 
+	height: 130px; 
+	display: flex; 
+	flex-direction: row; 
+	align-items: center; 
+	justify-content: center;
+	border: 1px solid rgba(0, 0, 0, 0.175);
+	border-radius: 15px;
+    box-shadow: 5px 5px 5px #d3d3d3;
+    margin-bottom: 30px;
+    cursor: pointer;
+	
+}
+
+.group_name
+{
+	font-size: 40px; 
+	color: #94be2c; 
+	width: 48%; 
+	text-align: center;
+}
+
+.group_info1
+{
+	width: 48%; 
+	display: flex;
+}
+
+.group_info2
+{
+	width: 50%; 
+	display: flex; 
+	flex-direction: column; 
+	justify-content: space-between;
+}
+
+/* ----------------------------------------- */
+
+/* 그룹 개설 리스트 */
+table.groupOpen_list
+{
+	width: 100%;
+}
+
+table.groupOpen_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.groupOpen_list td
+{
+	font-size: 16px;
+}
+
+table.groupOpen_list th, td
+{
+	height: 45px;
+}
+
+table.groupOpen_list tr:nth-last-child(1)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+table.groupOpen_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
+
+/* ----------------------------------------------- */
+
+/* 가입 리스트 */
+table.groupJoin_list
+{
+	width: 100%;
+}
+
+table.groupJoin_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.groupJoin_list td
+{
+	font-size: 16px;
+}
+
+table.groupJoin_list th, td
+{
+	height: 45px;
+}
+
+table.groupJoin_list tr:nth-last-child(1)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+table.groupJoin_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
+
+
+/* 가입 리스트 */
+.group_list
+{
+	width: 80%; 
+	height: 130px; 
+	display: flex; 
+	flex-direction: row; 
+	align-items: center; 
+	justify-content: center;
+	border: 1px solid rgba(0, 0, 0, 0.175);
+	border-radius: 15px;
+    box-shadow: 5px 5px 5px #d3d3d3;
+    margin-bottom: 30px;
+    cursor: pointer;
+	
+}
+
+.group_name
+{
+	font-size: 40px; 
+	color: #94be2c; 
+	width: 48%; 
+	text-align: center;
+}
+
+.group_info1
+{
+	width: 48%; 
+	display: flex;
+}
+
+.group_info2
+{
+	width: 50%; 
+	display: flex; 
+	flex-direction: column; 
+	justify-content: space-between;
+}
+
+
+
+table.groupJoin_list
+{
+	width: 100%;
+}
+
+table.groupJoin_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.groupJoin_list td
+{
+	font-size: 16px;
+}
+
+table.groupJoin_list th, td
+{
+	height: 45px;
+}
+
+.penalty_sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+table.groupJoin_list tr:nth-last-child(1)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+table.groupJoin_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
+
+
+
+/* -------------------------------------------------------------- */
+
+
+
+/* -----------------게시글 & 댓글 & 스크랩 내역 조회-------------------------- */
+table.board_list
+{
+	width: 100%;
+}
+
+table.board_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+	text-align: center;
+}
+
+table.board_list td
+{
+	font-size: 16px;
+	text-align: center;
+}
+	
+table.board_list th, td
+{
+	height: 45px;
+}
+
+.penalty_sorting
+{
+	float: right;
+}
+
+.spacer 
+{
+    height: 5px;
+}
+
+table.board_list tr:nth-last-child(1)
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+table.board_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
+
+/* ---------------------------------------------------------------- */
+
+/* --------------------- 패널티 내역 조회 ------------------------ */
+table.penalty_list
+{
+	width: 100%;
+}
+
+table.penalty_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.penalty_list td
+{
+	font-size: 16px;
+}
+
+table.penalty_list th, td
+{
+	height: 45px;
+}
+
+.penalty_sorting
+{
+	float: right;
+}
+
+table.penalty_list tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+}
+
+table.penalty_list a
+{
+	text-decoration: none;
+	color: #212529;
+} 
+
+/* 신고 내역 조회 */
+
+table.red_list
+{
+	width: 100%;
+}
+
+table.red_list th
+{
+	color: #5b5b5b;
+	font-size: 20px;
+ 	border-top: 3px solid #93BE2C;
+	border-bottom: 3px solid #93BE2C; 
+}
+
+table.red_list td
+{
+	font-size: 16px;
+}
+
+table.red_list th, td
+{
+	height: 45px;
+}
+
+table.red_list tr:last-child
+{
+	border-bottom: 3px solid #94BE2C;
+} 
+
+

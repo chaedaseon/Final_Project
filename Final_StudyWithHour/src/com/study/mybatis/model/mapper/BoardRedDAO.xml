@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.mybatis.model.IBoardRedDAO">
+	
+	<insert id="addRed" parameterType="map">
+		INSERT INTO BOARD_RED(BOR_CODE, BOR_DATE, REASON_CODE, BO_CODE, GU_CODE)
+		VALUES(TO_CHAR(BOARD_RED_SEQ.NEXTVAL), SYSDATE, #{param1}, #{param2}, #{param3})
+	</insert>
+	
+</mapper>
