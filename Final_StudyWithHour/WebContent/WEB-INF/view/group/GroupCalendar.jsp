@@ -344,18 +344,7 @@
     	});
 		
 	} //end datefn(buttonId)  
-	// 일정 추가 모달에 사용되는 datepicker
-	$(function()
-	{
-        $('#datepicker1').datepicker();
-     });
 	
-	$(function()
-	{
-        $('#datepicker2').datepicker();
-     });
- 
-			
 	// 일정 수정 버튼 클릭시 수정폼으로 변경
 	$(function()
 	{
@@ -365,6 +354,28 @@
 			$("#groupScheduleModify").css("display", "flex");
 		});
 	})
+	
+	// 일정 추가 모달에 사용되는 datepicker
+	$(function()
+	{
+        $("#datepicker1").datepicker();
+     });
+	
+	$(function()
+	{
+        $("#datepicker2").datepicker();
+     });
+ 
+			
+	/* // 일정 수정 버튼 클릭시 수정폼으로 변경
+	$(function()
+	{
+		$("#groupScheduleModifyBtn").click(function()
+		{
+			$("#detailGroupSchedule").css("display", "none");
+			$("#groupScheduleModify").css("display", "flex");
+		});
+	}) */
 	
 	<%-- 
  	function deleteSchedule() 
@@ -517,7 +528,7 @@
 				</div>
 			</div>
 				<!-- 일정 상세 보기 ----------------------------------------------------------->
-                  <div class="modal fade  " id="detailSchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal fade" id="detailSchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content" id="detailGroupSchedule">
                         <div class="modal-header">
@@ -564,7 +575,7 @@
 	                        <span id="delCk"></span>
 	                        <!-- <button type="submit" class="btn secondary" id="groupScheduleAdd" onclick="gschDel()">삭제</button> -->
                          </form>   
-                        <button type="button" class="btn " id="groupScheduleModifyBtn">수정</button>
+                        <button type="button" class="btn" id="groupScheduleModifyBtn">수정</button>
                         </div>
                       </div>
                     </div>
