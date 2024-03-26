@@ -171,9 +171,6 @@ public class GuestBoardDAO
 		pstmt.setString(1, boCode);
 		pstmt.setString(2, guCode);
 		
-		System.out.println("게시물 코드는 "+boCode);
-		System.out.println("게스트 코드는 "+guCode);
-		
 		result = pstmt.executeUpdate();
 		
 		pstmt.close();
