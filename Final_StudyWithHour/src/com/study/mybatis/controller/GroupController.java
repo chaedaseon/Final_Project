@@ -28,6 +28,7 @@ public class GroupController
 	@Autowired
 	private SqlSession sqlSession;
 	
+	// 그룹원 내역 조회
 	@RequestMapping(value="/groupmemberlist.do", method=RequestMethod.GET)
 	public String memberList(ModelMap model, String gr_code)
 	{	
@@ -47,8 +48,9 @@ public class GroupController
 		return "/WEB-INF/view/group/GroupMemberList.jsp";
 	}
 	
+	// 그룹원 추가모집 요청
 	@RequestMapping(value="/groupmemberinsert.do", method=RequestMethod.POST)
-	public String memberAdd(@RequestParam("gr_code")String gr_code, @RequestParam("period_code")String period_code)
+	public String memberAdd(@RequestParam("gu_code")String gu_code, @RequestParam("gr_code")String gr_code, @RequestParam("period_code")String period_code)
 	{
 		IGroupDAO dao = sqlSession.getMapper(IGroupDAO.class);
 		
@@ -60,14 +62,13 @@ public class GroupController
 		{
 			System.out.println(e.toString());
 		}
-		return "redirect:groupmemberlist.do?gr_code="+ gr_code;
+		return "redirect:groupmemberlist.do?gr_code="+ gr_code + "&gu_code=" + gu_code;
 	}
 	
 	// 그룹 메인 연결
 	@RequestMapping(value="/grouppagemain.do", method = RequestMethod.GET)
 	public String groupmain(@RequestParam("gu_code")String gu_code, @RequestParam("gr_code")String gr_code, ModelMap model)
 	{
-		IGroupDAO dao = sqlSession.getMapper(IGroupDAO.class);
 		IGroupContentDAO cdao = sqlSession.getMapper(IGroupContentDAO.class);
 		
 		//그룹장, 그룹원 닉네임 가져오기
