@@ -24,6 +24,21 @@
 <link rel="stylesheet" type="text/css" href="css/RegFormStyle.css">
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+
+	function updateRoom()
+	{
+		var form = document.getElementById("updateForm");
+		form.submit();
+	}
+	
+	function addRoom()
+	{
+		var form = document.getElementById("addForm");
+		form.submit();
+	}
+
+</script>
 </head>
 <body>
 	<header>
@@ -138,7 +153,7 @@
 						<h4>스터디룸내역</h4><h6>예약내역이 존재할 경우 수정/비활성화 불가</h6>
 					</div>
 					<div class="overflow">	
-					<form action="caferoominsert.do?scCode=${cafe.scCode }" method="post" >
+					<form action="caferoominsert.do?scCode=${cafe.scCode }" method="post" id="addForm">
 					<table class="overflow_table">
 						<tr class="spacer"></tr>
 						<tr>
@@ -179,7 +194,7 @@
 		<%-- 스터디룸 수정 모달 영역 -------------------------------------------------------------------------%>
         <div class="modal fade" id="updateRoom${r.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="updateRoomLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
-	       <form action="caferoomupdate.do?scCode=${cafe.scCode}" method="post">
+	       <form action="caferoomupdate.do?scCode=${cafe.scCode}" method="post" id="updateForm">
             <div class="modal-content">
               <div class="modal-header">
 	            <h1 class="modal-title fs-5" id="updateRoomLabel">스터디룸 수정</h1>
@@ -204,7 +219,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="submit" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-primary" onclick="updateRoom()">Yes</button>
               </div>
             </div>
 	       </form>
@@ -253,7 +268,7 @@
 								<input type="text" class="regInput" name="price" id="price">원
 							</td>
 							<td colspan="2" style="text-align: center;">
-								<button type="submit" class="tableBtn" id="registerRoom" style="height: 30px;">등록</button>
+								<button type="button" class="tableBtn" style="height: 30px;" onclick="addRoom()">등록</button>
 							</td>
 						</tr>
 						<tr class="spacer"></tr>

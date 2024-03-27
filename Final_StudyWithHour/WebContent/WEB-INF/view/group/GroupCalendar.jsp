@@ -92,13 +92,6 @@
 			} 
 		});
 		
-		
-		// 일정 상세보기
-		$("#detailSchedule").onload(function()
-		{
-			alert("클릭 테스트");
-		})
-		
 	});
 		
 	
@@ -106,16 +99,22 @@
 	function beforeMonth() 
 	{ 
 	    today = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
-	 	$("#resultDiv").html(" ");
 	    build(); //만들기
+	 	// 이전 달 클릭 시, 오른 쪽 날짜는 당일 날짜로 셋팅 & 일정은 공백으로 셋팅
+	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
+		$("#resultDiv").html("");
 	}
 
 	//다음 달을 today에 저장
 	function nextMonth()  
 	{
 	    today = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-	 	$("#resultDiv").html(" ");
 	    build();
+	 	// 다음 달 클릭 시, 오른 쪽 날짜는 당일 날짜로 셋팅 & 일정은 공백으로 셋팅
+	    $("#resultMonth").html(String(date.getMonth()+1).padStart(2, '0'));
+		$("#resultDay").html(String(date.getDate()).padStart(2, '0'));
+		$("#resultDiv").html("");
 	}
 	
 	// 달력 생성 함수 (페이지 로드되면 실행)
@@ -194,8 +193,6 @@
 	    				var year = today.getFullYear();
 	    				var month = String(today.getMonth()+1).padStart(2, '0');
 	    				var day = String(i).padStart(2,'0');
-	    				
-	    				
 	    				
 	    				if(year==gschDate.substring(0,4) && month==gschDate.substring(5,7) && day==gschDate.substring(8,10))
 	    				{
@@ -321,7 +318,6 @@
 					if(${gjCode}==leadMember && attCk!='3')
 					{
 					$("#delCk").html("<button type='submit' class='btn' id='groupScheduleAdd' onclick='gschDel()'>삭제</button> ");
-						
 					}
 					
 					if (attCk=="1")
@@ -348,20 +344,40 @@
     	});
 		
 	} //end datefn(buttonId)  
+	
+	// 일정 수정 버튼 클릭시 수정폼으로 변경
+	$(function()
+	{
+		$("#groupScheduleModifyBtn").click(function()
+		{
+			$("#detailGroupSchedule").css("display", "none");
+			$("#groupScheduleModify").css("display", "flex");
+		});
+	})
+	
 	// 일정 추가 모달에 사용되는 datepicker
 	$(function()
 	{
-        $('#datepicker1').datepicker();
+        $("#datepicker1").datepicker();
      });
 	
 	$(function()
 	{
-        $('#datepicker2').datepicker();
+        $("#datepicker2").datepicker();
      });
  
+			
+	/* // 일정 수정 버튼 클릭시 수정폼으로 변경
+	$(function()
+	{
+		$("#groupScheduleModifyBtn").click(function()
+		{
+			$("#detailGroupSchedule").css("display", "none");
+			$("#groupScheduleModify").css("display", "flex");
+		});
+	}) */
 	
-<%-- 		
-	// 일정 수정 버튼 클릭시 수행
+	<%-- 
  	function deleteSchedule() 
 	{
         var schCode = $("#schCodeHidden").val();
@@ -431,8 +447,6 @@
 			return;
 		}
 	
-		
-		
 		if(together.checked)
 		{
 			var url = "groupscheduleinsertwith.do";
@@ -510,102 +524,48 @@
 				
 				<div class="guestSchedule_div">
 					<span>📆<span id="resultMonth"></span>월 <span id="resultDay"></span>일</span>
-					
 					<div id="resultDiv"></div>
-						
-					<!-- 일정 수정 및 삭제 모달 ----------------------------------------------------------->
-					<div class="modal fade" id="modifySchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-					 	<div class="modal-dialog modal-dialog-centered">
-					 		<form method="POST" id="scheduleModifyForm">
-			        		<input type="hidden" id="schCodeHidden" name="sch_code" value="" />
-				        		
-						    	<div class="modal-content" >
-						      		<div class="modal-header">
-						        		<h1 class="modal-title fs-5" id="staticBackdropLabel">일정 수정 및 삭제</h1>
-					        			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						      		</div>
-						      		
-						      		<div class="modal-body" style="height: 120px; display: flex; flex-direction: column; justify-content: space-around;">
-						        		<table>
-						        			<tr>
-						        				<td>
-						        					<span id="descrption">일자</span>
-						        				</td>
-						        				<td>
-						        					<input type="date" id="datepicker2" name="sch_date" required="required">
-						        				</td>
-						        			</tr>
-						        			<tr>
-						        				<td>일정명</td>
-						        				<td><input type="text" id="upSch_name" name="sch_name" required="required" value=""></td>
-						        			</tr>
-						        			<tr>
-						        				<td>내용</td>
-						        				<td><input type="text" id="upSch_content" name="sch_content" required="required" value=""></td>
-						        			</tr>
-						        		</table>
-							      	</div>
-								      	
-							      	<div class="modal-footer">
-							        	<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="deleteSchedule()">삭제</button>
-							        	<button type="button" class="btn" style="background-color: #94be2c; color: #ffffff;" onclick="updateSchedule()">수정</button>
-							      	</div>
-						    	</div>
-				    		</form>
-				 	 	</div>
-					</div>
-					<!-- 일정 수정 및 삭제 모달 end---------------------------------------------------------------------->
 				</div>
 			</div>
-	    			<!-- var gschCode = jsonObj[idx].gschCode;
-	    			var gschName = jsonObj[idx].gschName;
-	    			var gschDate = jsonObj[idx].gschDate;
-	    			var startHour = jsonObj[idx].startHour;
-	    			var endHour = jsonObj[idx].endHour;
-	    			var content = jsonObj[idx].content;
-	    			var location = jsonObj[idx].location;
-	    			var leadMember = jsonObj[idx].leadMember;
-	    			var attCk = jsonObj[idx].attCk; -->
-					<!-- 일정 상세 보기 ----------------------------------------------------------->
-	                  <div class="modal fade  " id="detailSchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-	                    <div class="modal-dialog modal-dialog-centered">
-	                      <div class="modal-content">
-	                        <div class="modal-header">
-	                          <h1 class="modal-title fs-5" id="staticBackdropLabel"><span id="gschType"></span> 상세 보기</h1>
-	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                        </div>
-	                        <div class="modal-body">
-						 	
-						 	<table>
+				<!-- 일정 상세 보기 ----------------------------------------------------------->
+                  <div class="modal fade" id="detailSchedule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content" id="detailGroupSchedule">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel"><span id="gschType"></span> 상세 보기</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+					 	
+					 	<table>
+					 		<tr>
+					 			<th> 날짜 </th>
+					 			<td><span id="gschDate"></span></td>
+					 		</tr>
+					 		<tr>
+					 			<th> 시간 </th>
+					 			<td><span id="startHour"></span> ~ <span id="endHour"></span></td>
+					 		</tr>
+					 		<tr>
+					 			<th> 이름 </th>
+					 			<td><span id="gschName"></span></td>
+					 		</tr>
+					 		<tr>
+					 			<th> 장소 </th>
+					 			<td><span id="location"></span></td>
+					 		</tr>
+					 		
+					 		<tr>
+					 			<th> 모임 내용 </th>
+					 			<td><span id="gschcontent"></span></td>
+					 		</tr>
 						 		<tr>
-						 			<th> 날짜 </th>
-						 			<td><span id="gschDate"></span></td>
+						 			<th><span id="memberck"></span></th>
+						 			<td><span id="memberList"></span></td>
 						 		</tr>
-						 		<tr>
-						 			<th> 시간 </th>
-						 			<td><span id="startHour"></span> ~ <span id="endHour"></span></td>
-						 		</tr>
-						 		<tr>
-						 			<th> 이름 </th>
-						 			<td><span id="gschName"></span></td>
-						 		</tr>
-						 		<tr>
-						 			<th> 장소 </th>
-						 			<td><span id="location"></span></td>
-						 		</tr>
-						 		
-						 		<tr>
-						 			<th> 모임 내용 </th>
-						 			<td><span id="gschcontent"></span></td>
-						 		</tr>
-							 		<tr>
-							 			<th><span id="memberck"></span></th>
-							 			<td><span id="memberList"></span></td>
-							 		</tr>
-						 	</table>
-	                        
-	                        <div class="modal-footer sorting_div">
-	                       <!--    <button type="button" class="btn " data-bs-dismiss="modal">수정</button> -->
+					 	</table>
+                        
+                        <div class="modal-footer sorting_div">
 
                         <form action="groupscheduledelete.do" method="post">
                         	<input type="hidden" id="gschCode" name="gschCode">
@@ -613,15 +573,68 @@
 	                        <input type="hidden" id="grCode" name="grCode" value="${grCode }">
 	                        <input type="hidden" id="guCode" name="guCode" value="${guCode }">
 	                        <span id="delCk"></span>
-	                          <!-- <button type="submit" class="btn" id="groupScheduleAdd" onclick="gschDel()">삭제</button> -->
-                          </form>   
-	                          <button type="button" class="btn  notice_btn" data-bs-dismiss="modal">닫기</button>
-	                        </div>
-	                      </div>
-	                    </div>
-	                    </div>
-	                  </div><!--  모달 영역 끝 -->		
-					<!-- 일정 상세 보기  end---------------------------------------------------------------------->
+	                        <!-- <button type="submit" class="btn secondary" id="groupScheduleAdd" onclick="gschDel()">삭제</button> -->
+                         </form>   
+                        <button type="button" class="btn" id="groupScheduleModifyBtn">수정</button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- 그룹 일정 수정 ----------------------------------------------------------->
+                     <div class="modal-content" id="groupScheduleModify" style="display: none;">
+                       <div class="modal-header">
+                         <h1 class="modal-title fs-5"><span class="gschType"></span> 그룹 일정/모임 수정</h1>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                       </div>
+                       <div class="modal-body">
+				 	
+				 	<table>
+				 		<tr>
+				 			<th> 날짜 </th>
+				 			<td><span id="gschDate"></span></td>
+				 		</tr>
+				 		<tr>
+				 			<th> 시간 </th>
+				 			<td><span id="startHour"></span> ~ <span id="endHour"></span></td>
+				 		</tr>
+				 		<tr>
+				 			<th> 이름 </th>
+				 			<td><span id="gschName"></span></td>
+				 		</tr>
+				 		<tr>
+				 			<th> 장소 </th>
+				 			<td><span id="location"></span></td>
+				 		</tr>
+				 		
+				 		<tr>
+				 			<th> 모임 내용 </th>
+				 			<td><span id="gschcontent"></span></td>
+				 		</tr>
+					 		<tr>
+					 			<th><span id="memberck"></span></th>
+					 			<td><span id="memberList"></span></td>
+					 		</tr>
+				 	</table>
+                       
+                       <div class="modal-footer sorting_div">
+
+                       <form action="groupscheduledelete.do" method="post">
+                       	<input type="hidden" id="gschCode" name="gschCode">
+                       	<input type="hidden" id="attCk" name="attCk">
+                        <input type="hidden" id="grCode" name="grCode" value="${grCode }">
+                        <input type="hidden" id="guCode" name="guCode" value="${guCode }">
+                        <span id="delCk"></span>
+                       	<button type="button" class="btn " data-bs-dismiss="modal">수정</button>
+                      	</form>   
+                       </div>
+                     </div>
+                   </div>
+                   </div>
+                  <!-- 그룹 일정 수정 end---------------------------------------------------------------------->
+                    
+                  </div><!--  모달 영역 끝 -->		
+				<!-- 일정 상세 보기  end---------------------------------------------------------------------->
+				
 			
 				</div>
 			</div>					

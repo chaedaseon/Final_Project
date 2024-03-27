@@ -20,7 +20,7 @@
 	
 	<!-- 추가모집 가능인원 조회 -->
 	<select id="addMemberCount" resultType="java.lang.Integer">
-		SELECT COUNT(GR_COUNT) - COUNT(GJ_CODE)
+		SELECT MAX(GR_COUNT) - COUNT(GJ_CODE)
 		FROM VIEW_MEMBERINFO
 		WHERE GR_CODE = #{gr_code} AND GJ_CODE NOT IN (SELECT GJ_CODE FROM GROUP_UNREG)
 	</select>

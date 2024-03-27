@@ -165,38 +165,6 @@
 					</table>
 				</div>
 				
-				<%-- <div class="search_div">
-					<div class="category_search">
-					<form action="hostredlist.do?hoCode=<%=host.getHoCode() %>" method="post" name="searchForm">
-					<c:choose>
-						<c:when test="${searchKey eq 'group' }">
-						<select name="searchKey">
-							<option value="number">번호</option>
-							<option value="group" selected="selected">신고그룹</option>
-							<option value="reason">사유</option>
-						</select> 
-						</c:when>
-						<c:when test="${searchKey eq 'reason' }">
-						<select name="searchKey">
-							<option value="number">번호</option>
-							<option value="group">신고그룹</option>
-							<option value="reason" selected="selected">사유</option>
-						</select> 
-						</c:when>
-						<c:otherwise>
-						<select name="searchKey">
-							<option value="number">번호</option>
-							<option value="group">신고그룹</option>
-							<option value="reason">사유</option>
-						</select>
-						</c:otherwise>
-					</c:choose>
-						<input type="text" class="search_input" name="searchValue" value="${searchValue }">
-						<button type="button" class="search_btn" onclick="sendIt()">Search</button>
-					</form>
-					</div>
-				</div> --%>
-
 				<nav aria-label="Page navigation example paging" class="paging">
 					<ul class="pagination">
 						<c:if test="${dataCount != 0 }">

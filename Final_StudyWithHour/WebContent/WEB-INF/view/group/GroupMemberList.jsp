@@ -99,7 +99,7 @@
 			</c:forEach>
 		</div>
 			<c:choose>
-			<c:when test="${addMemberCount != 0 }">
+			<c:when test="${addMemberCount > 0 }">
 				<a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
 				<div style="border: 3px solid #94be2c85; border-radius: 10px; height: 60px; width: 80%; text-align: center; margin-left: 83px; padding: 15px;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#94be2c" class="bi bi-plus-lg" viewBox="0 0 16 16">
