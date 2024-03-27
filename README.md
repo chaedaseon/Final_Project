@@ -23,6 +23,6 @@
 ![011](https://github.com/chaedaseon/Study/assets/156177607/c9638656-839c-4629-bf94-bdc4593ac807)
 
 메인 페이지
-![013](https://github.com/chaedaseon/Study/assets/156177607/a5a0101d-9c3e-477b-9ea7-9acbb0b72e67)
+![013](https://github.com/chaedaseon/Study/assets/156177607/204d446b-eef6-4dc7-b6bd-f119b449ec07)
 
 ![012](https://github.com/chaedaseon/Study/assets/156177607/12f49dc0-c1eb-408b-b2fa-bc126d2d05b2)
