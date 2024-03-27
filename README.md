@@ -22,7 +22,7 @@
 
 ![011](https://github.com/chaedaseon/Study/assets/156177607/c9638656-839c-4629-bf94-bdc4593ac807)
 
-![000](https://github.com/chaedaseon/Study/assets/156177607/b92c5713-8e0c-466f-8f87-0ec3fd714998)
+![000](https://github.com/chaedaseon/Study/assets/156177607/55142c20-2602-49b5-b79e-f1b2b0878fb4)
 ![013](https://github.com/chaedaseon/Study/assets/156177607/204d446b-eef6-4dc7-b6bd-f119b449ec07)
 
 ![012](https://github.com/chaedaseon/Study/assets/156177607/12f49dc0-c1eb-408b-b2fa-bc126d2d05b2)
