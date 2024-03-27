@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.study.mybatis.model.GroupBoardDTO;
-import com.study.mybatis.model.GroupCalendarDTO;
 import com.study.mybatis.model.IGroupContentDAO;
 import com.study.mybatis.model.IGroupDAO;
 
